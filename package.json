@@ -1,0 +1,47 @@
+{
+  "name": "galerio",
+  "version": "0.1.6-alpha",
+  "description": "Wordpress extension. Adds custom page types, taxonomies and theming elements to suit managing a gallery or other exhibition.",
+  "main": "index.js",
+  "scripts": {
+    "build:css": "sass www/wp-content/themes/galerio/style.scss www/wp-content/themes/galerio/style.css",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Adasha/galerio.git"
+  },
+  "keywords": [
+    "Wordpress",
+    "plugin",
+    "plug-in",
+    "CMS",
+    "gallery",
+    "galleries",
+    "exhibition",
+    "exhibitions",
+    "exhibit",
+    "exhibits",
+    "project",
+    "projects",
+    "art",
+    "artist",
+    "artists",
+    "profile",
+    "profiles",
+    "collection",
+    "collections",
+    "work",
+    "works"
+  ],
+  "author": "Adam Shailer",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Adasha/galerio/issues"
+  },
+  "homepage": "https://github.com/Adasha/galerio#readme",
+  "dependencies": {},
+  "devDependencies": {
+    "sass": "^1.53.0"
+  }
+}
