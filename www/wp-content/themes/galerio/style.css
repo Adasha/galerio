@@ -154,9 +154,9 @@ dl.web-link a {
 }
 
 .custom-container {
-	box-sizing: border-box;
-	border: 16px solid #ececec;
-	padding: 0;
+  box-sizing: border-box;
+  border: 16px solid #ececec;
+  padding: 0;
 }
 
 .guest-header {
