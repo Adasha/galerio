@@ -1,7 +1,7 @@
 {
     "@meta": {
         "version": "3.2.8",
-        "build": 1732025179
+        "build": 1732030877
     },
     "settings": {
         "types_only": "0",
@@ -30,7 +30,7 @@
     },
     "pods": [
         {
-            "name": "article",
+            "name": "galerio_article",
             "id": 40,
             "label": "Articles",
             "description": "",
@@ -67,7 +67,6 @@
             "supports_post_formats": "1",
             "revisions_to_keep_limit": "0",
             "delete_with_user": "0",
-            "built_in_taxonomies_group": "1",
             "built_in_taxonomies_label": "1",
             "built_in_taxonomies_category": "1",
             "built_in_taxonomies_post_tag": "1",
@@ -92,6 +91,15 @@
             "built_in_taxonomies_collection_category": "0",
             "built_in_taxonomies_medium": "0",
             "built_in_taxonomies_image_category": "0",
+            "built_in_taxonomies_profile_roles": "1",
+            "built_in_taxonomies_group": "1",
+            "built_in_taxonomies_media_type": "0",
+            "built_in_taxonomies_galerio_collection_category": "0",
+            "built_in_taxonomies_galerio_group": "1",
+            "built_in_taxonomies_galerio_label": "1",
+            "built_in_taxonomies_galerio_medium": "0",
+            "built_in_taxonomies_media_intent": "0",
+            "built_in_taxonomies_galerio_role": "0",
             "groups": [
                 {
                     "name": "details_group",
@@ -128,7 +136,7 @@
                             "weight": 1,
                             "type": "pick",
                             "pick_object": "post_type",
-                            "pick_val": "profile",
+                            "pick_val": "galerio_profile",
                             "sister_id": "105",
                             "pick_table": "-- Select One --",
                             "required": "0",
@@ -180,7 +188,7 @@
                             "weight": 0,
                             "type": "pick",
                             "pick_object": "post_type",
-                            "pick_val": "profile",
+                            "pick_val": "galerio_profile",
                             "sister_id": "103",
                             "pick_table": "-- Select One --",
                             "required": "0",
@@ -220,7 +228,7 @@
                             "weight": 1,
                             "type": "pick",
                             "pick_object": "post_type",
-                            "pick_val": "work",
+                            "pick_val": "galerio_work",
                             "sister_id": "130",
                             "pick_table": "-- Select One --",
                             "required": "0",
@@ -260,7 +268,7 @@
                             "weight": 2,
                             "type": "pick",
                             "pick_object": "post_type",
-                            "pick_val": "collection",
+                            "pick_val": "galerio_collection",
                             "sister_id": "69",
                             "pick_table": "-- Select One --",
                             "required": "0",
@@ -337,7 +345,7 @@
             ]
         },
         {
-            "name": "collection_category",
+            "name": "galerio_collection_category",
             "id": 49,
             "label": "Categories",
             "description": "",
@@ -348,7 +356,7 @@
             "show_ui": "1",
             "hierarchical": "1",
             "rest_enable": "1",
-            "_migrated_28": "0",
+            "_migrated_28": "1",
             "built_in_post_types_collection": "1",
             "built_in_post_types_eclecticon_project": "1",
             "capability_type": "default",
@@ -366,6 +374,11 @@
             "built_in_post_types_work": "0",
             "built_in_post_types_profile": "0",
             "built_in_post_types_article": "0",
+            "built_in_post_types_galerio_article": "0",
+            "built_in_post_types_galerio_collection": "1",
+            "built_in_post_types_galerio_profile": "0",
+            "built_in_post_types_galerio_work": "0",
+            "publicly_queryable": "1",
             "groups": [
                 {
                     "name": "more_fields",
@@ -378,45 +391,7 @@
             ]
         },
         {
-            "name": "media_category",
-            "id": 192,
-            "label": "Categories",
-            "description": "",
-            "type": "taxonomy",
-            "storage": "meta",
-            "label_singular": "Category",
-            "public": "1",
-            "show_ui": "1",
-            "hierarchical": "1",
-            "rest_enable": "1",
-            "_migrated_28": "1",
-            "menu_location": "default",
-            "built_in_post_types_attachment": "1",
-            "capability_type": "default",
-            "rewrite": "1",
-            "rewrite_hierarchical": "1",
-            "rewrite_with_front": "1",
-            "built_in_post_types_profile": "0",
-            "show_in_menu": "1",
-            "menu_position": "0",
-            "show_in_nav_menus": "1",
-            "show_tagcloud": "1",
-            "show_in_quick_edit": "1",
-            "show_admin_column": "1",
-            "built_in_post_types_work": "0",
-            "groups": [
-                {
-                    "name": "more_fields",
-                    "id": 193,
-                    "label": "More Fields",
-                    "description": "",
-                    "weight": 0,
-                    "fields": []
-                }
-            ]
-        },
-        {
-            "name": "collection",
+            "name": "galerio_collection",
             "id": 51,
             "label": "Collections",
             "description": "",
@@ -431,7 +406,6 @@
             "_migrated_28": "1",
             "required": "0",
             "built_in_taxonomies_eclecticon_project_category": "0",
-            "built_in_taxonomies_group": "1",
             "publicly_queryable": "1",
             "capability_type": "page",
             "has_archive": "1",
@@ -470,6 +444,15 @@
             "built_in_taxonomies_collection_category": "1",
             "built_in_taxonomies_medium": "1",
             "built_in_taxonomies_image_category": "0",
+            "built_in_taxonomies_profile_roles": "1",
+            "built_in_taxonomies_group": "1",
+            "built_in_taxonomies_media_type": "0",
+            "built_in_taxonomies_galerio_collection_category": "1",
+            "built_in_taxonomies_galerio_group": "1",
+            "built_in_taxonomies_galerio_label": "1",
+            "built_in_taxonomies_galerio_medium": "1",
+            "built_in_taxonomies_media_intent": "0",
+            "built_in_taxonomies_galerio_role": "0",
             "groups": [
                 {
                     "name": "details_group",
@@ -760,8 +743,8 @@
                             "weight": 0,
                             "type": "pick",
                             "pick_object": "post_type",
-                            "pick_val": "profile",
-                            "sister_id": "2811",
+                            "pick_val": "galerio_profile",
+                            "sister_id": "102",
                             "pick_table": "-- Select One --",
                             "required": "0",
                             "pick_format_type": "multi",
@@ -787,18 +770,24 @@
                             "pick_format_single_help": "0",
                             "pick_format_multi_help": "0",
                             "repeatable": "0",
-                            "repeatable_format": "default"
+                            "repeatable_format": "default",
+                            "pick_sync_taxonomy": "0",
+                            "pick_sync_taxonomy_hide_taxonomy_ui": "0",
+                            "default_evaluate_tags": "0",
+                            "default_empty_fields": "0",
+                            "revisions_revision_field": "0",
+                            "enable_conditional_logic": "0"
                         },
                         {
                             "name": "featured_works",
                             "id": 68,
                             "label": "Featured Works",
-                            "description": "",
+                            "description": "List of works featured in this collection.",
                             "weight": 1,
                             "type": "pick",
                             "pick_object": "post_type",
-                            "pick_val": "work",
-                            "sister_id": "2796",
+                            "pick_val": "galerio_work",
+                            "sister_id": "129",
                             "pick_table": "-- Select One --",
                             "required": "0",
                             "pick_format_type": "multi",
@@ -824,18 +813,24 @@
                             "pick_format_single_help": "0",
                             "pick_format_multi_help": "0",
                             "repeatable": "0",
-                            "repeatable_format": "default"
+                            "repeatable_format": "default",
+                            "pick_sync_taxonomy": "0",
+                            "pick_sync_taxonomy_hide_taxonomy_ui": "0",
+                            "default_evaluate_tags": "0",
+                            "default_empty_fields": "0",
+                            "revisions_revision_field": "0",
+                            "enable_conditional_logic": "0"
                         },
                         {
                             "name": "in_articles",
                             "id": 69,
                             "label": "Articles",
-                            "description": "",
+                            "description": "List of articles referrng to this collection.",
                             "weight": 2,
                             "type": "pick",
                             "pick_object": "post_type",
-                            "pick_val": "article",
-                            "sister_id": "3091",
+                            "pick_val": "galerio_article",
+                            "sister_id": "47",
                             "pick_table": "-- Select One --",
                             "required": "0",
                             "pick_format_type": "multi",
@@ -858,7 +853,13 @@
                             "pick_format_single_help": "0",
                             "pick_format_multi_help": "0",
                             "repeatable": "0",
-                            "repeatable_format": "default"
+                            "repeatable_format": "default",
+                            "pick_sync_taxonomy": "0",
+                            "pick_sync_taxonomy_hide_taxonomy_ui": "0",
+                            "default_evaluate_tags": "0",
+                            "default_empty_fields": "0",
+                            "revisions_revision_field": "0",
+                            "enable_conditional_logic": "0"
                         },
                         {
                             "name": "related_collections",
@@ -869,7 +870,7 @@
                             "type": "pick",
                             "pick_object": "post_type",
                             "pick_val": "collection",
-                            "sister_id": "3095",
+                            "sister_id": "70",
                             "pick_table": "-- Select One --",
                             "required": "0",
                             "pick_format_type": "multi",
@@ -892,7 +893,13 @@
                             "pick_format_single_help": "0",
                             "pick_format_multi_help": "0",
                             "repeatable": "0",
-                            "repeatable_format": "default"
+                            "repeatable_format": "default",
+                            "pick_sync_taxonomy": "0",
+                            "pick_sync_taxonomy_hide_taxonomy_ui": "0",
+                            "default_evaluate_tags": "0",
+                            "default_empty_fields": "0",
+                            "revisions_revision_field": "0",
+                            "enable_conditional_logic": "0"
                         }
                     ]
                 }
@@ -988,7 +995,7 @@
             ]
         },
         {
-            "name": "group",
+            "name": "galerio_group",
             "id": 71,
             "label": "Groups",
             "description": "Groups of which the profile owner is a member.",
@@ -999,7 +1006,7 @@
             "show_ui": "1",
             "hierarchical": "1",
             "rest_enable": "1",
-            "_migrated_28": "0",
+            "_migrated_28": "1",
             "built_in_post_types_profile2": "1",
             "built_in_post_types_eclecticon_project": "0",
             "capability_type": "default",
@@ -1026,6 +1033,11 @@
             "built_in_post_types_article": "1",
             "built_in_post_types_work": "0",
             "built_in_post_types_privateprofile": "1",
+            "publicly_queryable": "1",
+            "built_in_post_types_galerio_article": "1",
+            "built_in_post_types_galerio_collection": "1",
+            "built_in_post_types_galerio_profile": "1",
+            "built_in_post_types_galerio_work": "0",
             "groups": [
                 {
                     "name": "more_fields",
@@ -1038,7 +1050,7 @@
             ]
         },
         {
-            "name": "label",
+            "name": "galerio_label",
             "id": 73,
             "label": "Labels",
             "description": "Labels to define and categorise works & collections.",
@@ -1073,6 +1085,11 @@
             "built_in_post_types_attachment": "0",
             "built_in_post_types_profile2": "1",
             "built_in_post_types_privateprofile": "1",
+            "built_in_post_types_galerio_article": "1",
+            "built_in_post_types_galerio_collection": "1",
+            "built_in_post_types_galerio_profile": "1",
+            "built_in_post_types_galerio_work": "1",
+            "publicly_queryable": "1",
             "groups": [
                 {
                     "name": "more_fields",
@@ -1162,7 +1179,49 @@
             ]
         },
         {
-            "name": "medium",
+            "name": "media_intent",
+            "id": 192,
+            "label": "Media Intents",
+            "description": "",
+            "type": "taxonomy",
+            "storage": "meta",
+            "label_singular": "Media Intent",
+            "public": "1",
+            "show_ui": "1",
+            "hierarchical": "1",
+            "rest_enable": "1",
+            "_migrated_28": "1",
+            "menu_location": "default",
+            "built_in_post_types_attachment": "1",
+            "capability_type": "default",
+            "rewrite": "1",
+            "rewrite_hierarchical": "1",
+            "rewrite_with_front": "1",
+            "built_in_post_types_profile": "0",
+            "show_in_menu": "1",
+            "menu_position": "0",
+            "show_in_nav_menus": "1",
+            "show_tagcloud": "1",
+            "show_in_quick_edit": "1",
+            "show_admin_column": "1",
+            "built_in_post_types_work": "0",
+            "built_in_post_types_galerio_article": "0",
+            "built_in_post_types_galerio_collection": "0",
+            "built_in_post_types_galerio_profile": "0",
+            "built_in_post_types_galerio_work": "0",
+            "groups": [
+                {
+                    "name": "more_fields",
+                    "id": 193,
+                    "label": "More Fields",
+                    "description": "",
+                    "weight": 0,
+                    "fields": []
+                }
+            ]
+        },
+        {
+            "name": "galerio_medium",
             "id": 84,
             "label": "Mediums",
             "description": "Materials and processes used to create works.",
@@ -1194,6 +1253,11 @@
             "built_in_post_types_attachment": "0",
             "built_in_post_types_profile": "0",
             "built_in_post_types_article": "0",
+            "built_in_post_types_galerio_article": "0",
+            "built_in_post_types_galerio_collection": "1",
+            "built_in_post_types_galerio_profile": "0",
+            "built_in_post_types_galerio_work": "1",
+            "publicly_queryable": "1",
             "groups": [
                 {
                     "name": "more_fields",
@@ -1206,7 +1270,7 @@
             ]
         },
         {
-            "name": "profile",
+            "name": "galerio_profile",
             "id": 86,
             "label": "Profiles",
             "description": "Profile page for creators.",
@@ -1268,6 +1332,15 @@
             "built_in_taxonomies_medium": "0",
             "built_in_taxonomies_media_category": "0",
             "built_in_taxonomies_image_category": "0",
+            "built_in_taxonomies_profile_roles": "1",
+            "built_in_taxonomies_galerio_media_types": "0",
+            "built_in_taxonomies_media_type": "0",
+            "built_in_taxonomies_galerio_collection_category": "0",
+            "built_in_taxonomies_galerio_group": "1",
+            "built_in_taxonomies_galerio_label": "1",
+            "built_in_taxonomies_galerio_medium": "0",
+            "built_in_taxonomies_media_intent": "0",
+            "built_in_taxonomies_galerio_role": "1",
             "groups": [
                 {
                     "name": "details_group",
@@ -1436,7 +1509,7 @@
                             "type": "pick",
                             "pick_object": "post_type",
                             "pick_val": "profile",
-                            "sister_id": "-- Select One --",
+                            "sister_id": "104",
                             "pick_table": "-- Select One --",
                             "required": "0",
                             "pick_format_type": "multi",
@@ -1468,7 +1541,13 @@
                             "repeatable": "0",
                             "repeatable_format": "default",
                             "restrict_role": "1",
-                            "hidden": "1"
+                            "hidden": "1",
+                            "pick_sync_taxonomy": "0",
+                            "pick_sync_taxonomy_hide_taxonomy_ui": "0",
+                            "default_evaluate_tags": "0",
+                            "default_empty_fields": "0",
+                            "revisions_revision_field": "0",
+                            "enable_conditional_logic": "0"
                         }
                     ]
                 },
@@ -1546,8 +1625,8 @@
                             "weight": 0,
                             "type": "pick",
                             "pick_object": "post_type",
-                            "pick_val": "work",
-                            "sister_id": "2685",
+                            "pick_val": "galerio_work",
+                            "sister_id": "118",
                             "pick_table": "-- Select One --",
                             "required": "0",
                             "pick_format_type": "multi",
@@ -1578,7 +1657,13 @@
                             "pick_format_multi_help": "0",
                             "repeatable": "0",
                             "repeatable_format": "default",
-                            "restrict_role": "1"
+                            "restrict_role": "1",
+                            "pick_sync_taxonomy": "0",
+                            "pick_sync_taxonomy_hide_taxonomy_ui": "0",
+                            "default_evaluate_tags": "0",
+                            "default_empty_fields": "0",
+                            "revisions_revision_field": "0",
+                            "enable_conditional_logic": "0"
                         },
                         {
                             "name": "in_collections",
@@ -1588,8 +1673,8 @@
                             "weight": 1,
                             "type": "pick",
                             "pick_object": "post_type",
-                            "pick_val": "collection",
-                            "sister_id": "3085",
+                            "pick_val": "galerio_collection",
+                            "sister_id": "67",
                             "pick_post_status": [
                                 "publish",
                                 "private"
@@ -1620,7 +1705,13 @@
                             "pick_format_multi_help": "0",
                             "repeatable": "0",
                             "repeatable_format": "default",
-                            "restrict_role": "1"
+                            "restrict_role": "1",
+                            "pick_sync_taxonomy": "0",
+                            "pick_sync_taxonomy_hide_taxonomy_ui": "0",
+                            "default_evaluate_tags": "0",
+                            "default_empty_fields": "0",
+                            "revisions_revision_field": "0",
+                            "enable_conditional_logic": "0"
                         },
                         {
                             "name": "article_mentions",
@@ -1630,8 +1721,8 @@
                             "weight": 2,
                             "type": "pick",
                             "pick_object": "post_type",
-                            "pick_val": "article",
-                            "sister_id": "3088",
+                            "pick_val": "galerio_article",
+                            "sister_id": "45",
                             "pick_table": "-- Select One --",
                             "required": "0",
                             "pick_format_type": "multi",
@@ -1659,7 +1750,13 @@
                             "repeatable_format": "default",
                             "pick_format_single_help": "0",
                             "pick_format_multi_help": "0",
-                            "restrict_role": "1"
+                            "restrict_role": "1",
+                            "pick_sync_taxonomy": "0",
+                            "pick_sync_taxonomy_hide_taxonomy_ui": "0",
+                            "default_evaluate_tags": "0",
+                            "default_empty_fields": "0",
+                            "revisions_revision_field": "0",
+                            "enable_conditional_logic": "0"
                         },
                         {
                             "name": "related_profiles",
@@ -1670,7 +1767,7 @@
                             "type": "pick",
                             "pick_object": "post_type",
                             "pick_val": "profile",
-                            "sister_id": "-- Select One --",
+                            "sister_id": "98",
                             "pick_table": "-- Select One --",
                             "required": "0",
                             "pick_format_type": "multi",
@@ -1701,7 +1798,13 @@
                             "pick_format_multi_help": "0",
                             "repeatable": "0",
                             "repeatable_format": "default",
-                            "restrict_role": "1"
+                            "restrict_role": "1",
+                            "pick_sync_taxonomy": "0",
+                            "pick_sync_taxonomy_hide_taxonomy_ui": "0",
+                            "default_evaluate_tags": "0",
+                            "default_empty_fields": "0",
+                            "revisions_revision_field": "0",
+                            "enable_conditional_logic": "0"
                         },
                         {
                             "name": "authored_articles",
@@ -1711,8 +1814,8 @@
                             "weight": 4,
                             "type": "pick",
                             "pick_object": "post_type",
-                            "pick_val": "article",
-                            "sister_id": "3279",
+                            "pick_val": "galerio_article",
+                            "sister_id": "44",
                             "pick_table": "-- Select One --",
                             "required": "0",
                             "pick_format_type": "single",
@@ -1740,7 +1843,13 @@
                             "rest_pick_depth": "1",
                             "pick_format_single_help": "0",
                             "pick_format_multi_help": "0",
-                            "restrict_role": "1"
+                            "restrict_role": "1",
+                            "pick_sync_taxonomy": "0",
+                            "pick_sync_taxonomy_hide_taxonomy_ui": "0",
+                            "default_evaluate_tags": "0",
+                            "default_empty_fields": "0",
+                            "revisions_revision_field": "0",
+                            "enable_conditional_logic": "0"
                         }
                     ]
                 },
@@ -2040,6 +2149,33 @@
             ]
         },
         {
+            "name": "galerio_role",
+            "id": 267,
+            "label": "Roles",
+            "description": "",
+            "type": "taxonomy",
+            "storage": "meta",
+            "label_singular": "Role",
+            "public": "1",
+            "show_ui": "1",
+            "hierarchical": "1",
+            "publicly_queryable": "1",
+            "dynamic_features_allow": "inherit",
+            "rest_enable": "1",
+            "_migrated_28": "1",
+            "built_in_post_types_galerio_profile": "1",
+            "groups": [
+                {
+                    "name": "more_fields",
+                    "id": 270,
+                    "label": "More Fields",
+                    "description": "",
+                    "weight": 0,
+                    "fields": []
+                }
+            ]
+        },
+        {
             "name": "user",
             "id": 198,
             "label": "User",
@@ -2060,7 +2196,7 @@
             ]
         },
         {
-            "name": "work",
+            "name": "galerio_work",
             "id": 113,
             "label": "Works",
             "description": "",
@@ -2118,6 +2254,15 @@
             "built_in_taxonomies_collection_category": "0",
             "built_in_taxonomies_image_category": "0",
             "built_in_taxonomies_media_category": "0",
+            "built_in_taxonomies_profile_roles": "0",
+            "built_in_taxonomies_galerio_media_types": "0",
+            "built_in_taxonomies_media_type": "0",
+            "built_in_taxonomies_galerio_collection_category": "0",
+            "built_in_taxonomies_galerio_group": "0",
+            "built_in_taxonomies_galerio_label": "1",
+            "built_in_taxonomies_galerio_medium": "1",
+            "built_in_taxonomies_media_intent": "0",
+            "built_in_taxonomies_galerio_role": "0",
             "groups": [
                 {
                     "name": "details_group",
@@ -2153,7 +2298,7 @@
                             "weight": 1,
                             "type": "pick",
                             "pick_object": "post_type",
-                            "pick_val": "profile",
+                            "pick_val": "galerio_profile",
                             "sister_id": "101",
                             "pick_table": "-- Select One --",
                             "required": "0",
@@ -2326,7 +2471,7 @@
                 {
                     "name": "work_meta_group",
                     "id": 225,
-                    "label": "Meta",
+                    "label": "Metadata",
                     "description": "",
                     "weight": 1,
                     "meta_box_context": "side",
@@ -2418,7 +2563,7 @@
                             "weight": 0,
                             "type": "pick",
                             "pick_object": "post_type",
-                            "pick_val": "collection",
+                            "pick_val": "galerio_collection",
                             "sister_id": "68",
                             "pick_table": "-- Select One --",
                             "required": "0",
@@ -2461,7 +2606,7 @@
                             "weight": 1,
                             "type": "pick",
                             "pick_object": "post_type",
-                            "pick_val": "article",
+                            "pick_val": "galerio_article",
                             "sister_id": "46",
                             "pick_table": "-- Select One --",
                             "required": "0",
@@ -2537,6 +2682,17 @@
                             "enable_conditional_logic": "0"
                         }
                     ]
+                },
+                {
+                    "name": "cataloguing_group",
+                    "id": 264,
+                    "label": "Cataloguing",
+                    "description": "",
+                    "weight": 3,
+                    "roles_allowed": "administrator",
+                    "meta_box_context": "normal",
+                    "meta_box_priority": "default",
+                    "fields": []
                 }
             ]
         }
