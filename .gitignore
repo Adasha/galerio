@@ -39,7 +39,6 @@ www/wp-content/*
 
 !www/wp-content/themes
 www/wp-content/themes/*
-!www/wp-content/themes/dotart
 !www/wp-content/themes/galerio
 
 !www/wp-content/plugins
