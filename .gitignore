@@ -33,17 +33,16 @@ composer.phar
 vendor/
 
 # Wordpress files
-www/*
-!www/wp-content
-www/wp-content/*
+site/*
+!site/wp-content
+site/wp-content/*
 
-!www/wp-content/themes
-www/wp-content/themes/*
-!www/wp-content/themes/galerio
+!site/wp-content/themes
+site/wp-content/themes/*
+!site/wp-content/themes/galerio
 
-!www/wp-content/plugins
-www/wp-content/plugins/*
-!www/wp-content/plugins/galerio
-
+!site/wp-content/plugins
+site/wp-content/plugins/*
+!site/wp-content/plugins/galerio
 
 
