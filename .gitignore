@@ -40,6 +40,7 @@ site/wp-content/*
 !site/wp-content/themes
 site/wp-content/themes/*
 !site/wp-content/themes/galerio
+!site/wp-content/themes/galerio-classic
 
 !site/wp-content/plugins
 site/wp-content/plugins/*
