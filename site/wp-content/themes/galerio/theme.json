@@ -217,6 +217,31 @@
                     }
                 }
             },
+            "core/group": {
+                "variations": {
+                    "asides": {
+                        "blocks": {
+                            "core/group": {
+                                "color": {
+                                    "background": "var(--wp--preset--color--custom-hint)"
+                                },
+                                "spacing": {
+                                    "padding": {
+                                        "bottom": "var(--wp--preset--spacing--20)",
+                                        "left": "var(--wp--preset--spacing--40)",
+                                        "right": "var(--wp--preset--spacing--40)",
+                                        "top": "var(--wp--preset--spacing--20)"
+                                    },
+                                    "blockGap": "var(--wp--preset--spacing--20)"
+                                },
+                                "elements": {
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
             "core/navigation": {
                 "variations": {
                     "main-menu": {
@@ -231,7 +256,8 @@
                                 "color": {
                                     "text": "var(--wp--preset--color--contrast)"
                                 },
-                                "spacing": []
+                                "spacing": {
+                                }
                             }
                         },
                         "typography": {
