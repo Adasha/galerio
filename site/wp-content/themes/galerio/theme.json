@@ -1,0 +1,447 @@
+{
+    "settings": {
+        "appearanceTools": true,
+        "color": {
+            "palette": [
+                {
+                    "color": "#ffffff",
+                    "name": "Base",
+                    "slug": "base"
+                },
+                {
+                    "color": "#303030",
+                    "name": "Contrast",
+                    "slug": "contrast"
+                },
+                {
+                    "color": "#e92323",
+                    "name": "Primary",
+                    "slug": "primary"
+                },
+                {
+                    "color": "#bd1818",
+                    "name": "Secondary",
+                    "slug": "secondary"
+                },
+                {
+                    "color": "#767676",
+                    "name": "Lower contrast",
+                    "slug": "custom-lower-contrast"
+                },
+                {
+                    "color": "#e7e7e7",
+                    "name": "Highlight",
+                    "slug": "custom-highlight"
+                },
+                {
+                    "color": "#f3f3f3",
+                    "name": "Hint",
+                    "slug": "custom-hint"
+                },
+                {
+                    "color": "#878787",
+                    "name": "Lowlight",
+                    "slug": "custom-lowlight"
+                }
+            ]
+        },
+        "custom": {
+            "button": {
+                "border-radius": "5px"
+            }
+        },
+        "layout": {
+            "contentSize": "700px",
+            "wideSize": "1100px"
+        },
+        "spacing": {
+            "units": [
+                "px",
+                "em",
+                "rem",
+                "vh",
+                "vw",
+                "%"
+            ]
+        },
+        "typography": {
+            "fontFamilies": [
+                {
+                    "name": "Arvo",
+                    "slug": "arvo",
+                    "fontFamily": "Arvo, serif",
+                    "fontFace": [
+                        {
+                            "src": [
+                                "file:./assets/fonts/arvo/arvo-400-normal.woff2"
+                            ],
+                            "fontWeight": "400",
+                            "fontStyle": "normal",
+                            "fontFamily": "Arvo"
+                        },
+                        {
+                            "src": [
+                                "file:./assets/fonts/arvo/arvo-700-normal.woff2"
+                            ],
+                            "fontWeight": "700",
+                            "fontStyle": "normal",
+                            "fontFamily": "Arvo"
+                        },
+                        {
+                            "src": [
+                                "file:./assets/fonts/arvo/arvo-400-italic.woff2"
+                            ],
+                            "fontWeight": "400",
+                            "fontStyle": "italic",
+                            "fontFamily": "Arvo"
+                        },
+                        {
+                            "src": [
+                                "file:./assets/fonts/arvo/arvo-700-italic.woff2"
+                            ],
+                            "fontWeight": "700",
+                            "fontStyle": "italic",
+                            "fontFamily": "Arvo"
+                        }
+                    ]
+                },
+                {
+                    "name": "Lato",
+                    "slug": "lato",
+                    "fontFamily": "Lato, sans-serif",
+                    "fontFace": [
+                        {
+                            "src": [
+                                "file:./assets/fonts/lato/lato-100-normal.woff2"
+                            ],
+                            "fontWeight": "100",
+                            "fontStyle": "normal",
+                            "fontFamily": "Lato"
+                        },
+                        {
+                            "src": [
+                                "file:./assets/fonts/lato/lato-300-normal.woff2"
+                            ],
+                            "fontWeight": "300",
+                            "fontStyle": "normal",
+                            "fontFamily": "Lato"
+                        },
+                        {
+                            "src": [
+                                "file:./assets/fonts/lato/lato-400-normal.woff2"
+                            ],
+                            "fontWeight": "400",
+                            "fontStyle": "normal",
+                            "fontFamily": "Lato"
+                        },
+                        {
+                            "src": [
+                                "file:./assets/fonts/lato/lato-700-normal.woff2"
+                            ],
+                            "fontWeight": "700",
+                            "fontStyle": "normal",
+                            "fontFamily": "Lato"
+                        },
+                        {
+                            "src": [
+                                "file:./assets/fonts/lato/lato-900-normal.woff2"
+                            ],
+                            "fontWeight": "900",
+                            "fontStyle": "normal",
+                            "fontFamily": "Lato"
+                        },
+                        {
+                            "src": [
+                                "file:./assets/fonts/lato/lato-100-italic.woff2"
+                            ],
+                            "fontWeight": "100",
+                            "fontStyle": "italic",
+                            "fontFamily": "Lato"
+                        },
+                        {
+                            "src": [
+                                "file:./assets/fonts/lato/lato-300-italic.woff2"
+                            ],
+                            "fontWeight": "300",
+                            "fontStyle": "italic",
+                            "fontFamily": "Lato"
+                        },
+                        {
+                            "src": [
+                                "file:./assets/fonts/lato/lato-400-italic.woff2"
+                            ],
+                            "fontWeight": "400",
+                            "fontStyle": "italic",
+                            "fontFamily": "Lato"
+                        },
+                        {
+                            "src": [
+                                "file:./assets/fonts/lato/lato-700-italic.woff2"
+                            ],
+                            "fontWeight": "700",
+                            "fontStyle": "italic",
+                            "fontFamily": "Lato"
+                        },
+                        {
+                            "src": [
+                                "file:./assets/fonts/lato/lato-900-italic.woff2"
+                            ],
+                            "fontWeight": "900",
+                            "fontStyle": "italic",
+                            "fontFamily": "Lato"
+                        }
+                    ]
+                }
+            ],
+            "fontSizes": [
+                {
+                    "name": "Very Small",
+                    "size": "8px",
+                    "slug": "custom-1"
+                }
+            ]
+        },
+        "useRootPaddingAwareAlignments": true
+    },
+    "styles": {
+        "blocks": {
+            "core/button": {
+                "color": {
+                    "text": "var(--wp--preset--color--base)"
+                },
+                "elements": {
+                    "link": {
+                        "color": {
+                            "text": "var(--wp--preset--color--base)"
+                        }
+                    }
+                }
+            },
+            "core/navigation": {
+                "variations": {
+                    "main-menu": {
+                        "elements": {
+                            "link": {
+                                ":hover": {
+                                    "color": {
+                                        "background": "var(--wp--preset--color--contrast)",
+                                        "text": "var(--wp--preset--color--base)"
+                                    }
+                                },
+                                "color": {
+                                    "text": "var(--wp--preset--color--contrast)"
+                                },
+                                "spacing": []
+                            }
+                        },
+                        "typography": {
+                            "fontFamily": "var(--wp--preset--font-family--arvo)"
+                        }
+                    }
+                }
+            },
+            "core/post-terms": {
+                "color": {
+                    "text": "var(--wp--preset--color--contrast)"
+                },
+                "elements": {
+                    "link": {
+                        ":hover": {
+                            "color": {
+                                "text": "var(--wp--preset--color--custom-lower-contrast)"
+                            }
+                        },
+                        "color": {
+                            "text": "var(--wp--preset--color--custom-lowlight)"
+                        },
+                        "typography": {
+                            "textDecoration": "none"
+                        }
+                    }
+                },
+                "typography": {
+                    "fontSize": "var(--wp--preset--font-size--small)",
+                    "textDecoration": "none",
+                    "textTransform": "uppercase"
+                },
+                "variations": {
+                    "buttons": {
+                        "elements": {
+                            "link": {
+                                ":hover": {
+                                    "color": {
+                                        "background": "var(--wp--preset--color--custom-hint)"
+                                    }
+                                },
+                                "border": {
+                                    "radius": "var(--wp--custom--button--border-radius)"
+                                },
+                                "color": {
+                                    "background": "var(--wp--preset--color--custom-highlight)"
+                                },
+                                "spacing": {
+                                    "padding": {
+                                        "bottom": "var(--wp--preset--spacing--20)",
+                                        "left": "var(--wp--preset--spacing--40)",
+                                        "right": "var(--wp--preset--spacing--40)",
+                                        "top": "var(--wp--preset--spacing--20)"
+                                    }
+                                },
+                                "typography": {
+                                    "textDecoration": "none"
+                                }
+                            }
+                        },
+                        "spacing": {
+                            "blockGap": "var(--wp--preset--spacing--20)",
+                            "margin": {
+                                "bottom": "var(--wp--preset--spacing--20)",
+                                "top": "var(--wp--preset--spacing--20)"
+                            }
+                        },
+                        "typography": {
+                            "fontSize": "var(--wp--preset--font-size--small)",
+                            "lineHeight": "2.4"
+                        }
+                    }
+                }
+            },
+            "core/search": {
+                "css": "width: 100%",
+                "elements": {
+                    "button": {
+                        "spacing": {
+                            "padding": {
+                                "bottom": "var(--wp--preset--spacing--20)",
+                                "top": "var(--wp--preset--spacing--20)"
+                            }
+                        }
+                    }
+                },
+                "typography": {
+                    "fontSize": "var(--wp--preset--font-size--medium)",
+                    "lineHeight": "1"
+                }
+            },
+            "core/site-title": {
+                "css": "text-wrap: nowrap;",
+                "typography": {
+                    "fontFamily": "var(--wp--preset--font-family--arvo)",
+                    "fontSize": "var(--wp--preset--font-size--x-large)",
+                    "fontStyle": "normal",
+                    "fontWeight": "700",
+                    "lineHeight": "1",
+                    "textTransform": "none"
+                }
+            },
+            "core/social-links": {
+                "border": {
+                    "bottom": {
+                        "style": "none",
+                        "width": "0px"
+                    },
+                    "color": null,
+                    "left": {
+                        "style": "none",
+                        "width": "0px"
+                    },
+                    "radius": "0px",
+                    "right": {
+                        "style": "none",
+                        "width": "0px"
+                    },
+                    "style": null,
+                    "top": {
+                        "style": "none",
+                        "width": "0px"
+                    },
+                    "width": null
+                },
+                "spacing": {
+                    "blockGap": {
+                        "left": "0"
+                    }
+                }
+            }
+        },
+        "color": {
+            "background": "var(--wp--preset--color--base)",
+            "text": "var(--wp--preset--color--contrast)"
+        },
+        "elements": {
+            "button": {
+                ":hover": {
+                    "color": {
+                        "background": "var(--wp--preset--color--custom-lower-contrast)"
+                    }
+                },
+                "border": {
+                    "radius": "var(--wp--custom--button--border-radius)"
+                },
+                "color": {
+                    "background": "var(--wp--preset--color--custom-lowlight)",
+                    "text": "var(--wp--preset--color--base)"
+                },
+                "typography": {
+                    "fontFamily": "var(--wp--preset--font-family--lato)",
+                    "fontSize": "var(--wp--preset--font-size--small)",
+                    "fontStyle": "normal",
+                    "fontWeight": "700"
+                }
+            },
+            "caption": {
+                "color": {
+                    "text": "var(--wp--preset--color--custom-lower-contrast)"
+                }
+            },
+            "h1": {
+                "spacing": {
+                    "margin": []
+                },
+                "typography": {
+                    "fontSize": "var(--wp--preset--font-size--large)",
+                    "textTransform": "uppercase"
+                }
+            },
+            "heading": {
+                "color": {
+                    "text": "var(--wp--preset--color--contrast)"
+                },
+                "typography": {
+                    "fontFamily": "var(--wp--preset--font-family--arvo)",
+                    "fontStyle": "normal",
+                    "fontWeight": "400",
+                    "textTransform": "none"
+                }
+            },
+            "link": {
+                ":hover": {
+                    "color": {
+                        "text": "var(--wp--preset--color--secondary)"
+                    }
+                },
+                "color": {
+                    "text": "var(--wp--preset--color--primary)"
+                }
+            }
+        },
+        "spacing": {
+            "padding": {
+                "bottom": "0px",
+                "left": "0px",
+                "right": "0px",
+                "top": "0px"
+            }
+        },
+        "typography": {
+            "fontFamily": "var(--wp--preset--font-family--lato)",
+            "fontSize": "var(--wp--preset--font-size--medium)",
+            "fontStyle": "normal",
+            "fontWeight": "400",
+            "lineHeight": "1.4",
+            "textTransform": "none"
+        }
+    },
+    "version": 3,
+    "$schema": "https://schemas.wp.org/trunk/theme.json"
+}
