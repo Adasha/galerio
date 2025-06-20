@@ -1,7 +1,7 @@
 <?php
 /**
  * Galerio Theme functions.php
- * v0.4.0a
+ * v0.4.1a
  */
 
 

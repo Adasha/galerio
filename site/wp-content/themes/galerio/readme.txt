@@ -3,7 +3,7 @@ Contributors: Adasha
 Tested up to: 6.8
 Requires at least: 6.6
 Requires PHP: 7.4
-Version: 2.0.0a
+Version: 2.0.1a
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Copyright: Adasha
@@ -11,6 +11,7 @@ Copyright: Adasha
 A block theme for galleries etc.
 
 == Changelog ==
+2.0.1a Template improvements
 2.0.0a Re-implemented as block theme
 1.0.0 Initial release
 

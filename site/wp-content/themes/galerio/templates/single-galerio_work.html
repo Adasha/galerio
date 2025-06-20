@@ -79,12 +79,11 @@
 <!-- /wp:column -->
 
 <!-- wp:column {"width":"67%","style":{"spacing":{"blockGap":"var:preset|spacing|60"}}} -->
-<div class="wp-block-column" style="flex-basis:67%"><!-- wp:paragraph -->
-<p>[pods field="description"]</p>
-<!-- /wp:paragraph -->
+<div class="wp-block-column" style="flex-basis:67%"><!-- wp:group {"tagName":"article","layout":{"type":"default"}} -->
+<article class="wp-block-group"><!-- wp:post-content /-->
 
-<!-- wp:group {"style":{"spacing":{"blockGap":"0"}},"layout":{"type":"flex","orientation":"vertical","flexWrap":"nowrap","justifyContent":"stretch"}} -->
-<div class="wp-block-group"><!-- wp:columns {"verticalAlignment":"center","isStackedOnMobile":false,"style":{"spacing":{"padding":{"top":"var:preset|spacing|20","bottom":"var:preset|spacing|20"}}}} -->
+<!-- wp:group {"tagName":"aside","style":{"spacing":{"blockGap":"0"}},"layout":{"type":"flex","orientation":"vertical","flexWrap":"nowrap","justifyContent":"stretch"}} -->
+<aside class="wp-block-group"><!-- wp:columns {"verticalAlignment":"center","isStackedOnMobile":false,"style":{"spacing":{"padding":{"top":"var:preset|spacing|20","bottom":"var:preset|spacing|20"}}}} -->
 <div class="wp-block-columns are-vertically-aligned-center is-not-stacked-on-mobile" style="padding-top:var(--wp--preset--spacing--20);padding-bottom:var(--wp--preset--spacing--20)"><!-- wp:column {"verticalAlignment":"center","width":"15%"} -->
 <div class="wp-block-column is-vertically-aligned-center" style="flex-basis:15%"><!-- wp:paragraph -->
 <p>Labels:</p>
@@ -106,16 +105,11 @@
 <!-- wp:column {"verticalAlignment":"center","width":"85%"} -->
 <div class="wp-block-column is-vertically-aligned-center" style="flex-basis:85%"><!-- wp:post-terms {"term":"galerio_medium","separator":"  ","className":"is-style-buttons"} /--></div>
 <!-- /wp:column --></div>
-<!-- /wp:columns --></div>
+<!-- /wp:columns --></aside>
+<!-- /wp:group --></article>
 <!-- /wp:group --></div>
 <!-- /wp:column --></div>
-<!-- /wp:columns -->
-
-<!-- wp:separator {"className":"is-style-dots"} -->
-<hr class="wp-block-separator has-alpha-channel-opacity is-style-dots"/>
-<!-- /wp:separator -->
-
-<!-- wp:post-content /--></main>
+<!-- /wp:columns --></main>
 <!-- /wp:group -->
 
 <!-- wp:group {"tagName":"footer","metadata":{"name":"Footer"},"style":{"spacing":{"margin":{"top":"var:preset|spacing|40","bottom":"var:preset|spacing|40"}}},"layout":{"type":"default"}} -->
