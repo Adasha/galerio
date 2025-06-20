@@ -534,7 +534,8 @@
                                 },
                                 "typography": {
                                     "textDecoration": "none"
-                                }
+                                },
+                                "css": "text-wrap: nowrap"
                             }
                         },
                         "spacing": {
