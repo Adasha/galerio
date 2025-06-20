@@ -32,6 +32,10 @@ function galerio_register_block_styles() {
 			[
 	    		'name'  => 'asides',
 				'label' => __( 'Asides', 'galerio' ),
+			],
+			[
+				'name'  => 'image-box',
+				'label' => __( 'Image Box', 'galerio' ),
 			]
 		],
 	];

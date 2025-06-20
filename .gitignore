@@ -45,6 +45,7 @@ site/wp-content/themes/*
 !site/wp-content/plugins
 site/wp-content/plugins/*
 !site/wp-content/plugins/galerio
+!site/wp-content/plugins/definitive-image
 
 # Site branding
 branding/
