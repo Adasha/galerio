@@ -38,9 +38,11 @@ require_once GALERIO_CORE_DIR . 'includes/fields/class-pods-adapter.php';
 require_once GALERIO_CORE_DIR . 'includes/fields/class-registry.php';
 require_once GALERIO_CORE_DIR . 'includes/fields/class-display.php';
 require_once GALERIO_CORE_DIR . 'includes/fields/class-rest.php';
+require_once GALERIO_CORE_DIR . 'includes/fields/class-bindings.php';
 require_once GALERIO_CORE_DIR . 'includes/fields/functions.php';
 
 Galerio\Core\Fields\Rest::init();
+Galerio\Core\Fields\Bindings::init();
 
 if ( defined( 'WP_CLI' ) && WP_CLI ) {
 	require_once GALERIO_CORE_DIR . 'includes/cli/class-pods-command.php';

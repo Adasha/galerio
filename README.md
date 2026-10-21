@@ -79,6 +79,18 @@ Raw values are normalised by type: strings for text, `Y-m-d` for dates, integers
 
 Public fields are also included in REST API responses for each post type, under `galerio_fields`.
 
+### Binding fields to blocks
+
+Core Paragraph, Heading, List item, Image and Button blocks can show a field through the `galerio/field` block bindings source. In the editor, choose a field from the block's **Attributes** panel, or write the binding in a template:
+
+```html
+<!-- wp:paragraph {"metadata":{"bindings":{"content":{"source":"galerio/field","args":{"key":"work.year"}}}}} -->
+<p>Year</p>
+<!-- /wp:paragraph -->
+```
+
+The value fits the attribute it fills: an image field gives an Image block its URL, alt text and caption, a relation gives a Button its link, and text attributes get the display value. When a field is empty, private, or belongs to another content type, the block keeps the content saved in it, so that content works as a fallback.
+
 ## Licence
 
 GPL-2.0-or-later.
