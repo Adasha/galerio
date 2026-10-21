@@ -5,6 +5,7 @@
 	<file>./plugins/galerio-core</file>
 	<file>./themes/galerio</file>
 	<file>./tools</file>
+	<file>./tests/phpunit</file>
 
 	<exclude-pattern>*/build/*</exclude-pattern>
 	<exclude-pattern>*/node_modules/*</exclude-pattern>
@@ -43,5 +44,15 @@
 	     seeds mt_rand() deliberately so demo images are the same every run. -->
 	<rule ref="WordPress.WP.AlternativeFunctions.rand_mt_rand">
 		<exclude-pattern>*/tools/*</exclude-pattern>
+	</rule>
+	<!-- PHPUnit tests follow the WordPress core test suite's conventions. -->
+	<rule ref="WordPress.Files.FileName">
+		<exclude-pattern>*/tests/phpunit/*</exclude-pattern>
+	</rule>
+	<rule ref="WordPress.NamingConventions.PrefixAllGlobals">
+		<exclude-pattern>*/tests/phpunit/*</exclude-pattern>
+	</rule>
+	<rule ref="Generic.Files.OneObjectStructurePerFile">
+		<exclude-pattern>*/tests/phpunit/*</exclude-pattern>
 	</rule>
 </ruleset>

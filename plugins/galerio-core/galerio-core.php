@@ -27,7 +27,20 @@ define( 'GALERIO_CORE_URL', plugin_dir_url( __FILE__ ) );
  * Content types and fields are currently defined by the Pods package in
  * data/pods/galerio.json. This plugin deliberately registers no post types or
  * taxonomies of its own until the native data layer replaces Pods.
+ *
+ * Templates and blocks read fields through the field API below, never through
+ * Pods directly, so that the storage backend can be swapped later.
  */
+
+require_once GALERIO_CORE_DIR . 'includes/fields/class-field.php';
+require_once GALERIO_CORE_DIR . 'includes/fields/interface-adapter.php';
+require_once GALERIO_CORE_DIR . 'includes/fields/class-pods-adapter.php';
+require_once GALERIO_CORE_DIR . 'includes/fields/class-registry.php';
+require_once GALERIO_CORE_DIR . 'includes/fields/class-display.php';
+require_once GALERIO_CORE_DIR . 'includes/fields/class-rest.php';
+require_once GALERIO_CORE_DIR . 'includes/fields/functions.php';
+
+Galerio\Core\Fields\Rest::init();
 
 if ( defined( 'WP_CLI' ) && WP_CLI ) {
 	require_once GALERIO_CORE_DIR . 'includes/cli/class-pods-command.php';
