@@ -1,0 +1,24 @@
+/**
+ * src/editor.scss
+ *
+ * Editor-only styles. Loaded exclusively inside the Gutenberg block editor
+ * (via the `editorStyle` field in block.json). Never shipped to the frontend.
+ *
+ * Provides a visual affordance in the editor so content editors understand
+ * this is a carousel wrapper without interfering with the nested block
+ * editing experience.
+ */
+
+.query-carousel-editor-wrapper {
+	// Subtle dashed outline to visually delineate the carousel boundary.
+	// Uses a CSS variable so themes with high-contrast modes can override it.
+	outline: 2px dashed var( --wp-admin-theme-color, #007cba );
+	outline-offset: 2px;
+	// Minimal padding so the notice doesn't crowd the inner block.
+	padding-block-start: 0.5rem;
+}
+
+.query-carousel-editor-notice {
+	// Keep the notice visually separate from the inner block content.
+	margin-block-end: 0.5rem;
+}

@@ -1,47 +1,54 @@
 {
-  "name": "galerio",
-  "version": "0.1.6-alpha",
-  "description": "Wordpress extension. Adds custom page types, taxonomies and theming elements to suit managing a gallery or other exhibition.",
-  "main": "index.js",
-  "scripts": {
-    "build:css": "sass www/wp-content/themes/galerio/style.scss www/wp-content/themes/galerio/style.css",
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Adasha/galerio.git"
-  },
-  "keywords": [
-    "Wordpress",
-    "plugin",
-    "plug-in",
-    "CMS",
-    "gallery",
-    "galleries",
-    "exhibition",
-    "exhibitions",
-    "exhibit",
-    "exhibits",
-    "project",
-    "projects",
-    "art",
-    "artist",
-    "artists",
-    "profile",
-    "profiles",
-    "collection",
-    "collections",
-    "work",
-    "works"
-  ],
-  "author": "Adam Shailer",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/Adasha/galerio/issues"
-  },
-  "homepage": "https://github.com/Adasha/galerio#readme",
-  "dependencies": {},
-  "devDependencies": {
-    "sass": "^1.53.0"
-  }
+	"name": "galerio",
+	"version": "0.2.0-alpha",
+	"private": true,
+	"description": "WordPress theme and plugins for galleries, artists and publishers to manage, present and sell creative works.",
+	"license": "GPL-2.0-or-later",
+	"author": "Adam Shailer",
+	"homepage": "https://github.com/Adasha/galerio#readme",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/Adasha/galerio.git"
+	},
+	"bugs": {
+		"url": "https://github.com/Adasha/galerio/issues"
+	},
+	"keywords": [
+		"wordpress",
+		"block-theme",
+		"gallery",
+		"art",
+		"artist",
+		"exhibition",
+		"collection",
+		"portfolio"
+	],
+	"engines": {
+		"node": ">=24.15.0"
+	},
+	"scripts": {
+		"env:start": "wp-env start",
+		"env:stop": "wp-env stop",
+		"env:reset": "wp-env reset && npm run seed",
+		"env:test:start": "wp-env --config=.wp-env.test.json start",
+		"env:test:stop": "wp-env --config=.wp-env.test.json stop",
+		"seed": "bash tools/seed-demo.sh",
+		"seed:test": "bash tools/seed-demo.sh --test",
+		"wp": "wp-env run cli wp",
+		"lint": "npm run lint:js && npm run lint:css && npm run lint:php",
+		"lint:js": "wp-scripts lint-js \"plugins/galerio-*/src\" \"tests/e2e\" --no-error-on-unmatched-pattern",
+		"lint:css": "wp-scripts lint-style \"plugins/galerio-*/src/**/*.{css,scss}\" --allow-empty-input",
+		"lint:php": "bash tools/composer.sh lint",
+		"lint:php:fix": "bash tools/composer.sh lint:fix",
+		"composer": "bash tools/composer.sh",
+		"format": "wp-scripts format",
+		"check:plugins": "wp-env --config=.wp-env.test.json run cli wp plugin check galerio-core",
+		"test:e2e": "playwright test --config tests/e2e/playwright.config.js"
+	},
+	"devDependencies": {
+		"@playwright/test": "^1.64.1",
+		"@wordpress/e2e-test-utils-playwright": "^3.1.0",
+		"@wordpress/env": "^12.0.0",
+		"@wordpress/scripts": "^37.0.0"
+	}
 }

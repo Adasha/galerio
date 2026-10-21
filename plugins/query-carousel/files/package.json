@@ -1,0 +1,22 @@
+{
+	"name": "query-carousel-block",
+	"version": "1.0.0",
+	"description": "A Gutenberg block that wraps core/query in an Embla Carousel.",
+	"author": "Your Name",
+	"license": "GPL-2.0-or-later",
+	"main": "build/index.js",
+	"scripts": {
+		"build": "wp-scripts build src/index.js src/view.js",
+		"start": "wp-scripts start src/index.js src/view.js",
+		"lint:js": "wp-scripts lint-js",
+		"lint:style": "wp-scripts lint-style",
+		"format": "wp-scripts format",
+		"packages-update": "wp-scripts packages-update"
+	},
+	"dependencies": {
+		"embla-carousel": "^8.1.7"
+	},
+	"devDependencies": {
+		"@wordpress/scripts": "^30.0.0"
+	}
+}
