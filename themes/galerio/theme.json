@@ -476,7 +476,7 @@
                                 "color": {
                                     "text": "var(--wp--preset--color--contrast)"
                                 },
-                                "spacing": []
+                                "spacing": {}
                             }
                         },
                         "typography": {
