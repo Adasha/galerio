@@ -1,0 +1,254 @@
+/**
+ * src/style.scss
+ *
+ * Loaded on both the frontend and in the block editor (via the `style` field
+ * in block.json).
+ *
+ * PHILOSOPHY: This file contains ONLY the structural CSS required to make the
+ * carousel mechanism work. It deliberately contains:
+ *   - NO colours
+ *   - NO borders
+ *   - NO typography
+ *   - NO hardcoded padding or margin values (use block supports / theme.json)
+ *   - NO custom SVG fills
+ *   - NO box-shadows
+ *
+ * All visual design is left to the theme's theme.json, the inner Query Loop
+ * blocks, and any custom CSS the developer chooses to add.
+ * WordPress CSS custom properties (--wp--preset--*) are referenced only where
+ * a structural default is absolutely required to prevent broken layout.
+ */
+
+// ---------------------------------------------------------------------------
+// 1. CAROUSEL VIEWPORT
+// The scroll-clipping container. `overflow: hidden` is the single
+// most critical structural rule — it hides off-screen slides.
+// Only present after JS runs (`.query-carousel__viewport` class added by view.js),
+// ensuring progressive enhancement for no-JS environments.
+// ---------------------------------------------------------------------------
+
+.query-carousel__viewport {
+	overflow: hidden;
+	// Contain the stacking context for fade transitions (position: relative
+	// is needed so absolutely-positioned slides in fade mode stay within bounds).
+	position: relative;
+}
+
+// ---------------------------------------------------------------------------
+// 2. CAROUSEL CONTAINER (the flex row of slides)
+// Embla sets `display: flex` programmatically at runtime. We also declare it
+// here as a structural guarantee, matching the class added by view.js.
+// ---------------------------------------------------------------------------
+
+.query-carousel__container {
+	display: flex;
+	// Prevent wrapping — all slides live in a single row (or column for
+	// vertical carousels if a developer adds `flex-direction: column`).
+	flex-wrap: nowrap;
+	// Override any block gap set by WordPress on .wp-block-post-template.
+	// Gap between slides should be set via the theme's blockGap spacing tokens
+	// applied to the inner core/query block, not via gap here, as Embla
+	// measures element widths to calculate scroll positions.
+	// If you DO want a gap, set it in theme.json and it will work with Embla's
+	// containScroll option.
+	gap: 0;
+	// Touch/pointer action is managed by Embla. `user-select: none` prevents
+	// text being selected during swipe drags.
+	user-select: none;
+	// GPU-accelerate the slide container for smooth transitions.
+	will-change: transform;
+	// Ensure the transform origin is predictable for custom effects.
+	transform-origin: left center;
+}
+
+// ---------------------------------------------------------------------------
+// 3. INDIVIDUAL SLIDES
+// Each direct child of .wp-block-post-template becomes a slide.
+// The class is added by view.js.
+// ---------------------------------------------------------------------------
+
+.query-carousel__slide {
+	// Prevent slides from shrinking below their natural width.
+	flex: 0 0 100%;
+	// Ensure slides don't grow past the viewport width.
+	min-width: 0;
+	// Isolate each slide's stacking context so hover states and z-index
+	// within slide content don't leak into adjacent slides.
+	position: relative;
+	// Smooth pointer-events for hover states during inertia scrolling.
+	pointer-events: auto;
+}
+
+// ---------------------------------------------------------------------------
+// 4. NAVIGATION ARROWS
+// Structural positioning only. Visual styling (colour, size, background)
+// is left to the theme.
+//
+// Arrows are absolutely positioned relative to the carousel wrapper
+// (.wp-block-custom-query-carousel), which has `position: relative` applied
+// via block supports (the wrapper div has no explicit position, so we set it
+// here to establish the positioning context).
+// ---------------------------------------------------------------------------
+
+.wp-block-custom-query-carousel {
+	// Establish positioning context for absolutely-placed arrows.
+	position: relative;
+}
+
+.query-carousel__arrow {
+	// Remove default button styling — themes should style this.
+	appearance: none;
+	background: none;
+	border: none;
+	cursor: pointer;
+	// Position arrows in the vertical middle of the carousel, left and right.
+	position: absolute;
+	top: 50%;
+	transform: translateY(-50%);
+	// Bring arrows above the slide content layer.
+	z-index: 10;
+	// Make the hit area comfortably accessible (WCAG 2.5.5: target size >= 24×24px).
+	min-width: 44px;
+	min-height: 44px;
+	// Flex-centre the SVG icon inside the button.
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	padding: 0;
+	// Allow themes to apply focus-visible outlines.
+	outline-offset: 2px;
+
+	&:focus-visible {
+		// Use the browser's native focus ring as a base.
+		// Themes should layer their own focus style on top.
+		outline: 2px solid currentColor;
+	}
+
+	// Disabled state (used when `loop: false` and at boundary).
+	&:disabled,
+	&[aria-disabled="true"] {
+		opacity: 0.35;
+		cursor: not-allowed;
+		pointer-events: none;
+	}
+}
+
+.query-carousel__arrow--prev {
+	// Sensible structural default: align to the left edge of the wrapper.
+	// Themes override this via CSS custom properties or additional selectors.
+	inset-inline-start: 0;
+}
+
+.query-carousel__arrow--next {
+	inset-inline-end: 0;
+}
+
+// ---------------------------------------------------------------------------
+// 5. PAGINATION DOTS
+// Structural flexbox row. Sizing, colour, and active-state styles are
+// intentionally absent and left for the theme.
+// ---------------------------------------------------------------------------
+
+.query-carousel__dots {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	align-items: center;
+	// Consume natural flow space below the carousel.
+	width: 100%;
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	// Allow themes to add spacing via gap.
+	gap: 0;
+}
+
+.query-carousel__dot {
+	// Remove default button styling.
+	appearance: none;
+	background: none;
+	border: none;
+	cursor: pointer;
+	// Minimum accessible tap target.
+	min-width: 44px;
+	min-height: 44px;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	padding: 0;
+	// Pointer cursor for clarity.
+	line-height: 1;
+	outline-offset: 2px;
+
+	&:focus-visible {
+		outline: 2px solid currentColor;
+	}
+
+	// Active state is a structural class toggled by view.js.
+	// Visual differentiation (size, colour change) must be done in the theme.
+	&.is-active {
+		// The theme should target `.query-carousel__dot.is-active`.
+		// We set no visual style here intentionally.
+	}
+}
+
+// ---------------------------------------------------------------------------
+// 6. FADE TRANSITION EFFECT
+// Applied when `data-transition-effect="fade"` is set.
+// The `.is-fade-effect` class is added to the viewport by view.js.
+// ---------------------------------------------------------------------------
+
+.query-carousel__viewport.is-fade-effect {
+	// Disable Embla's CSS transform-based movement.
+	// We achieve fade by stacking slides and toggling opacity.
+	.query-carousel__container {
+		// Remove the flex row — slides are stacked in a single column.
+		// Positioning is handled by absolute slides within the relative viewport.
+		position: relative;
+		// Prevent Embla's translateX from causing layout reflow.
+		transform: none !important; /* stylelint-disable-line declaration-no-important */
+	}
+
+	.query-carousel__slide {
+		// Stack all slides on top of each other.
+		position: absolute;
+		inset: 0;
+		// Hide via opacity (not display:none) so CSS transitions work.
+		opacity: 0;
+		// Transition is intentionally bare. Themes control duration/easing.
+		transition: opacity var( --wp--custom--carousel-fade-duration, 0.4s )
+			var( --wp--custom--carousel-fade-easing, ease-in-out );
+		// Remove from tab order when hidden (view.js manages aria-hidden
+		// and tabindex for inner focusable elements too, but this
+		// pointer-events rule prevents mouse-click accidents on hidden slides).
+		pointer-events: none;
+
+		&.is-fade-in {
+			opacity: 1;
+			position: relative; // Pull the active slide back into flow for height.
+			pointer-events: auto;
+		}
+
+		&.is-fade-out {
+			opacity: 0;
+		}
+	}
+}
+
+// ---------------------------------------------------------------------------
+// 7. SCREEN READER LIVE REGION
+// Uses WordPress's built-in `.screen-reader-text` pattern.
+// If the theme does not include this utility class, we provide it here.
+// ---------------------------------------------------------------------------
+
+.query-carousel__live-region.screen-reader-text {
+	clip: rect(1px, 1px, 1px, 1px);
+	clip-path: inset(50%);
+	height: 1px;
+	margin: -1px;
+	overflow: hidden;
+	padding: 0;
+	position: absolute;
+	width: 1px;
+	word-wrap: normal !important; /* stylelint-disable-line declaration-no-important */
+}
