@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<ruleset name="Galerio">
+	<description>WordPress Coding Standards for the Galerio theme and plugins.</description>
+
+	<file>./plugins/galerio-core</file>
+	<file>./themes/galerio</file>
+	<file>./tools</file>
+
+	<exclude-pattern>*/build/*</exclude-pattern>
+	<exclude-pattern>*/node_modules/*</exclude-pattern>
+	<exclude-pattern>*/vendor/*</exclude-pattern>
+
+	<arg name="extensions" value="php"/>
+	<arg name="cache" value=".phpcs-cache"/>
+	<arg name="parallel" value="8"/>
+	<arg value="ps"/>
+
+	<config name="testVersion" value="7.4-"/>
+	<config name="minimum_wp_version" value="6.6"/>
+
+	<rule ref="PHPCompatibilityWP"/>
+	<rule ref="WordPress"/>
+
+	<rule ref="WordPress.WP.I18n">
+		<properties>
+			<property name="text_domain" type="array">
+				<element value="galerio"/>
+				<element value="galerio-core"/>
+			</property>
+		</properties>
+	</rule>
+
+	<rule ref="WordPress.NamingConventions.PrefixAllGlobals">
+		<properties>
+			<property name="prefixes" type="array">
+				<element value="galerio"/>
+				<element value="Galerio"/>
+			</property>
+		</properties>
+	</rule>
+
+	<!-- Dev tools run under WP-CLI only and are not shipped. The seed script
+	     seeds mt_rand() deliberately so demo images are the same every run. -->
+	<rule ref="WordPress.WP.AlternativeFunctions.rand_mt_rand">
+		<exclude-pattern>*/tools/*</exclude-pattern>
+	</rule>
+</ruleset>
