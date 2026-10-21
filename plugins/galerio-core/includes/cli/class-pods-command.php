@@ -1,25 +1,24 @@
 <?php
 /**
- * WP-CLI commands for installing the Galerio Pods package.
+ * WP-CLI commands for the Galerio Pods package.
  *
  * @package Galerio\Core
  */
 
 namespace Galerio\Core\CLI;
 
-use Pods_Migrate_Packages;
+use Galerio\Core\Pods\Importer;
+use Galerio\Core\Pods\Package;
 use WP_CLI;
+use WP_CLI\Utils;
 
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Import the Galerio Pods package and repair its bidirectional relationships.
+ * Import, export and compare the Galerio Pods package.
  *
- * Pods packages store each relationship's sister field as a numeric field ID
- * from the site that exported them. Pods imports those IDs unchanged, so on any
- * other site bidirectional relationships point at unrelated fields (and Pods
- * writes `sister_id` meta onto whichever posts happen to have those IDs). These
- * commands remap sister fields by pod and field name after importing.
+ * Imports go through Galerio's importer, which repairs the relationships Pods'
+ * own importer leaves pointing at the wrong fields.
  */
 class Pods_Command {
 
@@ -42,64 +41,14 @@ class Pods_Command {
 	 * @param array $assoc_args Associative arguments.
 	 */
 	public function import( $args, $assoc_args ) {
-		$package = $this->read_package( $args[0] );
+		$report = Importer::import( $this->read_package( $args[0] ), (bool) Utils\get_flag_value( $assoc_args, 'replace', false ) );
 
-		if ( ! class_exists( 'Pods_Migrate_Packages' ) ) {
-			WP_CLI::error( 'The Pods "Migrate: Packages" component is not active. Run: wp pods-legacy-api activate-component --component=migrate-packages' );
-		}
-
-		$imported = Pods_Migrate_Packages::import( $package, ! empty( $assoc_args['replace'] ) );
-
-		if ( empty( $imported ) ) {
-			WP_CLI::error( 'Pods package not imported.' );
+		if ( is_wp_error( $report ) ) {
+			WP_CLI::error( $report );
 		}
 
 		WP_CLI::log( 'Pods package imported.' );
-
-		$this->repair( $package );
-		$this->normalise_template_slugs( $package );
-	}
-
-	/**
-	 * Give imported Pods Templates the slugs WordPress generates in the admin.
-	 *
-	 * The theme refers to templates by slug (e.g. "work-definitive-title"), as
-	 * created through the Pods admin. Package imports produce underscored slugs
-	 * instead ("work_definitive_title"), which the theme cannot find.
-	 *
-	 * @param array $package Decoded Pods package.
-	 */
-	private function normalise_template_slugs( array $package ) {
-		$renamed = 0;
-
-		foreach ( isset( $package['templates'] ) ? $package['templates'] : array() as $template ) {
-			$posts = get_posts(
-				array(
-					'post_type'      => '_pods_template',
-					'post_status'    => 'any',
-					'title'          => $template['name'],
-					'posts_per_page' => 1,
-				)
-			);
-
-			if ( ! $posts ) {
-				continue;
-			}
-
-			$slug = sanitize_title( $template['name'] );
-
-			if ( $posts[0]->post_name !== $slug ) {
-				wp_update_post(
-					array(
-						'ID'        => $posts[0]->ID,
-						'post_name' => $slug,
-					)
-				);
-				++$renamed;
-			}
-		}
-
-		WP_CLI::success( sprintf( 'Normalised %d Pods Template slugs.', $renamed ) );
+		$this->print_report( $report );
 	}
 
 	/**
@@ -119,10 +68,153 @@ class Pods_Command {
 	 * @param array $args Positional arguments.
 	 */
 	public function repair_relationships( $args ) {
-		$package = $this->read_package( $args[0] );
+		$this->print_report( Importer::repair( $this->read_package( $args[0] ) ) );
+	}
 
-		$this->repair( $package );
-		$this->normalise_template_slugs( $package );
+	/**
+	 * Export this site's Pods configuration as a package.
+	 *
+	 * Unless --raw is given, the package is canonical: pods and templates are
+	 * sorted by name, IDs are numbered from 1, and values that only describe
+	 * this site are left out. Exports of the same configuration from different
+	 * sites are then identical, so an export can be compared with the
+	 * repository's package using git diff.
+	 *
+	 * ## OPTIONS
+	 *
+	 * [<file>]
+	 * : File to write. Without it, the package is printed.
+	 *
+	 * [--pods=<pods>]
+	 * : Comma-separated names of the pods to export. Defaults to all pods.
+	 *
+	 * [--raw]
+	 * : Export exactly what Pods exports, including this site's IDs.
+	 *
+	 * ## EXAMPLES
+	 *
+	 *     # Update the repository's package from this site.
+	 *     wp galerio pods export wp-content/galerio-data/pods/galerio.json
+	 *
+	 * @param array $args       Positional arguments.
+	 * @param array $assoc_args Associative arguments.
+	 */
+	public function export( $args, $assoc_args ) {
+		$pods    = array_filter( array_map( 'trim', explode( ',', (string) Utils\get_flag_value( $assoc_args, 'pods', '' ) ) ) );
+		$package = Package::from_site( $pods );
+
+		if ( is_wp_error( $package ) ) {
+			WP_CLI::error( $package );
+		}
+
+		if ( ! Utils\get_flag_value( $assoc_args, 'raw', false ) ) {
+			$package = Package::canonical( $package );
+		}
+
+		$json = Package::encode( $package );
+
+		if ( empty( $args[0] ) ) {
+			WP_CLI::line( rtrim( $json ) );
+			return;
+		}
+
+		// phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_file_put_contents -- CLI output file.
+		if ( false === file_put_contents( $args[0], $json ) ) {
+			WP_CLI::error( sprintf( 'Cannot write %s.', $args[0] ) );
+		}
+
+		WP_CLI::success( sprintf( 'Exported %d pods and %d templates to %s.', count( $package['pods'] ), isset( $package['templates'] ) ? count( $package['templates'] ) : 0, $args[0] ) );
+	}
+
+	/**
+	 * Compare this site's Pods configuration with a package.
+	 *
+	 * Pods, groups, fields and templates are matched by name, so database IDs
+	 * and other values that only describe one site are ignored. Relationships
+	 * are compared by the field they pair with.
+	 *
+	 * ## OPTIONS
+	 *
+	 * <file>
+	 * : Path to the Pods package to compare with.
+	 *
+	 * [--format=<format>]
+	 * : Output format. "json" includes full values; the others shorten long ones.
+	 * ---
+	 * default: table
+	 * options:
+	 *   - table
+	 *   - csv
+	 *   - json
+	 *   - yaml
+	 *   - count
+	 * ---
+	 *
+	 * [--exit-code]
+	 * : Exit with status 1 when there are differences, like git diff --exit-code.
+	 *
+	 * ## EXAMPLES
+	 *
+	 *     wp galerio pods diff wp-content/galerio-data/pods/galerio.json
+	 *
+	 * @param array $args       Positional arguments.
+	 * @param array $assoc_args Associative arguments.
+	 */
+	public function diff( $args, $assoc_args ) {
+		$package = $this->read_package( $args[0] );
+		$site    = Package::from_site();
+
+		if ( is_wp_error( $site ) ) {
+			WP_CLI::error( $site );
+		}
+
+		$format  = Utils\get_flag_value( $assoc_args, 'format', 'table' );
+		$labels  = array(
+			'added'   => 'site only',
+			'removed' => 'package only',
+			'changed' => 'changed',
+		);
+		$changes = array();
+
+		foreach ( Package::diff( $package, $site ) as $change ) {
+			$changes[] = array(
+				'change'  => $labels[ $change['change'] ],
+				'item'    => $change['item'],
+				'setting' => $change['setting'],
+				'package' => 'json' === $format ? $change['from'] : $this->summarise( $change['from'] ),
+				'site'    => 'json' === $format ? $change['to'] : $this->summarise( $change['to'] ),
+			);
+		}
+
+		if ( ! $changes && 'count' !== $format ) {
+			WP_CLI::success( 'The site matches the package.' );
+		} else {
+			Utils\format_items( $format, $changes, array( 'change', 'item', 'setting', 'package', 'site' ) );
+		}
+
+		if ( $changes && Utils\get_flag_value( $assoc_args, 'exit-code', false ) ) {
+			WP_CLI::halt( 1 );
+		}
+	}
+
+	/**
+	 * Shorten a value for tabular output.
+	 *
+	 * @param mixed $value Value.
+	 * @return string
+	 */
+	private function summarise( $value ) {
+		if ( null === $value ) {
+			return '';
+		}
+
+		$text = is_scalar( $value ) ? (string) $value : wp_json_encode( $value );
+
+		if ( false !== strpos( $text, "\n" ) ) {
+			return sprintf( '(%d lines)', substr_count( $text, "\n" ) + 1 );
+		}
+
+		return strlen( $text ) > 60 ? substr( $text, 0, 57 ) . '...' : $text;
 	}
 
 	/**
@@ -132,125 +224,26 @@ class Pods_Command {
 	 * @return array
 	 */
 	private function read_package( $file ) {
-		if ( ! is_readable( $file ) ) {
-			WP_CLI::error( sprintf( 'Cannot read %s.', $file ) );
-		}
+		$package = Package::from_file( $file );
 
-		// phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents -- Local file.
-		$package = json_decode( file_get_contents( $file ), true );
-
-		if ( ! is_array( $package ) || empty( $package['pods'] ) ) {
-			WP_CLI::error( sprintf( '%s is not a Pods package.', $file ) );
+		if ( is_wp_error( $package ) ) {
+			WP_CLI::error( $package );
 		}
 
 		return $package;
 	}
 
 	/**
-	 * Point every relationship field at the correct sister field on this site.
+	 * Print an import or repair report.
 	 *
-	 * @param array $package Decoded Pods package.
+	 * @param array $report Report from Importer.
 	 */
-	private function repair( array $package ) {
-		global $wpdb;
-
-		$api = pods_api();
-
-		// Map the exporting site's field IDs to "pod.field" names.
-		$names = array();
-		foreach ( $this->package_fields( $package ) as $pod_name => $fields ) {
-			foreach ( $fields as $field ) {
-				$names[ (int) $field['id'] ] = $pod_name . '.' . $field['name'];
-			}
+	private function print_report( array $report ) {
+		foreach ( $report['warnings'] as $warning ) {
+			WP_CLI::warning( $warning );
 		}
 
-		$fixed   = 0;
-		$cleared = 0;
-
-		foreach ( $this->package_fields( $package ) as $pod_name => $fields ) {
-			foreach ( $fields as $field ) {
-				$local = $api->load_field(
-					array(
-						'pod'  => $pod_name,
-						'name' => $field['name'],
-					)
-				);
-
-				if ( ! $local ) {
-					WP_CLI::warning( sprintf( 'Field %s.%s not found on this site.', $pod_name, $field['name'] ) );
-					continue;
-				}
-
-				$old_sister = isset( $field['sister_id'] ) ? (int) $field['sister_id'] : 0;
-
-				if ( ! $old_sister ) {
-					if ( delete_post_meta( $local['id'], 'sister_id' ) ) {
-						++$cleared;
-					}
-					continue;
-				}
-
-				if ( ! isset( $names[ $old_sister ] ) ) {
-					WP_CLI::warning( sprintf( 'Sister of %s.%s (ID %d) is not in the package; leaving it unset.', $pod_name, $field['name'], $old_sister ) );
-					delete_post_meta( $local['id'], 'sister_id' );
-					continue;
-				}
-
-				list( $sister_pod, $sister_name ) = explode( '.', $names[ $old_sister ], 2 );
-
-				$sister = $api->load_field(
-					array(
-						'pod'  => $sister_pod,
-						'name' => $sister_name,
-					)
-				);
-
-				if ( ! $sister ) {
-					WP_CLI::warning( sprintf( 'Sister field %s not found on this site.', $names[ $old_sister ] ) );
-					continue;
-				}
-
-				update_post_meta( $local['id'], 'sister_id', (int) $sister['id'] );
-				++$fixed;
-			}
-		}
-
-		// Remove sister_id meta that Pods wrote onto unrelated posts during import.
-		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- One-off repair.
-		$stray = $wpdb->query(
-			$wpdb->prepare(
-				"DELETE pm FROM {$wpdb->postmeta} pm
-				INNER JOIN {$wpdb->posts} p ON p.ID = pm.post_id
-				WHERE pm.meta_key = %s AND p.post_type <> %s",
-				'sister_id',
-				'_pods_field'
-			)
-		);
-
-		$api->cache_flush_pods();
-
-		WP_CLI::success( sprintf( 'Linked %d relationship fields, cleared %d, removed %d stray entries.', $fixed, $cleared, (int) $stray ) );
-	}
-
-	/**
-	 * List each pod's fields from a package, whether grouped or flat.
-	 *
-	 * @param array $package Decoded Pods package.
-	 * @return array<string, array[]> Pod name => field definitions.
-	 */
-	private function package_fields( array $package ) {
-		$result = array();
-
-		foreach ( $package['pods'] as $pod ) {
-			$fields = isset( $pod['fields'] ) ? array_values( (array) $pod['fields'] ) : array();
-
-			foreach ( isset( $pod['groups'] ) ? $pod['groups'] : array() as $group ) {
-				$fields = array_merge( $fields, array_values( (array) $group['fields'] ) );
-			}
-
-			$result[ $pod['name'] ] = $fields;
-		}
-
-		return $result;
+		WP_CLI::success( sprintf( 'Linked %d relationship fields, cleared %d, removed %d stray entries.', $report['linked'], $report['cleared'], $report['stray'] ) );
+		WP_CLI::success( sprintf( 'Normalised %d Pods Template slugs.', $report['renamed'] ) );
 	}
 }

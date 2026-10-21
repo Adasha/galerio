@@ -21,14 +21,15 @@ function galerio_tests_install_pods_package( $file ) {
 		return;
 	}
 
-	require_once PODS_DIR . 'components/Migrate-Packages/Migrate-Packages.php';
-
 	pods_api()->cache_flush_pods();
 
-	// phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents -- Local file.
-	$package = json_decode( file_get_contents( $file ), true );
+	// Import as an administrator, as WP-CLI and the Pods admin do; Pods filters template code otherwise.
+	$user = get_current_user_id();
+	wp_set_current_user( 1 );
+	$report = Galerio\Core\Pods\Importer::import( Galerio\Core\Pods\Package::from_file( $file ) );
+	wp_set_current_user( $user );
 
-	if ( ! Pods_Migrate_Packages::import( $package ) ) {
+	if ( is_wp_error( $report ) || $report['warnings'] ) {
 		echo 'Could not import the Galerio Pods package.' . PHP_EOL;
 		exit( 1 );
 	}
