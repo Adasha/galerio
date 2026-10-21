@@ -15,6 +15,7 @@ Galerio has a demo/dev site at <https://galerio.net>, but it's also in a very un
 | `plugins/post-slider`, `plugins/query-carousel` | Block prototypes, to be merged into a single Galerio carousel block. |
 | `data/pods/galerio.json` | The Pods package defining Galerio's content types and fields. |
 | `tools/` | Development scripts: demo content seeding and a Composer wrapper. |
+| `tests/phpunit` | PHPUnit tests, run inside the test site. |
 | `tests/e2e` | Playwright end-to-end tests. |
 
 ## Development
@@ -36,6 +37,8 @@ npm run seed        # import the Pods package and create demo content
 
 The theme and plugins in this repository are mounted into the site, so edits show up immediately.
 
+If the site loses the theme or plugins after you switch branches, restart it with `npm run env:stop && npm run env:start`. Git sometimes replaces a folder rather than updating it, and Docker stays attached to the old one.
+
 ### Commands
 
 | Command | What it does |
@@ -47,6 +50,7 @@ The theme and plugins in this repository are mounted into the site, so edits sho
 | `npm run lint` | ESLint, Stylelint and PHPCS (WordPress Coding Standards). |
 | `npm run lint:php:fix` | Fix what PHPCS can fix automatically. |
 | `npm run env:test:start` then `npm run seed:test` | Start and seed a separate test site (port 8889). |
+| `npm run test:php` | Run the PHPUnit tests in the test site. They use their own `wptests_` tables, so the site's content is untouched. Pass PHPUnit options after `--`, e.g. `npm run test:php -- --filter Test_Registry`. |
 | `npm run test:e2e` | Run the Playwright tests against the test site. |
 | `npm run check:plugins` | Run the official Plugin Check against the test site. |
 
@@ -59,6 +63,21 @@ wp galerio pods import data/pods/galerio.json
 ```
 
 Pods packages refer to relationship fields by numeric ID. Pods doesn't remap those IDs on import, so on a new site every two-way relationship (for example a work's creator and that creator's works) gets linked to the wrong field. The Galerio importer repairs this after importing. If you have already imported the package through the Pods admin, run `wp galerio pods repair-relationships data/pods/galerio.json`.
+
+## Reading fields
+
+Templates and blocks read Galerio's fields through `galerio-core`, never through Pods directly, so the storage can change later without touching them:
+
+```php
+galerio_get_field( 'year' );                         // 2018 (current post)
+galerio_get_field( 'work.creator', $post );          // 149 (profile post ID)
+galerio_get_field( 'creator', $post, 'display' );    // '<a href="…">Tomos Price</a>'
+galerio_get_related( 'in_collections', $post );      // WP_Post[] (published, in saved order)
+```
+
+Raw values are normalised by type: strings for text, `Y-m-d` for dates, integers for years, booleans, and post IDs for images and relations. Fields that hold several values return lists. Display values are escaped HTML. Every field is listed in `plugins/galerio-core/includes/fields/default-fields.php`. Other plugins and child themes can add fields on the `galerio_register_fields` action.
+
+Public fields are also included in REST API responses for each post type, under `galerio_fields`.
 
 ## Licence
 

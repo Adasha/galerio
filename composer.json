@@ -8,7 +8,9 @@
 		"php-stubs/wp-cli-stubs": "^2.12",
 		"php-stubs/wordpress-stubs": "^6.9",
 		"phpcompatibility/phpcompatibility-wp": "^2.1",
-		"wp-coding-standards/wpcs": "^3.4"
+		"wp-coding-standards/wpcs": "^3.4",
+		"phpunit/phpunit": "^9.6",
+		"yoast/phpunit-polyfills": "^4.0"
 	},
 	"config": {
 		"allow-plugins": {

@@ -42,7 +42,8 @@
 		"lint:php:fix": "bash tools/composer.sh lint:fix",
 		"composer": "bash tools/composer.sh",
 		"format": "wp-scripts format",
-		"check:plugins": "wp-env --config=.wp-env.test.json run cli wp plugin check galerio-core",
+		"test:php": "wp-env --config=.wp-env.test.json run cli --env-cwd=wp-content/galerio-repo vendor/bin/phpunit",
+		"check:plugins":"wp-env --config=.wp-env.test.json run cli wp plugin check galerio-core",
 		"test:e2e": "playwright test --config tests/e2e/playwright.config.js"
 	},
 	"devDependencies": {
