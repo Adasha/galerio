@@ -54,15 +54,33 @@ If the site loses the theme or plugins after you switch branches, restart it wit
 | `npm run test:e2e` | Run the Playwright tests against the test site. |
 | `npm run check:plugins` | Run the official Plugin Check against the test site. |
 
-### Installing the Pods package
+### The Pods package
 
-Import the Pods package with Galerio's importer rather than through the Pods admin screen:
+`data/pods/galerio.json` defines Galerio's content types and fields. Manage it with Galerio's commands rather than the Pods admin screens:
+
+| Command | What it does |
+| --- | --- |
+| `wp galerio pods import <file>` | Import the package and repair its two-way relationships. |
+| `wp galerio pods diff <file>` | List the differences between the site's Pods configuration and the package. Add `--exit-code` to exit with status 1 when there are any. |
+| `wp galerio pods export [<file>]` | Export the site's Pods configuration as a package. |
+| `wp galerio pods repair-relationships <file>` | Repair relationships after importing through the Pods admin. |
+
+In the development site the package is at `wp-content/galerio-data/pods/galerio.json`, so to bring changes made in the Pods admin back into the repository:
 
 ```sh
-wp galerio pods import data/pods/galerio.json
+npm run wp -- galerio pods diff wp-content/galerio-data/pods/galerio.json
+npm run wp -- galerio pods export wp-content/galerio-data/pods/galerio.json
+git diff data/pods/galerio.json
 ```
 
-Pods packages refer to relationship fields by numeric ID. Pods doesn't remap those IDs on import, so on a new site every two-way relationship (for example a work's creator and that creator's works) gets linked to the wrong field. The Galerio importer repairs this after importing. If you have already imported the package through the Pods admin, run `wp galerio pods repair-relationships data/pods/galerio.json`.
+Exports are canonical: pods and templates are sorted by name, settings are in a fixed order, IDs are numbered from 1, and values that only describe one site (database IDs, edit locks, Pods' upgrade markers) are left out. The same configuration exports identically from any site, so `git diff` shows only real changes. `--raw` gives Pods' own export instead.
+
+Pods packages refer to relationship fields by numeric ID, and Pods doesn't remap those IDs on import, so on a new site every two-way relationship (for example a work's creator and that creator's works) would be linked to the wrong field. Galerio's importer repairs this, which is why packages should be imported with `wp galerio pods import`.
+
+Two side effects of importing are worth knowing about:
+
+- **Removed settings stay put.** Importing updates and adds settings but doesn't remove them, so a setting deleted from the package stays on sites that already have it. `diff` lists these as "site only".
+- **Run imports as an administrator.** WP-CLI and the Pods admin both do this. For other users, Pods filters template code on save.
 
 ## Reading fields
 
