@@ -13,6 +13,7 @@
 	"mappings": {
 		"wp-content/galerio-data": "./data",
 		"wp-content/galerio-tools": "./tools",
+		"wp-content/mu-plugins": "./tools/mu-plugins",
 		"wp-content/galerio-repo": "."
 	},
 	"config": {
