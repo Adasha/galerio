@@ -126,9 +126,8 @@ return array(
 		'label' => __( 'Biography', 'galerio-core' ),
 	),
 	'profile.notes'                  => array(
-		'type'   => 'html',
-		'public' => false,
-		'label'  => __( 'Notes', 'galerio-core' ),
+		'type'  => 'html',
+		'label' => __( 'Notes', 'galerio-core' ),
 	),
 	'profile.accolades'              => array(
 		'type'     => 'textarea',
@@ -213,9 +212,8 @@ return array(
 		'label'    => __( 'Embeds', 'galerio-core' ),
 	),
 	'collection.notes'               => array(
-		'type'   => 'html',
-		'public' => false,
-		'label'  => __( 'Notes', 'galerio-core' ),
+		'type'  => 'html',
+		'label' => __( 'Notes', 'galerio-core' ),
 	),
 	'collection.profiles'            => array(
 		'type'     => 'relation',

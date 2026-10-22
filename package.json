@@ -36,7 +36,7 @@
 		"seed:test": "bash tools/seed-demo.sh --test",
 		"wp": "wp-env run cli wp",
 		"lint": "npm run lint:js && npm run lint:css && npm run lint:php",
-		"lint:js": "wp-scripts lint-js \"plugins/galerio-*/src\" \"plugins/galerio-*/assets/js\" \"tests/e2e\" --no-error-on-unmatched-pattern",
+		"lint:js": "wp-scripts lint-js \"plugins/galerio-*/src\" \"plugins/galerio-*/assets/js\" \"plugins/galerio-*/blocks\" \"tests/e2e\" --no-error-on-unmatched-pattern",
 		"lint:css": "wp-scripts lint-style \"plugins/galerio-*/src/**/*.{css,scss}\" --allow-empty-input",
 		"lint:php": "bash tools/composer.sh lint",
 		"lint:php:fix": "bash tools/composer.sh lint:fix",

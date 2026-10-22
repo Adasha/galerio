@@ -112,7 +112,26 @@ Core Paragraph, Heading, List item, Image and Button blocks can show a field thr
 <!-- /wp:paragraph -->
 ```
 
+Bindings take optional arguments beside `key`:
+
+| Argument | Example | Effect |
+| --- | --- | --- |
+| `fallback` | `"title"` | Show the post title when the field is empty. |
+| `prefix`, `suffix` | `"b. "` | Plain text around the value, only when there is one. |
+| `if` | `"show_lifespan"` | Show the value only when that on/off field is on. |
+| `link` | `true` | Link the value to the post, e.g. a title in an archive card. |
+
 The value fits the attribute it fills: an image field gives an Image block its URL, alt text and caption, a relation gives a Button its link, and text attributes get the display value. When a field is empty, private, or belongs to another content type, the block keeps the content saved in it, so that content works as a fallback.
+
+### The Field block
+
+Some fields can't sit in a core block: formatted text such as a profile's `bio`, lists such as accolades or related works, and sections that should disappear when empty. The **Field** block (`galerio/field-display`) shows any field's display value, with an optional heading. Its "One per line" layout puts each value of a list on its own line, and "Show only when" ties it to an on/off field. When there's nothing to show, it renders nothing, heading included.
+
+```html
+<!-- wp:galerio/field-display {"key":"profile.works","label":"Featured works:","layout":"list"} /-->
+```
+
+The theme's templates use bindings and Field blocks only. They no longer depend on Pods shortcodes, Pods blocks or Pods Templates.
 
 ## Licence
 

@@ -72,6 +72,58 @@ test.describe( 'Images', () => {
 	}
 } );
 
+/**
+ * The text CSS adds after an element, such as the comma `.galerio-comma-after` adds.
+ *
+ * @param {import('@playwright/test').Locator} locator Element.
+ * @return {Promise<string>} The ::after content, e.g. '","', or 'none'.
+ */
+function afterContent( locator ) {
+	return locator.evaluate(
+		( element ) => window.getComputedStyle( element, '::after' ).content
+	);
+}
+
+test.describe( 'Field details', () => {
+	test( 'a work page shows its details', async ( { page } ) => {
+		await page.goto( '/work/low-tide-rhossili/' );
+		const main = page.locator( 'main' );
+		await expect( main ).toContainText( '2019 Ana Morgan' );
+		expect(
+			await afterContent( main.locator( '.galerio-comma-after' ) )
+		).toBe( '","' );
+		await expect( main ).toContainText( 'Oil on canvas' );
+		await expect( main ).toContainText( '120 × 90 cm' );
+		await expect(
+			main.getByRole( 'link', { name: 'Shorelines' } )
+		).toBeVisible();
+	} );
+
+	test( 'a profile page shows its details and asides', async ( { page } ) => {
+		await page.goto( '/profile/ana-morgan/' );
+		const main = page.locator( 'main' );
+		await expect( main ).toContainText( 'Welsh b. 1978' );
+		expect(
+			await afterContent( main.locator( '.galerio-comma-after' ) )
+		).toBe( '","' );
+		await expect( main ).toContainText( 'Gower coast' );
+		await expect( main ).toContainText( 'Member of:' );
+		await expect(
+			main.getByRole( 'link', { name: 'Instagram' } )
+		).toBeVisible();
+	} );
+
+	test( 'work cards link their titles', async ( { page } ) => {
+		await page.goto( '/works/' );
+		await expect(
+			page
+				.locator( 'main' )
+				.getByRole( 'heading', { level: 2 } )
+				.getByRole( 'link', { name: 'Copperworks II' } )
+		).toBeVisible();
+	} );
+} );
+
 test.describe( 'Admin', () => {
 	test( 'Galerio content types are registered', async ( { page } ) => {
 		await page.goto( '/wp-admin/' );

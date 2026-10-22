@@ -40,6 +40,16 @@ final class Bindings {
 	 * Register the source.
 	 */
 	public static function register() {
+		// Registered early so other editor scripts, such as the Field block's, can depend on it.
+		wp_register_script(
+			self::SCRIPT,
+			GALERIO_CORE_URL . 'assets/js/field-bindings.js',
+			array( 'wp-blocks', 'wp-core-data', 'wp-data', 'wp-date', 'wp-html-entities', 'wp-i18n' ),
+			GALERIO_CORE_VERSION,
+			true
+		);
+		wp_set_script_translations( self::SCRIPT, 'galerio-core' );
+
 		register_block_bindings_source(
 			'galerio/field',
 			array(
@@ -59,11 +69,45 @@ final class Bindings {
 	 * @return mixed Null leaves the attribute as saved in the block.
 	 */
 	public static function get_value( array $args, $block, $attribute ) {
-		if ( empty( $args['key'] ) || ! is_string( $args['key'] ) || empty( $block->context['postId'] ) ) {
+		$post = self::readable_post( isset( $block->context['postId'] ) ? $block->context['postId'] : 0 );
+
+		if ( ! $post || empty( $args['key'] ) || ! is_string( $args['key'] ) ) {
 			return null;
 		}
 
-		$post = get_post( $block->context['postId'] );
+		// A show/hide switch that is off empties the block.
+		if ( ! self::switched_on( isset( $args['if'] ) ? $args['if'] : '', $post ) ) {
+			return '';
+		}
+
+		$field = galerio_fields()->resolve( $args['key'], $post );
+
+		if ( ! $field || ! $field->public ) {
+			return null;
+		}
+
+		$raw   = galerio_fields()->value( $field, $post->ID );
+		$value = $field->empty_value() === $raw ? null : self::value_for( $attribute, $field, $raw, $post->ID );
+
+		if ( null === $value || '' === $value ) {
+			$value = self::fallback( $args, $attribute, $post );
+		}
+
+		if ( null === $value || '' === $value ) {
+			return null;
+		}
+
+		return self::decorate( $args, $attribute, $value, $post );
+	}
+
+	/**
+	 * The post a block shows fields of, if the visitor may see it.
+	 *
+	 * @param int $post_id Post ID from the block's context.
+	 * @return \WP_Post|null
+	 */
+	public static function readable_post( $post_id ) {
+		$post = $post_id ? get_post( $post_id ) : null;
 
 		if ( ! $post || post_password_required( $post ) ) {
 			return null;
@@ -73,21 +117,69 @@ final class Bindings {
 			return null;
 		}
 
-		$field = galerio_fields()->resolve( $args['key'], $post );
+		return $post;
+	}
 
-		if ( ! $field || ! $field->public ) {
+	/**
+	 * Whether an optional show/hide switch is on.
+	 *
+	 * @param string   $key  Key of a boolean field, such as "show_lifespan", or empty for none.
+	 * @param \WP_Post $post Post.
+	 * @return bool True when there is no switch, or it is on.
+	 */
+	public static function switched_on( $key, $post ) {
+		if ( ! $key || ! is_string( $key ) ) {
+			return true;
+		}
+
+		$field = galerio_fields()->resolve( $key, $post );
+
+		return $field && 'boolean' === $field->type && true === galerio_fields()->value( $field, $post->ID );
+	}
+
+	/**
+	 * The value to use when the field is empty: `"fallback": "title"` uses the post title.
+	 *
+	 * @param array    $args      Binding arguments.
+	 * @param string   $attribute Attribute being filled.
+	 * @param \WP_Post $post      Post.
+	 * @return string|null
+	 */
+	private static function fallback( array $args, $attribute, $post ) {
+		if ( empty( $args['fallback'] ) || 'title' !== $args['fallback'] ) {
 			return null;
 		}
 
-		$raw = galerio_fields()->value( $field, $post->ID );
+		$title = get_the_title( $post );
 
-		if ( $field->empty_value() === $raw ) {
-			return null;
+		return in_array( $attribute, array( 'alt', 'title' ), true ) ? wp_strip_all_tags( $title ) : wp_kses_post( $title );
+	}
+
+	/**
+	 * Add the optional prefix, suffix and link to a text value.
+	 *
+	 * `"prefix"` and `"suffix"` are plain text placed around the value, such as
+	 * "b. " before a year. `"link": true` links the value to the post.
+	 *
+	 * @param array    $args      Binding arguments.
+	 * @param string   $attribute Attribute being filled.
+	 * @param mixed    $value     Value.
+	 * @param \WP_Post $post      Post.
+	 * @return mixed
+	 */
+	private static function decorate( array $args, $attribute, $value, $post ) {
+		if ( ! in_array( $attribute, array( 'content', 'caption' ), true ) || ! is_string( $value ) ) {
+			return $value;
 		}
 
-		$value = self::value_for( $attribute, $field, $raw, $post->ID );
+		if ( ! empty( $args['link'] ) && false === stripos( $value, '<a ' ) ) {
+			$value = sprintf( '<a href="%1$s">%2$s</a>', esc_url( get_permalink( $post ) ), $value );
+		}
 
-		return ( null === $value || '' === $value ) ? null : $value;
+		$prefix = isset( $args['prefix'] ) && is_string( $args['prefix'] ) ? esc_html( $args['prefix'] ) : '';
+		$suffix = isset( $args['suffix'] ) && is_string( $args['suffix'] ) ? esc_html( $args['suffix'] ) : '';
+
+		return $prefix . $value . $suffix;
 	}
 
 	/**
@@ -167,15 +259,7 @@ final class Bindings {
 	 * Load the editor integration: field picker and previews.
 	 */
 	public static function enqueue() {
-		wp_enqueue_script(
-			self::SCRIPT,
-			GALERIO_CORE_URL . 'assets/js/field-bindings.js',
-			array( 'wp-blocks', 'wp-core-data', 'wp-data', 'wp-date', 'wp-html-entities', 'wp-i18n' ),
-			GALERIO_CORE_VERSION,
-			true
-		);
-
-		wp_set_script_translations( self::SCRIPT, 'galerio-core' );
+		wp_enqueue_script( self::SCRIPT );
 
 		wp_add_inline_script(
 			self::SCRIPT,

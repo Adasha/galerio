@@ -309,19 +309,19 @@ class Test_Registry extends Galerio_TestCase {
 	 * REST responses carry public fields only.
 	 */
 	public function test_rest_field() {
-		$profile = self::factory()->post->create(
+		$work = self::factory()->post->create(
 			array(
-				'post_type'   => 'galerio_profile',
+				'post_type'   => 'galerio_work',
 				'post_status' => 'publish',
 			)
 		);
-		galerio_fields()->save( galerio_fields()->get( 'profile.nationality' ), $profile, 'Welsh' );
-		galerio_fields()->save( galerio_fields()->get( 'profile.notes' ), $profile, 'Secret' );
+		galerio_fields()->save( galerio_fields()->get( 'work.medium' ), $work, 'Oil on canvas' );
+		galerio_fields()->save( galerio_fields()->get( 'work.owner' ), $work, 'A private collector' );
 
-		$response = rest_do_request( new WP_REST_Request( 'GET', '/wp/v2/galerio_profile/' . $profile ) );
+		$response = rest_do_request( new WP_REST_Request( 'GET', '/wp/v2/galerio_work/' . $work ) );
 		$fields   = (array) $response->get_data()['galerio_fields'];
 
-		$this->assertSame( 'Welsh', $fields['nationality'] );
-		$this->assertArrayNotHasKey( 'notes', $fields );
+		$this->assertSame( 'Oil on canvas', $fields['medium'] );
+		$this->assertArrayNotHasKey( 'owner', $fields );
 	}
 }

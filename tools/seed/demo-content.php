@@ -211,6 +211,7 @@ function galerio_demo_seed( array $args ) {
 				'show_portrait'    => 1,
 				'portrait'         => galerio_demo_image( 'Ana Morgan portrait', 11, 800, 1000 ),
 				'bio'              => '<p>Ana Morgan paints the light of the Gower coast in large, layered colour fields.</p>',
+				'notes'            => '<p>Portrait photograph by Tomos Price.</p>',
 				'accolades'        => array( 'Shortlisted, National Eisteddfod Gold Medal for Fine Art (2019)', 'Residency, Elysium Gallery (2021)' ),
 				'show_links'       => 1,
 				'links'            => array(

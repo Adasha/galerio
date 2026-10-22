@@ -459,6 +459,24 @@
                                 "typography": {
                                     "fontSize": "var(--wp--preset--font-size--medium)"
                                 }
+                            },
+                            "galerio/field-display": {
+                                "color": {
+                                    "background": "var(--wp--preset--color--custom-hint)"
+                                },
+                                "css": "& .wp-block-galerio-field-display__label{margin:0 0 0.25em;} & ul{list-style:none;margin:0;padding:0;}",
+                                "spacing": {
+                                    "blockGap": "var(--wp--preset--spacing--20)",
+                                    "padding": {
+                                        "bottom": "var(--wp--preset--spacing--20)",
+                                        "left": "var(--wp--preset--spacing--40)",
+                                        "right": "var(--wp--preset--spacing--40)",
+                                        "top": "var(--wp--preset--spacing--20)"
+                                    }
+                                },
+                                "typography": {
+                                    "fontSize": "var(--wp--preset--font-size--medium)"
+                                }
                             }
                         }
                     }
@@ -677,6 +695,7 @@
             "fontWeight": "400",
             "lineHeight": "1.4",
             "textTransform": "none"
-        }
+        },
+        "css": "/* A comma after an item, only when the next item has content (e.g. \"Welsh, b. 1978\"). */\n.galerio-comma-after:not(:empty):has(+ :not(:empty))::after{content:\",\";}"
     }
 }

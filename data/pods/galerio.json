@@ -1484,7 +1484,7 @@
                             "type": "wysiwyg",
                             "default_empty_fields": "0",
                             "default_evaluate_tags": "0",
-                            "description": "Private notes. Not shown on the site.",
+                            "description": "Additional content to display at the end, e.g. credits. [notes]",
                             "enable_conditional_logic": "0",
                             "repeatable": "0",
                             "repeatable_format": "default",
