@@ -174,7 +174,8 @@ class PodsField_Galerio_link extends PodsField {
 
 		$items = array_map(
 			function ( $link ) {
-				$text = '' !== $link['label'] ? $link['label'] : untrailingslashit( preg_replace( '#^https?://(www\.)?#i', '', $link['url'] ) );
+				// The same words the field API shows: display text, else the service's name, else the address.
+				$text = \Galerio\Core\Fields\Display::link_text( $link );
 
 				if ( $link['offline'] ) {
 					return esc_html( $text );
