@@ -219,6 +219,31 @@ class Test_Field_Block extends Galerio_TestCase {
 	}
 
 	/**
+	 * An empty field can fall back to the post excerpt.
+	 */
+	public function test_binding_excerpt_fallback() {
+		$article = self::factory()->post->create(
+			array(
+				'post_type'    => 'galerio_article',
+				'post_excerpt' => 'A short summary.',
+			)
+		);
+		$this->go_to( get_permalink( $article ) );
+		the_post();
+
+		$html = do_blocks(
+			$this->bound_paragraph(
+				array(
+					'key'      => 'standfirst',
+					'fallback' => 'excerpt',
+				)
+			)
+		);
+
+		$this->assertStringContainsString( 'A short summary.', $html );
+	}
+
+	/**
 	 * An empty field can fall back to the post title, and values can link to the post.
 	 */
 	public function test_binding_fallback_and_link() {

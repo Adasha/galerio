@@ -123,18 +123,21 @@ class Test_Pods_Package extends WP_UnitTestCase {
 	}
 
 	/**
-	 * Pods Templates only use fields that exist.
+	 * Pods Templates, if the package has any, only use fields that exist.
 	 */
 	public function test_templates_use_existing_fields() {
-		$names = array_merge( wp_list_pluck( $this->fields(), 'name' ), $this->pod_names(), self::BUILT_IN_TAGS );
+		$names   = array_merge( wp_list_pluck( $this->fields(), 'name' ), $this->pod_names(), self::BUILT_IN_TAGS );
+		$unknown = array();
 
-		foreach ( self::$package['templates'] as $template ) {
+		foreach ( isset( self::$package['templates'] ) ? self::$package['templates'] : array() as $template ) {
 			preg_match_all( '/\{@([a-z0-9_]+)|\[(?:each|if) (?:field=")?([a-z0-9_]+)/i', $template['code'], $matches );
 
-			foreach ( array_filter( array_merge( $matches[1], $matches[2] ) ) as $name ) {
-				$this->assertContains( $name, $names, "Template \"{$template['name']}\" uses unknown field \"$name\"." );
+			foreach ( array_diff( array_filter( array_merge( $matches[1], $matches[2] ) ), $names ) as $name ) {
+				$unknown[] = "{$template['name']}: $name";
 			}
 		}
+
+		$this->assertSame( array(), $unknown, 'Templates use fields that do not exist.' );
 	}
 
 	/**

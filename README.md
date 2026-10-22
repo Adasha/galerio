@@ -116,7 +116,7 @@ Bindings take optional arguments beside `key`:
 
 | Argument | Example | Effect |
 | --- | --- | --- |
-| `fallback` | `"title"` | Show the post title when the field is empty. |
+| `fallback` | `"title"`, `"excerpt"` | Show the post title or excerpt when the field is empty. |
 | `prefix`, `suffix` | `"b. "` | Plain text around the value, only when there is one. |
 | `if` | `"show_lifespan"` | Show the value only when that on/off field is on. |
 | `link` | `true` | Link the value to the post, e.g. a title in an archive card. |
@@ -132,6 +132,10 @@ Some fields can't sit in a core block: formatted text such as a profile's `bio`,
 ```
 
 The theme's templates use bindings and Field blocks only. They no longer depend on Pods shortcodes, Pods blocks or Pods Templates.
+
+To start a new template in the Site Editor with the theme's standard layout (menu column on the left, content and footer on the right), choose the **Side menu layout** pattern.
+
+The wp-env sites run with `WP_DEVELOPMENT_MODE` set to `all`, so WordPress doesn't cache the theme's patterns or `theme.json` between changes.
 
 ## Licence
 

@@ -380,6 +380,7 @@ function galerio_demo_seed( array $args ) {
 				. galerio_demo_image_block( $images[2], 'Copperworks I, Tomos Price' )
 				. galerio_demo_paragraph( 'Both artists returned to the same stretch of coast over several years.' ),
 			'standfirst'   => 'Ana Morgan and Tomos Price on painting and photographing the same place.',
+			'authors'      => array( $profiles['tomos'] ),
 			'profiles'     => array( $profiles['ana'], $profiles['tomos'] ),
 			'works'        => array( $works[0], $works[2] ),
 			'collections'  => array( $exhibition ),
