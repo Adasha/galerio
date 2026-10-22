@@ -87,12 +87,26 @@ final class Rest {
 				$type = 'string';
 		}
 
+		$item = 'link' === $field->type
+			? array(
+				'type'       => array( 'object', 'null' ),
+				'properties' => array(
+					'url'     => array(
+						'type'   => 'string',
+						'format' => 'uri',
+					),
+					'label'   => array( 'type' => 'string' ),
+					'offline' => array( 'type' => 'boolean' ),
+				),
+			)
+			: array( 'type' => $type );
+
 		$schema = $field->multiple
 			? array(
 				'type'  => 'array',
-				'items' => array( 'type' => $type ),
+				'items' => $item,
 			)
-			: array( 'type' => $type );
+			: $item;
 
 		$schema['description'] = $field->label;
 

@@ -192,7 +192,9 @@ class Test_Registry extends Galerio_TestCase {
 	public function test_deprecated_field_warns() {
 		$this->setExpectedIncorrectUsage( 'galerio_get_field' );
 
-		galerio_get_field( 'description', self::factory()->post->create( array( 'post_type' => 'galerio_work' ) ) );
+		galerio_fields()->register( 'work.old_note', array( 'deprecated' => 'Use work.description.' ) );
+		galerio_get_field( 'old_note', self::factory()->post->create( array( 'post_type' => 'galerio_work' ) ) );
+		galerio_fields()->unregister( 'work.old_note' );
 	}
 
 	/**
@@ -221,9 +223,21 @@ class Test_Registry extends Galerio_TestCase {
 	 */
 	public function data_sanitise() {
 		return array(
-			'text loses markup'  => array( 'work.medium', "Oil <b>on</b>\ncanvas", 'Oil on canvas' ),
-			'html keeps markup'  => array( 'work.description', '<p>A <strong>bold</strong> work.<script>alert(1)</script></p>', '<p>A <strong>bold</strong> work.alert(1)</p>' ),
-			'unsafe url removed' => array( 'work.website_url', 'javascript:alert(1)', '' ),
+			'text loses markup'   => array( 'work.medium', "Oil <b>on</b>\ncanvas", 'Oil on canvas' ),
+			'html keeps markup'   => array( 'work.description', '<p>A <strong>bold</strong> work.<script>alert(1)</script></p>', '<p>A <strong>bold</strong> work.alert(1)</p>' ),
+			'unsafe link removed' => array( 'work.website', array( 'url' => 'javascript:alert(1)' ), null ),
+			'link label cleaned'  => array(
+				'work.website',
+				array(
+					'url'   => 'https://example.org',
+					'label' => 'My <b>site</b>',
+				),
+				array(
+					'url'     => 'https://example.org',
+					'label'   => 'My site',
+					'offline' => false,
+				),
+			),
 		);
 	}
 
@@ -253,8 +267,8 @@ class Test_Registry extends Galerio_TestCase {
 		$fields  = galerio_fields();
 
 		$fields->save( $fields->get( 'work.creator' ), $work, $profile );
-		$fields->save( $fields->get( 'work.in_collections' ), $work, array( $draft, $public ) );
-		$fields->save( $fields->get( 'work.website_url' ), $work, 'https://www.example.org/work/' );
+		$fields->save( $fields->get( 'work.collections' ), $work, array( $draft, $public ) );
+		$fields->save( $fields->get( 'work.website' ), $work, array( 'url' => 'https://www.example.org/work/' ) );
 		$fields->save( $fields->get( 'work.year' ), $work, 2018 );
 
 		$this->assertSame(
@@ -263,10 +277,10 @@ class Test_Registry extends Galerio_TestCase {
 		);
 		$this->assertSame(
 			sprintf( '<a href="%s">Shorelines</a>', get_permalink( $public ) ),
-			galerio_get_field( 'in_collections', $work, 'display' ),
+			galerio_get_field( 'collections', $work, 'display' ),
 			'Unpublished related posts are left out.'
 		);
-		$this->assertSame( '<a href="https://www.example.org/work/">example.org/work</a>', galerio_get_field( 'website_url', $work, 'display' ) );
+		$this->assertSame( '<a class="galerio-link" href="https://www.example.org/work/">example.org/work</a>', galerio_get_field( 'website', $work, 'display' ) );
 		$this->assertSame( '2018', galerio_get_field( 'year', $work, 'display' ) );
 		$this->assertSame( '', galerio_get_field( 'definitive_title', $work, 'display' ) );
 	}
@@ -302,12 +316,12 @@ class Test_Registry extends Galerio_TestCase {
 			)
 		);
 		galerio_fields()->save( galerio_fields()->get( 'profile.nationality' ), $profile, 'Welsh' );
-		galerio_fields()->save( galerio_fields()->get( 'profile.hidden_bio' ), $profile, 'Secret' );
+		galerio_fields()->save( galerio_fields()->get( 'profile.notes' ), $profile, 'Secret' );
 
 		$response = rest_do_request( new WP_REST_Request( 'GET', '/wp/v2/galerio_profile/' . $profile ) );
 		$fields   = (array) $response->get_data()['galerio_fields'];
 
 		$this->assertSame( 'Welsh', $fields['nationality'] );
-		$this->assertArrayNotHasKey( 'hidden_bio', $fields );
+		$this->assertArrayNotHasKey( 'notes', $fields );
 	}
 }

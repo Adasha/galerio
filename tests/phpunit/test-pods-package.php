@@ -19,15 +19,16 @@ class Test_Pods_Package extends WP_UnitTestCase {
 	 * @var array<string, string[]>
 	 */
 	const COMPATIBLE_TYPES = array(
-		'text'      => array( 'text' ),
-		'paragraph' => array( 'textarea' ),
-		'wysiwyg'   => array( 'html' ),
-		'website'   => array( 'url' ),
-		'oembed'    => array( 'embed' ),
-		'date'      => array( 'date', 'year' ),
-		'boolean'   => array( 'boolean' ),
-		'file'      => array( 'image' ),
-		'pick'      => array( 'relation' ),
+		'text'         => array( 'text' ),
+		'paragraph'    => array( 'textarea' ),
+		'wysiwyg'      => array( 'html' ),
+		'website'      => array( 'url' ),
+		'oembed'       => array( 'embed' ),
+		'date'         => array( 'date', 'year' ),
+		'boolean'      => array( 'boolean' ),
+		'file'         => array( 'image' ),
+		'pick'         => array( 'relation' ),
+		'galerio_link' => array( 'link' ),
 	);
 
 	/**
@@ -171,6 +172,8 @@ class Test_Pods_Package extends WP_UnitTestCase {
 				return 'multi' === $field['pick_format_type'];
 			case 'file':
 				return 'multi' === $field['file_format_type'];
+			case 'galerio_link':
+				return '1' === (string) $field['galerio_link_multiple'];
 			default:
 				return ! empty( $field[ $field['type'] . '_repeatable' ] ) || ! empty( $field['repeatable'] );
 		}

@@ -35,6 +35,7 @@
             "archive_show_in_taxonomies_category": "1",
             "archive_show_in_taxonomies_post_tag": "1",
             "built_in_taxonomies_category": "1",
+            "built_in_taxonomies_galerio_article_category": "1",
             "built_in_taxonomies_galerio_collection_category": "0",
             "built_in_taxonomies_galerio_group": "0",
             "built_in_taxonomies_galerio_label": "1",
@@ -58,14 +59,7 @@
             "menu_position": "0",
             "meta_box_context": "normal",
             "meta_box_priority": "default",
-            "pfat_append_archive": "true",
-            "pfat_append_single": "append",
-            "pfat_archive": "true",
-            "pfat_enable": "1",
-            "pfat_filter_archive": "the_excerpt",
-            "pfat_filter_single": "the_content",
-            "pfat_run_outside_loop": "0",
-            "pfat_single": "Article Template",
+            "pfat_enable": "0",
             "public": "1",
             "publicly_queryable": "1",
             "query_var": "1",
@@ -87,12 +81,12 @@
             "supports_editor": "1",
             "supports_excerpt": "1",
             "supports_page_attributes": "1",
-            "supports_post_formats": "1",
+            "supports_post_formats": "0",
             "supports_quick_edit": "1",
             "supports_revisions": "1",
             "supports_thumbnail": "1",
             "supports_title": "1",
-            "supports_trackbacks": "1",
+            "supports_trackbacks": "0",
             "groups": [
                 {
                     "name": "details_group",
@@ -121,9 +115,9 @@
                             "weight": 0
                         },
                         {
-                            "name": "article_author",
+                            "name": "authors",
                             "id": 4,
-                            "label": "Author",
+                            "label": "Authors",
                             "type": "pick",
                             "default_empty_fields": "0",
                             "default_evaluate_tags": "0",
@@ -157,7 +151,7 @@
                             "rest_pick_response": "array",
                             "revisions_revision_field": "0",
                             "roles_allowed": "administrator",
-                            "sister_id": "58",
+                            "sister_id": "60",
                             "weight": 1
                         }
                     ]
@@ -173,9 +167,9 @@
                     "weight": 1,
                     "fields": [
                         {
-                            "name": "featured_profiles",
+                            "name": "profiles",
                             "id": 6,
-                            "label": "Featured Profiles",
+                            "label": "Profiles",
                             "type": "pick",
                             "default_empty_fields": "0",
                             "default_evaluate_tags": "0",
@@ -209,13 +203,13 @@
                             "rest_pick_response": "array",
                             "revisions_revision_field": "0",
                             "roles_allowed": "administrator",
-                            "sister_id": "56",
+                            "sister_id": "58",
                             "weight": 0
                         },
                         {
-                            "name": "featured_works",
+                            "name": "works",
                             "id": 7,
-                            "label": "Featured Works",
+                            "label": "Works",
                             "type": "pick",
                             "default_empty_fields": "0",
                             "default_evaluate_tags": "0",
@@ -249,13 +243,13 @@
                             "rest_pick_response": "array",
                             "revisions_revision_field": "0",
                             "roles_allowed": "administrator",
-                            "sister_id": "97",
+                            "sister_id": "87",
                             "weight": 1
                         },
                         {
-                            "name": "featured_collections",
+                            "name": "collections",
                             "id": 8,
-                            "label": "Featured Collections",
+                            "label": "Collections",
                             "type": "pick",
                             "default_empty_fields": "0",
                             "default_evaluate_tags": "0",
@@ -337,8 +331,47 @@
             ]
         },
         {
-            "name": "galerio_collection",
+            "name": "galerio_article_category",
             "id": 10,
+            "label": "Article categories",
+            "type": "taxonomy",
+            "built_in_post_types_galerio_article": "1",
+            "capability_type": "default",
+            "capability_type_custom": "collection_category",
+            "description": "The kind of article, such as Interview, Review or Opinion.",
+            "hierarchical": "1",
+            "label_singular": "Article category",
+            "menu_location": "default",
+            "public": "1",
+            "publicly_queryable": "1",
+            "query_var": "0",
+            "rest_enable": "1",
+            "rewrite": "1",
+            "rewrite_custom_slug": "article-category",
+            "rewrite_hierarchical": "0",
+            "rewrite_with_front": "0",
+            "show_admin_column": "1",
+            "show_in_quick_edit": "1",
+            "show_tagcloud": "1",
+            "show_tagcloud_in_edit": "1",
+            "show_ui": "1",
+            "sort": "0",
+            "storage": "meta",
+            "supports_quick_edit": "1",
+            "groups": [
+                {
+                    "name": "more_fields",
+                    "id": 11,
+                    "label": "More Fields",
+                    "description": "",
+                    "weight": 0,
+                    "fields": []
+                }
+            ]
+        },
+        {
+            "name": "galerio_collection",
+            "id": 12,
             "label": "Collections",
             "type": "post_type",
             "built_in_taxonomies_galerio_collection_category": "1",
@@ -361,14 +394,7 @@
             "label_singular": "Collection",
             "menu_icon": "dashicons-layout",
             "menu_position": "0",
-            "pfat_append_archive": "true",
-            "pfat_append_single": "prepend",
-            "pfat_archive": "true",
             "pfat_enable": "0",
-            "pfat_filter_archive": "the_excerpt",
-            "pfat_filter_single": "the_content",
-            "pfat_run_outside_loop": "0",
-            "pfat_single": "Collection Template",
             "public": "1",
             "publicly_queryable": "1",
             "query_var": "1",
@@ -389,14 +415,15 @@
             "supports_editor": "1",
             "supports_excerpt": "1",
             "supports_page_attributes": "1",
-            "supports_post_formats": "1",
+            "supports_post_formats": "0",
             "supports_quick_edit": "1",
+            "supports_revisions": "1",
             "supports_thumbnail": "1",
             "supports_title": "1",
             "groups": [
                 {
                     "name": "details_group",
-                    "id": 11,
+                    "id": 13,
                     "label": "Details",
                     "description": "",
                     "meta_box_context": "normal",
@@ -406,7 +433,7 @@
                     "fields": [
                         {
                             "name": "standfirst",
-                            "id": 12,
+                            "id": 14,
                             "label": "Standfirst",
                             "type": "text",
                             "description": "A summary of the collection displayed below the title. [standfirst]",
@@ -422,7 +449,7 @@
                         },
                         {
                             "name": "location",
-                            "id": 13,
+                            "id": 15,
                             "label": "Location",
                             "type": "text",
                             "description": "Where the collection is located. [location]",
@@ -436,9 +463,9 @@
                             "weight": 1
                         },
                         {
-                            "name": "opening_date",
-                            "id": 14,
-                            "label": "Opening Date",
+                            "name": "start_date",
+                            "id": 16,
+                            "label": "Start date",
                             "type": "date",
                             "date_allow_empty": "1",
                             "date_format": "fjy",
@@ -452,9 +479,9 @@
                             "weight": 2
                         },
                         {
-                            "name": "closing_date",
-                            "id": 15,
-                            "label": "Closing Date",
+                            "name": "end_date",
+                            "id": 17,
+                            "label": "End date",
                             "type": "date",
                             "date_allow_empty": "1",
                             "date_format": "fjy",
@@ -468,29 +495,16 @@
                             "weight": 3
                         },
                         {
-                            "name": "website_name",
-                            "id": 16,
-                            "label": "Website Name",
-                            "type": "text",
-                            "description": "Display name for an external website (uses URL if not given). [website_name]",
-                            "required": "0",
-                            "rest_pick_depth": "1",
-                            "rest_pick_response": "array",
-                            "roles_allowed": "administrator",
-                            "text_allowed_html_tags": "strong em a ul ol li b i",
-                            "text_max_length": "255",
-                            "text_trim": "1",
-                            "weight": 4
-                        },
-                        {
-                            "name": "website_url",
-                            "id": 17,
-                            "label": "Website URL",
-                            "type": "website",
+                            "name": "website",
+                            "id": 18,
+                            "label": "Website",
+                            "type": "galerio_link",
                             "default_empty_fields": "0",
                             "default_evaluate_tags": "0",
-                            "description": "URL for an external website. [website_url]",
+                            "description": "An external website for the collection. Tick \"offline\" when the site no longer exists.",
                             "enable_conditional_logic": "0",
+                            "galerio_link_multiple": "0",
+                            "galerio_link_offline": "1",
                             "repeatable": "0",
                             "repeatable_format": "default",
                             "required": "0",
@@ -498,29 +512,7 @@
                             "rest_pick_response": "array",
                             "revisions_revision_field": "0",
                             "roles_allowed": "administrator",
-                            "website_allow_port": "0",
-                            "website_clickable": "1",
-                            "website_format": "normal",
-                            "website_html5": "1",
-                            "website_max_length": "255",
-                            "website_new_window": "1",
-                            "website_nofollow": "1",
-                            "weight": 5
-                        },
-                        {
-                            "name": "dead_link",
-                            "id": 18,
-                            "label": "Dead Link?",
-                            "type": "boolean",
-                            "boolean_format_type": "checkbox",
-                            "boolean_no_label": "No",
-                            "boolean_yes_label": "Yes",
-                            "description": "Tick if the website is no longer available. [dead_link]",
-                            "required": "0",
-                            "rest_pick_depth": "1",
-                            "rest_pick_response": "array",
-                            "roles_allowed": "administrator",
-                            "weight": 6
+                            "weight": 4
                         }
                     ]
                 },
@@ -556,29 +548,8 @@
                             "wysiwyg_wptexturize": "1"
                         },
                         {
-                            "name": "managed_media",
+                            "name": "images",
                             "id": 21,
-                            "label": "Managed media",
-                            "type": "boolean",
-                            "boolean_format_type": "checkbox",
-                            "boolean_no_label": "No",
-                            "boolean_yes_label": "Yes",
-                            "default_empty_fields": "0",
-                            "default_evaluate_tags": "0",
-                            "description": "",
-                            "enable_conditional_logic": "0",
-                            "repeatable": "0",
-                            "repeatable_format": "default",
-                            "required": "0",
-                            "rest_pick_depth": "1",
-                            "rest_pick_response": "array",
-                            "revisions_revision_field": "0",
-                            "roles_allowed": "administrator",
-                            "weight": 1
-                        },
-                        {
-                            "name": "collection_images",
-                            "id": 22,
                             "label": "Images",
                             "type": "file",
                             "admin_only": "0",
@@ -628,12 +599,12 @@
                             "restrict_role": "0",
                             "revisions_revision_field": "0",
                             "roles_allowed": "administrator",
-                            "weight": 2
+                            "weight": 1
                         },
                         {
-                            "name": "random_image_order",
-                            "id": 23,
-                            "label": "Random Image Order",
+                            "name": "shuffle_images",
+                            "id": 22,
+                            "label": "Shuffle images",
                             "type": "boolean",
                             "boolean_format_type": "checkbox",
                             "boolean_no_label": "No",
@@ -660,12 +631,12 @@
                             "rest_pick_response": "array",
                             "revisions_revision_field": "0",
                             "roles_allowed": "administrator",
-                            "weight": 3
+                            "weight": 2
                         },
                         {
-                            "name": "media_embed_urls",
-                            "id": 24,
-                            "label": "Media Embed URLs",
+                            "name": "embeds",
+                            "id": 23,
+                            "label": "Embeds",
                             "type": "oembed",
                             "conditional_logic": {
                                 "action": "show",
@@ -693,11 +664,11 @@
                             "rest_pick_response": "array",
                             "revisions_revision_field": "0",
                             "roles_allowed": "administrator",
-                            "weight": 4
+                            "weight": 3
                         },
                         {
                             "name": "notes",
-                            "id": 25,
+                            "id": 24,
                             "label": "Notes",
                             "type": "wysiwyg",
                             "description": "Additional content to display at the end, e.g. credits. [notes]",
@@ -705,7 +676,7 @@
                             "rest_pick_depth": "1",
                             "rest_pick_response": "array",
                             "roles_allowed": "administrator",
-                            "weight": 5,
+                            "weight": 4,
                             "wysiwyg_allow_shortcode": "1",
                             "wysiwyg_convert_chars": "1",
                             "wysiwyg_editor": "tinymce",
@@ -719,7 +690,7 @@
                 },
                 {
                     "name": "relationships_group",
-                    "id": 26,
+                    "id": 25,
                     "label": "Relationships",
                     "description": "",
                     "meta_box_context": "normal",
@@ -728,9 +699,9 @@
                     "weight": 2,
                     "fields": [
                         {
-                            "name": "featured_profiles",
-                            "id": 27,
-                            "label": "Featured Profiles",
+                            "name": "profiles",
+                            "id": 26,
+                            "label": "Profiles",
                             "type": "pick",
                             "default_empty_fields": "0",
                             "default_evaluate_tags": "0",
@@ -767,13 +738,29 @@
                             "rest_pick_response": "array",
                             "revisions_revision_field": "0",
                             "roles_allowed": "administrator",
-                            "sister_id": "55",
+                            "sister_id": "57",
                             "weight": 0
                         },
                         {
-                            "name": "featured_works",
+                            "name": "other_contributors",
+                            "id": 27,
+                            "label": "Other contributors",
+                            "type": "text",
+                            "description": "Contributors without profile pages, one per line.",
+                            "repeatable": "1",
+                            "required": "0",
+                            "rest_pick_depth": "1",
+                            "rest_pick_response": "array",
+                            "roles_allowed": "administrator",
+                            "text_allowed_html_tags": "strong em a ul ol li b i",
+                            "text_max_length": "255",
+                            "text_trim": "1",
+                            "weight": 1
+                        },
+                        {
+                            "name": "works",
                             "id": 28,
-                            "label": "Featured Works",
+                            "label": "Works",
                             "type": "pick",
                             "default_empty_fields": "0",
                             "default_evaluate_tags": "0",
@@ -810,11 +797,11 @@
                             "rest_pick_response": "array",
                             "revisions_revision_field": "0",
                             "roles_allowed": "administrator",
-                            "sister_id": "96",
-                            "weight": 1
+                            "sister_id": "86",
+                            "weight": 2
                         },
                         {
-                            "name": "in_articles",
+                            "name": "articles",
                             "id": 29,
                             "label": "Articles",
                             "type": "pick",
@@ -851,7 +838,7 @@
                             "revisions_revision_field": "0",
                             "roles_allowed": "administrator",
                             "sister_id": "8",
-                            "weight": 2
+                            "weight": 3
                         },
                         {
                             "name": "related_collections",
@@ -891,7 +878,7 @@
                             "revisions_revision_field": "0",
                             "roles_allowed": "administrator",
                             "sister_id": "30",
-                            "weight": 3
+                            "weight": 4
                         }
                     ]
                 }
@@ -956,7 +943,6 @@
             "label_singular": "Group",
             "menu_location": "default",
             "menu_position": "0",
-            "pfat_enable": "0",
             "public": "1",
             "publicly_queryable": "1",
             "query_var": "0",
@@ -1045,7 +1031,7 @@
             "capability_type": "default",
             "capability_type_custom": "medium",
             "description": "Materials and processes used to create works.",
-            "hierarchical": "0",
+            "hierarchical": "1",
             "label_singular": "Medium",
             "menu_location": "default",
             "menu_position": "0",
@@ -1106,14 +1092,7 @@
             "menu_position": "0",
             "meta_box_context": "normal",
             "meta_box_priority": "default",
-            "pfat_append_archive": "true",
-            "pfat_append_single": "prepend",
-            "pfat_archive": "Profiles Archive Template",
             "pfat_enable": "0",
-            "pfat_filter_archive": "the_excerpt",
-            "pfat_filter_single": "the_content",
-            "pfat_run_outside_loop": "0",
-            "pfat_single": "Profile Template",
             "public": "1",
             "publicly_queryable": "1",
             "query_var": "1",
@@ -1135,7 +1114,7 @@
             "supports_editor": "1",
             "supports_excerpt": "1",
             "supports_page_attributes": "1",
-            "supports_post_formats": "1",
+            "supports_post_formats": "0",
             "supports_quick_edit": "1",
             "supports_revisions": "1",
             "supports_thumbnail": "1",
@@ -1153,9 +1132,9 @@
                     "weight": 0,
                     "fields": [
                         {
-                            "name": "profile_image",
+                            "name": "portrait",
                             "id": 41,
-                            "label": "Profile image",
+                            "label": "Portrait",
                             "type": "file",
                             "default_empty_fields": "0",
                             "default_evaluate_tags": "0",
@@ -1189,9 +1168,9 @@
                             "weight": 0
                         },
                         {
-                            "name": "show_profile_image",
+                            "name": "show_portrait",
                             "id": 42,
-                            "label": "Show profile image?",
+                            "label": "Show portrait",
                             "type": "boolean",
                             "boolean_format_type": "checkbox",
                             "boolean_no_label": "No",
@@ -1206,7 +1185,7 @@
                             "weight": 1
                         },
                         {
-                            "name": "profile_nationality",
+                            "name": "nationality",
                             "id": 43,
                             "label": "Nationality",
                             "type": "text",
@@ -1233,8 +1212,34 @@
                             "weight": 2
                         },
                         {
-                            "name": "year_of_birth",
+                            "name": "show_nationality",
                             "id": 44,
+                            "label": "Show nationality",
+                            "type": "boolean",
+                            "admin_only": "0",
+                            "boolean_format_type": "checkbox",
+                            "boolean_no_label": "No",
+                            "boolean_yes_label": "Yes",
+                            "description": "",
+                            "hidden": "1",
+                            "repeatable": "0",
+                            "repeatable_format": "default",
+                            "required": "0",
+                            "rest_pick_depth": "1",
+                            "rest_pick_response": "array",
+                            "restrict_capability": "0",
+                            "restrict_role": "1",
+                            "roles_allowed": [
+                                "administrator",
+                                "editor",
+                                "moderator",
+                                "author"
+                            ],
+                            "weight": 3
+                        },
+                        {
+                            "name": "year_of_birth",
+                            "id": 45,
                             "label": "Born\/Formed",
                             "type": "date",
                             "date_allow_empty": "1",
@@ -1255,11 +1260,11 @@
                                 "author",
                                 "moderator"
                             ],
-                            "weight": 3
+                            "weight": 4
                         },
                         {
                             "name": "year_of_death",
-                            "id": 45,
+                            "id": 46,
                             "label": "Died\/Disbanded",
                             "type": "date",
                             "date_allow_empty": "1",
@@ -1280,11 +1285,11 @@
                                 "moderator",
                                 "author"
                             ],
-                            "weight": 4
+                            "weight": 5
                         },
                         {
                             "name": "show_lifespan",
-                            "id": 46,
+                            "id": 47,
                             "label": "Show birth\/death years?",
                             "type": "boolean",
                             "admin_only": "0",
@@ -1306,11 +1311,11 @@
                                 "moderator",
                                 "author"
                             ],
-                            "weight": 5
+                            "weight": 6
                         },
                         {
                             "name": "is_collective",
-                            "id": 47,
+                            "id": 48,
                             "label": "Collective?",
                             "type": "boolean",
                             "boolean_format_type": "checkbox",
@@ -1330,12 +1335,12 @@
                                 "editor",
                                 "author"
                             ],
-                            "weight": 6
+                            "weight": 7
                         },
                         {
-                            "name": "collective_members",
-                            "id": 48,
-                            "label": "Collective members",
+                            "name": "members",
+                            "id": 49,
+                            "label": "Members",
                             "type": "pick",
                             "default_empty_fields": "0",
                             "default_evaluate_tags": "0",
@@ -1378,14 +1383,63 @@
                                 "editor",
                                 "author"
                             ],
-                            "sister_id": "57",
-                            "weight": 7
+                            "sister_id": "50",
+                            "weight": 8
+                        },
+                        {
+                            "name": "member_of",
+                            "id": 50,
+                            "label": "Member of",
+                            "type": "pick",
+                            "default_empty_fields": "0",
+                            "default_evaluate_tags": "0",
+                            "description": "Collectives this profile belongs to.",
+                            "enable_conditional_logic": "0",
+                            "hidden": "1",
+                            "pick_allow_add_new": "0",
+                            "pick_display_format_multi": "custom",
+                            "pick_display_format_separator": ", ",
+                            "pick_format_multi": "list",
+                            "pick_format_multi_help": "0",
+                            "pick_format_single": "dropdown",
+                            "pick_format_single_help": "0",
+                            "pick_format_type": "multi",
+                            "pick_limit": "0",
+                            "pick_object": "post_type",
+                            "pick_post_author": "0",
+                            "pick_post_status": [
+                                "publish",
+                                "private"
+                            ],
+                            "pick_show_edit_link": "1",
+                            "pick_show_icon": "1",
+                            "pick_show_view_link": "1",
+                            "pick_sync_taxonomy": "0",
+                            "pick_sync_taxonomy_hide_taxonomy_ui": "0",
+                            "pick_table": "-- Select One --",
+                            "pick_taggable": "0",
+                            "pick_user_role": "Administrator",
+                            "pick_val": "galerio_profile",
+                            "repeatable": "0",
+                            "repeatable_format": "default",
+                            "required": "0",
+                            "rest_pick_depth": "1",
+                            "rest_pick_response": "array",
+                            "restrict_role": "1",
+                            "revisions_revision_field": "0",
+                            "roles_allowed": [
+                                "administrator",
+                                "editor",
+                                "author"
+                            ],
+                            "sister_id": "49",
+                            "weight": 9
                         }
                     ]
                 },
                 {
                     "name": "biography_group",
-                    "id": 49,
+                    "id": 51,
                     "label": "Biography",
                     "description": "",
                     "meta_box_context": "normal",
@@ -1394,8 +1448,8 @@
                     "weight": 1,
                     "fields": [
                         {
-                            "name": "profile_bio",
-                            "id": 50,
+                            "name": "bio",
+                            "id": 52,
                             "label": "Profile bio",
                             "type": "wysiwyg",
                             "default_empty_fields": "0",
@@ -1424,13 +1478,13 @@
                             "wysiwyg_wptexturize": "1"
                         },
                         {
-                            "name": "hidden_bio",
-                            "id": 51,
-                            "label": "Hidden bio content",
+                            "name": "notes",
+                            "id": 53,
+                            "label": "Notes",
                             "type": "wysiwyg",
                             "default_empty_fields": "0",
                             "default_evaluate_tags": "0",
-                            "description": "",
+                            "description": "Private notes. Not shown on the site.",
                             "enable_conditional_logic": "0",
                             "repeatable": "0",
                             "repeatable_format": "default",
@@ -1455,7 +1509,7 @@
                         },
                         {
                             "name": "accolades",
-                            "id": 52,
+                            "id": 54,
                             "label": "Accolades",
                             "type": "paragraph",
                             "admin_only": "0",
@@ -1499,7 +1553,7 @@
                 },
                 {
                     "name": "relationships_group",
-                    "id": 53,
+                    "id": 55,
                     "label": "Relationships",
                     "description": "",
                     "meta_box_context": "normal",
@@ -1513,9 +1567,9 @@
                     "weight": 2,
                     "fields": [
                         {
-                            "name": "featured_works",
-                            "id": 54,
-                            "label": "Featured works",
+                            "name": "works",
+                            "id": 56,
+                            "label": "Works",
                             "type": "pick",
                             "default_empty_fields": "0",
                             "default_evaluate_tags": "0",
@@ -1557,12 +1611,12 @@
                                 "editor",
                                 "author"
                             ],
-                            "sister_id": "83",
+                            "sister_id": "75",
                             "weight": 0
                         },
                         {
-                            "name": "in_collections",
-                            "id": 55,
+                            "name": "collections",
+                            "id": 57,
                             "label": "Collections",
                             "type": "pick",
                             "default_empty_fields": "0",
@@ -1605,12 +1659,12 @@
                                 "editor",
                                 "author"
                             ],
-                            "sister_id": "27",
+                            "sister_id": "26",
                             "weight": 1
                         },
                         {
                             "name": "article_mentions",
-                            "id": 56,
+                            "id": 58,
                             "label": "Article mentions",
                             "type": "pick",
                             "default_empty_fields": "0",
@@ -1655,7 +1709,7 @@
                         },
                         {
                             "name": "related_profiles",
-                            "id": 57,
+                            "id": 59,
                             "label": "Related profiles",
                             "type": "pick",
                             "default_empty_fields": "0",
@@ -1698,12 +1752,12 @@
                                 "editor",
                                 "author"
                             ],
-                            "sister_id": "48",
+                            "sister_id": "59",
                             "weight": 3
                         },
                         {
                             "name": "authored_articles",
-                            "id": 58,
+                            "id": 60,
                             "label": "Authored articles",
                             "type": "pick",
                             "default_empty_fields": "0",
@@ -1750,7 +1804,7 @@
                 },
                 {
                     "name": "external_links_group",
-                    "id": 59,
+                    "id": 61,
                     "label": "External Links",
                     "description": "",
                     "meta_box_context": "normal",
@@ -1759,38 +1813,9 @@
                     "weight": 3,
                     "fields": [
                         {
-                            "name": "links_advice_txt",
-                            "id": 60,
-                            "label": "Links advice",
-                            "type": "html",
-                            "default_empty_fields": "0",
-                            "default_evaluate_tags": "0",
-                            "description": "",
-                            "enable_conditional_logic": "0",
-                            "html_allow_shortcode": "0",
-                            "html_content": "<p>Make sure you add the full URL for any external link, including the <code>http:\/\/<\/code> or <code>https:\/\/<\/code> at the start.<\/p>",
-                            "html_convert_chars": "1",
-                            "html_no_label": "1",
-                            "html_oembed": "0",
-                            "html_trim": "1",
-                            "html_trim_extra_lines": "0",
-                            "html_trim_lines": "0",
-                            "html_trim_p_brs": "0",
-                            "html_wpautop": "1",
-                            "html_wptexturize": "1",
-                            "repeatable": "0",
-                            "repeatable_format": "default",
-                            "required": "0",
-                            "rest_pick_depth": "1",
-                            "rest_pick_response": "array",
-                            "revisions_revision_field": "0",
-                            "roles_allowed": "administrator",
-                            "weight": 0
-                        },
-                        {
-                            "name": "show_external_links",
-                            "id": 61,
-                            "label": "Show external links?",
+                            "name": "show_links",
+                            "id": 62,
+                            "label": "Show links",
                             "type": "boolean",
                             "boolean_format_type": "checkbox",
                             "boolean_no_label": "No",
@@ -1806,247 +1831,24 @@
                             "rest_pick_response": "array",
                             "revisions_revision_field": "0",
                             "roles_allowed": "administrator",
-                            "weight": 1
+                            "weight": 0
                         },
                         {
-                            "name": "personal_website",
-                            "id": 62,
-                            "label": "Personal website",
-                            "type": "website",
-                            "default_empty_fields": "0",
-                            "default_evaluate_tags": "0",
-                            "description": "",
-                            "enable_conditional_logic": "0",
-                            "repeatable": "0",
-                            "repeatable_format": "default",
-                            "required": "0",
-                            "rest_pick_depth": "1",
-                            "rest_pick_response": "array",
-                            "revisions_revision_field": "0",
-                            "roles_allowed": "administrator",
-                            "website_allow_port": "0",
-                            "website_clickable": "0",
-                            "website_format": "normal",
-                            "website_html5": "0",
-                            "website_max_length": "255",
-                            "website_new_window": "1",
-                            "website_nofollow": "1",
-                            "weight": 2
-                        },
-                        {
-                            "name": "personal_axisweb",
+                            "name": "links",
                             "id": 63,
-                            "label": "Axisweb",
-                            "type": "website",
-                            "default_empty_fields": "0",
-                            "default_evaluate_tags": "0",
-                            "description": "",
-                            "enable_conditional_logic": "0",
-                            "repeatable": "0",
-                            "repeatable_format": "default",
-                            "required": "0",
-                            "rest_pick_depth": "1",
-                            "rest_pick_response": "array",
-                            "revisions_revision_field": "0",
-                            "roles_allowed": "administrator",
-                            "website_allow_port": "0",
-                            "website_clickable": "0",
-                            "website_format": "normal",
-                            "website_html5": "0",
-                            "website_max_length": "255",
-                            "website_new_window": "1",
-                            "website_nofollow": "1",
-                            "weight": 3
-                        },
-                        {
-                            "name": "personal_instagram",
-                            "id": 64,
-                            "label": "Instagram\/Threads",
-                            "type": "website",
-                            "default_empty_fields": "0",
-                            "default_evaluate_tags": "0",
-                            "description": "",
-                            "enable_conditional_logic": "0",
-                            "repeatable": "0",
-                            "repeatable_format": "default",
-                            "required": "0",
-                            "rest_pick_depth": "1",
-                            "rest_pick_response": "array",
-                            "revisions_revision_field": "0",
-                            "roles_allowed": "administrator",
-                            "website_allow_port": "0",
-                            "website_clickable": "0",
-                            "website_format": "normal",
-                            "website_html5": "0",
-                            "website_max_length": "255",
-                            "website_new_window": "1",
-                            "website_nofollow": "1",
-                            "weight": 4
-                        },
-                        {
-                            "name": "personal_youtube",
-                            "id": 65,
-                            "label": "YouTube",
-                            "type": "website",
-                            "default_empty_fields": "0",
-                            "default_evaluate_tags": "0",
-                            "description": "",
-                            "enable_conditional_logic": "0",
-                            "repeatable": "0",
-                            "repeatable_format": "default",
-                            "required": "0",
-                            "rest_pick_depth": "1",
-                            "rest_pick_response": "array",
-                            "revisions_revision_field": "0",
-                            "roles_allowed": "administrator",
-                            "website_allow_port": "0",
-                            "website_clickable": "0",
-                            "website_format": "normal",
-                            "website_html5": "0",
-                            "website_max_length": "255",
-                            "website_new_window": "1",
-                            "website_nofollow": "1",
-                            "weight": 5
-                        },
-                        {
-                            "name": "personal_vimeo",
-                            "id": 66,
-                            "label": "Vimeo",
-                            "type": "website",
-                            "default_empty_fields": "0",
-                            "default_evaluate_tags": "0",
-                            "description": "",
-                            "enable_conditional_logic": "0",
-                            "repeatable": "0",
-                            "repeatable_format": "default",
-                            "required": "0",
-                            "rest_pick_depth": "1",
-                            "rest_pick_response": "array",
-                            "revisions_revision_field": "0",
-                            "roles_allowed": "administrator",
-                            "website_allow_port": "0",
-                            "website_clickable": "0",
-                            "website_format": "normal",
-                            "website_html5": "0",
-                            "website_max_length": "255",
-                            "website_new_window": "1",
-                            "website_nofollow": "1",
-                            "weight": 6
-                        },
-                        {
-                            "name": "personal_twitter",
-                            "id": 67,
-                            "label": "X (Twitter)",
-                            "type": "website",
-                            "default_empty_fields": "0",
-                            "default_evaluate_tags": "0",
-                            "description": "",
-                            "enable_conditional_logic": "0",
-                            "repeatable": "0",
-                            "repeatable_format": "default",
-                            "required": "0",
-                            "rest_pick_depth": "1",
-                            "rest_pick_response": "array",
-                            "revisions_revision_field": "0",
-                            "roles_allowed": "administrator",
-                            "website_allow_port": "0",
-                            "website_clickable": "0",
-                            "website_format": "normal",
-                            "website_html5": "0",
-                            "website_max_length": "255",
-                            "website_new_window": "1",
-                            "website_nofollow": "1",
-                            "weight": 7
-                        },
-                        {
-                            "name": "personal_bluesky",
-                            "id": 68,
-                            "label": "Bluesky",
-                            "type": "website",
-                            "default_empty_fields": "0",
-                            "default_evaluate_tags": "0",
-                            "description": "",
-                            "enable_conditional_logic": "0",
-                            "repeatable": "0",
-                            "repeatable_format": "default",
-                            "required": "0",
-                            "rest_pick_depth": "1",
-                            "rest_pick_response": "array",
-                            "revisions_revision_field": "0",
-                            "roles_allowed": "administrator",
-                            "website_allow_port": "0",
-                            "website_clickable": "0",
-                            "website_format": "normal",
-                            "website_html5": "0",
-                            "website_max_length": "255",
-                            "website_new_window": "1",
-                            "website_nofollow": "1",
-                            "weight": 8
-                        },
-                        {
-                            "name": "personal_facebook",
-                            "id": 69,
-                            "label": "Facebook",
-                            "type": "website",
-                            "default_empty_fields": "0",
-                            "default_evaluate_tags": "0",
-                            "description": "",
-                            "enable_conditional_logic": "0",
-                            "repeatable": "0",
-                            "repeatable_format": "default",
-                            "required": "0",
-                            "rest_pick_depth": "1",
-                            "rest_pick_response": "array",
-                            "revisions_revision_field": "0",
-                            "roles_allowed": "administrator",
-                            "website_allow_port": "0",
-                            "website_clickable": "0",
-                            "website_format": "normal",
-                            "website_html5": "0",
-                            "website_max_length": "255",
-                            "website_new_window": "1",
-                            "website_nofollow": "1",
-                            "weight": 9
-                        },
-                        {
-                            "name": "personal_tiktok",
-                            "id": 70,
-                            "label": "Tik Tok",
-                            "type": "website",
-                            "default_empty_fields": "0",
-                            "default_evaluate_tags": "0",
-                            "description": "",
-                            "enable_conditional_logic": "0",
-                            "repeatable": "0",
-                            "repeatable_format": "default",
-                            "required": "0",
-                            "rest_pick_depth": "1",
-                            "rest_pick_response": "array",
-                            "revisions_revision_field": "0",
-                            "roles_allowed": "administrator",
-                            "website_allow_port": "0",
-                            "website_clickable": "0",
-                            "website_format": "normal",
-                            "website_html5": "0",
-                            "website_max_length": "255",
-                            "website_new_window": "1",
-                            "website_nofollow": "1",
-                            "weight": 10
-                        },
-                        {
-                            "name": "other_websites",
-                            "id": 71,
-                            "label": "Other websites",
-                            "type": "website",
+                            "label": "Links",
+                            "type": "galerio_link",
                             "admin_only": "0",
                             "default_empty_fields": "0",
                             "default_evaluate_tags": "0",
-                            "description": "",
+                            "description": "Websites and social media. Display text is optional: recognised services show their name, others their address.",
                             "enable_conditional_logic": "0",
+                            "galerio_link_multiple": "1",
+                            "galerio_link_offline": "0",
                             "hidden": "0",
                             "logged_in_only": "0",
                             "read_only": "0",
-                            "repeatable": "1",
+                            "repeatable": "0",
                             "repeatable_format": "default",
                             "required": "0",
                             "rest_pick_depth": "1",
@@ -2055,14 +1857,7 @@
                             "restrict_role": "0",
                             "revisions_revision_field": "0",
                             "roles_allowed": "administrator",
-                            "website_allow_port": "0",
-                            "website_clickable": "1",
-                            "website_format": "normal",
-                            "website_html5": "1",
-                            "website_max_length": "255",
-                            "website_new_window": "1",
-                            "website_nofollow": "1",
-                            "weight": 11
+                            "weight": 1
                         }
                     ]
                 }
@@ -2070,7 +1865,7 @@
         },
         {
             "name": "galerio_role",
-            "id": 72,
+            "id": 64,
             "label": "Roles",
             "type": "taxonomy",
             "built_in_post_types_galerio_article": "0",
@@ -2097,7 +1892,7 @@
             "groups": [
                 {
                     "name": "more_fields",
-                    "id": 73,
+                    "id": 65,
                     "label": "More Fields",
                     "description": "",
                     "weight": 0,
@@ -2107,7 +1902,7 @@
         },
         {
             "name": "galerio_settings",
-            "id": 74,
+            "id": 66,
             "label": "Galerio Settings",
             "type": "settings",
             "description": "",
@@ -2122,7 +1917,7 @@
             "groups": [
                 {
                     "name": "global_settings",
-                    "id": 75,
+                    "id": 67,
                     "label": "Global settings",
                     "admin_only": "0",
                     "description": "",
@@ -2132,7 +1927,7 @@
                     "fields": [
                         {
                             "name": "show_featured_images",
-                            "id": 76,
+                            "id": 68,
                             "label": "Show featured images",
                             "type": "boolean",
                             "boolean_format_type": "checkbox",
@@ -2150,7 +1945,7 @@
                 },
                 {
                     "name": "profile_settings",
-                    "id": 77,
+                    "id": 69,
                     "label": "Profile Settings",
                     "description": "",
                     "roles_allowed": "administrator",
@@ -2158,7 +1953,7 @@
                     "fields": [
                         {
                             "name": "show_birth_death_fields",
-                            "id": 78,
+                            "id": 70,
                             "label": "Show birth\/death fields",
                             "type": "boolean",
                             "boolean_format_type": "checkbox",
@@ -2173,7 +1968,7 @@
                         },
                         {
                             "name": "show_collective_fields",
-                            "id": 79,
+                            "id": 71,
                             "label": "Show collective fields",
                             "type": "boolean",
                             "boolean_format_type": "checkbox",
@@ -2192,7 +1987,7 @@
         },
         {
             "name": "galerio_work",
-            "id": 80,
+            "id": 72,
             "label": "Works",
             "type": "post_type",
             "built_in_taxonomies_galerio_collection_category": "0",
@@ -2218,14 +2013,7 @@
             "menu_position": "0",
             "meta_box_context": "normal",
             "meta_box_priority": "default",
-            "pfat_append_archive": "replace",
-            "pfat_append_single": "replace",
-            "pfat_archive": "Works Archive Template",
             "pfat_enable": "0",
-            "pfat_filter_archive": "the_excerpt",
-            "pfat_filter_single": "the_content",
-            "pfat_run_outside_loop": "0",
-            "pfat_single": "Work Template",
             "public": "1",
             "publicly_queryable": "1",
             "query_var": "1",
@@ -2246,7 +2034,7 @@
             "supports_editor": "1",
             "supports_excerpt": "1",
             "supports_page_attributes": "1",
-            "supports_post_formats": "1",
+            "supports_post_formats": "0",
             "supports_quick_edit": "1",
             "supports_revisions": "1",
             "supports_thumbnail": "1",
@@ -2254,7 +2042,7 @@
             "groups": [
                 {
                     "name": "details_group",
-                    "id": 81,
+                    "id": 73,
                     "label": "Details",
                     "description": "",
                     "meta_box_context": "normal",
@@ -2264,7 +2052,7 @@
                     "fields": [
                         {
                             "name": "definitive_title",
-                            "id": 82,
+                            "id": 74,
                             "label": "Definitive Title",
                             "type": "text",
                             "description": "The definitive name for the work, if one exists, otherwise the post title is used.",
@@ -2279,7 +2067,7 @@
                         },
                         {
                             "name": "creator",
-                            "id": 83,
+                            "id": 75,
                             "label": "Creator",
                             "type": "pick",
                             "description": "Connect the profile of the work's creator. Add a new creator profile if one doesn't exist.",
@@ -2312,12 +2100,12 @@
                             "rest_pick_depth": "1",
                             "rest_pick_response": "array",
                             "roles_allowed": "administrator",
-                            "sister_id": "54",
+                            "sister_id": "56",
                             "weight": 1
                         },
                         {
                             "name": "year",
-                            "id": 84,
+                            "id": 76,
                             "label": "Year",
                             "type": "date",
                             "date_allow_empty": "1",
@@ -2332,13 +2120,13 @@
                             "weight": 2
                         },
                         {
-                            "name": "principal_image",
-                            "id": 85,
-                            "label": "Principal Image",
+                            "name": "definitive_image",
+                            "id": 77,
+                            "label": "Definitive image",
                             "type": "file",
                             "default_empty_fields": "0",
                             "default_evaluate_tags": "0",
-                            "description": "A primary, reference image of the work. Will use the featured image if not specified.",
+                            "description": "The work's single true representation. The featured image falls back to it when empty.",
                             "enable_conditional_logic": "0",
                             "file_add_button": "Add Image",
                             "file_attachment_current_post_only": "0",
@@ -2369,13 +2157,13 @@
                         },
                         {
                             "name": "description",
-                            "id": 86,
+                            "id": 78,
                             "label": "Description",
                             "type": "wysiwyg",
                             "admin_only": "0",
                             "default_empty_fields": "0",
                             "default_evaluate_tags": "0",
-                            "description": "Deprecated. Please add details using the page editor.",
+                            "description": "A description for templates to place, apart from the main text.",
                             "enable_conditional_logic": "0",
                             "hidden": "0",
                             "logged_in_only": "0",
@@ -2406,44 +2194,24 @@
                             "wysiwyg_wptexturize": "1"
                         },
                         {
-                            "name": "website_name",
-                            "id": 87,
-                            "label": "Website Name",
-                            "type": "text",
-                            "description": "The display name of a website for further reading.",
+                            "name": "website",
+                            "id": 79,
+                            "label": "Website",
+                            "type": "galerio_link",
+                            "description": "An external website with more about the work.",
+                            "galerio_link_multiple": "0",
+                            "galerio_link_offline": "0",
+                            "repeatable": "0",
                             "required": "0",
                             "rest_pick_depth": "1",
                             "rest_pick_response": "array",
                             "roles_allowed": "administrator",
-                            "text_allowed_html_tags": "strong em a ul ol li b i",
-                            "text_max_length": "255",
-                            "text_placeholder": "Website Name",
-                            "text_trim": "1",
                             "weight": 5
                         },
                         {
-                            "name": "website_url",
-                            "id": 88,
-                            "label": "Website URL",
-                            "type": "website",
-                            "description": "Add the link address of an external website with more information.",
-                            "required": "0",
-                            "rest_pick_depth": "1",
-                            "rest_pick_response": "array",
-                            "roles_allowed": "administrator",
-                            "website_allow_port": "0",
-                            "website_clickable": "0",
-                            "website_format": "normal",
-                            "website_html5": "1",
-                            "website_max_length": "255",
-                            "website_new_window": "0",
-                            "website_placeholder": "e.g. https:\/\/swansea.art\/work\/example",
-                            "weight": 6
-                        },
-                        {
-                            "name": "additional_images",
-                            "id": 89,
-                            "label": "Additional Images",
+                            "name": "images",
+                            "id": 80,
+                            "label": "Images",
                             "type": "file",
                             "description": "Additional images of the work.",
                             "file_add_button": "Add Images",
@@ -2469,13 +2237,13 @@
                             "rest_pick_depth": "1",
                             "rest_pick_response": "array",
                             "roles_allowed": "administrator",
-                            "weight": 7
+                            "weight": 6
                         }
                     ]
                 },
                 {
                     "name": "work_meta_group",
-                    "id": 90,
+                    "id": 81,
                     "label": "Metadata",
                     "description": "",
                     "meta_box_context": "side",
@@ -2484,8 +2252,8 @@
                     "weight": 1,
                     "fields": [
                         {
-                            "name": "work_medium",
-                            "id": 91,
+                            "name": "medium",
+                            "id": 82,
                             "label": "Medium",
                             "type": "text",
                             "description": "Text description of the work medium(s).",
@@ -2500,23 +2268,8 @@
                             "weight": 0
                         },
                         {
-                            "name": "work_categorisation",
-                            "id": 92,
-                            "label": "Categorisation",
-                            "type": "text",
-                            "description": "The genre\/style\/movement\/form of the work.",
-                            "required": "0",
-                            "rest_pick_depth": "1",
-                            "rest_pick_response": "array",
-                            "roles_allowed": "administrator",
-                            "text_allowed_html_tags": "strong em a ul ol li b i",
-                            "text_max_length": "255",
-                            "text_trim": "1",
-                            "weight": 1
-                        },
-                        {
-                            "name": "work_dimensions",
-                            "id": 93,
+                            "name": "dimensions",
+                            "id": 83,
                             "label": "Dimensions",
                             "type": "text",
                             "description": "The absolute size of the work, if physical.",
@@ -2527,11 +2280,11 @@
                             "text_allowed_html_tags": "strong em a ul ol li b i",
                             "text_max_length": "255",
                             "text_trim": "1",
-                            "weight": 2
+                            "weight": 1
                         },
                         {
-                            "name": "work_duration",
-                            "id": 94,
+                            "name": "duration",
+                            "id": 84,
                             "label": "Duration",
                             "type": "text",
                             "description": "The duration of the work, if relevant.",
@@ -2542,13 +2295,13 @@
                             "text_allowed_html_tags": "strong em a ul ol li b i",
                             "text_max_length": "255",
                             "text_trim": "1",
-                            "weight": 3
+                            "weight": 2
                         }
                     ]
                 },
                 {
                     "name": "relationships_group",
-                    "id": 95,
+                    "id": 85,
                     "label": "Relationships",
                     "description": "",
                     "meta_box_context": "normal",
@@ -2557,8 +2310,8 @@
                     "weight": 2,
                     "fields": [
                         {
-                            "name": "in_collections",
-                            "id": 96,
+                            "name": "collections",
+                            "id": 86,
                             "label": "Collections",
                             "type": "pick",
                             "default_empty_fields": "0",
@@ -2600,8 +2353,8 @@
                             "weight": 0
                         },
                         {
-                            "name": "in_articles",
-                            "id": 97,
+                            "name": "articles",
+                            "id": 87,
                             "label": "Articles",
                             "type": "pick",
                             "default_empty_fields": "0",
@@ -2641,7 +2394,7 @@
                         },
                         {
                             "name": "related_works",
-                            "id": 98,
+                            "id": 88,
                             "label": "Related Works",
                             "type": "pick",
                             "default_empty_fields": "0",
@@ -2679,14 +2432,14 @@
                             "rest_pick_response": "array",
                             "revisions_revision_field": "0",
                             "roles_allowed": "administrator",
-                            "sister_id": "98",
+                            "sister_id": "88",
                             "weight": 2
                         }
                     ]
                 },
                 {
                     "name": "cataloging_group",
-                    "id": 99,
+                    "id": 89,
                     "label": "Cataloging",
                     "description": "",
                     "meta_box_context": "normal",
@@ -2695,8 +2448,8 @@
                     "weight": 3,
                     "fields": [
                         {
-                            "name": "work_location",
-                            "id": 100,
+                            "name": "location",
+                            "id": 90,
                             "label": "Location",
                             "type": "text",
                             "default_empty_fields": "0",
@@ -2713,6 +2466,26 @@
                             "text_allowed_html_tags": "strong em a ul ol li b i",
                             "text_max_length": "255",
                             "weight": 0
+                        },
+                        {
+                            "name": "owner",
+                            "id": 91,
+                            "label": "Current owner",
+                            "type": "text",
+                            "default_empty_fields": "0",
+                            "default_evaluate_tags": "0",
+                            "description": "Private: who owns the work now. Not shown on the site.",
+                            "enable_conditional_logic": "0",
+                            "repeatable": "0",
+                            "repeatable_format": "default",
+                            "required": "0",
+                            "rest_pick_depth": "1",
+                            "rest_pick_response": "array",
+                            "revisions_revision_field": "0",
+                            "roles_allowed": "administrator",
+                            "text_allowed_html_tags": "strong em a ul ol li b i",
+                            "text_max_length": "255",
+                            "weight": 1
                         }
                     ]
                 }
@@ -2720,7 +2493,7 @@
         },
         {
             "name": "media",
-            "id": 101,
+            "id": 92,
             "label": "Media",
             "type": "media",
             "built_in_taxonomies_media_category": "1",
@@ -2733,7 +2506,7 @@
             "groups": [
                 {
                     "name": "media_metadata",
-                    "id": 102,
+                    "id": 93,
                     "label": "Metadata",
                     "description": "",
                     "roles_allowed": "administrator",
@@ -2741,7 +2514,7 @@
                     "fields": [
                         {
                             "name": "year",
-                            "id": 103,
+                            "id": 94,
                             "label": "Year",
                             "type": "date",
                             "date_allow_empty": "1",
@@ -2756,11 +2529,11 @@
                             "weight": 0
                         },
                         {
-                            "name": "creator",
-                            "id": 104,
-                            "label": "Creator",
+                            "name": "credit",
+                            "id": 95,
+                            "label": "Credit",
                             "type": "text",
-                            "description": "",
+                            "description": "Who made it, for a creator without a profile.",
                             "repeatable": "0",
                             "repeatable_format": "default",
                             "required": "0",
@@ -2773,7 +2546,7 @@
                         },
                         {
                             "name": "copyright",
-                            "id": 105,
+                            "id": 96,
                             "label": "Copyright",
                             "type": "text",
                             "description": "",
@@ -2791,7 +2564,7 @@
                 },
                 {
                     "name": "media_taxonomy",
-                    "id": 106,
+                    "id": 97,
                     "label": "Taxonomy",
                     "description": "",
                     "roles_allowed": "administrator",
@@ -2799,7 +2572,7 @@
                     "fields": [
                         {
                             "name": "intent",
-                            "id": 107,
+                            "id": 98,
                             "label": "Intent",
                             "type": "pick",
                             "default_empty_fields": "0",
@@ -2838,7 +2611,7 @@
         },
         {
             "name": "media_intent",
-            "id": 108,
+            "id": 99,
             "label": "Media Intents",
             "type": "taxonomy",
             "built_in_post_types_attachment": "1",
@@ -2867,7 +2640,7 @@
             "groups": [
                 {
                     "name": "more_fields",
-                    "id": 109,
+                    "id": 100,
                     "label": "More Fields",
                     "description": "",
                     "weight": 0,
@@ -2877,7 +2650,7 @@
         },
         {
             "name": "user",
-            "id": 110,
+            "id": 101,
             "label": "User",
             "type": "user",
             "description": "",
@@ -2886,15 +2659,15 @@
             "groups": [
                 {
                     "name": "more_fields",
-                    "id": 111,
+                    "id": 102,
                     "label": "More Fields",
                     "description": "",
                     "weight": 0,
                     "fields": [
                         {
-                            "name": "profile_page",
-                            "id": 112,
-                            "label": "Associated Profile Page",
+                            "name": "profile",
+                            "id": 103,
+                            "label": "Profile",
                             "type": "pick",
                             "default_empty_fields": "0",
                             "default_evaluate_tags": "0",
@@ -2934,12 +2707,12 @@
     "templates": [
         {
             "name": "Collection - Linear Gallery",
-            "id": 113,
+            "id": 104,
             "_pods_capability_allowed": [
                 ""
             ],
             "admin_only": "0",
-            "code": "[each collection_images]\r\n<figure class=\"entry-thumb has-caption\">\r\n\t<a class=\"ci-lightbox\" href=\"{@collection_images._src.large}\">\r\n\t\t<img src=\"{@collection_images._src.medium_large}\" alt=\"{@collection_images._wp_attachment_image_alt}\" title=\"{@collection_images.post_title}\">\r\n\t<\/a>\r\n\t<figcaption>{@collection_images.post_excerpt}<\/figcaption>\r\n<\/figure>\r\n[\/each]",
+            "code": "[each images]\r\n<figure class=\"entry-thumb has-caption\">\r\n\t<a class=\"ci-lightbox\" href=\"{@images._src.large}\">\r\n\t\t<img src=\"{@images._src.medium_large}\" alt=\"{@images._wp_attachment_image_alt}\" title=\"{@images.post_title}\">\r\n\t<\/a>\r\n\t<figcaption>{@images.post_excerpt}<\/figcaption>\r\n<\/figure>\r\n[\/each]",
             "pod_reference": {
                 "pod": ""
             },
@@ -2949,12 +2722,12 @@
         },
         {
             "name": "Collection Template",
-            "id": 114,
+            "id": 105,
             "_pods_capability_allowed": [
                 ""
             ],
             "admin_only": "0",
-            "code": "<h2 class=\"entry-title\">{@post_title}<\/h2>\r\n\r\n<div class=\"entry-content\">\r\n\r\n\t<div>{@description}<\/div>\r\n\r\n\t<div class=\"project-details\">\r\n\r\n\t\t[if opening_date]\r\n\t\t<div>\r\n\t\t\t{@opening_date}[if closing_date] - {@closing_date}[\/if]\r\n\t\t<\/div>\r\n\t\t[\/if]\r\n\r\n\t\t[if location]\r\n\t\t<div>{@location}<\/div>\r\n\t\t[\/if]\r\n\r\n\t\t[if website_url]\r\n\t\t<div>\r\n\t\t\tWebsite:\r\n\t\t\t<a href=\"{@website_url}\" target=\"_blank\" rel=\"noopener\">[if website_name]{@website_name}[else]{@website_url}[\/if]<\/a>\r\n\t\t<\/div>\r\n\t\t[\/if]\r\n\r\n\t<\/div>\r\n\r\n<\/div>",
+            "code": "<h2 class=\"entry-title\">{@post_title}<\/h2>\r\n\r\n<div class=\"entry-content\">\r\n\r\n\t<div>{@description}<\/div>\r\n\r\n\t<div class=\"project-details\">\r\n\r\n\t\t[if start_date]\r\n\t\t<div>\r\n\t\t\t{@start_date}[if end_date] - {@end_date}[\/if]\r\n\t\t<\/div>\r\n\t\t[\/if]\r\n\r\n\t\t[if location]\r\n\t\t<div>{@location}<\/div>\r\n\t\t[\/if]\r\n\r\n\t\t[if website]\r\n\t\t<div>\r\n\t\t\tWebsite:\r\n\t\t\t{@website}\r\n\t\t<\/div>\r\n\t\t[\/if]\r\n\r\n\t<\/div>\r\n\r\n<\/div>",
             "pod_reference": {
                 "pod": ""
             },
@@ -2964,12 +2737,12 @@
         },
         {
             "name": "Exhibition Details",
-            "id": 115,
+            "id": 106,
             "_pods_capability_allowed": [
                 ""
             ],
             "admin_only": "0",
-            "code": "<div>\r\n\t<div>{@location}<\/div>\r\n\t<div class=\"width: fit-content\">{@opening_date} - {@closing_date}<\/div>\r\n<\/div>",
+            "code": "<div>\r\n\t<div>{@location}<\/div>\r\n\t<div class=\"width: fit-content\">{@start_date} - {@end_date}<\/div>\r\n<\/div>",
             "pod_reference": {
                 "pod": ""
             },
@@ -2979,12 +2752,12 @@
         },
         {
             "name": "Featured Works",
-            "id": 116,
+            "id": 107,
             "_pods_capability_allowed": [
                 ""
             ],
             "admin_only": "0",
-            "code": "{@featured_works.definitive_title}\r\n{@featured_works.principal_image._img.medium}",
+            "code": "{@works.definitive_title}\r\n{@works.definitive_image._img.medium}",
             "pod_reference": {
                 "pod": "galerio_profile"
             },
@@ -2994,12 +2767,12 @@
         },
         {
             "name": "Profile Box",
-            "id": 117,
+            "id": 108,
             "_pods_capability_allowed": [
                 ""
             ],
             "admin_only": "0",
-            "code": "<div class=\"profile-box\" style=\"display: flex; margin: 1.5em 0;\">\r\n\t\r\n\t<div class=\"profile-image\" style=\"margin-right: 0.6em;\">\r\n\t\t<a href=\"{@guid}\">\r\n\t\t\t[if show_profile_image]\r\n\t\t\t{@profile_image._img.thumbnail}\r\n\t\t\t[else]\r\n\t\t\t\t[if post_thumbnail]\r\n\t\t\t\t{@post_thumbnail}\r\n\t\t\t\t[else]\r\n\t\t\t\t<img src=\"https:\/\/swansea.art\/wp-content\/uploads\/2022\/06\/Profile-image-placeholder.png\" width=\"150\" height=\"150\">\r\n\t\t\t\t[\/if]\r\n\t\t\t[\/if]\r\n\t\t<\/a>\r\n\t<\/div>\r\n\t\r\n\t\r\n\t<div class=\"profile-info\">\r\n\t\t\r\n\t\t<h2 class=\"profile-name\">\r\n\t\t\t<a href=\"{@guid}\">{@post_title}<\/a>\r\n\t\t<\/h2>\r\n\r\n\t\t<div class=\"wp-block-button has-custom-font-size has-small-font-size\">\r\n\t\t\t<a class=\"wp-block-button__link has-background\" style=\"border-radius: 0px;\" href=\"{@guid}\">View<\/a>\r\n\t\t<\/div>\r\n\t\t\r\n\t<\/div>\r\n\t\r\n\t\r\n<\/div>",
+            "code": "<div class=\"profile-box\" style=\"display: flex; margin: 1.5em 0;\">\r\n\t\r\n\t<div class=\"profile-image\" style=\"margin-right: 0.6em;\">\r\n\t\t<a href=\"{@guid}\">\r\n\t\t\t[if show_portrait]\r\n\t\t\t{@portrait._img.thumbnail}\r\n\t\t\t[else]\r\n\t\t\t\t[if post_thumbnail]\r\n\t\t\t\t{@post_thumbnail}\r\n\t\t\t\t[else]\r\n\t\t\t\t<img src=\"https:\/\/swansea.art\/wp-content\/uploads\/2022\/06\/Profile-image-placeholder.png\" width=\"150\" height=\"150\">\r\n\t\t\t\t[\/if]\r\n\t\t\t[\/if]\r\n\t\t<\/a>\r\n\t<\/div>\r\n\t\r\n\t\r\n\t<div class=\"profile-info\">\r\n\t\t\r\n\t\t<h2 class=\"profile-name\">\r\n\t\t\t<a href=\"{@guid}\">{@post_title}<\/a>\r\n\t\t<\/h2>\r\n\r\n\t\t<div class=\"wp-block-button has-custom-font-size has-small-font-size\">\r\n\t\t\t<a class=\"wp-block-button__link has-background\" style=\"border-radius: 0px;\" href=\"{@guid}\">View<\/a>\r\n\t\t<\/div>\r\n\t\t\r\n\t<\/div>\r\n\t\r\n\t\r\n<\/div>",
             "pod_reference": {
                 "pod": "profile"
             },
@@ -3009,8 +2782,8 @@
         },
         {
             "name": "Profile Image",
-            "id": 118,
-            "code": "[if profile_image]\r\n{@profile_image}\r\n[else]\r\n{@post_thumbnail}\r\n[\/if]",
+            "id": 109,
+            "code": "[if portrait]\r\n{@portrait}\r\n[else]\r\n{@post_thumbnail}\r\n[\/if]",
             "pod_reference": {
                 "pod": "profile"
             },
@@ -3018,12 +2791,12 @@
         },
         {
             "name": "Profile Template",
-            "id": 119,
+            "id": 110,
             "_pods_capability_allowed": [
                 ""
             ],
             "admin_only": "0",
-            "code": "[if post_thumbnail]\r\n\t<figure class=\"entry-thumb\">\r\n\t\t{@post_thumbnail.full}\r\n\t<\/figure>\r\n[\/if]\r\n\r\n\r\n<h1 class=\"entry-title\">{@post_title}<\/h1>\r\n\r\n[if show_lifespan]\r\n\t<div class=\"\">\r\n\t\t[if year_of_birth]\r\n\t\t\t<span>b. {@year_of_birth}<\/span>\r\n\t\t[\/if]\r\n\t\t[if year_of_death]\r\n\t\t\t-\r\n\t\t\t<span>d. {@year_of_death}<\/span>\r\n\t\t[\/if]\r\n\t<\/div>\r\n[\/if]\r\n\r\n\r\n<div class=\"entry-meta taxonomy-list\">\r\n\t[each galerio_group]\r\n\t\t<span>\r\n\t\t\t<a href=\"{@permalink}\">{@name}<\/a>\r\n\t\t<\/span>\r\n\t[\/each]\r\n<\/div>\r\n\r\n\r\n<section class=\"body-content\">\r\n\t\r\n\t<div class=\"profile-info\">\r\n\t\r\n\t\t[if show_profile_image]\r\n\t\t\t<div class=\"profile-image\">\r\n\t\t\t\t{@profile_image._img.thumbnail}\r\n\t\t\t<\/div>\r\n\t\t[\/if]\r\n\r\n\t\t<div class=\"profile-bio\">\r\n\t\t\t[if profile_bio]\r\n\t\t\t\t{@profile_bio}\r\n\t\t\t[else]\r\n\t\t\t\t<p>No information provided. How very mysterious!<p>\r\n\t\t\t\t<p>Some options are: \r\n\t\t\t\t\t<a href=\"javascript:history.back()\">go back a page<\/a>,\r\n\t\t\t\t\t<a href=\"\/profile\">view all profiles<\/a>, or\r\n\t\t\t\t\t<a href=\"\/\">go to the home page<\/a>.\r\n\t\t\t\t<\/p>\r\n\t\t\t[\/if]\r\n\t\t<\/div>\r\n\t\t\r\n\t\t[if is_collective]\r\n\t\t\t<div class=\"collective-members\">\r\n\t\t\t\t<h4>Members:<\/h4>\r\n\t\t\t\t<ul>\r\n\t\t\t\t\t[each collective_members]\r\n\t\t\t\t\t\t<li><a href=\"{@permalink}\">{@collective_members.post_title}<\/a><\/li>\r\n\t\t\t\t\t[\/each]\r\n\t\t\t\t<\/ul>\r\n\t\t\t<\/div>\r\n\t\t[\/if]\r\n\t\t\r\n\t<\/div>\r\n\t\r\n\t\r\n\t<aside class=\"related-info\">\r\n\t\t\r\n\t\t[if in_collections]\r\n\t\t\t<div class=\"featured-exhibits side-info\">\r\n\t\t\t\t<h4>Featured in:<\/h4>\r\n\t\t\t\t<ul>\r\n\t\t\t\t\t[each in_collections]\r\n\t\t\t\t\t\t[if field=\"in_collections.post_status\" value=\"Published\" compare=\"LIKE\"]\r\n\t\t\t\t\t\t\t<li>{@in_collections.post_status}<\/li>\r\n\t\t\t\t\t\t[\/if]\r\n\t\t\t\t\t\t<li><a href=\"{@permalink}\">{@in_collections.post_title}<\/a><\/li>\r\n\t\t\t\t\t[\/each]\r\n\t\t\t\t<\/ul>\r\n\t\t\t<\/div>\r\n\t\t[\/if]\r\n\t\t\r\n\t\t[if featured_works]\r\n\t\t\t<div class=\"featured-works side-info\">\r\n\t\t\t\t<h4>Featured works:<\/h4>\r\n\t\t\t\t<ul>\r\n\t\t\t\t\t[each featured_works]\r\n\t\t\t\t\t\t<li><a href=\"{@permalink}\">{@featured_works.post_title}<\/a><\/li>\r\n\t\t\t\t\t[\/each]\r\n\t\t\t\t<\/ul>\r\n\t\t\t<\/div>\r\n\t\t[\/if]\r\n\t\t\r\n\t\t[if accolades]\r\n\t\t\t<div class=\"accolades side-info\">\r\n\t\t\t\t<h4>Accolades:<\/h4>\r\n\t\t\t\t<ul>\r\n\t\t\t\t\t[each accolades]\r\n\t\t\t\t\t\t<li>{@_value}<\/li>\r\n\t\t\t\t\t[\/each]\r\n\t\t\t\t<\/ul>\r\n\t\t\t<\/div>\r\n\t\t[\/if]\r\n\t\t\r\n\t\t[if show_external_links]\r\n\t\t\t<div class=\"external-links side-info\">\r\n\t\t\t\t<h4>More links:<\/h4>\r\n\t\t\t\t<ul>\r\n\t\t\t\t\t[if personal_website]\r\n\t\t\t\t\t\t<li><a href=\"{@personal_website}\" target=\"_blank\" rel=\"noopener\">Artist's website<\/a><\/li>\r\n\t\t\t\t\t[\/if]\r\n\t\t\t\t\t[if personal_instagram]\r\n\t\t\t\t\t\t<li><a href=\"{@personal_instagram}\" target=\"_blank\" rel=\"noopener\">Instagram profile<\/a><\/li>\r\n\t\t\t\t\t[\/if]\r\n\t\t\t\t\t[if personal_youtube]\r\n\t\t\t\t\t\t<li><a href=\"{@personal_youtube}\" target=\"_blank\" rel=\"noopener\">YouTube channel<\/a><\/li>\r\n\t\t\t\t\t[\/if]\r\n\t\t\t\t\t[if personal_vimeo]\r\n\t\t\t\t\t\t<li><a href=\"{@personal_vimeo}\" target=\"_blank\" rel=\"noopener\">Vimeo channel<\/a><\/li>\r\n\t\t\t\t\t[\/if]\r\n\t\t\t\t\t[if personal_facebook]\r\n\t\t\t\t\t\t<li><a href=\"{@personal_facebook}\" target=\"_blank\" rel=\"noopener\">Facebook profile<\/a><\/li>\r\n\t\t\t\t\t[\/if]\r\n\t\t\t\t\t[if personal_twitter]\r\n\t\t\t\t\t\t<li><a href=\"{@personal_twitter}\" target=\"_blank\" rel=\"noopener\">Twitter page<\/a><\/li>\r\n\t\t\t\t\t[\/if]\r\n\t\t\t\t<\/ul>\r\n\t\t\t<\/div>\r\n\t\t[\/if]\r\n\r\n\t<\/aside>\r\n\t\r\n<\/section>\r\n\r\n<div class=\"section-spacer\"><\/div>",
+            "code": "[if post_thumbnail]\r\n\t<figure class=\"entry-thumb\">\r\n\t\t{@post_thumbnail.full}\r\n\t<\/figure>\r\n[\/if]\r\n\r\n\r\n<h1 class=\"entry-title\">{@post_title}<\/h1>\r\n\r\n[if show_lifespan]\r\n\t<div class=\"\">\r\n\t\t[if year_of_birth]\r\n\t\t\t<span>b. {@year_of_birth}<\/span>\r\n\t\t[\/if]\r\n\t\t[if year_of_death]\r\n\t\t\t-\r\n\t\t\t<span>d. {@year_of_death}<\/span>\r\n\t\t[\/if]\r\n\t<\/div>\r\n[\/if]\r\n\r\n\r\n<div class=\"entry-meta taxonomy-list\">\r\n\t[each galerio_group]\r\n\t\t<span>\r\n\t\t\t<a href=\"{@permalink}\">{@name}<\/a>\r\n\t\t<\/span>\r\n\t[\/each]\r\n<\/div>\r\n\r\n\r\n<section class=\"body-content\">\r\n\t\r\n\t<div class=\"profile-info\">\r\n\t\r\n\t\t[if show_portrait]\r\n\t\t\t<div class=\"profile-image\">\r\n\t\t\t\t{@portrait._img.thumbnail}\r\n\t\t\t<\/div>\r\n\t\t[\/if]\r\n\r\n\t\t<div class=\"profile-bio\">\r\n\t\t\t[if bio]\r\n\t\t\t\t{@bio}\r\n\t\t\t[else]\r\n\t\t\t\t<p>No information provided. How very mysterious!<p>\r\n\t\t\t\t<p>Some options are: \r\n\t\t\t\t\t<a href=\"javascript:history.back()\">go back a page<\/a>,\r\n\t\t\t\t\t<a href=\"\/profile\">view all profiles<\/a>, or\r\n\t\t\t\t\t<a href=\"\/\">go to the home page<\/a>.\r\n\t\t\t\t<\/p>\r\n\t\t\t[\/if]\r\n\t\t<\/div>\r\n\t\t\r\n\t\t[if is_collective]\r\n\t\t\t<div class=\"collective-members\">\r\n\t\t\t\t<h4>Members:<\/h4>\r\n\t\t\t\t<ul>\r\n\t\t\t\t\t[each members]\r\n\t\t\t\t\t\t<li><a href=\"{@permalink}\">{@members.post_title}<\/a><\/li>\r\n\t\t\t\t\t[\/each]\r\n\t\t\t\t<\/ul>\r\n\t\t\t<\/div>\r\n\t\t[\/if]\r\n\t\t\r\n\t<\/div>\r\n\t\r\n\t\r\n\t<aside class=\"related-info\">\r\n\t\t\r\n\t\t[if collections]\r\n\t\t\t<div class=\"featured-exhibits side-info\">\r\n\t\t\t\t<h4>Featured in:<\/h4>\r\n\t\t\t\t<ul>\r\n\t\t\t\t\t[each collections]\r\n\t\t\t\t\t\t[if field=\"collections.post_status\" value=\"Published\" compare=\"LIKE\"]\r\n\t\t\t\t\t\t\t<li>{@collections.post_status}<\/li>\r\n\t\t\t\t\t\t[\/if]\r\n\t\t\t\t\t\t<li><a href=\"{@permalink}\">{@collections.post_title}<\/a><\/li>\r\n\t\t\t\t\t[\/each]\r\n\t\t\t\t<\/ul>\r\n\t\t\t<\/div>\r\n\t\t[\/if]\r\n\t\t\r\n\t\t[if works]\r\n\t\t\t<div class=\"featured-works side-info\">\r\n\t\t\t\t<h4>Featured works:<\/h4>\r\n\t\t\t\t<ul>\r\n\t\t\t\t\t[each works]\r\n\t\t\t\t\t\t<li><a href=\"{@permalink}\">{@works.post_title}<\/a><\/li>\r\n\t\t\t\t\t[\/each]\r\n\t\t\t\t<\/ul>\r\n\t\t\t<\/div>\r\n\t\t[\/if]\r\n\t\t\r\n\t\t[if accolades]\r\n\t\t\t<div class=\"accolades side-info\">\r\n\t\t\t\t<h4>Accolades:<\/h4>\r\n\t\t\t\t<ul>\r\n\t\t\t\t\t[each accolades]\r\n\t\t\t\t\t\t<li>{@_value}<\/li>\r\n\t\t\t\t\t[\/each]\r\n\t\t\t\t<\/ul>\r\n\t\t\t<\/div>\r\n\t\t[\/if]\r\n\t\t\r\n\t\t[if show_links]\r\n\t\t\t<div class=\"external-links side-info\">\r\n\t\t\t\t<h4>More links:<\/h4>\r\n\t\t\t\t{@links}\r\n\t\t\t<\/div>\r\n\t\t[\/if]\r\n\r\n\t<\/aside>\r\n\t\r\n<\/section>\r\n\r\n<div class=\"section-spacer\"><\/div>",
             "pod_reference": {
                 "pod": "galerio_profile"
             },
@@ -3033,12 +2806,12 @@
         },
         {
             "name": "Profile: Asides",
-            "id": 120,
+            "id": 111,
             "_pods_capability_allowed": [
                 ""
             ],
             "admin_only": "0",
-            "code": "[if accolades]\r\n<aside class=\"wp-block-group is-layout-flow wp-block-group-is-layout-flow\">\r\n\r\n\t<h4 class=\"wp-block-heading\">Accolades:<\/h4>\r\n\t[each accolades]\r\n\t<div>{@_value}<\/div>\r\n\t[\/each]\r\n\t\r\n<\/aside>\r\n[\/if]\r\n\r\n\r\n\r\n[if in_collections]\r\n<aside class=\"wp-block-group is-layout-flow wp-block-group-is-layout-flow\">\r\n\r\n\t<h4 class=\"wp-block-heading\">Featured in:<\/h4>\r\n\t[each in_collections]\r\n\t<div><a href=\"{@permalink}\">{@post_title}<\/a><\/div>\r\n\t[\/each]\r\n\t\r\n<\/aside>\r\n[\/if]\r\n\r\n\r\n\r\n[if featured_works]\r\n<aside class=\"wp-block-group is-layout-flow wp-block-group-is-layout-flow\">\r\n\r\n\t<h4 class=\"wp-block-heading\">Featured works:<\/h4>\r\n\t[each featured_works]\r\n\t<div><a href=\"{@permalink}\">[if definitive_title]{@definitive_title}[else]{@post_title}[\/if]<\/a><\/div>\r\n\t[\/each]\r\n\t\r\n<\/aside>\r\n[\/if]\r\n\r\n\r\n\r\n[if show_external_links]\r\n<aside class=\"wp-block-group is-layout-flow wp-block-group-is-layout-flow\">\r\n\t\r\n\t<h4>More links:<\/h4>\r\n\t\r\n\t[if personal_website]\r\n\t<div><a href=\"{@personal_website}\" target=\"_blank\" rel=\"noopener\">Artist's website<\/a><\/div>\r\n\t[\/if]\r\n\t[if personal_instagram]\r\n\t<div><a href=\"{@personal_instagram}\" target=\"_blank\" rel=\"noopener\">Instagram profile<\/a><\/div>\r\n\t[\/if]\r\n\t[if personal_youtube]\r\n\t<div><a href=\"{@personal_youtube}\" target=\"_blank\" rel=\"noopener\">YouTube channel<\/a><\/div>\r\n\t[\/if]\r\n\t[if personal_vimeo]\r\n\t<div><a href=\"{@personal_vimeo}\" target=\"_blank\" rel=\"noopener\">Vimeo channel<\/a><\/div>\r\n\t[\/if]\r\n\t[if personal_facebook]\r\n\t<div><a href=\"{@personal_facebook}\" target=\"_blank\" rel=\"noopener\">Facebook profile<\/a><\/div>\r\n\t[\/if]\r\n\t[if personal_twitter]\r\n\t<div><a href=\"{@personal_twitter}\" target=\"_blank\" rel=\"noopener\">Twitter page<\/a><\/div>\r\n\t[\/if]\r\n\t[if other_websites]\r\n\t\t[each other_websites]\r\n\t\t<div>{@_value}<\/div>\r\n\t\t[\/each]\r\n\t[\/if]\r\n\t\r\n<\/aside>\r\n[\/if]",
+            "code": "[if accolades]\r\n<aside class=\"wp-block-group is-layout-flow wp-block-group-is-layout-flow\">\r\n\r\n\t<h4 class=\"wp-block-heading\">Accolades:<\/h4>\r\n\t[each accolades]\r\n\t<div>{@_value}<\/div>\r\n\t[\/each]\r\n\t\r\n<\/aside>\r\n[\/if]\r\n\r\n\r\n\r\n[if collections]\r\n<aside class=\"wp-block-group is-layout-flow wp-block-group-is-layout-flow\">\r\n\r\n\t<h4 class=\"wp-block-heading\">Featured in:<\/h4>\r\n\t[each collections]\r\n\t<div><a href=\"{@permalink}\">{@post_title}<\/a><\/div>\r\n\t[\/each]\r\n\t\r\n<\/aside>\r\n[\/if]\r\n\r\n\r\n\r\n[if works]\r\n<aside class=\"wp-block-group is-layout-flow wp-block-group-is-layout-flow\">\r\n\r\n\t<h4 class=\"wp-block-heading\">Featured works:<\/h4>\r\n\t[each works]\r\n\t<div><a href=\"{@permalink}\">[if definitive_title]{@definitive_title}[else]{@post_title}[\/if]<\/a><\/div>\r\n\t[\/each]\r\n\t\r\n<\/aside>\r\n[\/if]\r\n\r\n\r\n\r\n[if show_links]\r\n<aside class=\"wp-block-group is-layout-flow wp-block-group-is-layout-flow\">\r\n\t\r\n\t<h4>More links:<\/h4>\r\n\t\r\n\t{@links}\r\n\t\r\n<\/aside>\r\n[\/if]",
             "pod_reference": {
                 "pod": "galerio_profile"
             },
@@ -3048,12 +2821,12 @@
         },
         {
             "name": "Profile: Nationality, Birth & Death",
-            "id": 121,
+            "id": 112,
             "_pods_capability_allowed": [
                 ""
             ],
             "admin_only": "0",
-            "code": "[if profile_nationality]\r\n   {@profile_nationality}[if year_of_birth], [\/if]\r\n[\/if]\r\n[if year_of_birth]\r\n   b. {@year_of_birth}\r\n   [if year_of_death]\r\n      - d. {@year_of_death}\r\n   [\/if]\r\n[\/if]",
+            "code": "[if nationality]\r\n   {@nationality}[if year_of_birth], [\/if]\r\n[\/if]\r\n[if year_of_birth]\r\n   b. {@year_of_birth}\r\n   [if year_of_death]\r\n      - d. {@year_of_death}\r\n   [\/if]\r\n[\/if]",
             "pod_reference": {
                 "pod": "galerio_profile"
             },
@@ -3063,7 +2836,7 @@
         },
         {
             "name": "Related Collections",
-            "id": 122,
+            "id": 113,
             "code": "[if related_collections]\r\n<div>\r\n\t[each related_collections]\r\n\t<div>{@post_thumbnail}<\/div>\r\n\t<div>{@post_title}<\/div>\r\n\t[\/each]\r\n<\/div>\r\n[\/if]",
             "pod_reference": {
                 "pod": "collection"
@@ -3072,7 +2845,7 @@
         },
         {
             "name": "Work Archive: Entry Details",
-            "id": 123,
+            "id": 114,
             "_pods_capability_allowed": [
                 ""
             ],
@@ -3087,12 +2860,12 @@
         },
         {
             "name": "Work: Definitive Image",
-            "id": 124,
+            "id": 115,
             "_pods_capability_allowed": [
                 ""
             ],
             "admin_only": "0",
-            "code": "<figure class=\"wp-block-image\">\r\n\t[if principal_image]\r\n\t{@principal_image._img.medium_large}\r\n\t[else]\r\n\t{@post_thumbnail.medium_large}\r\n\t[\/if]\r\n<\/figure>",
+            "code": "<figure class=\"wp-block-image\">\r\n\t[if definitive_image]\r\n\t{@definitive_image._img.medium_large}\r\n\t[else]\r\n\t{@post_thumbnail.medium_large}\r\n\t[\/if]\r\n<\/figure>",
             "pod_reference": {
                 "pod": "galerio_work"
             },
@@ -3102,7 +2875,7 @@
         },
         {
             "name": "Work: Definitive Title",
-            "id": 125,
+            "id": 116,
             "_pods_capability_allowed": [
                 ""
             ],
@@ -3117,12 +2890,12 @@
         },
         {
             "name": "Work: In Collections",
-            "id": 126,
+            "id": 117,
             "_pods_capability_allowed": [
                 ""
             ],
             "admin_only": "0",
-            "code": "[each in_collections]\r\n<div>\r\n\t<a href=\"{@permalink}\">{@in_collections.post_title}<\/a>\r\n<\/div>\r\n[\/each]",
+            "code": "[each collections]\r\n<div>\r\n\t<a href=\"{@permalink}\">{@collections.post_title}<\/a>\r\n<\/div>\r\n[\/each]",
             "pod_reference": {
                 "pod": "galerio_work"
             },
@@ -3132,7 +2905,7 @@
         },
         {
             "name": "Work: Year, Creator",
-            "id": 127,
+            "id": 118,
             "_pods_capability_allowed": [
                 ""
             ],

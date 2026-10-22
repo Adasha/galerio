@@ -37,7 +37,7 @@ class Test_Bindings extends Galerio_TestCase {
 		$fields->save( $fields->get( 'work.year' ), $this->work, 2018 );
 		$fields->save( $fields->get( 'work.definitive_title' ), $this->work, 'Fish & Chips' );
 		$fields->save( $fields->get( 'work.creator' ), $this->work, $profile );
-		$fields->save( $fields->get( 'work.website_url' ), $this->work, 'https://example.org/copperworks' );
+		$fields->save( $fields->get( 'work.website' ), $this->work, array( 'url' => 'https://example.org/copperworks' ) );
 	}
 
 	/**
@@ -119,7 +119,7 @@ class Test_Bindings extends Galerio_TestCase {
 			$this->block(
 				'button',
 				array(
-					'url'  => 'work.website_url',
+					'url'  => 'work.website',
 					'text' => 'work.creator',
 				),
 				'<div class="wp-block-button"><a class="wp-block-button__link wp-element-button">Visit</a></div>'
@@ -137,14 +137,14 @@ class Test_Bindings extends Galerio_TestCase {
 	public function test_image() {
 		$image = self::factory()->attachment->create_upload_object( DIR_TESTDATA . '/images/canola.jpg' );
 		update_post_meta( $image, '_wp_attachment_image_alt', 'A field of canola' );
-		galerio_fields()->save( galerio_fields()->get( 'work.principal_image' ), $this->work, $image );
+		galerio_fields()->save( galerio_fields()->get( 'work.definitive_image' ), $this->work, $image );
 
 		$html = $this->render(
 			$this->block(
 				'image',
 				array(
-					'url' => 'work.principal_image',
-					'alt' => 'work.principal_image',
+					'url' => 'work.definitive_image',
+					'alt' => 'work.definitive_image',
 				),
 				'<figure class="wp-block-image"><img alt=""/></figure>'
 			)
@@ -177,7 +177,7 @@ class Test_Bindings extends Galerio_TestCase {
 			'empty field'      => array( 'work.medium' ),
 			'unknown field'    => array( 'work.no_such_field' ),
 			'other object'     => array( 'profile.nationality' ),
-			'non-public field' => array( 'profile.hidden_bio' ),
+			'non-public field' => array( 'profile.notes' ),
 		);
 	}
 
@@ -186,9 +186,9 @@ class Test_Bindings extends Galerio_TestCase {
 	 */
 	public function test_private_field_not_exposed() {
 		$profile = self::factory()->post->create( array( 'post_type' => 'galerio_profile' ) );
-		galerio_fields()->save( galerio_fields()->get( 'profile.hidden_bio' ), $profile, 'Secret' );
+		galerio_fields()->save( galerio_fields()->get( 'profile.notes' ), $profile, 'Secret' );
 
-		$html = $this->render( $this->block( 'paragraph', array( 'content' => 'hidden_bio' ), '<p>Saved</p>' ), $profile );
+		$html = $this->render( $this->block( 'paragraph', array( 'content' => 'notes' ), '<p>Saved</p>' ), $profile );
 
 		$this->assertStringNotContainsString( 'Secret', $html );
 	}
@@ -221,6 +221,6 @@ class Test_Bindings extends Galerio_TestCase {
 		$before = implode( '', wp_scripts()->get_data( 'galerio-field-bindings', 'before' ) );
 
 		$this->assertStringContainsString( '"work.year"', $before );
-		$this->assertStringNotContainsString( 'hidden_bio', $before );
+		$this->assertStringNotContainsString( 'profile.notes', $before );
 	}
 }

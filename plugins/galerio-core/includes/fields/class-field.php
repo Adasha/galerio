@@ -34,6 +34,7 @@ final class Field {
 		'date'     => false,
 		'year'     => false,
 		'boolean'  => false,
+		'link'     => false,
 		'image'    => true,
 		'relation' => true,
 	);
@@ -197,6 +198,7 @@ final class Field {
 			case 'relation':
 				return 0;
 			case 'year':
+			case 'link':
 				return null;
 			default:
 				return '';
@@ -207,12 +209,17 @@ final class Field {
 	 * Coerce a value to the field's canonical raw form.
 	 *
 	 * Text types become strings, dates "Y-m-d", years integers, booleans
-	 * booleans and IDs positive integers. Multiple fields become lists.
+	 * booleans, IDs positive integers and links arrays of url, label and
+	 * offline. Multiple fields become lists.
 	 *
 	 * @param mixed $value Value to normalise.
 	 * @return mixed
 	 */
 	public function normalise( $value ) {
+		if ( 'link' === $this->type ) {
+			$value = self::link_list( $value );
+		}
+
 		if ( $this->multiple ) {
 			$values = is_array( $value ) ? $value : ( ( null === $value || '' === $value || false === $value ) ? array() : array( $value ) );
 			$values = array_map( array( $this, 'normalise_one' ), $values );
@@ -264,6 +271,16 @@ final class Field {
 				$year = (int) substr( (string) $value, 0, 4 );
 				return $year > 0 ? $year : null;
 
+			case 'link':
+				if ( ! is_array( $value ) || ! isset( $value['url'] ) || ! is_scalar( $value['url'] ) || '' === trim( (string) $value['url'] ) ) {
+					return null;
+				}
+				return array(
+					'url'     => trim( (string) $value['url'] ),
+					'label'   => isset( $value['label'] ) && is_scalar( $value['label'] ) ? (string) $value['label'] : '',
+					'offline' => ! empty( $value['offline'] ),
+				);
+
 			case 'date':
 				if ( ! is_string( $value ) || ! preg_match( '/^\d{4}-\d{2}-\d{2}/', $value ) || 0 === strpos( $value, '0000' ) ) {
 					return null;
@@ -277,5 +294,27 @@ final class Field {
 				$value = (string) $value;
 				return '' === $value ? null : $value;
 		}
+	}
+
+	/**
+	 * Turn a stored link value into a list of link arrays.
+	 *
+	 * Accepts JSON as stored by Pods, a single link, a list of links, or a
+	 * bare URL.
+	 *
+	 * @param mixed $value Value.
+	 * @return array[]
+	 */
+	private static function link_list( $value ) {
+		if ( is_string( $value ) ) {
+			$decoded = json_decode( $value, true );
+			$value   = is_array( $decoded ) ? $decoded : array( 'url' => $value );
+		}
+
+		if ( ! is_array( $value ) ) {
+			return array();
+		}
+
+		return isset( $value['url'] ) ? array( $value ) : array_values( $value );
 	}
 }

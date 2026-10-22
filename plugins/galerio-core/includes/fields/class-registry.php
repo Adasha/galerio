@@ -222,7 +222,9 @@ final class Registry {
 			'embed'    => 'esc_url_raw',
 		);
 
-		if ( isset( $sanitizers[ $field->type ] ) ) {
+		if ( 'link' === $field->type ) {
+			$value = self::sanitize_links( $field, $value );
+		} elseif ( isset( $sanitizers[ $field->type ] ) ) {
 			$value = is_array( $value ) ? array_map( $sanitizers[ $field->type ], $value ) : call_user_func( $sanitizers[ $field->type ], (string) $value );
 		}
 
@@ -231,6 +233,32 @@ final class Registry {
 		}
 
 		return $this->adapter->set( $field, $object_id, $field->normalise( $value ) );
+	}
+
+	/**
+	 * Sanitise a link field's value, dropping links whose URL isn't safe.
+	 *
+	 * @param Field $field Link field.
+	 * @param mixed $value Value.
+	 * @return array|null A list of links, a link, or null.
+	 */
+	private static function sanitize_links( Field $field, $value ) {
+		$links = array();
+
+		foreach ( $field->multiple ? $field->normalise( $value ) : array_filter( array( $field->normalise( $value ) ) ) as $link ) {
+			$link['url']   = esc_url_raw( $link['url'] );
+			$link['label'] = sanitize_text_field( $link['label'] );
+
+			if ( '' !== $link['url'] ) {
+				$links[] = $link;
+			}
+		}
+
+		if ( $field->multiple ) {
+			return $links;
+		}
+
+		return $links ? $links[0] : null;
 	}
 
 	/**

@@ -2,10 +2,9 @@
 /**
  * Galerio's own field definitions.
  *
- * Keys are the logical names templates and blocks use. `source` is the field's
- * name in the Pods package (data/pods/galerio.json) where the two differ. New
- * fields must also be added to the package, and changes must stay compatible
- * with existing sites' data.
+ * Keys are the names templates and blocks use, and each field's name is also
+ * its name in the Pods package (data/pods/galerio.json). New fields must be
+ * added to both, and renaming one needs a migration for existing sites' data.
  *
  * @package Galerio\Core
  */
@@ -26,58 +25,50 @@ return array(
 		'type'  => 'year',
 		'label' => __( 'Year', 'galerio-core' ),
 	),
-	'work.principal_image'           => array(
+	'work.definitive_image'          => array(
 		'type'  => 'image',
-		'label' => __( 'Principal image', 'galerio-core' ),
+		'label' => __( 'Definitive image', 'galerio-core' ),
 	),
-	'work.additional_images'         => array(
+	'work.images'                    => array(
 		'type'     => 'image',
 		'multiple' => true,
-		'label'    => __( 'Additional images', 'galerio-core' ),
+		'label'    => __( 'Images', 'galerio-core' ),
 	),
 	'work.description'               => array(
-		'type'       => 'html',
-		'label'      => __( 'Description', 'galerio-core' ),
-		'deprecated' => __( 'Write the description in the post content instead.', 'galerio-core' ),
+		'type'  => 'html',
+		'label' => __( 'Description', 'galerio-core' ),
 	),
 	'work.medium'                    => array(
-		'source' => 'work_medium',
-		'label'  => __( 'Medium', 'galerio-core' ),
-	),
-	'work.categorisation'            => array(
-		'source' => 'work_categorisation',
-		'label'  => __( 'Categorisation', 'galerio-core' ),
+		'label' => __( 'Medium', 'galerio-core' ),
 	),
 	'work.dimensions'                => array(
-		'source' => 'work_dimensions',
-		'label'  => __( 'Dimensions', 'galerio-core' ),
+		'label' => __( 'Dimensions', 'galerio-core' ),
 	),
 	'work.duration'                  => array(
-		'source' => 'work_duration',
-		'label'  => __( 'Duration', 'galerio-core' ),
+		'label' => __( 'Duration', 'galerio-core' ),
 	),
 	'work.location'                  => array(
-		'source' => 'work_location',
-		'label'  => __( 'Location', 'galerio-core' ),
+		'label' => __( 'Location', 'galerio-core' ),
 	),
-	'work.website_name'              => array(
-		'label' => __( 'Website name', 'galerio-core' ),
+	'work.owner'                     => array(
+		'public' => false,
+		'label'  => __( 'Current owner', 'galerio-core' ),
 	),
-	'work.website_url'               => array(
-		'type'  => 'url',
-		'label' => __( 'Website URL', 'galerio-core' ),
+	'work.website'                   => array(
+		'type'  => 'link',
+		'label' => __( 'Website', 'galerio-core' ),
 	),
-	'work.in_collections'            => array(
+	'work.collections'               => array(
 		'type'     => 'relation',
 		'target'   => 'collection',
 		'multiple' => true,
-		'label'    => __( 'In collections', 'galerio-core' ),
+		'label'    => __( 'Collections', 'galerio-core' ),
 	),
-	'work.in_articles'               => array(
+	'work.articles'                  => array(
 		'type'     => 'relation',
 		'target'   => 'article',
 		'multiple' => true,
-		'label'    => __( 'In articles', 'galerio-core' ),
+		'label'    => __( 'Articles', 'galerio-core' ),
 	),
 	'work.related_works'             => array(
 		'type'     => 'relation',
@@ -87,19 +78,20 @@ return array(
 	),
 
 	// Creator profiles.
-	'profile.image'                  => array(
-		'type'   => 'image',
-		'source' => 'profile_image',
-		'label'  => __( 'Profile image', 'galerio-core' ),
+	'profile.portrait'               => array(
+		'type'  => 'image',
+		'label' => __( 'Portrait', 'galerio-core' ),
 	),
-	'profile.show_image'             => array(
-		'type'   => 'boolean',
-		'source' => 'show_profile_image',
-		'label'  => __( 'Show profile image', 'galerio-core' ),
+	'profile.show_portrait'          => array(
+		'type'  => 'boolean',
+		'label' => __( 'Show portrait', 'galerio-core' ),
 	),
 	'profile.nationality'            => array(
-		'source' => 'profile_nationality',
-		'label'  => __( 'Nationality', 'galerio-core' ),
+		'label' => __( 'Nationality', 'galerio-core' ),
+	),
+	'profile.show_nationality'       => array(
+		'type'  => 'boolean',
+		'label' => __( 'Show nationality', 'galerio-core' ),
 	),
 	'profile.year_of_birth'          => array(
 		'type'  => 'year',
@@ -117,38 +109,43 @@ return array(
 		'type'  => 'boolean',
 		'label' => __( 'Is a collective', 'galerio-core' ),
 	),
-	'profile.collective_members'     => array(
+	'profile.members'                => array(
 		'type'     => 'relation',
 		'target'   => 'profile',
 		'multiple' => true,
-		'label'    => __( 'Collective members', 'galerio-core' ),
+		'label'    => __( 'Members', 'galerio-core' ),
+	),
+	'profile.member_of'              => array(
+		'type'     => 'relation',
+		'target'   => 'profile',
+		'multiple' => true,
+		'label'    => __( 'Member of', 'galerio-core' ),
 	),
 	'profile.bio'                    => array(
-		'type'   => 'html',
-		'source' => 'profile_bio',
-		'label'  => __( 'Biography', 'galerio-core' ),
+		'type'  => 'html',
+		'label' => __( 'Biography', 'galerio-core' ),
 	),
-	'profile.hidden_bio'             => array(
+	'profile.notes'                  => array(
 		'type'   => 'html',
 		'public' => false,
-		'label'  => __( 'Private biography', 'galerio-core' ),
+		'label'  => __( 'Notes', 'galerio-core' ),
 	),
 	'profile.accolades'              => array(
 		'type'     => 'textarea',
 		'multiple' => true,
 		'label'    => __( 'Accolades', 'galerio-core' ),
 	),
-	'profile.featured_works'         => array(
+	'profile.works'                  => array(
 		'type'     => 'relation',
 		'target'   => 'work',
 		'multiple' => true,
-		'label'    => __( 'Featured works', 'galerio-core' ),
+		'label'    => __( 'Works', 'galerio-core' ),
 	),
-	'profile.in_collections'         => array(
+	'profile.collections'            => array(
 		'type'     => 'relation',
 		'target'   => 'collection',
 		'multiple' => true,
-		'label'    => __( 'In collections', 'galerio-core' ),
+		'label'    => __( 'Collections', 'galerio-core' ),
 	),
 	'profile.article_mentions'       => array(
 		'type'     => 'relation',
@@ -156,145 +153,91 @@ return array(
 		'multiple' => true,
 		'label'    => __( 'Mentioned in articles', 'galerio-core' ),
 	),
-	'profile.related_profiles'       => array(
-		'type'     => 'relation',
-		'target'   => 'profile',
-		'multiple' => true,
-		'label'    => __( 'Related profiles', 'galerio-core' ),
-	),
 	'profile.authored_articles'      => array(
 		'type'     => 'relation',
 		'target'   => 'article',
 		'multiple' => true,
 		'label'    => __( 'Authored articles', 'galerio-core' ),
 	),
-	'profile.show_external_links'    => array(
-		'type'  => 'boolean',
-		'label' => __( 'Show external links', 'galerio-core' ),
-	),
-	'profile.website'                => array(
-		'type'   => 'url',
-		'source' => 'personal_website',
-		'label'  => __( 'Website', 'galerio-core' ),
-	),
-	'profile.axisweb'                => array(
-		'type'   => 'url',
-		'source' => 'personal_axisweb',
-		'label'  => __( 'Axisweb', 'galerio-core' ),
-	),
-	'profile.instagram'              => array(
-		'type'   => 'url',
-		'source' => 'personal_instagram',
-		'label'  => __( 'Instagram', 'galerio-core' ),
-	),
-	'profile.youtube'                => array(
-		'type'   => 'url',
-		'source' => 'personal_youtube',
-		'label'  => __( 'YouTube', 'galerio-core' ),
-	),
-	'profile.vimeo'                  => array(
-		'type'   => 'url',
-		'source' => 'personal_vimeo',
-		'label'  => __( 'Vimeo', 'galerio-core' ),
-	),
-	'profile.twitter'                => array(
-		'type'   => 'url',
-		'source' => 'personal_twitter',
-		'label'  => __( 'X (Twitter)', 'galerio-core' ),
-	),
-	'profile.bluesky'                => array(
-		'type'   => 'url',
-		'source' => 'personal_bluesky',
-		'label'  => __( 'Bluesky', 'galerio-core' ),
-	),
-	'profile.facebook'               => array(
-		'type'   => 'url',
-		'source' => 'personal_facebook',
-		'label'  => __( 'Facebook', 'galerio-core' ),
-	),
-	'profile.tiktok'                 => array(
-		'type'   => 'url',
-		'source' => 'personal_tiktok',
-		'label'  => __( 'TikTok', 'galerio-core' ),
-	),
-	'profile.other_websites'         => array(
-		'type'     => 'url',
+	'profile.related_profiles'       => array(
+		'type'     => 'relation',
+		'target'   => 'profile',
 		'multiple' => true,
-		'label'    => __( 'Other websites', 'galerio-core' ),
+		'label'    => __( 'Related profiles', 'galerio-core' ),
+	),
+	'profile.show_links'             => array(
+		'type'  => 'boolean',
+		'label' => __( 'Show links', 'galerio-core' ),
+	),
+	'profile.links'                  => array(
+		'type'     => 'link',
+		'multiple' => true,
+		'label'    => __( 'Links', 'galerio-core' ),
 	),
 
 	// Collections.
 	'collection.standfirst'          => array(
 		'label' => __( 'Standfirst', 'galerio-core' ),
 	),
-	'collection.location'            => array(
-		'label' => __( 'Location', 'galerio-core' ),
-	),
-	'collection.opening_date'        => array(
-		'type'  => 'date',
-		'label' => __( 'Opening date', 'galerio-core' ),
-	),
-	'collection.closing_date'        => array(
-		'type'  => 'date',
-		'label' => __( 'Closing date', 'galerio-core' ),
-	),
-	'collection.website_name'        => array(
-		'label' => __( 'Website name', 'galerio-core' ),
-	),
-	'collection.website_url'         => array(
-		'type'  => 'url',
-		'label' => __( 'Website URL', 'galerio-core' ),
-	),
-	'collection.dead_link'           => array(
-		'type'  => 'boolean',
-		'label' => __( 'Website no longer available', 'galerio-core' ),
-	),
 	'collection.description'         => array(
 		'type'  => 'html',
 		'label' => __( 'Description', 'galerio-core' ),
 	),
-	'collection.managed_media'       => array(
-		'type'  => 'boolean',
-		'label' => __( 'Managed media', 'galerio-core' ),
+	'collection.location'            => array(
+		'label' => __( 'Location', 'galerio-core' ),
+	),
+	'collection.start_date'          => array(
+		'type'  => 'date',
+		'label' => __( 'Start date', 'galerio-core' ),
+	),
+	'collection.end_date'            => array(
+		'type'  => 'date',
+		'label' => __( 'End date', 'galerio-core' ),
+	),
+	'collection.website'             => array(
+		'type'  => 'link',
+		'label' => __( 'Website', 'galerio-core' ),
 	),
 	'collection.images'              => array(
 		'type'     => 'image',
 		'multiple' => true,
-		'source'   => 'collection_images',
 		'label'    => __( 'Images', 'galerio-core' ),
 	),
-	'collection.random_image_order'  => array(
+	'collection.shuffle_images'      => array(
 		'type'  => 'boolean',
-		'label' => __( 'Random image order', 'galerio-core' ),
+		'label' => __( 'Shuffle images', 'galerio-core' ),
 	),
-	'collection.media_embeds'        => array(
+	'collection.embeds'              => array(
 		'type'     => 'embed',
 		'multiple' => true,
-		'source'   => 'media_embed_urls',
-		'label'    => __( 'Media embeds', 'galerio-core' ),
+		'label'    => __( 'Embeds', 'galerio-core' ),
 	),
 	'collection.notes'               => array(
 		'type'   => 'html',
 		'public' => false,
 		'label'  => __( 'Notes', 'galerio-core' ),
 	),
-	'collection.featured_profiles'   => array(
+	'collection.profiles'            => array(
 		'type'     => 'relation',
 		'target'   => 'profile',
 		'multiple' => true,
-		'label'    => __( 'Featured profiles', 'galerio-core' ),
+		'label'    => __( 'Profiles', 'galerio-core' ),
 	),
-	'collection.featured_works'      => array(
+	'collection.other_contributors'  => array(
+		'multiple' => true,
+		'label'    => __( 'Other contributors', 'galerio-core' ),
+	),
+	'collection.works'               => array(
 		'type'     => 'relation',
 		'target'   => 'work',
 		'multiple' => true,
-		'label'    => __( 'Featured works', 'galerio-core' ),
+		'label'    => __( 'Works', 'galerio-core' ),
 	),
-	'collection.in_articles'         => array(
+	'collection.articles'            => array(
 		'type'     => 'relation',
 		'target'   => 'article',
 		'multiple' => true,
-		'label'    => __( 'In articles', 'galerio-core' ),
+		'label'    => __( 'Articles', 'galerio-core' ),
 	),
 	'collection.related_collections' => array(
 		'type'     => 'relation',
@@ -311,26 +254,25 @@ return array(
 		'type'     => 'relation',
 		'target'   => 'profile',
 		'multiple' => true,
-		'source'   => 'article_author',
 		'label'    => __( 'Authors', 'galerio-core' ),
 	),
-	'article.featured_profiles'      => array(
+	'article.profiles'               => array(
 		'type'     => 'relation',
 		'target'   => 'profile',
 		'multiple' => true,
-		'label'    => __( 'Featured profiles', 'galerio-core' ),
+		'label'    => __( 'Profiles', 'galerio-core' ),
 	),
-	'article.featured_works'         => array(
+	'article.works'                  => array(
 		'type'     => 'relation',
 		'target'   => 'work',
 		'multiple' => true,
-		'label'    => __( 'Featured works', 'galerio-core' ),
+		'label'    => __( 'Works', 'galerio-core' ),
 	),
-	'article.featured_collections'   => array(
+	'article.collections'            => array(
 		'type'     => 'relation',
 		'target'   => 'collection',
 		'multiple' => true,
-		'label'    => __( 'Featured collections', 'galerio-core' ),
+		'label'    => __( 'Collections', 'galerio-core' ),
 	),
 	'article.related_articles'       => array(
 		'type'     => 'relation',
@@ -344,8 +286,8 @@ return array(
 		'type'  => 'year',
 		'label' => __( 'Year', 'galerio-core' ),
 	),
-	'attachment.creator'             => array(
-		'label' => __( 'Creator', 'galerio-core' ),
+	'attachment.credit'              => array(
+		'label' => __( 'Credit', 'galerio-core' ),
 	),
 	'attachment.copyright'           => array(
 		'label' => __( 'Copyright', 'galerio-core' ),

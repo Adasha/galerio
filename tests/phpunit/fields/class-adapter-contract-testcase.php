@@ -106,13 +106,43 @@ abstract class Galerio_Adapter_Contract_TestCase extends Galerio_TestCase {
 		return array(
 			'text'                => array( 'work.definitive_title', 'Copperworks II' ),
 			'html'                => array( 'collection.description', '<p>Paintings of the <strong>coast</strong>.</p>' ),
-			'url'                 => array( 'work.website_url', 'https://example.org/work' ),
-			'repeatable url'      => array( 'profile.other_websites', array( 'https://example.org/a', 'https://example.org/b' ) ),
+			'link'                => array(
+				'work.website',
+				array(
+					'url'     => 'https://example.org/work',
+					'label'   => 'The work online',
+					'offline' => false,
+				),
+			),
+			'offline link'        => array(
+				'collection.website',
+				array(
+					'url'     => 'https://example.org/old-show',
+					'label'   => '',
+					'offline' => true,
+				),
+			),
+			'several links'       => array(
+				'profile.links',
+				array(
+					array(
+						'url'     => 'https://instagram.com/example',
+						'label'   => '',
+						'offline' => false,
+					),
+					array(
+						'url'     => 'https://example.org/me',
+						'label'   => 'My site',
+						'offline' => false,
+					),
+				),
+			),
+			'repeatable text'     => array( 'collection.other_contributors', array( 'Sian Rees', 'Huw Davies' ) ),
 			'repeatable textarea' => array( 'profile.accolades', array( 'First prize', 'Second prize' ) ),
-			'date'                => array( 'collection.opening_date', '2024-03-15' ),
+			'date'                => array( 'collection.start_date', '2024-03-15' ),
 			'year'                => array( 'work.year', 2018 ),
-			'boolean true'        => array( 'collection.dead_link', true ),
-			'boolean false'       => array( 'collection.dead_link', false ),
+			'boolean true'        => array( 'collection.shuffle_images', true ),
+			'boolean false'       => array( 'collection.shuffle_images', false ),
 			'attachment text'     => array( 'attachment.copyright', '© Tomos Price' ),
 			'attachment year'     => array( 'attachment.year', 1999 ),
 		);
@@ -122,7 +152,7 @@ abstract class Galerio_Adapter_Contract_TestCase extends Galerio_TestCase {
 	 * A single image is stored and returned as an attachment ID.
 	 */
 	public function test_single_image() {
-		$field = $this->field( 'work.principal_image' );
+		$field = $this->field( 'work.definitive_image' );
 		$id    = $this->make_object( 'work' );
 		$image = $this->make_object( 'attachment' );
 
@@ -135,7 +165,7 @@ abstract class Galerio_Adapter_Contract_TestCase extends Galerio_TestCase {
 	 * Multiple images keep their order.
 	 */
 	public function test_multiple_images_keep_order() {
-		$field  = $this->field( 'work.additional_images' );
+		$field  = $this->field( 'work.images' );
 		$id     = $this->make_object( 'work' );
 		$images = array( $this->make_object( 'attachment' ), $this->make_object( 'attachment' ), $this->make_object( 'attachment' ) );
 		$images = array_reverse( $images );
@@ -162,7 +192,7 @@ abstract class Galerio_Adapter_Contract_TestCase extends Galerio_TestCase {
 	 * Multiple relations keep their order.
 	 */
 	public function test_multiple_relations_keep_order() {
-		$field   = $this->field( 'work.in_collections' );
+		$field   = $this->field( 'work.collections' );
 		$id      = $this->make_object( 'work' );
 		$related = array( $this->make_object( 'collection' ), $this->make_object( 'collection' ) );
 		$related = array_reverse( $related );
@@ -195,13 +225,14 @@ abstract class Galerio_Adapter_Contract_TestCase extends Galerio_TestCase {
 		return array(
 			'text'              => array( 'work.definitive_title' ),
 			'year'              => array( 'work.year' ),
-			'date'              => array( 'collection.opening_date' ),
-			'boolean'           => array( 'collection.dead_link' ),
-			'image'             => array( 'work.principal_image' ),
-			'multiple images'   => array( 'work.additional_images' ),
+			'date'              => array( 'collection.start_date' ),
+			'boolean'           => array( 'collection.shuffle_images' ),
+			'image'             => array( 'work.definitive_image' ),
+			'multiple images'   => array( 'work.images' ),
 			'relation'          => array( 'work.creator' ),
-			'multiple relation' => array( 'work.in_collections' ),
-			'repeatable url'    => array( 'profile.other_websites' ),
+			'multiple relation' => array( 'work.collections' ),
+			'link'              => array( 'work.website' ),
+			'several links'     => array( 'profile.links' ),
 		);
 	}
 
