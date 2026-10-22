@@ -1,4 +1,6 @@
 {
+    "$schema": "https://schemas.wp.org/trunk/theme.json",
+    "version": 3,
     "settings": {
         "appearanceTools": true,
         "blocks": {
@@ -465,22 +467,11 @@
             "core/navigation": {
                 "variations": {
                     "main-menu": {
-                        "elements": {
-                            "link": {
-                                ":hover": {
-                                    "color": {
-                                        "background": "var(--wp--preset--color--contrast)",
-                                        "text": "var(--wp--preset--color--base)"
-                                    }
-                                },
-                                "color": {
-                                    "text": "var(--wp--preset--color--contrast)"
-                                },
-                                "spacing": {}
-                            }
+                        "spacing": {
+                            "blockGap": "var(--wp--preset--spacing--40)"
                         },
                         "typography": {
-                            "fontFamily": "var(--wp--preset--font-family--arvo)"
+                            "lineHeight": "1.5"
                         }
                     }
                 }
@@ -524,6 +515,7 @@
                                 "color": {
                                     "background": "var(--wp--preset--color--custom-highlight)"
                                 },
+                                "css": "text-wrap: nowrap",
                                 "spacing": {
                                     "padding": {
                                         "bottom": "var(--wp--preset--spacing--20)",
@@ -534,8 +526,7 @@
                                 },
                                 "typography": {
                                     "textDecoration": "none"
-                                },
-                                "css": "text-wrap: nowrap"
+                                }
                             }
                         },
                         "spacing": {
@@ -687,7 +678,5 @@
             "lineHeight": "1.4",
             "textTransform": "none"
         }
-    },
-    "version": 3,
-    "$schema": "https://schemas.wp.org/trunk/theme.json"
+    }
 }

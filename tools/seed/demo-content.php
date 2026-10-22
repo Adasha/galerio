@@ -115,6 +115,49 @@ function galerio_demo_image( $title, $seed, $width = 1600, $height = 1200, $cred
 }
 
 /**
+ * Block markup for an image, as the editor saves it.
+ *
+ * @param int    $id      Attachment ID.
+ * @param string $caption Optional caption.
+ * @return string
+ */
+function galerio_demo_image_block( $id, $caption = '' ) {
+	if ( ! $id ) {
+		return '';
+	}
+
+	return sprintf(
+		'<!-- wp:image {"id":%1$d,"sizeSlug":"large","linkDestination":"none"} --><figure class="wp-block-image size-large"><img src="%2$s" alt="%3$s" class="wp-image-%1$d"/>%4$s</figure><!-- /wp:image -->',
+		$id,
+		esc_url( wp_get_attachment_image_url( $id, 'large' ) ),
+		esc_attr( get_post_meta( $id, '_wp_attachment_image_alt', true ) ),
+		$caption ? '<figcaption class="wp-element-caption">' . esc_html( $caption ) . '</figcaption>' : ''
+	);
+}
+
+/**
+ * Block markup for a gallery of images.
+ *
+ * @param int[] $ids Attachment IDs.
+ * @return string
+ */
+function galerio_demo_gallery_block( array $ids ) {
+	return '<!-- wp:gallery {"linkTo":"none"} --><figure class="wp-block-gallery has-nested-images columns-default is-cropped">'
+		. implode( '', array_map( 'galerio_demo_image_block', array_filter( $ids ) ) )
+		. '</figure><!-- /wp:gallery -->';
+}
+
+/**
+ * Block markup for a paragraph.
+ *
+ * @param string $text Plain text.
+ * @return string
+ */
+function galerio_demo_paragraph( $text ) {
+	return '<!-- wp:paragraph --><p>' . esc_html( $text ) . '</p><!-- /wp:paragraph -->';
+}
+
+/**
  * Add an item to a pod and tag it as demo content.
  *
  * @param string $pod   Pod name.
@@ -232,18 +275,24 @@ function galerio_demo_seed( array $args ) {
 		array( 'Tidal Bowls (set of five)', 'kiln', '2023', 'Porcelain', 'Installation', 'Various', 'Ceramics' ),
 	);
 
-	$works = array();
+	$works  = array();
+	$images = array();
 	foreach ( $work_specs as $i => list( $title, $creator, $year, $medium, $category, $dimensions, $medium_term ) ) {
-		$image   = galerio_demo_image( $title, 100 + $i, 1600, 1200, get_the_title( $profiles[ $creator ] ) );
-		$works[] = galerio_demo_add(
+		$credit   = get_the_title( $profiles[ $creator ] );
+		$image    = galerio_demo_image( $title, 100 + $i, 1600, 1200, $credit );
+		$detail   = galerio_demo_image( $title . ' (detail)', 200 + $i, 1200, 1200, $credit );
+		$images[] = $image;
+		$works[]  = galerio_demo_add(
 			'galerio_work',
 			array(
 				'post_title'       => $title,
-				'post_content'     => '<!-- wp:paragraph --><p>A demo work by ' . esc_html( get_the_title( $profiles[ $creator ] ) ) . '.</p><!-- /wp:paragraph -->',
+				'post_content'     => galerio_demo_paragraph( 'A demo work by ' . $credit . '.' )
+					. galerio_demo_image_block( $detail, 'Detail' ),
 				'definitive_title' => $title,
 				'creator'          => $profiles[ $creator ],
 				'year'             => $year . '-01-01',
 				'definitive_image' => $image,
+				'images'           => array( $detail ),
 				'medium'           => $medium,
 				'dimensions'       => $dimensions,
 				'location'         => 'Artist\'s studio',
@@ -256,12 +305,32 @@ function galerio_demo_seed( array $args ) {
 		// No featured image: works fall back to their definitive image.
 	}
 
+	// Profiles show their work: a featured image of it, and an image in the main text.
+	foreach ( array(
+		'ana'   => 0,
+		'tomos' => 2,
+		'kiln'  => 4,
+	) as $key => $index ) {
+		if ( $images[ $index ] ) {
+			set_post_thumbnail( $profiles[ $key ], $images[ $index ] );
+		}
+		wp_update_post(
+			array(
+				'ID'           => $profiles[ $key ],
+				'post_content' => galerio_demo_paragraph( 'Recent work, shown in the studio.' )
+					. galerio_demo_image_block( $images[ $index + 1 ], get_the_title( $works[ $index + 1 ] ) ),
+			)
+		);
+	}
+
 	// Collections: one current exhibition and one permanent collection.
-	$exhibition_images = array_filter( array_map( 'get_post_thumbnail_id', $works ) );
+	$exhibition_images = array_slice( $images, 0, 4 );
 	$exhibition        = galerio_demo_add(
 		'galerio_collection',
 		array(
 			'post_title'         => 'Shorelines',
+			'post_content'       => galerio_demo_paragraph( 'Installation views from the opening week.' )
+				. galerio_demo_gallery_block( $exhibition_images ),
 			'post_excerpt'       => 'Paintings and photographs of the Swansea coast.',
 			'standfirst'         => 'Two artists look at the same coastline.',
 			'location'           => 'Main Gallery',
@@ -280,28 +349,35 @@ function galerio_demo_seed( array $args ) {
 		array( 'galerio_collection_category' => array( 'Exhibitions' ) )
 	);
 
-	galerio_demo_add(
+	$ceramics = galerio_demo_add(
 		'galerio_collection',
 		array(
 			'post_title'   => 'Studio Ceramics',
 			'post_excerpt' => 'Work from the Kiln Collective.',
+			'post_content' => galerio_demo_paragraph( 'Pieces from the collective\'s wood-fired kiln.' )
+				. galerio_demo_gallery_block( array_slice( $images, 4 ) ),
 			'profiles'     => array( $profiles['kiln'] ),
 			'works'        => array_slice( $works, 4 ),
 		),
 		array( 'galerio_collection_category' => array( 'Permanent collection' ) )
 	);
 
-	if ( get_post_thumbnail_id( $works[0] ) ) {
-		set_post_thumbnail( $exhibition, get_post_thumbnail_id( $works[0] ) );
+	if ( $images[0] ) {
+		set_post_thumbnail( $exhibition, $images[0] );
+	}
+	if ( $images[4] ) {
+		set_post_thumbnail( $ceramics, $images[4] );
 	}
 
 	// Article.
-	galerio_demo_add(
+	$article = galerio_demo_add(
 		'galerio_article',
 		array(
 			'post_title'   => 'In conversation: Shorelines',
 			'post_excerpt' => 'The artists behind Shorelines talk about the coast.',
-			'post_content' => '<!-- wp:paragraph --><p>A demo article about the Shorelines exhibition.</p><!-- /wp:paragraph -->',
+			'post_content' => galerio_demo_paragraph( 'A demo article about the Shorelines exhibition.' )
+				. galerio_demo_image_block( $images[2], 'Copperworks I, Tomos Price' )
+				. galerio_demo_paragraph( 'Both artists returned to the same stretch of coast over several years.' ),
 			'standfirst'   => 'Ana Morgan and Tomos Price on painting and photographing the same place.',
 			'profiles'     => array( $profiles['ana'], $profiles['tomos'] ),
 			'works'        => array( $works[0], $works[2] ),
@@ -309,6 +385,9 @@ function galerio_demo_seed( array $args ) {
 		),
 		array( 'galerio_article_category' => array( 'Interview' ) )
 	);
+	if ( $images[1] ) {
+		set_post_thumbnail( $article, $images[1] );
+	}
 
 	// Front page.
 	$home_page = wp_insert_post(

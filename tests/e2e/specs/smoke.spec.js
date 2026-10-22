@@ -50,6 +50,28 @@ test.describe( 'Demo site', () => {
 	} );
 } );
 
+test.describe( 'Images', () => {
+	for ( const [ path, alt ] of [
+		[ '/work/low-tide-rhossili/', 'Low Tide, Rhossili' ],
+		[ '/profile/ana-morgan/', 'Low Tide, Rhossili' ],
+		[ '/collection/shorelines/', 'Copperworks I' ],
+	] ) {
+		test( `${ path } shows its images`, async ( { page } ) => {
+			await page.goto( path );
+			const image = page
+				.locator( 'main' )
+				.getByRole( 'img', { name: alt } )
+				.first();
+			await expect( image ).toBeVisible();
+			expect(
+				await image.evaluate(
+					( img ) => img.complete && img.naturalWidth > 0
+				)
+			).toBe( true );
+		} );
+	}
+} );
+
 test.describe( 'Admin', () => {
 	test( 'Galerio content types are registered', async ( { page } ) => {
 		await page.goto( '/wp-admin/' );

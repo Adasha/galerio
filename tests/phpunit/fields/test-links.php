@@ -147,6 +147,16 @@ class Test_Links extends Galerio_TestCase {
 	}
 
 	/**
+	 * Pods Templates show links with the same words as the field API.
+	 */
+	public function test_pods_field_type_display() {
+		$type = PodsForm::field_loader( 'galerio_link' );
+
+		$this->assertSame( '<a href="https://instagram.com/me">Instagram</a>', $type->display( '{"url":"https://instagram.com/me"}' ) );
+		$this->assertSame( 'The show', $type->display( '{"url":"https://example.org","label":"The show","offline":true}' ) );
+	}
+
+	/**
 	 * The editing form escapes values and shows the offline box only when asked.
 	 */
 	public function test_pods_field_type_input() {
