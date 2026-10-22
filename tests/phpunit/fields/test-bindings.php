@@ -177,7 +177,7 @@ class Test_Bindings extends Galerio_TestCase {
 			'empty field'      => array( 'work.medium' ),
 			'unknown field'    => array( 'work.no_such_field' ),
 			'other object'     => array( 'profile.nationality' ),
-			'non-public field' => array( 'profile.notes' ),
+			'non-public field' => array( 'work.owner' ),
 		);
 	}
 
@@ -185,10 +185,9 @@ class Test_Bindings extends Galerio_TestCase {
 	 * Private fields are never exposed, even when the field exists on the post.
 	 */
 	public function test_private_field_not_exposed() {
-		$profile = self::factory()->post->create( array( 'post_type' => 'galerio_profile' ) );
-		galerio_fields()->save( galerio_fields()->get( 'profile.notes' ), $profile, 'Secret' );
+		galerio_fields()->save( galerio_fields()->get( 'work.owner' ), $this->work, 'Secret' );
 
-		$html = $this->render( $this->block( 'paragraph', array( 'content' => 'notes' ), '<p>Saved</p>' ), $profile );
+		$html = $this->render( $this->block( 'paragraph', array( 'content' => 'owner' ), '<p>Saved</p>' ) );
 
 		$this->assertStringNotContainsString( 'Secret', $html );
 	}
@@ -221,6 +220,6 @@ class Test_Bindings extends Galerio_TestCase {
 		$before = implode( '', wp_scripts()->get_data( 'galerio-field-bindings', 'before' ) );
 
 		$this->assertStringContainsString( '"work.year"', $before );
-		$this->assertStringNotContainsString( 'profile.notes', $before );
+		$this->assertStringNotContainsString( 'work.owner', $before );
 	}
 }

@@ -40,6 +40,22 @@ class Test_Field_Block extends Galerio_TestCase {
 		$fields->save( $fields->get( 'profile.show_lifespan' ), $this->profile, true );
 		$fields->save( $fields->get( 'profile.show_links' ), $this->profile, false );
 		$fields->save( $fields->get( 'profile.links' ), $this->profile, array( array( 'url' => 'https://instagram.com/me' ) ) );
+
+		$fields->register(
+			'profile.private_test',
+			array(
+				'type'   => 'html',
+				'public' => false,
+			)
+		);
+	}
+
+	/**
+	 * Remove the test's private field.
+	 */
+	public function tear_down() {
+		galerio_fields()->unregister( 'profile.private_test' );
+		parent::tear_down();
 	}
 
 	/**
@@ -154,7 +170,7 @@ class Test_Field_Block extends Galerio_TestCase {
 					'showIf' => 'show_links',
 				),
 			),
-			'private field'   => array( array( 'key' => 'profile.notes' ) ),
+			'private field'   => array( array( 'key' => 'profile.private_test' ) ),
 			'unknown field'   => array( array( 'key' => 'profile.no_such_field' ) ),
 			'no field chosen' => array( array( 'label' => 'Heading only' ) ),
 		);
