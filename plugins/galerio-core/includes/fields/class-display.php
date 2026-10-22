@@ -26,11 +26,7 @@ final class Display {
 		if ( $field->display_callback ) {
 			$html = (string) call_user_func( $field->display_callback, $raw, $field, $object_id );
 		} elseif ( $field->multiple ) {
-			$items = array();
-			foreach ( $raw as $value ) {
-				$items[] = self::render_one( $field, $value );
-			}
-			$items = array_filter( $items );
+			$items = self::items( $field, $raw );
 			$html  = 'link' === $field->type && $items
 				? '<ul class="galerio-links"><li>' . implode( '</li><li>', $items ) . '</li></ul>'
 				: implode( self::separator( $field ), $items );
@@ -47,6 +43,23 @@ final class Display {
 		 * @param int    $object_id Post ID.
 		 */
 		return (string) apply_filters( 'galerio_field_display', $html, $field, $raw, $object_id );
+	}
+
+	/**
+	 * Render each of a multiple field's values separately, for list layouts.
+	 *
+	 * @param Field $field Field.
+	 * @param mixed $raw   Normalised raw value; a single value gives one item.
+	 * @return string[] Escaped HTML for each non-empty value.
+	 */
+	public static function items( Field $field, $raw ) {
+		$items = array();
+
+		foreach ( $field->multiple ? $raw : array( $raw ) as $value ) {
+			$items[] = self::render_one( $field, $value );
+		}
+
+		return array_values( array_filter( $items ) );
 	}
 
 	/**

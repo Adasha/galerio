@@ -20,17 +20,37 @@
 <!-- wp:columns -->
 <div class="wp-block-columns"><!-- wp:column {"width":"66.66%","style":{"spacing":{"blockGap":"var:preset|spacing|30"}}} -->
 <div class="wp-block-column" style="flex-basis:66.66%"><!-- wp:group {"tagName":"article","layout":{"type":"default"}} -->
-<article class="wp-block-group"><!-- wp:heading {"level":4} -->
-<h4 class="wp-block-heading">[pods template="profile-nationality-birth-death"]</h4>
+<article class="wp-block-group"><!-- wp:group {"metadata":{"name":"Nationality and lifespan"},"style":{"spacing":{"blockGap":"0.3em"}},"layout":{"type":"flex","flexWrap":"wrap"}} -->
+<div class="wp-block-group"><!-- wp:heading {"level":4,"metadata":{"bindings":{"content":{"source":"galerio/field","args":{"key":"profile.nationality","if":"show_nationality"}}}},"className":"galerio-comma-after"} -->
+<h4 class="wp-block-heading galerio-comma-after"></h4>
 <!-- /wp:heading -->
 
-<!-- wp:pods/pods-block-field {"field":"bio"} /--></article>
+<!-- wp:heading {"level":4,"metadata":{"bindings":{"content":{"source":"galerio/field","args":{"key":"profile.year_of_birth","if":"show_lifespan","prefix":"b. "}}}}} -->
+<h4 class="wp-block-heading"></h4>
+<!-- /wp:heading -->
+
+<!-- wp:heading {"level":4,"metadata":{"bindings":{"content":{"source":"galerio/field","args":{"key":"profile.year_of_death","if":"show_lifespan","prefix":"\u2013 d. "}}}}} -->
+<h4 class="wp-block-heading"></h4>
+<!-- /wp:heading --></div>
+<!-- /wp:group -->
+
+<!-- wp:galerio/field-display {"key":"profile.bio"} /--></article>
 <!-- /wp:group --></div>
 <!-- /wp:column -->
 
 <!-- wp:column {"width":"33.33%","layout":{"type":"default"}} -->
 <div class="wp-block-column" style="flex-basis:33.33%"><!-- wp:group {"metadata":{"name":"Asides"},"className":"is-style-asides","layout":{"type":"default"}} -->
-<div class="wp-block-group is-style-asides"><!-- wp:pods/pods-block-single {"template":{"label":"profile-asides","value":"profile-asides"}} /--></div>
+<div class="wp-block-group is-style-asides"><!-- wp:galerio/field-display {"key":"profile.members","label":"Members:","layout":"list"} /-->
+
+<!-- wp:galerio/field-display {"key":"profile.member_of","label":"Member of:","layout":"list"} /-->
+
+<!-- wp:galerio/field-display {"key":"profile.accolades","label":"Accolades:","layout":"list"} /-->
+
+<!-- wp:galerio/field-display {"key":"profile.collections","label":"Featured in:","layout":"list"} /-->
+
+<!-- wp:galerio/field-display {"key":"profile.works","label":"Featured works:","layout":"list"} /-->
+
+<!-- wp:galerio/field-display {"key":"profile.links","label":"More links:","showIf":"show_links"} /--></div>
 <!-- /wp:group --></div>
 <!-- /wp:column --></div>
 <!-- /wp:columns -->

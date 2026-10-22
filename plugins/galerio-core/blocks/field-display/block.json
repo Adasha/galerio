@@ -1,0 +1,50 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "galerio/field-display",
+	"version": "0.2.0",
+	"title": "Field",
+	"category": "theme",
+	"icon": "database",
+	"description": "Shows a Galerio field of the current item, such as a biography or a list of related works, with an optional heading. Hidden when the field is empty.",
+	"keywords": [ "galerio", "field", "pods" ],
+	"textdomain": "galerio-core",
+	"usesContext": [ "postId", "postType" ],
+	"attributes": {
+		"key": {
+			"type": "string",
+			"default": ""
+		},
+		"label": {
+			"type": "string",
+			"default": ""
+		},
+		"layout": {
+			"type": "string",
+			"enum": [ "inline", "list" ],
+			"default": "inline"
+		},
+		"showIf": {
+			"type": "string",
+			"default": ""
+		}
+	},
+	"supports": {
+		"html": false,
+		"align": [ "wide", "full" ],
+		"color": {
+			"background": true,
+			"text": true,
+			"link": true
+		},
+		"spacing": {
+			"margin": true,
+			"padding": true
+		},
+		"typography": {
+			"fontSize": true,
+			"lineHeight": true
+		}
+	},
+	"editorScript": "file:./index.js"
+}

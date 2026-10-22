@@ -17,7 +17,17 @@
 <!-- /wp:column -->
 
 <!-- wp:column {"width":"33.33%","style":{"spacing":{"blockGap":"var:preset|spacing|20"}}} -->
-<div class="wp-block-column" style="flex-basis:33.33%"><!-- wp:pods/pods-block-single {"template":{"label":"work-archive-entry-details","value":"work-archive-entry-details"}} /-->
+<div class="wp-block-column" style="flex-basis:33.33%"><!-- wp:heading {"level":2,"metadata":{"bindings":{"content":{"source":"galerio/field","args":{"key":"work.definitive_title","fallback":"title","link":true}}}}} -->
+<h2 class="wp-block-heading"></h2>
+<!-- /wp:heading -->
+
+<!-- wp:heading {"level":3,"metadata":{"bindings":{"content":{"source":"galerio/field","args":{"key":"work.creator"}}}}} -->
+<h3 class="wp-block-heading"></h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph {"metadata":{"bindings":{"content":{"source":"galerio/field","args":{"key":"work.year"}}}}} -->
+<p></p>
+<!-- /wp:paragraph -->
 
 <!-- wp:post-terms {"term":"galerio_medium","className":"is-style-buttons"} /--></div>
 <!-- /wp:column --></div>
