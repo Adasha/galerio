@@ -63,10 +63,10 @@ function galerio_demo_reset() {
  * @param int    $seed    Random seed, so the same image is produced every run.
  * @param int    $width   Image width in pixels.
  * @param int    $height  Image height in pixels.
- * @param string $creator Free-text creator, matching the current media pod field.
+ * @param string $credit  Free-text credit for the image's creator.
  * @return int Attachment ID, or 0 if GD is unavailable.
  */
-function galerio_demo_image( $title, $seed, $width = 1600, $height = 1200, $creator = '' ) {
+function galerio_demo_image( $title, $seed, $width = 1600, $height = 1200, $credit = '' ) {
 	if ( ! function_exists( 'imagecreatetruecolor' ) ) {
 		WP_CLI::warning( 'GD is not available; skipping demo images.' );
 		return 0;
@@ -107,8 +107,8 @@ function galerio_demo_image( $title, $seed, $width = 1600, $height = 1200, $crea
 
 	update_post_meta( $id, GALERIO_DEMO_META, 1 );
 	update_post_meta( $id, '_wp_attachment_image_alt', $title );
-	if ( $creator ) {
-		pods( 'media', $id )->save( array( 'creator' => $creator ) );
+	if ( $credit ) {
+		pods( 'media', $id )->save( array( 'credit' => $credit ) );
 	}
 
 	return $id;
@@ -159,18 +159,24 @@ function galerio_demo_seed( array $args ) {
 		'ana'   => galerio_demo_add(
 			'galerio_profile',
 			array(
-				'post_title'          => 'Ana Morgan',
-				'post_excerpt'        => 'Painter working with colour fields and landscape.',
-				'profile_nationality' => 'Welsh',
-				'year_of_birth'       => '1978-01-01',
-				'show_lifespan'       => 1,
-				'show_profile_image'  => 1,
-				'profile_image'       => galerio_demo_image( 'Ana Morgan portrait', 11, 800, 1000 ),
-				'profile_bio'         => '<p>Ana Morgan paints the light of the Gower coast in large, layered colour fields.</p>',
-				'accolades'           => array( 'Shortlisted, National Eisteddfod Gold Medal for Fine Art (2019)', 'Residency, Elysium Gallery (2021)' ),
-				'show_external_links' => 1,
-				'personal_website'    => 'https://example.com/ana-morgan',
-				'personal_instagram'  => 'https://instagram.com/example',
+				'post_title'       => 'Ana Morgan',
+				'post_excerpt'     => 'Painter working with colour fields and landscape.',
+				'nationality'      => 'Welsh',
+				'show_nationality' => 1,
+				'year_of_birth'    => '1978-01-01',
+				'show_lifespan'    => 1,
+				'show_portrait'    => 1,
+				'portrait'         => galerio_demo_image( 'Ana Morgan portrait', 11, 800, 1000 ),
+				'bio'              => '<p>Ana Morgan paints the light of the Gower coast in large, layered colour fields.</p>',
+				'accolades'        => array( 'Shortlisted, National Eisteddfod Gold Medal for Fine Art (2019)', 'Residency, Elysium Gallery (2021)' ),
+				'show_links'       => 1,
+				'links'            => array(
+					array(
+						'url'   => 'https://example.com/ana-morgan',
+						'label' => 'Artist\'s website',
+					),
+					array( 'url' => 'https://instagram.com/example' ),
+				),
 			),
 			array(
 				'galerio_medium' => array( 'Oil', 'Acrylic' ),
@@ -181,14 +187,15 @@ function galerio_demo_seed( array $args ) {
 		'tomos' => galerio_demo_add(
 			'galerio_profile',
 			array(
-				'post_title'          => 'Tomos Price',
-				'post_excerpt'        => 'Photographer documenting post-industrial places.',
-				'profile_nationality' => 'Welsh',
-				'year_of_birth'       => '1985-01-01',
-				'show_lifespan'       => 1,
-				'show_profile_image'  => 1,
-				'profile_image'       => galerio_demo_image( 'Tomos Price portrait', 12, 800, 1000 ),
-				'profile_bio'         => '<p>Tomos Price photographs the copperworks and docks of the lower Swansea valley.</p>',
+				'post_title'       => 'Tomos Price',
+				'post_excerpt'     => 'Photographer documenting post-industrial places.',
+				'nationality'      => 'Welsh',
+				'show_nationality' => 1,
+				'year_of_birth'    => '1985-01-01',
+				'show_lifespan'    => 1,
+				'show_portrait'    => 1,
+				'portrait'         => galerio_demo_image( 'Tomos Price portrait', 12, 800, 1000 ),
+				'bio'              => '<p>Tomos Price photographs the copperworks and docks of the lower Swansea valley.</p>',
 			),
 			array(
 				'galerio_medium' => array( 'Photography' ),
@@ -204,7 +211,7 @@ function galerio_demo_seed( array $args ) {
 				'is_collective' => 1,
 				'year_of_birth' => '2016-01-01',
 				'show_lifespan' => 1,
-				'profile_bio'   => '<p>Kiln Collective is a group of makers who share a studio, a wood-fired kiln and an annual show.</p>',
+				'bio'           => '<p>Kiln Collective is a group of makers who share a studio, a wood-fired kiln and an annual show.</p>',
 			),
 			array(
 				'galerio_medium' => array( 'Ceramics' ),
@@ -213,7 +220,7 @@ function galerio_demo_seed( array $args ) {
 		),
 	);
 
-	pods( 'galerio_profile', $profiles['kiln'] )->save( array( 'collective_members' => array( $profiles['ana'] ) ) );
+	pods( 'galerio_profile', $profiles['kiln'] )->save( array( 'members' => array( $profiles['ana'] ) ) );
 
 	// Works.
 	$work_specs = array(
@@ -231,25 +238,22 @@ function galerio_demo_seed( array $args ) {
 		$works[] = galerio_demo_add(
 			'galerio_work',
 			array(
-				'post_title'          => $title,
-				'post_content'        => '<!-- wp:paragraph --><p>A demo work by ' . esc_html( get_the_title( $profiles[ $creator ] ) ) . '.</p><!-- /wp:paragraph -->',
-				'definitive_title'    => $title,
-				'creator'             => $profiles[ $creator ],
-				'year'                => $year . '-01-01',
-				'principal_image'     => $image,
-				'work_medium'         => $medium,
-				'work_categorisation' => $category,
-				'work_dimensions'     => $dimensions,
-				'work_location'       => 'Artist\'s studio',
+				'post_title'       => $title,
+				'post_content'     => '<!-- wp:paragraph --><p>A demo work by ' . esc_html( get_the_title( $profiles[ $creator ] ) ) . '.</p><!-- /wp:paragraph -->',
+				'definitive_title' => $title,
+				'creator'          => $profiles[ $creator ],
+				'year'             => $year . '-01-01',
+				'definitive_image' => $image,
+				'medium'           => $medium,
+				'dimensions'       => $dimensions,
+				'location'         => 'Artist\'s studio',
 			),
 			array(
 				'galerio_medium' => array( $medium_term ),
-				'galerio_label'  => array( 'Demo' ),
+				'galerio_label'  => array( 'Demo', $category ),
 			)
 		);
-		if ( $image ) {
-			set_post_thumbnail( end( $works ), $image );
-		}
+		// No featured image: works fall back to their definitive image.
 	}
 
 	// Collections: one current exhibition and one permanent collection.
@@ -257,16 +261,21 @@ function galerio_demo_seed( array $args ) {
 	$exhibition        = galerio_demo_add(
 		'galerio_collection',
 		array(
-			'post_title'        => 'Shorelines',
-			'post_excerpt'      => 'Paintings and photographs of the Swansea coast.',
-			'standfirst'        => 'Two artists look at the same coastline.',
-			'location'          => 'Main Gallery',
-			'opening_date'      => gmdate( 'Y-m-d', strtotime( '-2 weeks' ) ),
-			'closing_date'      => gmdate( 'Y-m-d', strtotime( '+6 weeks' ) ),
-			'description'       => '<p>Shorelines brings together paintings by Ana Morgan and photographs by Tomos Price.</p>',
-			'collection_images' => array_values( $exhibition_images ),
-			'featured_profiles' => array( $profiles['ana'], $profiles['tomos'] ),
-			'featured_works'    => array_slice( $works, 0, 4 ),
+			'post_title'         => 'Shorelines',
+			'post_excerpt'       => 'Paintings and photographs of the Swansea coast.',
+			'standfirst'         => 'Two artists look at the same coastline.',
+			'location'           => 'Main Gallery',
+			'start_date'         => gmdate( 'Y-m-d', strtotime( '-2 weeks' ) ),
+			'end_date'           => gmdate( 'Y-m-d', strtotime( '+6 weeks' ) ),
+			'description'        => '<p>Shorelines brings together paintings by Ana Morgan and photographs by Tomos Price.</p>',
+			'website'            => array(
+				'url'   => 'https://example.com/shorelines',
+				'label' => 'Shorelines exhibition site',
+			),
+			'images'             => array_values( $exhibition_images ),
+			'profiles'           => array( $profiles['ana'], $profiles['tomos'] ),
+			'other_contributors' => array( 'Curated by Sian Rees' ),
+			'works'              => array_slice( $works, 0, 4 ),
 		),
 		array( 'galerio_collection_category' => array( 'Exhibitions' ) )
 	);
@@ -274,10 +283,10 @@ function galerio_demo_seed( array $args ) {
 	galerio_demo_add(
 		'galerio_collection',
 		array(
-			'post_title'        => 'Studio Ceramics',
-			'post_excerpt'      => 'Work from the Kiln Collective.',
-			'featured_profiles' => array( $profiles['kiln'] ),
-			'featured_works'    => array_slice( $works, 4 ),
+			'post_title'   => 'Studio Ceramics',
+			'post_excerpt' => 'Work from the Kiln Collective.',
+			'profiles'     => array( $profiles['kiln'] ),
+			'works'        => array_slice( $works, 4 ),
 		),
 		array( 'galerio_collection_category' => array( 'Permanent collection' ) )
 	);
@@ -290,14 +299,15 @@ function galerio_demo_seed( array $args ) {
 	galerio_demo_add(
 		'galerio_article',
 		array(
-			'post_title'           => 'In conversation: Shorelines',
-			'post_excerpt'         => 'The artists behind Shorelines talk about the coast.',
-			'post_content'         => '<!-- wp:paragraph --><p>A demo article about the Shorelines exhibition.</p><!-- /wp:paragraph -->',
-			'standfirst'           => 'Ana Morgan and Tomos Price on painting and photographing the same place.',
-			'featured_profiles'    => array( $profiles['ana'], $profiles['tomos'] ),
-			'featured_works'       => array( $works[0], $works[2] ),
-			'featured_collections' => array( $exhibition ),
-		)
+			'post_title'   => 'In conversation: Shorelines',
+			'post_excerpt' => 'The artists behind Shorelines talk about the coast.',
+			'post_content' => '<!-- wp:paragraph --><p>A demo article about the Shorelines exhibition.</p><!-- /wp:paragraph -->',
+			'standfirst'   => 'Ana Morgan and Tomos Price on painting and photographing the same place.',
+			'profiles'     => array( $profiles['ana'], $profiles['tomos'] ),
+			'works'        => array( $works[0], $works[2] ),
+			'collections'  => array( $exhibition ),
+		),
+		array( 'galerio_article_category' => array( 'Interview' ) )
 	);
 
 	// Front page.

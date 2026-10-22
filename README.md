@@ -90,10 +90,15 @@ Templates and blocks read Galerio's fields through `galerio-core`, never through
 galerio_get_field( 'year' );                         // 2018 (current post)
 galerio_get_field( 'work.creator', $post );          // 149 (profile post ID)
 galerio_get_field( 'creator', $post, 'display' );    // '<a href="…">Tomos Price</a>'
-galerio_get_related( 'in_collections', $post );      // WP_Post[] (published, in saved order)
+galerio_get_related( 'collections', $post );         // WP_Post[] (published, in saved order)
+galerio_get_field( 'links', $profile );              // [ [ 'url' => …, 'label' => …, 'offline' => false ], … ]
 ```
 
-Raw values are normalised by type: strings for text, `Y-m-d` for dates, integers for years, booleans, and post IDs for images and relations. Fields that hold several values return lists. Display values are escaped HTML. Every field is listed in `plugins/galerio-core/includes/fields/default-fields.php`. Other plugins and child themes can add fields on the `galerio_register_fields` action.
+Raw values are normalised by type: strings for text, `Y-m-d` for dates, integers for years, booleans, post IDs for images and relations, and `{url, label, offline}` arrays for links. Fields that hold several values return lists. Display values are escaped HTML. Every field is listed in `plugins/galerio-core/includes/fields/default-fields.php`, under the same name it has in the Pods package. Other plugins and child themes can add fields on the `galerio_register_fields` action.
+
+Links (a profile's `links`, and the `website` of works and collections) use Galerio's own Link field type in Pods. Each link has optional display text. Without it, links to recognised services (Instagram, YouTube, Bluesky and others; extend the list with the `galerio_link_services` filter) show the service's name, and other links show their address.
+
+A work without a featured image uses its `definitive_image` as one, so core blocks such as Post Featured Image show it.
 
 Public fields are also included in REST API responses for each post type, under `galerio_fields`.
 

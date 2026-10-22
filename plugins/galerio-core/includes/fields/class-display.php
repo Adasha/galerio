@@ -30,7 +30,10 @@ final class Display {
 			foreach ( $raw as $value ) {
 				$items[] = self::render_one( $field, $value );
 			}
-			$html = implode( self::separator( $field ), array_filter( $items ) );
+			$items = array_filter( $items );
+			$html  = 'link' === $field->type && $items
+				? '<ul class="galerio-links"><li>' . implode( '</li><li>', $items ) . '</li></ul>'
+				: implode( self::separator( $field ), $items );
 		} else {
 			$html = self::render_one( $field, $raw );
 		}
@@ -68,6 +71,9 @@ final class Display {
 			case 'url':
 				return sprintf( '<a href="%1$s">%2$s</a>', esc_url( $value ), esc_html( self::url_label( $value ) ) );
 
+			case 'link':
+				return self::link( $value );
+
 			case 'embed':
 				$embed = wp_oembed_get( $value );
 				return $embed ? $embed : sprintf( '<a href="%1$s">%1$s</a>', esc_url( $value ) );
@@ -93,6 +99,81 @@ final class Display {
 			default:
 				return esc_html( $value );
 		}
+	}
+
+	/**
+	 * Services whose links are shown by name when they have no display text,
+	 * keyed by host without "www.".
+	 *
+	 * @var array<string, string>
+	 */
+	const SERVICES = array(
+		'axisweb.org'   => 'Axisweb',
+		'bsky.app'      => 'Bluesky',
+		'facebook.com'  => 'Facebook',
+		'instagram.com' => 'Instagram',
+		'linkedin.com'  => 'LinkedIn',
+		'threads.net'   => 'Threads',
+		'tiktok.com'    => 'TikTok',
+		'twitter.com'   => 'X',
+		'vimeo.com'     => 'Vimeo',
+		'x.com'         => 'X',
+		'youtu.be'      => 'YouTube',
+		'youtube.com'   => 'YouTube',
+	);
+
+	/**
+	 * The service a URL belongs to, such as "Instagram".
+	 *
+	 * @param string $url URL.
+	 * @return string Service name, or an empty string for other sites.
+	 */
+	public static function service( $url ) {
+		$host = strtolower( (string) wp_parse_url( $url, PHP_URL_HOST ) );
+		$host = preg_replace( '/^(www|m)\./', '', $host );
+
+		/**
+		 * Filters the services whose links are shown by name.
+		 *
+		 * @param array<string, string> $services Service names keyed by host.
+		 */
+		$services = apply_filters( 'galerio_link_services', self::SERVICES );
+
+		return isset( $services[ $host ] ) ? $services[ $host ] : '';
+	}
+
+	/**
+	 * The words a link is shown with: its display text, else its service's
+	 * name, else its URL without the scheme.
+	 *
+	 * @param array $link Link with url and label.
+	 * @return string Plain text.
+	 */
+	public static function link_text( array $link ) {
+		if ( '' !== $link['label'] ) {
+			return $link['label'];
+		}
+
+		$service = self::service( $link['url'] );
+
+		return '' !== $service ? $service : self::url_label( $link['url'] );
+	}
+
+	/**
+	 * Render a link. Offline links show their text without linking.
+	 *
+	 * @param array $link Link with url, label and offline.
+	 * @return string
+	 */
+	private static function link( array $link ) {
+		$service = sanitize_html_class( strtolower( self::service( $link['url'] ) ) );
+		$class   = 'galerio-link' . ( $service ? ' galerio-link--' . $service : '' );
+
+		if ( $link['offline'] ) {
+			return sprintf( '<span class="%1$s is-offline">%2$s</span>', esc_attr( $class ), esc_html( self::link_text( $link ) ) );
+		}
+
+		return sprintf( '<a class="%1$s" href="%2$s">%3$s</a>', esc_attr( $class ), esc_url( $link['url'] ), esc_html( self::link_text( $link ) ) );
 	}
 
 	/**

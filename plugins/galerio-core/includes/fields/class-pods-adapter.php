@@ -69,7 +69,7 @@ final class Pods_Adapter implements Adapter {
 			$value = $value ? sprintf( '%04d-01-01', $value ) : '';
 		} elseif ( 'boolean' === $field->type ) {
 			$value = $value ? 1 : 0;
-		} elseif ( $field->holds_ids() && ! $field->multiple ) {
+		} elseif ( ( $field->holds_ids() || 'link' === $field->type ) && ! $field->multiple ) {
 			$value = $value ? $value : '';
 		}
 

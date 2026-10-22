@@ -113,6 +113,9 @@ final class Bindings {
 				if ( 'relation' === $field->type ) {
 					return 'publish' === get_post_status( $first ) ? get_permalink( $first ) : null;
 				}
+				if ( 'link' === $field->type ) {
+					return $first['offline'] ? null : esc_url_raw( $first['url'] );
+				}
 				return in_array( $field->type, array( 'url', 'embed' ), true ) ? esc_url_raw( $first ) : null;
 
 			case 'alt':
@@ -134,6 +137,9 @@ final class Bindings {
 
 			case 'text':
 				// Button text sits inside a link, so it must not contain links itself.
+				if ( 'link' === $field->type ) {
+					return esc_html( Display::link_text( $first ) );
+				}
 				return esc_html( self::plain_text( $field, $raw, $post_id ) );
 
 			case 'linkTarget':
@@ -202,8 +208,10 @@ final class Bindings {
 		}
 
 		return array(
-			'objects' => Registry::OBJECTS,
-			'fields'  => $fields,
+			'objects'  => Registry::OBJECTS,
+			'fields'   => $fields,
+			/** This filter is documented in includes/fields/class-display.php */
+			'services' => apply_filters( 'galerio_link_services', Display::SERVICES ),
 		);
 	}
 }

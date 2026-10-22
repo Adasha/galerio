@@ -55,6 +55,22 @@
 	}
 
 	/**
+	 * The service a URL belongs to, such as "Instagram", as on the server.
+	 *
+	 * @param {string} url URL.
+	 * @return {string} Service name, or an empty string.
+	 */
+	function serviceOf( url ) {
+		let host = '';
+		try {
+			host = new URL( url ).hostname.replace( /^(www|m)\./, '' );
+		} catch ( error ) {
+			return '';
+		}
+		return ( data.services || {} )[ host ] || '';
+	}
+
+	/**
 	 * Preview one value of a field for an attribute.
 	 *
 	 * @param {Function} select    Data store selector.
@@ -68,7 +84,11 @@
 
 		switch ( field.type ) {
 			case 'image': {
-				const media = getEntityRecord( 'postType', 'attachment', value );
+				const media = getEntityRecord(
+					'postType',
+					'attachment',
+					value
+				);
 				if ( attribute === 'id' ) {
 					return value;
 				}
@@ -93,13 +113,27 @@
 					: decodeEntities( post.title?.rendered || '' );
 			}
 
+			case 'link':
+				if ( attribute === 'url' ) {
+					return value.offline ? undefined : value.url;
+				}
+				return (
+					value.label ||
+					serviceOf( value.url ) ||
+					value.url
+						.replace( /^https?:\/\/(www\.)?/i, '' )
+						.replace( /\/$/, '' )
+				);
+
 			case 'date':
 				return attribute === 'datetime'
 					? value
 					: dateI18n( getDateSettings().formats.date, value );
 
 			case 'boolean':
-				return value ? __( 'Yes', 'galerio-core' ) : __( 'No', 'galerio-core' );
+				return value
+					? __( 'Yes', 'galerio-core' )
+					: __( 'No', 'galerio-core' );
 
 			default:
 				return String( value );
@@ -145,7 +179,11 @@
 				: field.label;
 		}
 
-		if ( [ 'url', 'id', 'datetime', 'alt', 'title', 'caption' ].includes( attribute ) ) {
+		if (
+			[ 'url', 'id', 'datetime', 'alt', 'title', 'caption' ].includes(
+				attribute
+			)
+		) {
 			return previewOne( select, field, values[ 0 ], attribute );
 		}
 
@@ -163,7 +201,12 @@
 		getValues( { select, context, bindings } ) {
 			const values = {};
 			for ( const [ attribute, binding ] of Object.entries( bindings ) ) {
-				values[ attribute ] = preview( select, context, binding.args, attribute );
+				values[ attribute ] = preview(
+					select,
+					context,
+					binding.args,
+					attribute
+				);
 			}
 			return values;
 		},

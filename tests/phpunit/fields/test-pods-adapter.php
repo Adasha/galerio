@@ -32,9 +32,9 @@ class Test_Pods_Adapter extends Galerio_Adapter_Contract_TestCase {
 
 		pods( 'galerio_work', $id )->save(
 			array(
-				'work_medium' => 'Oil on canvas',
-				'year'        => '2018-01-01',
-				'creator'     => $profile,
+				'medium'  => 'Oil on canvas',
+				'year'    => '2018-01-01',
+				'creator' => $profile,
 			)
 		);
 
