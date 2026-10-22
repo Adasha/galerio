@@ -37,3 +37,6 @@ Thumbs.db
 
 # Site branding sources (kept locally, not in the repo)
 branding/
+
+# Pods exports from live sites, for comparison only
+data/pods/live/
