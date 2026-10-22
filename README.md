@@ -14,7 +14,7 @@ Galerio has a demo/dev site at <https://galerio.net>, but it's also in a very un
 | `plugins/galerio-core` | Data layer and tools, including the Pods package importer. |
 | `plugins/post-slider`, `plugins/query-carousel` | Block prototypes, to be merged into a single Galerio carousel block. |
 | `data/pods/galerio.json` | The Pods package defining Galerio's content types and fields. |
-| `tools/` | Development scripts: demo content seeding and a Composer wrapper. |
+| `tools/` | Development scripts: demo content seeding, a Composer wrapper, and must-use plugins mounted into the wp-env sites only (`tools/mu-plugins`). |
 | `tests/phpunit` | PHPUnit tests, run inside the test site. |
 | `tests/e2e` | Playwright end-to-end tests. |
 
