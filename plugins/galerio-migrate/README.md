@@ -11,7 +11,7 @@ It needs Pods and Galerio Core (0.3.0 or later) active.
 3. Migrate: `wp galerio migrate content-model --site=galerio-net --yes`. It's safe to run again, and a second run should find nothing to do.
 4. Switch the site to the new theme's templates, removing Site Editor changes made for the old ones: `wp galerio migrate theme-reset --dry-run`, then `--yes`.
 
-After the reset, check the site's menus in the Site Editor, as the header may need its menu choosing again.
+The reset keeps which menu each Navigation block showed: the theme's version of that template or part is saved with the same menus chosen, as you would in the Site Editor.
 
 ## What it does
 
