@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 #
-# Build installable zips of the theme, the child theme starter and Galerio
-# Core into dist/, named <slug>-<version>.zip, each with a <slug>/ folder
+# Build installable zips of the theme, the child theme starter, Galerio Core
+# and the one-off Galerio Migrate plugin into dist/, named <slug>-<version>.zip, each with a <slug>/ folder
 # inside, ready for Plugins/Themes → Add New → Upload.
 #
 # The version comes from each package's header. The script stops if a
@@ -60,3 +60,12 @@ core_version="$(header "$core/galerio-core.php" Version)"
 grep -q "define( 'GALERIO_CORE_VERSION', '$core_version' );" "$core/galerio-core.php" || fail "galerio-core: GALERIO_CORE_VERSION doesn't match the plugin header."
 [ -f "$core/languages/galerio-core.pot" ] || fail "galerio-core: languages/galerio-core.pot is missing. Run: npm run i18n:pot"
 build "$core" galerio-core "$core_version"
+
+# Galerio Migrate, with the Pods package it migrates to.
+migrate="$repo/plugins/galerio-migrate"
+staging="$(mktemp -d)"
+trap 'rm -rf "$staging"' EXIT
+cp -r "$migrate" "$staging/galerio-migrate"
+mkdir -p "$staging/galerio-migrate/package"
+cp "$repo/data/pods/galerio.json" "$staging/galerio-migrate/package/galerio.json"
+build "$staging/galerio-migrate" galerio-migrate "$(header "$migrate/galerio-migrate.php" Version)"

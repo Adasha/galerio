@@ -3,6 +3,7 @@
 	<description>WordPress Coding Standards for the Galerio theme and plugins.</description>
 
 	<file>./plugins/galerio-core</file>
+	<file>./plugins/galerio-migrate</file>
 	<file>./themes/galerio</file>
 	<file>./themes/galerio-child-starter</file>
 	<file>./tools</file>
