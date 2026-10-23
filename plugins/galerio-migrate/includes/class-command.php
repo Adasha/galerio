@@ -104,7 +104,9 @@ final class Command {
 	 * Remove a theme's templates, template parts and global styles saved in the Site Editor.
 	 *
 	 * The theme's own files are used again afterwards. Changes made in the Site
-	 * Editor are lost, so back up the database first.
+	 * Editor are lost, so back up the database first. The one thing kept is
+	 * which menu each Navigation block showed: a theme's files can't name a
+	 * site's menus, so the theme's version is saved with the same menus chosen.
 	 *
 	 * ## OPTIONS
 	 *
@@ -146,15 +148,129 @@ final class Command {
 			)
 		);
 
+		$menus = array();
+
 		foreach ( $posts as $post ) {
 			WP_CLI::log( sprintf( '%s %s: %s (%s)', $dry ? 'Would remove' : 'Removing', $post->post_type, $post->post_title, $post->post_name ) );
+
+			$refs = self::menu_refs( parse_blocks( $post->post_content ) );
+			if ( $refs && 'wp_global_styles' !== $post->post_type ) {
+				$menus[ $post->post_type ][ $post->post_name ] = $refs;
+			}
 
 			if ( ! $dry ) {
 				wp_delete_post( $post->ID, true );
 			}
 		}
 
+		foreach ( $menus as $type => $slugs ) {
+			foreach ( $slugs as $slug => $refs ) {
+				$this->keep_menus( $theme, $type, $slug, $refs, $dry );
+			}
+		}
+
 		WP_CLI::success( sprintf( '%d Site Editor changes %s for %s.', count( $posts ), $dry ? 'would be removed' : 'removed', $theme ) );
+	}
+
+	/**
+	 * Save the theme's version of a template or part with the menus its removed copy showed.
+	 *
+	 * Navigation blocks are matched in order; ones that already name a menu are left alone.
+	 *
+	 * @param string $theme Theme slug.
+	 * @param string $type  wp_template or wp_template_part.
+	 * @param string $slug  Template or part slug.
+	 * @param int[]  $refs  Menu (wp_navigation) IDs, in block order.
+	 * @param bool   $dry   Report only.
+	 */
+	private function keep_menus( $theme, $type, $slug, array $refs, $dry ) {
+		$template = get_block_template( $theme . '//' . $slug, $type );
+		$label    = sprintf( '%s %s (menus %s)', $type, $slug, implode( ', ', $refs ) );
+
+		if ( $dry ) {
+			WP_CLI::log( "Would keep the menu choice for $label." );
+			return;
+		}
+
+		if ( ! $template || 'theme' !== $template->source ) {
+			WP_CLI::log( "The theme has no $type $slug, so its menu choice wasn't kept: $label." );
+			return;
+		}
+
+		$blocks = parse_blocks( $template->content );
+		$set    = self::set_menu_refs( $blocks, $refs );
+
+		if ( ! $set ) {
+			return;
+		}
+
+		$id = wp_insert_post(
+			array(
+				'post_type'    => $type,
+				'post_name'    => $slug,
+				'post_title'   => $template->title,
+				'post_status'  => 'publish',
+				'post_content' => serialize_blocks( $blocks ),
+			),
+			true
+		);
+
+		if ( is_wp_error( $id ) ) {
+			WP_CLI::warning( "Couldn't keep the menu choice for $label: " . $id->get_error_message() );
+			return;
+		}
+
+		wp_set_object_terms( $id, $theme, 'wp_theme' );
+		if ( 'wp_template_part' === $type ) {
+			wp_set_object_terms( $id, $template->area, 'wp_template_part_area' );
+		}
+
+		WP_CLI::log( "Kept the menu choice for $label." );
+	}
+
+	/**
+	 * The menus Navigation blocks show, in block order.
+	 *
+	 * @param array[] $blocks Parsed blocks.
+	 * @return int[]
+	 */
+	private static function menu_refs( array $blocks ) {
+		$refs = array();
+
+		foreach ( $blocks as $block ) {
+			if ( 'core/navigation' === $block['blockName'] && ! empty( $block['attrs']['ref'] ) ) {
+				$refs[] = (int) $block['attrs']['ref'];
+			}
+			$refs = array_merge( $refs, self::menu_refs( $block['innerBlocks'] ) );
+		}
+
+		return $refs;
+	}
+
+	/**
+	 * Give Navigation blocks that name no menu the next of a list of menus.
+	 *
+	 * @param array[] $blocks Parsed blocks, changed in place.
+	 * @param int[]   $refs   Menus to use, in order; used ones are removed.
+	 * @return int How many blocks were given a menu.
+	 */
+	private static function set_menu_refs( array &$blocks, array &$refs ) {
+		$set = 0;
+
+		foreach ( $blocks as &$block ) {
+			if ( ! $refs ) {
+				break;
+			}
+
+			if ( 'core/navigation' === $block['blockName'] && empty( $block['attrs']['ref'] ) ) {
+				$block['attrs']['ref'] = array_shift( $refs );
+				++$set;
+			}
+
+			$set += self::set_menu_refs( $block['innerBlocks'], $refs );
+		}
+
+		return $set;
 	}
 
 	/**
