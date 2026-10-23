@@ -227,7 +227,12 @@ The theme's templates use bindings and Field blocks only. They no longer depend 
 
 Each Galerio template is a thin wrapper: the layout around a single `<!-- wp:pattern {"slug":"galerio/template-…"} /-->` block. The page's content lives in that hidden pattern in `themes/galerio/patterns/template-*.php`, so its wording is translatable (text domain `galerio`), and a child theme can override one pattern without copying the whole template. In patterns, `galerio_theme_text()` puts the site's type names into a translated text, using the same tokens as above, and `galerio_theme_attr()` writes a translated string into a block attribute.
 
-To start a new template in the Site Editor with the theme's standard layout (menu column on the left, content and footer on the right), choose the **Side menu layout** pattern.
+To start a new template in the Site Editor, choose one of the two layout patterns:
+
+- **Side menu layout**, the theme's standard: the site menu in a sticky column on the left (16rem wide), the content and footer taking the rest. On phones the columns stack and the header becomes a bar, with the menu button beside the site title.
+- **Top header layout**: the site title and menu in a bar across the top (the `header-bar` template part), the content and footer below.
+
+The work page's details table puts each label above its value when its box is too narrow for both side by side (a container query on `.galerio-details`).
 
 The wp-env sites run with `WP_DEVELOPMENT_MODE` set to `all`, so WordPress doesn't cache the theme's patterns or `theme.json` between changes.
 
