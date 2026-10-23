@@ -209,4 +209,74 @@ test.describe( 'Phone layout', () => {
 		);
 		expect( overflow ).toBeLessThanOrEqual( 0 );
 	} );
+
+	test( 'the open menu covers other sticky menus', async ( {
+		page,
+		request,
+	} ) => {
+		// The Documentation template has its own sticky menu beside the site header's.
+		const login = await request.post( '/wp-login.php', {
+			form: { log: 'admin', pwd: 'password' },
+		} );
+		expect( login.ok() ).toBeTruthy();
+		const nonce = await (
+			await request.get( '/wp-admin/admin-ajax.php?action=rest-nonce' )
+		).text();
+		const created = await request.post( '/wp-json/wp/v2/pages', {
+			headers: { 'X-WP-Nonce': nonce },
+			data: {
+				title: 'Menu stacking test',
+				status: 'publish',
+				template: 'wp-custom-template-documentation',
+			},
+		} );
+		const docs = await created.json();
+
+		try {
+			await page.goto( docs.link );
+			await page
+				.locator( 'header' )
+				.getByRole( 'button', { name: 'Open menu' } )
+				.click();
+
+			const open = page.locator(
+				'.wp-block-navigation__responsive-container.is-menu-open'
+			);
+			await expect( open ).toBeVisible();
+
+			// Where the page's other links sit, the open menu is on top.
+			const showingThrough = await page.evaluate(
+				() =>
+					[
+						...document.querySelectorAll(
+							'main a, main + * a, .wp-block-navigation a'
+						),
+					]
+						.filter( ( link ) => ! link.closest( '.is-menu-open' ) )
+						.map( ( link ) => link.getBoundingClientRect() )
+						.filter(
+							( box ) =>
+								box.width &&
+								box.height &&
+								box.top >= 0 &&
+								box.bottom <= window.innerHeight
+						)
+						.filter(
+							( box ) =>
+								! document
+									.elementFromPoint(
+										box.left + box.width / 2,
+										box.top + box.height / 2
+									)
+									?.closest( '.is-menu-open' )
+						).length
+			);
+			expect( showingThrough ).toBe( 0 );
+		} finally {
+			await request.delete( `/wp-json/wp/v2/pages/${ docs.id }`, {
+				headers: { 'X-WP-Nonce': nonce },
+				params: { force: true },
+			} );
+		}
+	} );
 } );
