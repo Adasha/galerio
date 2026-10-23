@@ -11,7 +11,7 @@ Copyright: Adasha
 A block theme for galleries etc.
 
 == Changelog ==
-Unreleased: Template content moved to translatable patterns; wording follows Galerio's content type names
+Unreleased: Font presets are named for their role, heading (Arvo) and body (Lato), so a child theme can change the fonts by redefining two presets; the old arvo and lato presets remain for existing content. Template content moved to translatable patterns; wording follows Galerio's content type names
 2.0.1a Template improvements
 2.0.0a Re-implemented as block theme
 1.0.0 Initial release

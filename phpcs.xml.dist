@@ -4,6 +4,7 @@
 
 	<file>./plugins/galerio-core</file>
 	<file>./themes/galerio</file>
+	<file>./themes/galerio-child-starter</file>
 	<file>./tools</file>
 	<file>./tests/phpunit</file>
 
@@ -27,6 +28,7 @@
 			<property name="text_domain" type="array">
 				<element value="galerio"/>
 				<element value="galerio-core"/>
+				<element value="galerio-child-starter"/>
 			</property>
 		</properties>
 	</rule>
