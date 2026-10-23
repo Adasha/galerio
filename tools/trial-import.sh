@@ -53,4 +53,16 @@ echo "==> Importing the export"
 wp rewrite structure '/%postname%/' --hard
 wp import "$EXPORT" --authors=create
 
+echo "==> Setting up the site as the live one"
+# An export carries content, not settings: use the Galerio theme (the live
+# site's saved templates were exported for it) and its title, and a page
+# called Home as the front page.
+wp theme activate galerio
+wp option update blogname "$( grep -m1 -oP '(?<=<title>)[^<]+' "data/$1" )"
+home=$( wp post list --post_type=page --name=home --field=ID --format=ids )
+if [ -n "$home" ]; then
+	wp option update show_on_front page
+	wp option update page_on_front "$home"
+fi
+
 echo "==> Done: http://localhost:8890"
