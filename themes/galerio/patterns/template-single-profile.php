@@ -10,8 +10,8 @@
 
 ?>
 <!-- wp:group {"tagName":"main","metadata":{"name":"Main"},"layout":{"type":"default"}} -->
-<main class="wp-block-group"><!-- wp:cover {"useFeaturedImage":true,"dimRatio":0,"customOverlayColor":"#FFF","isUserOverlayColor":true,"contentPosition":"center center","isDark":false,"layout":{"type":"constrained"}} -->
-<div class="wp-block-cover is-light"><span aria-hidden="true" class="wp-block-cover__background has-background-dim-0 has-background-dim" style="background-color:#FFF"></span><div class="wp-block-cover__inner-container"><!-- wp:paragraph {"align":"center","placeholder":<?php galerio_theme_attr( __( 'Write title…', 'galerio' ) ); ?>} -->
+<main class="wp-block-group"><!-- wp:cover {"useFeaturedImage":true,"dimRatio":0,"overlayColor":"base","isUserOverlayColor":true,"contentPosition":"center center","isDark":false,"layout":{"type":"constrained"}} -->
+<div class="wp-block-cover is-light"><span aria-hidden="true" class="wp-block-cover__background has-base-background-color has-background-dim-0 has-background-dim"></span><div class="wp-block-cover__inner-container"><!-- wp:paragraph {"align":"center","placeholder":<?php galerio_theme_attr( __( 'Write title…', 'galerio' ) ); ?>} -->
 <p class="has-text-align-center"></p>
 <!-- /wp:paragraph --></div></div>
 <!-- /wp:cover -->

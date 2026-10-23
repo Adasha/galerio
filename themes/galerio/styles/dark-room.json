@@ -1,0 +1,51 @@
+{
+    "$schema": "https://schemas.wp.org/trunk/theme.json",
+    "version": 3,
+    "title": "Dark Room",
+    "settings": {
+        "color": {
+            "palette": [
+                {
+                    "color": "#151515",
+                    "name": "Base",
+                    "slug": "base"
+                },
+                {
+                    "color": "#ebebeb",
+                    "name": "Contrast",
+                    "slug": "contrast"
+                },
+                {
+                    "color": "#e6a23c",
+                    "name": "Primary",
+                    "slug": "primary"
+                },
+                {
+                    "color": "#f3c98a",
+                    "name": "Secondary",
+                    "slug": "secondary"
+                },
+                {
+                    "color": "#b0b0b0",
+                    "name": "Lower contrast",
+                    "slug": "custom-lower-contrast"
+                },
+                {
+                    "color": "#2e2e2e",
+                    "name": "Highlight",
+                    "slug": "custom-highlight"
+                },
+                {
+                    "color": "#212121",
+                    "name": "Hint",
+                    "slug": "custom-hint"
+                },
+                {
+                    "color": "#a3a3a3",
+                    "name": "Lowlight",
+                    "slug": "custom-lowlight"
+                }
+            ]
+        }
+    }
+}

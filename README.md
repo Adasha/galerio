@@ -233,6 +233,14 @@ To start a new template in the Site Editor, choose one of the two layout pattern
 - **Side menu layout**, the theme's standard: the site menu in a sticky column on the left (16rem wide), the content and footer taking the rest. On phones the columns stack and the header becomes a bar, with the menu button beside the site title.
 - **Top header layout**: the site title and menu in a bar across the top (the `header-bar` template part), the content and footer below.
 
+Style variations, chosen under Site Editor → Styles:
+
+- **Gallery White** (colours): white and near-black, without the red accent.
+- **Dark Room** (colours): a dark background with amber links.
+- **Editorial** (typography): Lato headings in sentence case, and serif body text with more line spacing.
+
+A colour variation must define all eight of Galerio's colour slugs, and its text must meet WCAG AA contrast (4.5:1). `tests/phpunit/theme/test-style-variations.php` checks both, for the variations and the child starter.
+
 The work page's details table puts each label above its value when its box is too narrow for both side by side (a container query on `.galerio-details`).
 
 The wp-env sites run with `WP_DEVELOPMENT_MODE` set to `all`, so WordPress doesn't cache the theme's patterns or `theme.json` between changes.
