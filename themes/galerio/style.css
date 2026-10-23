@@ -1,18 +1,16 @@
 /*
 Theme Name: Galerio
+Theme URI: https://galerio.net
 Author: Adasha
-Author URI: 
-Theme URI: 
-Tags: full-site-editing
-Text Domain: galerio
+Author URI: https://adasha.com
+Description: A block theme for artists, galleries, collectives and publishers. It presents creators, works, collections and articles from the Galerio Core plugin, with layouts for each, translatable patterns a child theme can override one at a time, and colour and typography style variations. Requires the Galerio Core plugin.
+Tags: portfolio, photography, two-columns, left-sidebar, custom-colors, custom-menu, editor-style, full-site-editing, block-patterns, block-styles, style-variations, translation-ready, wide-blocks
 Requires at least: 6.6
+Tested up to: 7.1
 Requires PHP: 7.4
-Tested up to: 6.8
-Version: 2.0.2a
-
+Version: 3.0.0-alpha.1
 License: GNU General Public License v2 or later
-License URI: http://www.gnu.org/licenses/gpl-2.0.html
-
-Generated on fullsiteediting.com. No code version.
+License URI: https://www.gnu.org/licenses/gpl-2.0.html
+Text Domain: galerio
+Domain Path: /languages
 */
-

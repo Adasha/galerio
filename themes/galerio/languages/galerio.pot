@@ -1,0 +1,518 @@
+# Copyright (C) 2026 Adasha
+# This file is distributed under the GNU General Public License v2 or later.
+msgid ""
+msgstr ""
+"Project-Id-Version: Galerio 3.0.0-alpha.1\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/theme/galerio\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2026-10-23T16:21:48+00:00\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"X-Generator: WP-CLI 2.12.0\n"
+"X-Domain: galerio\n"
+
+#. Theme Name of the theme
+#: style.css
+#: functions.php:25
+msgid "Galerio"
+msgstr ""
+
+#. Theme URI of the theme
+#: style.css
+msgid "https://galerio.net"
+msgstr ""
+
+#. Description of the theme
+#: style.css
+msgid "A block theme for artists, galleries, collectives and publishers. It presents creators, works, collections and articles from the Galerio Core plugin, with layouts for each, translatable patterns a child theme can override one at a time, and colour and typography style variations. Requires the Galerio Core plugin."
+msgstr ""
+
+#. Author of the theme
+#: style.css
+msgid "Adasha"
+msgstr ""
+
+#. Author URI of the theme
+#: style.css
+msgid "https://adasha.com"
+msgstr ""
+
+#: functions.php:38
+msgid "Buttons"
+msgstr ""
+
+#: functions.php:44
+msgid "Main Menu"
+msgstr ""
+
+#: functions.php:50
+msgid "Asides"
+msgstr ""
+
+#: functions.php:54
+msgid "Image Box"
+msgstr ""
+
+#: patterns/footer-credit.php
+msgctxt "Pattern title"
+msgid "Footer credit"
+msgstr ""
+
+#: patterns/footer-credit.php
+msgctxt "Pattern description"
+msgid "A \"Powered by Galerio\" line for the footer."
+msgstr ""
+
+#. translators: %s: link to the Galerio website, with the text "Galerio".
+#: patterns/footer-credit.php:13
+#, php-format
+msgid "Powered by %s"
+msgstr ""
+
+#: patterns/side-menu-layout.php
+msgctxt "Pattern title"
+msgid "Side menu layout"
+msgstr ""
+
+#: patterns/side-menu-layout.php
+msgctxt "Pattern description"
+msgid "The site's standard page layout: the site menu in a sticky column on the left, the content and footer on the right. Start new templates from it."
+msgstr ""
+
+#: patterns/side-menu-layout.php:22
+#: patterns/top-header-layout.php:18
+msgid "Add this template's content here…"
+msgstr ""
+
+#: patterns/template-404.php
+msgctxt "Pattern title"
+msgid "Page not found"
+msgstr ""
+
+#: patterns/template-404.php
+msgctxt "Pattern description"
+msgid "The message shown when a page is not found. Used by the 404 template; a child theme can override this pattern alone."
+msgstr ""
+
+#: patterns/template-404.php:14
+msgid "404 - Page not found"
+msgstr ""
+
+#: patterns/template-404.php:18
+msgid "Sorry, the page you are looking for is not here."
+msgstr ""
+
+#. translators: %s: link to the home page, with the text "home page".
+#: patterns/template-404.php:22
+#, php-format
+msgid "Please try the site search to find your page, or return to the %s."
+msgstr ""
+
+#. translators: %s: link to the home page, with the text "home page".
+#: patterns/template-404.php:22
+msgid "home page"
+msgstr ""
+
+#: patterns/template-archive-articles.php
+msgctxt "Pattern title"
+msgid "Articles archive"
+msgstr ""
+
+#: patterns/template-archive-articles.php
+msgctxt "Pattern description"
+msgid "The list of articles. Used by the archive-galerio_article template; a child theme can override this pattern alone."
+msgstr ""
+
+#. translators: Before the author's name in a list of articles.
+#: patterns/template-archive-articles.php:34
+msgid "· by "
+msgstr ""
+
+#. translators: Keep {articles} as it is: it becomes this site's name for articles.
+#: patterns/template-archive-articles.php:50
+msgid "No {articles} yet."
+msgstr ""
+
+#: patterns/template-archive-collections.php
+msgctxt "Pattern title"
+msgid "Collections archive"
+msgstr ""
+
+#: patterns/template-archive-collections.php
+msgctxt "Pattern description"
+msgid "The list of collections. Used by the archive-galerio_collection template; a child theme can override this pattern alone."
+msgstr ""
+
+#. translators: Link to the previous page of the list.
+#: patterns/template-archive-collections.php:40
+msgid "Previous"
+msgstr ""
+
+#. translators: Link to the next page of the list.
+#: patterns/template-archive-collections.php:42
+msgid "Next"
+msgstr ""
+
+#: patterns/template-archive-profiles.php
+msgctxt "Pattern title"
+msgid "Profiles archive"
+msgstr ""
+
+#: patterns/template-archive-profiles.php
+msgctxt "Pattern description"
+msgid "The list of creator profiles. Used by the archive-galerio_profile template; a child theme can override this pattern alone."
+msgstr ""
+
+#: patterns/template-archive-works.php
+msgctxt "Pattern title"
+msgid "Works archive"
+msgstr ""
+
+#: patterns/template-archive-works.php
+msgctxt "Pattern description"
+msgid "The list of works. Used by the archive-galerio_work template; a child theme can override this pattern alone."
+msgstr ""
+
+#: patterns/template-single-article.php
+msgctxt "Pattern title"
+msgid "Single article"
+msgstr ""
+
+#: patterns/template-single-article.php
+msgctxt "Pattern description"
+msgid "The main content of an article: its title, standfirst, byline, text and related items. Used by the single-galerio_article template; a child theme can override this pattern alone."
+msgstr ""
+
+#: patterns/template-single-article.php:14
+#: patterns/template-single-profile.php:14
+msgid "Write title…"
+msgstr ""
+
+#. translators: Before the author's name.
+#: patterns/template-single-article.php:28
+msgid "By "
+msgstr ""
+
+#. translators: Heading above the profiles an article features.
+#: patterns/template-single-article.php:42
+msgid "Featuring:"
+msgstr ""
+
+#: patterns/template-single-collection.php
+msgctxt "Pattern title"
+msgid "Single collection"
+msgstr ""
+
+#: patterns/template-single-collection.php
+msgctxt "Pattern description"
+msgid "The main content of a single collection: its title, description, images and notes. Used by the single-galerio_collection template; a child theme can override this pattern alone."
+msgstr ""
+
+#: patterns/template-single-item-collection.php
+msgctxt "Pattern title"
+msgid "Single-item collection"
+msgstr ""
+
+#: patterns/template-single-item-collection.php
+msgctxt "Pattern description"
+msgid "The main content of a collection presented as a single project. Used by the wp-custom-template-single-item-collection-project template; a child theme can override this pattern alone."
+msgstr ""
+
+#: patterns/template-single-profile.php
+msgctxt "Pattern title"
+msgid "Single profile"
+msgstr ""
+
+#: patterns/template-single-profile.php
+msgctxt "Pattern description"
+msgid "The main content of a creator profile: portrait, name, details, biography and related items. Used by the single-galerio_profile template; a child theme can override this pattern alone."
+msgstr ""
+
+#. translators: Before a year of birth or founding: "born".
+#: patterns/template-single-profile.php:31
+msgid "b. "
+msgstr ""
+
+#. translators: Before a year of death or closing: "died".
+#: patterns/template-single-profile.php:35
+msgid "– d. "
+msgstr ""
+
+#. translators: Heading above the collections a profile is in.
+#: patterns/template-single-profile.php:54
+msgid "Featured in:"
+msgstr ""
+
+#. translators: Keep {works} as it is: it becomes this site's name for works.
+#: patterns/template-single-profile.php:56
+msgid "Featured {works}:"
+msgstr ""
+
+#. translators: Heading above a profile's links.
+#: patterns/template-single-profile.php:58
+msgid "More links:"
+msgstr ""
+
+#: patterns/template-single-work.php
+msgctxt "Pattern title"
+msgid "Single work"
+msgstr ""
+
+#: patterns/template-single-work.php
+msgctxt "Pattern description"
+msgid "The main content of a single work: its definitive image, title, details and description. Used by the single-galerio_work template; a child theme can override this pattern alone."
+msgstr ""
+
+#. translators: The medium a work is made in, e.g. "Oil on canvas".
+#: patterns/template-single-work.php:39
+msgid "Medium"
+msgstr ""
+
+#: patterns/template-single-work.php:53
+msgid "Style/genre"
+msgstr ""
+
+#: patterns/template-single-work.php:65
+msgid "Dimensions"
+msgstr ""
+
+#. translators: Heading beside the collections a work is in.
+#: patterns/template-single-work.php:79
+msgid "Featured in"
+msgstr ""
+
+#. translators: Keep {Labels} as it is: it becomes this site's name for its labels.
+#: patterns/template-single-work.php:98
+msgid "{Labels}:"
+msgstr ""
+
+#. translators: Keep {Mediums} as it is: it becomes this site's name for its mediums.
+#: patterns/template-single-work.php:110
+msgid "{Mediums}:"
+msgstr ""
+
+#: patterns/template-taxonomy-group.php
+msgctxt "Pattern title"
+msgid "Group archive"
+msgstr ""
+
+#: patterns/template-taxonomy-group.php
+msgctxt "Pattern description"
+msgid "The items in a group. Used by the taxonomy-galerio_group template; a child theme can override this pattern alone."
+msgstr ""
+
+#: patterns/top-header-layout.php
+msgctxt "Pattern title"
+msgid "Top header layout"
+msgstr ""
+
+#: patterns/top-header-layout.php
+msgctxt "Pattern description"
+msgid "An alternative page layout: the site title and menu in a bar across the top, the content and footer below. Start new templates from it, or use it in place of the side menu layout."
+msgstr ""
+
+#: theme.json
+#: styles/dark-room.json
+#: styles/gallery-white.json
+msgctxt "Color name"
+msgid "Base"
+msgstr ""
+
+#: theme.json
+#: styles/dark-room.json
+#: styles/gallery-white.json
+msgctxt "Color name"
+msgid "Contrast"
+msgstr ""
+
+#: theme.json
+#: styles/dark-room.json
+#: styles/gallery-white.json
+msgctxt "Color name"
+msgid "Primary"
+msgstr ""
+
+#: theme.json
+#: styles/dark-room.json
+#: styles/gallery-white.json
+msgctxt "Color name"
+msgid "Secondary"
+msgstr ""
+
+#: theme.json
+#: styles/dark-room.json
+#: styles/gallery-white.json
+msgctxt "Color name"
+msgid "Lower contrast"
+msgstr ""
+
+#: theme.json
+#: styles/dark-room.json
+#: styles/gallery-white.json
+msgctxt "Color name"
+msgid "Highlight"
+msgstr ""
+
+#: theme.json
+#: styles/dark-room.json
+#: styles/gallery-white.json
+msgctxt "Color name"
+msgid "Hint"
+msgstr ""
+
+#: theme.json
+#: styles/dark-room.json
+#: styles/gallery-white.json
+msgctxt "Color name"
+msgid "Lowlight"
+msgstr ""
+
+#: theme.json
+msgctxt "Space size name"
+msgid "2X-Small"
+msgstr ""
+
+#: theme.json
+msgctxt "Space size name"
+msgid "X-Small"
+msgstr ""
+
+#: theme.json
+msgctxt "Space size name"
+msgid "Small"
+msgstr ""
+
+#: theme.json
+msgctxt "Space size name"
+msgid "Medium"
+msgstr ""
+
+#: theme.json
+msgctxt "Space size name"
+msgid "Large"
+msgstr ""
+
+#: theme.json
+msgctxt "Space size name"
+msgid "X-Large"
+msgstr ""
+
+#: theme.json
+msgctxt "Space size name"
+msgid "2X-Large"
+msgstr ""
+
+#: theme.json
+msgctxt "Space size name"
+msgid "3X-Large"
+msgstr ""
+
+#: theme.json
+#: styles/editorial.json
+msgctxt "Font family name"
+msgid "Heading"
+msgstr ""
+
+#: theme.json
+#: styles/editorial.json
+msgctxt "Font family name"
+msgid "Body"
+msgstr ""
+
+#: theme.json
+msgctxt "Font family name"
+msgid "Arvo"
+msgstr ""
+
+#: theme.json
+msgctxt "Font family name"
+msgid "Lato"
+msgstr ""
+
+#: theme.json
+msgctxt "Font size name"
+msgid "Very Small"
+msgstr ""
+
+#: theme.json
+msgctxt "Font size name"
+msgid "Extra Small"
+msgstr ""
+
+#: theme.json
+msgctxt "Font size name"
+msgid "Small"
+msgstr ""
+
+#: theme.json
+msgctxt "Font size name"
+msgid "Medium"
+msgstr ""
+
+#: theme.json
+msgctxt "Font size name"
+msgid "Large"
+msgstr ""
+
+#: theme.json
+msgctxt "Font size name"
+msgid "Extra Large"
+msgstr ""
+
+#: theme.json
+msgctxt "Font size name"
+msgid "Huge"
+msgstr ""
+
+#: theme.json
+msgctxt "Template part name"
+msgid "Site header"
+msgstr ""
+
+#: theme.json
+msgctxt "Template part name"
+msgid "Header bar"
+msgstr ""
+
+#: theme.json
+msgctxt "Template part name"
+msgid "Footer"
+msgstr ""
+
+#: theme.json
+msgctxt "Custom template name"
+msgid "Title page"
+msgstr ""
+
+#: theme.json
+msgctxt "Custom template name"
+msgid "Documentation"
+msgstr ""
+
+#: theme.json
+msgctxt "Custom template name"
+msgid "Single-item collection (project)"
+msgstr ""
+
+#: styles/block/main-menu.json
+msgctxt "Style variation name"
+msgid "Main Menu"
+msgstr ""
+
+#: styles/dark-room.json
+msgctxt "Style variation name"
+msgid "Dark Room"
+msgstr ""
+
+#: styles/editorial.json
+msgctxt "Style variation name"
+msgid "Editorial"
+msgstr ""
+
+#: styles/gallery-white.json
+msgctxt "Style variation name"
+msgid "Gallery White"
+msgstr ""

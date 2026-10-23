@@ -265,6 +265,16 @@ Labels can name a type with a token, which becomes the site's name for it. A tok
 <!-- wp:galerio/field-display {"key":"profile.works","label":"Featured {works}:","layout":"list"} /-->
 ```
 
+## Packaging
+
+`npm run package` builds installable zips into `dist/` (not committed): `galerio-<version>.zip`, `galerio-child-starter-<version>.zip` and `galerio-core-<version>.zip`, for Themes/Plugins → Add New → Upload. It stops if a package's version numbers disagree, or if the theme's screenshot or either `.pot` file is missing.
+
+Before packaging a release:
+
+1. Bump the version in each package that changed: the theme's `style.css` and `readme.txt`; galerio-core's plugin header, `GALERIO_CORE_VERSION` and readme `Stable tag`; the child starter's `style.css`. The theme and the starter use semantic versions with pre-release suffixes (`3.0.0-alpha.1`).
+2. Add the changes to each readme's changelog.
+3. Run `npm run i18n:pot` to regenerate `themes/galerio/languages/galerio.pot` and `plugins/galerio-core/languages/galerio-core.pot`.
+
 ## Licence
 
 GPL-2.0-or-later.

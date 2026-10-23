@@ -42,9 +42,11 @@
 		"lint:php:fix": "bash tools/composer.sh lint:fix",
 		"composer": "bash tools/composer.sh",
 		"format": "wp-scripts format",
+		"i18n:pot": "wp-env run cli --env-cwd=wp-content/themes/galerio wp i18n make-pot . languages/galerio.pot --slug=galerio --exclude=assets && wp-env run cli --env-cwd=wp-content/plugins/galerio-core wp i18n make-pot . languages/galerio-core.pot --slug=galerio-core",
+		"package": "bash tools/package.sh",
 		"docs:fields": "bash tools/update-field-reference.sh",
 		"test:php": "wp-env --config=.wp-env.test.json run cli --env-cwd=wp-content/galerio-repo vendor/bin/phpunit",
-		"check:plugins":"wp-env --config=.wp-env.test.json run cli wp plugin check galerio-core",
+		"check:plugins": "wp-env --config=.wp-env.test.json run cli wp plugin check galerio-core",
 		"test:e2e": "playwright test --config tests/e2e/playwright.config.js"
 	},
 	"devDependencies": {

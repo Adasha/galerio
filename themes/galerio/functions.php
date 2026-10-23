@@ -5,8 +5,16 @@
  * @package Galerio
  */
 
+add_action( 'after_setup_theme', 'galerio_load_textdomain' );
 add_action( 'init', 'galerio_register_pattern_category' );
 add_action( 'init', 'galerio_register_block_styles' );
+
+/**
+ * Load the theme's bundled translations, from languages/.
+ */
+function galerio_load_textdomain() {
+	load_theme_textdomain( 'galerio', get_template_directory() . '/languages' );
+}
 
 /**
  * Register the pattern category for the theme's own patterns.
