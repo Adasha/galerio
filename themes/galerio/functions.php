@@ -5,7 +5,18 @@
  * @package Galerio
  */
 
+add_action( 'init', 'galerio_register_pattern_category' );
 add_action( 'init', 'galerio_register_block_styles' );
+
+/**
+ * Register the pattern category for the theme's own patterns.
+ */
+function galerio_register_pattern_category() {
+	register_block_pattern_category(
+		'galerio',
+		array( 'label' => __( 'Galerio', 'galerio' ) )
+	);
+}
 
 /**
  * Register custom block styles.

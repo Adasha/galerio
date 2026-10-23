@@ -219,6 +219,26 @@ class Test_Field_Block extends Galerio_TestCase {
 	}
 
 	/**
+	 * An empty standfirst shows nothing, not the excerpt: they mean different things.
+	 */
+	public function test_empty_standfirst_shows_nothing() {
+		$article = self::factory()->post->create(
+			array(
+				'post_type'    => 'galerio_article',
+				'post_excerpt' => 'A short summary.',
+			)
+		);
+		$this->go_to( get_permalink( $article ) );
+		the_post();
+
+		$markup = '<!-- wp:paragraph {"metadata":{"bindings":{"content":{"source":"galerio/field","args":{"key":"standfirst","fallback":"excerpt"}}}}} --><p></p><!-- /wp:paragraph -->';
+		$html   = do_blocks( $markup );
+
+		$this->assertStringNotContainsString( 'A short summary.', $html );
+		$this->assertSame( '', trim( wp_strip_all_tags( $html ) ) );
+	}
+
+	/**
 	 * An empty field can fall back to the post title, and values can link to the post.
 	 */
 	public function test_binding_fallback_and_link() {

@@ -47,7 +47,6 @@ activate_pods_component() {
 
 echo "==> Enabling Pods components"
 activate_pods_component migrate-packages
-activate_pods_component templates
 
 echo "==> Importing Pods package"
 # Use Galerio's importer rather than Pods' own, as it also repairs the

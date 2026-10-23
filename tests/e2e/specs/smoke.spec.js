@@ -113,6 +113,31 @@ test.describe( 'Field details', () => {
 		).toBeVisible();
 	} );
 
+	test( 'the articles archive lists articles with their bylines', async ( {
+		page,
+	} ) => {
+		await page.goto( '/articles/' );
+		const main = page.locator( 'main' );
+		await expect(
+			main
+				.getByRole( 'heading', { level: 2 } )
+				.getByRole( 'link', { name: 'In conversation: Shorelines' } )
+		).toBeVisible();
+		await expect( main ).toContainText( 'by Tomos Price' );
+	} );
+
+	test( 'an article page shows its standfirst and asides', async ( {
+		page,
+	} ) => {
+		await page.goto( '/article/in-conversation-shorelines/' );
+		const main = page.locator( 'main' );
+		await expect( main ).toContainText(
+			'Ana Morgan and Tomos Price on painting and photographing the same place.'
+		);
+		await expect( main ).toContainText( 'By Tomos Price' );
+		await expect( main ).toContainText( 'Featuring:' );
+	} );
+
 	test( 'work cards link their titles', async ( { page } ) => {
 		await page.goto( '/works/' );
 		await expect(

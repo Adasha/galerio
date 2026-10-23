@@ -138,7 +138,11 @@ final class Bindings {
 	}
 
 	/**
-	 * The value to use when the field is empty: `"fallback": "title"` uses the post title.
+	 * The value to use when the field is empty: `"fallback": "title"` uses the
+	 * post title, e.g. for a work without a definitive title.
+	 *
+	 * There is deliberately no excerpt fallback: an excerpt summarises the
+	 * main text, so it can't stand in for a field such as a standfirst.
 	 *
 	 * @param array    $args      Binding arguments.
 	 * @param string   $attribute Attribute being filled.
