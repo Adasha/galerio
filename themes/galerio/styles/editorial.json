@@ -1,0 +1,123 @@
+{
+    "$schema": "https://schemas.wp.org/trunk/theme.json",
+    "version": 3,
+    "title": "Editorial",
+    "settings": {
+        "typography": {
+            "fontFamilies": [
+                {
+                    "name": "Heading",
+                    "slug": "heading",
+                    "fontFamily": "Lato, sans-serif",
+                    "fontFace": [
+                        {
+                            "src": [
+                                "file:./assets/fonts/lato/lato-100-normal.woff2"
+                            ],
+                            "fontWeight": "100",
+                            "fontStyle": "normal",
+                            "fontFamily": "Lato"
+                        },
+                        {
+                            "src": [
+                                "file:./assets/fonts/lato/lato-300-normal.woff2"
+                            ],
+                            "fontWeight": "300",
+                            "fontStyle": "normal",
+                            "fontFamily": "Lato"
+                        },
+                        {
+                            "src": [
+                                "file:./assets/fonts/lato/lato-400-normal.woff2"
+                            ],
+                            "fontWeight": "400",
+                            "fontStyle": "normal",
+                            "fontFamily": "Lato"
+                        },
+                        {
+                            "src": [
+                                "file:./assets/fonts/lato/lato-700-normal.woff2"
+                            ],
+                            "fontWeight": "700",
+                            "fontStyle": "normal",
+                            "fontFamily": "Lato"
+                        },
+                        {
+                            "src": [
+                                "file:./assets/fonts/lato/lato-900-normal.woff2"
+                            ],
+                            "fontWeight": "900",
+                            "fontStyle": "normal",
+                            "fontFamily": "Lato"
+                        },
+                        {
+                            "src": [
+                                "file:./assets/fonts/lato/lato-100-italic.woff2"
+                            ],
+                            "fontWeight": "100",
+                            "fontStyle": "italic",
+                            "fontFamily": "Lato"
+                        },
+                        {
+                            "src": [
+                                "file:./assets/fonts/lato/lato-300-italic.woff2"
+                            ],
+                            "fontWeight": "300",
+                            "fontStyle": "italic",
+                            "fontFamily": "Lato"
+                        },
+                        {
+                            "src": [
+                                "file:./assets/fonts/lato/lato-400-italic.woff2"
+                            ],
+                            "fontWeight": "400",
+                            "fontStyle": "italic",
+                            "fontFamily": "Lato"
+                        },
+                        {
+                            "src": [
+                                "file:./assets/fonts/lato/lato-700-italic.woff2"
+                            ],
+                            "fontWeight": "700",
+                            "fontStyle": "italic",
+                            "fontFamily": "Lato"
+                        },
+                        {
+                            "src": [
+                                "file:./assets/fonts/lato/lato-900-italic.woff2"
+                            ],
+                            "fontWeight": "900",
+                            "fontStyle": "italic",
+                            "fontFamily": "Lato"
+                        }
+                    ]
+                },
+                {
+                    "name": "Body",
+                    "slug": "body",
+                    "fontFamily": "'Iowan Old Style', 'Palatino Linotype', Palatino, Georgia, serif"
+                }
+            ]
+        }
+    },
+    "styles": {
+        "typography": {
+            "lineHeight": "1.6"
+        },
+        "elements": {
+            "heading": {
+                "typography": {
+                    "fontWeight": "700",
+                    "letterSpacing": "-0.01em",
+                    "lineHeight": "1.2"
+                }
+            },
+            "h1": {
+                "typography": {
+                    "fontSize": "var(--wp--preset--font-size--x-large)",
+                    "textTransform": "none"
+                }
+            }
+        }
+    }
+}

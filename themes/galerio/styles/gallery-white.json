@@ -1,0 +1,51 @@
+{
+    "$schema": "https://schemas.wp.org/trunk/theme.json",
+    "version": 3,
+    "title": "Gallery White",
+    "settings": {
+        "color": {
+            "palette": [
+                {
+                    "color": "#ffffff",
+                    "name": "Base",
+                    "slug": "base"
+                },
+                {
+                    "color": "#111111",
+                    "name": "Contrast",
+                    "slug": "contrast"
+                },
+                {
+                    "color": "#111111",
+                    "name": "Primary",
+                    "slug": "primary"
+                },
+                {
+                    "color": "#555555",
+                    "name": "Secondary",
+                    "slug": "secondary"
+                },
+                {
+                    "color": "#5c5c5c",
+                    "name": "Lower contrast",
+                    "slug": "custom-lower-contrast"
+                },
+                {
+                    "color": "#ececec",
+                    "name": "Highlight",
+                    "slug": "custom-highlight"
+                },
+                {
+                    "color": "#f6f6f6",
+                    "name": "Hint",
+                    "slug": "custom-hint"
+                },
+                {
+                    "color": "#4a4a4a",
+                    "name": "Lowlight",
+                    "slug": "custom-lowlight"
+                }
+            ]
+        }
+    }
+}
