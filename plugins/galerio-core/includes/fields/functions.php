@@ -103,3 +103,16 @@ function galerio_get_related( $key, $post = null ) {
 		)
 	);
 }
+
+/**
+ * Put the site's names for its content types into a text.
+ *
+ * Tokens such as "{Collections}" or "{works}" become the names set under
+ * Settings → Galerio content types. See Galerio\Core\Aliases\Names.
+ *
+ * @param string $text Text with name tokens.
+ * @return string
+ */
+function galerio_expand_names( $text ) {
+	return Galerio\Core\Aliases\Names::expand( $text );
+}

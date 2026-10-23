@@ -79,6 +79,10 @@ test.describe( 'Content type aliases', () => {
 			page.getByRole( 'heading', { name: 'Featured artworks:' } )
 		).toBeVisible();
 
+		// So does the theme's own wording that names a taxonomy or type.
+		await page.goto( '/artwork/low-tide-rhossili/' );
+		await expect( page.getByText( 'Mediums:' ) ).toBeVisible();
+
 		// The old address redirects permanently.
 		const old = await request.get( '/collections/', { maxRedirects: 0 } );
 		expect( old.status() ).toBe( 301 );

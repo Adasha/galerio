@@ -11,6 +11,7 @@ Copyright: Adasha
 A block theme for galleries etc.
 
 == Changelog ==
+Unreleased: Template content moved to translatable patterns; wording follows Galerio's content type names
 2.0.1a Template improvements
 2.0.0a Re-implemented as block theme
 1.0.0 Initial release

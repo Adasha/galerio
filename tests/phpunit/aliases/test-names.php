@@ -69,6 +69,15 @@ class Test_Names extends Galerio_TestCase {
 	}
 
 	/**
+	 * Themes reach the names through galerio_expand_names().
+	 */
+	public function test_expand_names_function() {
+		$this->alias();
+
+		$this->assertSame( 'No artworks yet.', galerio_expand_names( 'No {works} yet.' ) );
+	}
+
+	/**
 	 * Unknown tokens and other text are left alone.
 	 */
 	public function test_unknown_tokens() {
