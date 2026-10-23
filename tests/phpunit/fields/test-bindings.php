@@ -92,6 +92,32 @@ class Test_Bindings extends Galerio_TestCase {
 	}
 
 	/**
+	 * A prefix can name a type with a token, which becomes the site's name.
+	 */
+	public function test_prefix_name_token() {
+		update_option( 'galerio_aliases', array( 'types' => array( 'work' => array( 'singular' => 'Artwork' ) ) ) );
+
+		$attrs = array(
+			'metadata' => array(
+				'bindings' => array(
+					'content' => array(
+						'source' => 'galerio/field',
+						'args'   => array(
+							'key'    => 'work.year',
+							'prefix' => '{Work} from ',
+						),
+					),
+				),
+			),
+		);
+		$html  = $this->render( '<!-- wp:paragraph ' . wp_json_encode( $attrs ) . ' --><p>Year</p><!-- /wp:paragraph -->' );
+
+		delete_option( 'galerio_aliases' );
+
+		$this->assertSame( 'Artwork from 2018', trim( wp_strip_all_tags( $html ) ) );
+	}
+
+	/**
 	 * Bare field names resolve against the post's type.
 	 */
 	public function test_bare_key() {

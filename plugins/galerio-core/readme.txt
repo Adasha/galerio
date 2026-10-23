@@ -26,6 +26,7 @@ Galerio is in alpha. Expect breaking changes.
 
 = Unreleased =
 * Add content type aliases (Settings → Galerio content types): rename content types and taxonomies and change their addresses, with presets and redirects from old addresses.
+* Add name tokens such as `{Collections}` and `{works}` for labels, Field block headings and binding prefixes, so they use the site's names. `{field}` in a Field block heading is the field's translated label.
 
 = 0.2.0-alpha =
 * Replace the original stub plugin, which registered post types that conflicted with the Pods package.

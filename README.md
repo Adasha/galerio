@@ -220,7 +220,7 @@ The value fits the attribute it fills: an image field gives an Image block its U
 Some fields can't sit in a core block: formatted text such as a profile's `bio`, lists such as accolades or related works, and sections that should disappear when empty. The **Field** block (`galerio/field-display`) shows any field's display value, with an optional heading. Its "One per line" layout puts each value of a list on its own line, and "Show only when" ties it to an on/off field. When there's nothing to show, it renders nothing, heading included.
 
 ```html
-<!-- wp:galerio/field-display {"key":"profile.works","label":"Featured works:","layout":"list"} /-->
+<!-- wp:galerio/field-display {"key":"profile.accolades","label":"{field}:","layout":"list"} /-->
 ```
 
 The theme's templates use bindings and Field blocks only. They no longer depend on Pods shortcodes, Pods blocks or Pods Templates.
@@ -237,6 +237,17 @@ A site can give Galerio's content types and taxonomies its own names and address
 - Internal names don't change (`galerio_collection`, field keys such as `collection.works`), so no content moves.
 - When a slug changes, the old address 301-redirects to the new one, for addresses that would otherwise be "not found". Turn this off on a site whose redirects are handled by another plugin.
 - Filter `galerio_alias_presets` to add or change presets.
+
+### Type names in labels
+
+Labels can name a type with a token, which becomes the site's name for it. A token is the type's standard name in braces, and its case sets how the name is written: `{Collections}` gives "Exhibitions", `{collections}` gives "exhibitions", and `{Collection}` and `{collection}` give the singular. Tokens exist for works, profiles, collections and articles, and for the medium, label, group and role taxonomies. Unknown tokens are left as they are.
+
+- They work in the Field block's heading, in a binding's `prefix` and `suffix`, and in field labels in the registry. The registry's relationship labels already use them: `work.related_works` reads "Related artworks" on a site that calls its works Artworks.
+- In a Field block heading, `{field}` is the field's own label, which galerio-core translates. The theme's headings use it where they just name the field: `"label":"{field}:"`.
+
+```html
+<!-- wp:galerio/field-display {"key":"profile.works","label":"Featured {works}:","layout":"list"} /-->
+```
 
 ## Licence
 

@@ -7,6 +7,7 @@
 
 namespace Galerio\Core\Fields;
 
+use Galerio\Core\Aliases\Names;
 use WP_Block;
 
 defined( 'ABSPATH' ) || exit;
@@ -77,8 +78,9 @@ final class Field_Block {
 			return '';
 		}
 
-		$label = '' !== $attributes['label']
-			? sprintf( '<h4 class="wp-block-galerio-field-display__label">%s</h4>', esc_html( $attributes['label'] ) )
+		$label = self::label( $attributes['label'], $field );
+		$label = '' !== $label
+			? sprintf( '<h4 class="wp-block-galerio-field-display__label">%s</h4>', esc_html( $label ) )
 			: '';
 
 		return sprintf(
@@ -87,5 +89,17 @@ final class Field_Block {
 			$label,
 			$html
 		);
+	}
+
+	/**
+	 * The heading text: "{field}" becomes the field's label, and name tokens
+	 * such as "{Collections}" the site's names for its types.
+	 *
+	 * @param string $text  Heading as written in the block.
+	 * @param Field  $field Field shown.
+	 * @return string
+	 */
+	public static function label( $text, Field $field ) {
+		return Names::expand( str_replace( '{field}', $field->label, (string) $text ) );
 	}
 }

@@ -62,19 +62,20 @@ return array(
 		'type'     => 'relation',
 		'target'   => 'collection',
 		'multiple' => true,
-		'label'    => __( 'Collections', 'galerio-core' ),
+		'label'    => '{Collections}',
 	),
 	'work.articles'                  => array(
 		'type'     => 'relation',
 		'target'   => 'article',
 		'multiple' => true,
-		'label'    => __( 'Articles', 'galerio-core' ),
+		'label'    => '{Articles}',
 	),
 	'work.related_works'             => array(
 		'type'     => 'relation',
 		'target'   => 'work',
 		'multiple' => true,
-		'label'    => __( 'Related works', 'galerio-core' ),
+		/* translators: Keep {works} as it is: it becomes this site's name for works. */
+		'label'    => __( 'Related {works}', 'galerio-core' ),
 	),
 
 	// Creator profiles.
@@ -138,31 +139,34 @@ return array(
 		'type'     => 'relation',
 		'target'   => 'work',
 		'multiple' => true,
-		'label'    => __( 'Works', 'galerio-core' ),
+		'label'    => '{Works}',
 	),
 	'profile.collections'            => array(
 		'type'     => 'relation',
 		'target'   => 'collection',
 		'multiple' => true,
-		'label'    => __( 'Collections', 'galerio-core' ),
+		'label'    => '{Collections}',
 	),
 	'profile.article_mentions'       => array(
 		'type'     => 'relation',
 		'target'   => 'article',
 		'multiple' => true,
-		'label'    => __( 'Mentioned in articles', 'galerio-core' ),
+		/* translators: Keep {articles} as it is: it becomes this site's name for articles. */
+		'label'    => __( 'Mentioned in {articles}', 'galerio-core' ),
 	),
 	'profile.authored_articles'      => array(
 		'type'     => 'relation',
 		'target'   => 'article',
 		'multiple' => true,
-		'label'    => __( 'Authored articles', 'galerio-core' ),
+		/* translators: Keep {articles} as it is: it becomes this site's name for articles. */
+		'label'    => __( 'Authored {articles}', 'galerio-core' ),
 	),
 	'profile.related_profiles'       => array(
 		'type'     => 'relation',
 		'target'   => 'profile',
 		'multiple' => true,
-		'label'    => __( 'Related profiles', 'galerio-core' ),
+		/* translators: Keep {profiles} as it is: it becomes this site's name for profiles. */
+		'label'    => __( 'Related {profiles}', 'galerio-core' ),
 	),
 	'profile.show_links'             => array(
 		'type'  => 'boolean',
@@ -219,7 +223,7 @@ return array(
 		'type'     => 'relation',
 		'target'   => 'profile',
 		'multiple' => true,
-		'label'    => __( 'Profiles', 'galerio-core' ),
+		'label'    => '{Profiles}',
 	),
 	'collection.other_contributors'  => array(
 		'multiple' => true,
@@ -229,19 +233,20 @@ return array(
 		'type'     => 'relation',
 		'target'   => 'work',
 		'multiple' => true,
-		'label'    => __( 'Works', 'galerio-core' ),
+		'label'    => '{Works}',
 	),
 	'collection.articles'            => array(
 		'type'     => 'relation',
 		'target'   => 'article',
 		'multiple' => true,
-		'label'    => __( 'Articles', 'galerio-core' ),
+		'label'    => '{Articles}',
 	),
 	'collection.related_collections' => array(
 		'type'     => 'relation',
 		'target'   => 'collection',
 		'multiple' => true,
-		'label'    => __( 'Related collections', 'galerio-core' ),
+		/* translators: Keep {collections} as it is: it becomes this site's name for collections. */
+		'label'    => __( 'Related {collections}', 'galerio-core' ),
 	),
 
 	// Articles.
@@ -258,25 +263,26 @@ return array(
 		'type'     => 'relation',
 		'target'   => 'profile',
 		'multiple' => true,
-		'label'    => __( 'Profiles', 'galerio-core' ),
+		'label'    => '{Profiles}',
 	),
 	'article.works'                  => array(
 		'type'     => 'relation',
 		'target'   => 'work',
 		'multiple' => true,
-		'label'    => __( 'Works', 'galerio-core' ),
+		'label'    => '{Works}',
 	),
 	'article.collections'            => array(
 		'type'     => 'relation',
 		'target'   => 'collection',
 		'multiple' => true,
-		'label'    => __( 'Collections', 'galerio-core' ),
+		'label'    => '{Collections}',
 	),
 	'article.related_articles'       => array(
 		'type'     => 'relation',
 		'target'   => 'article',
 		'multiple' => true,
-		'label'    => __( 'Related articles', 'galerio-core' ),
+		/* translators: Keep {articles} as it is: it becomes this site's name for articles. */
+		'label'    => __( 'Related {articles}', 'galerio-core' ),
 	),
 
 	// Media.
