@@ -41,6 +41,7 @@ require_once GALERIO_CORE_DIR . 'includes/fields/class-rest.php';
 require_once GALERIO_CORE_DIR . 'includes/fields/class-bindings.php';
 require_once GALERIO_CORE_DIR . 'includes/fields/class-featured-image.php';
 require_once GALERIO_CORE_DIR . 'includes/fields/class-field-block.php';
+require_once GALERIO_CORE_DIR . 'includes/fields/class-reference.php';
 require_once GALERIO_CORE_DIR . 'includes/fields/functions.php';
 require_once GALERIO_CORE_DIR . 'includes/pods/field-types.php';
 require_once GALERIO_CORE_DIR . 'includes/pods/class-package.php';
@@ -54,4 +55,7 @@ Galerio\Core\Fields\Field_Block::init();
 if ( defined( 'WP_CLI' ) && WP_CLI ) {
 	require_once GALERIO_CORE_DIR . 'includes/cli/class-pods-command.php';
 	WP_CLI::add_command( 'galerio pods', Galerio\Core\CLI\Pods_Command::class );
+
+	require_once GALERIO_CORE_DIR . 'includes/cli/class-fields-command.php';
+	WP_CLI::add_command( 'galerio fields', Galerio\Core\CLI\Fields_Command::class );
 }

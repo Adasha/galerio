@@ -102,6 +102,98 @@ A work without a featured image uses its `definitive_image` as one, so core bloc
 
 Public fields are also included in REST API responses for each post type, under `galerio_fields`.
 
+### Field reference
+
+Every field templates, blocks and code can use, by content type. Keys work in `galerio_get_field()`, in block bindings and in the Field block. `wp galerio fields list` prints the same list. This section is generated from the field registry by `npm run docs:fields`, and a test fails if it falls out of date.
+
+<!-- field-reference:start -->
+
+#### Works
+
+| Key | Label | Type | Notes |
+| --- | --- | --- | --- |
+| `work.definitive_title` | Definitive title | Text |  |
+| `work.creator` | Creator | Relationship to profiles |  |
+| `work.year` | Year | Year |  |
+| `work.definitive_image` | Definitive image | Image |  |
+| `work.images` | Images | Image (list) |  |
+| `work.description` | Description | Formatted text |  |
+| `work.medium` | Medium | Text |  |
+| `work.dimensions` | Dimensions | Text |  |
+| `work.duration` | Duration | Text |  |
+| `work.location` | Location | Text |  |
+| `work.owner` | Current owner | Text | Private: not shown on the site, in REST or in block bindings. |
+| `work.website` | Website | Link |  |
+| `work.collections` | Collections | Relationship to collections (list) |  |
+| `work.articles` | Articles | Relationship to articles (list) |  |
+| `work.related_works` | Related works | Relationship to works (list) |  |
+
+#### Profiles
+
+| Key | Label | Type | Notes |
+| --- | --- | --- | --- |
+| `profile.portrait` | Portrait | Image |  |
+| `profile.show_portrait` | Show portrait | On/off |  |
+| `profile.nationality` | Nationality | Text |  |
+| `profile.show_nationality` | Show nationality | On/off |  |
+| `profile.year_of_birth` | Year of birth or formation | Year |  |
+| `profile.year_of_death` | Year of death or disbanding | Year |  |
+| `profile.show_lifespan` | Show lifespan | On/off |  |
+| `profile.is_collective` | Is a collective | On/off |  |
+| `profile.members` | Members | Relationship to profiles (list) |  |
+| `profile.member_of` | Member of | Relationship to profiles (list) |  |
+| `profile.bio` | Biography | Formatted text |  |
+| `profile.notes` | Notes | Formatted text |  |
+| `profile.accolades` | Accolades | Plain text, several lines (list) |  |
+| `profile.works` | Works | Relationship to works (list) |  |
+| `profile.collections` | Collections | Relationship to collections (list) |  |
+| `profile.article_mentions` | Mentioned in articles | Relationship to articles (list) |  |
+| `profile.authored_articles` | Authored articles | Relationship to articles (list) |  |
+| `profile.related_profiles` | Related profiles | Relationship to profiles (list) |  |
+| `profile.show_links` | Show links | On/off |  |
+| `profile.links` | Links | Link (list) |  |
+
+#### Collections
+
+| Key | Label | Type | Notes |
+| --- | --- | --- | --- |
+| `collection.standfirst` | Standfirst | Text |  |
+| `collection.description` | Description | Formatted text |  |
+| `collection.location` | Location | Text |  |
+| `collection.start_date` | Start date | Date |  |
+| `collection.end_date` | End date | Date |  |
+| `collection.website` | Website | Link |  |
+| `collection.images` | Images | Image (list) |  |
+| `collection.shuffle_images` | Shuffle images | On/off |  |
+| `collection.embeds` | Embeds | Embed URL (list) |  |
+| `collection.notes` | Notes | Formatted text |  |
+| `collection.profiles` | Profiles | Relationship to profiles (list) |  |
+| `collection.other_contributors` | Other contributors | Text (list) |  |
+| `collection.works` | Works | Relationship to works (list) |  |
+| `collection.articles` | Articles | Relationship to articles (list) |  |
+| `collection.related_collections` | Related collections | Relationship to collections (list) |  |
+
+#### Articles
+
+| Key | Label | Type | Notes |
+| --- | --- | --- | --- |
+| `article.standfirst` | Standfirst | Text |  |
+| `article.authors` | Authors | Relationship to profiles (list) |  |
+| `article.profiles` | Profiles | Relationship to profiles (list) |  |
+| `article.works` | Works | Relationship to works (list) |  |
+| `article.collections` | Collections | Relationship to collections (list) |  |
+| `article.related_articles` | Related articles | Relationship to articles (list) |  |
+
+#### Media
+
+| Key | Label | Type | Notes |
+| --- | --- | --- | --- |
+| `attachment.year` | Year | Year |  |
+| `attachment.credit` | Credit | Text |  |
+| `attachment.copyright` | Copyright | Text |  |
+
+<!-- field-reference:end -->
+
 ### Binding fields to blocks
 
 Core Paragraph, Heading, List item, Image and Button blocks can show a field through the `galerio/field` block bindings source. In the editor, choose a field from the block's **Attributes** panel, or write the binding in a template:
