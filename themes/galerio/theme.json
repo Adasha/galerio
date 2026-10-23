@@ -3,225 +3,6 @@
     "version": 3,
     "settings": {
         "appearanceTools": true,
-        "blocks": {
-            "core/image": {
-                "appearanceTools": true,
-                "color": {
-                    "background": true,
-                    "custom": true,
-                    "customDuotone": true,
-                    "customGradient": true,
-                    "defaultDuotone": true,
-                    "defaultGradients": true,
-                    "defaultPalette": true,
-                    "duotone": [],
-                    "gradients": [],
-                    "palette": [
-                        {
-                            "color": "#ffffff",
-                            "name": "Base",
-                            "slug": "base"
-                        },
-                        {
-                            "color": "#303030",
-                            "name": "Contrast",
-                            "slug": "contrast"
-                        },
-                        {
-                            "color": "#e92323",
-                            "name": "Primary",
-                            "slug": "primary"
-                        },
-                        {
-                            "color": "#bd1818",
-                            "name": "Secondary",
-                            "slug": "secondary"
-                        },
-                        {
-                            "color": "#767676",
-                            "name": "Lower contrast",
-                            "slug": "custom-lower-contrast"
-                        },
-                        {
-                            "color": "#e7e7e7",
-                            "name": "Highlight",
-                            "slug": "custom-highlight"
-                        },
-                        {
-                            "color": "#f3f3f3",
-                            "name": "Hint",
-                            "slug": "custom-hint"
-                        },
-                        {
-                            "color": "#878787",
-                            "name": "Lowlight",
-                            "slug": "custom-lowlight"
-                        }
-                    ],
-                    "text": true
-                },
-                "custom": {
-                    "button": {
-                        "border-radius": "5px"
-                    }
-                },
-                "layout": {
-                    "contentSize": "700px",
-                    "wideSize": "1100px"
-                },
-                "lightbox": {
-                    "allowEditing": true,
-                    "enabled": true
-                },
-                "shadow": {
-                    "defaultPresets": true,
-                    "presets": []
-                },
-                "spacing": {
-                    "customSpacingSize": true,
-                    "defaultSpacingSizes": true,
-                    "spacingScale": {
-                        "default": {
-                            "increment": 1.5,
-                            "mediumStep": 1.5,
-                            "operator": "*",
-                            "steps": 7,
-                            "unit": "rem"
-                        }
-                    },
-                    "spacingSizes": [],
-                    "units": [
-                        "px",
-                        "em",
-                        "rem",
-                        "vh",
-                        "vw",
-                        "%"
-                    ]
-                },
-                "typography": {
-                    "customFontSize": true,
-                    "defaultFontSizes": true,
-                    "dropCap": true,
-                    "fontFamilies": [
-                        {
-                            "fontFace": [
-                                {
-                                    "fontFamily": "Arvo",
-                                    "fontStyle": "normal",
-                                    "fontWeight": "400",
-                                    "src": "https://galerio.net/wp-content/uploads/fonts/tDbD2oWUg0MKmSUa7Lzr7vs.woff2"
-                                },
-                                {
-                                    "fontFamily": "Arvo",
-                                    "fontStyle": "normal",
-                                    "fontWeight": "700",
-                                    "src": "https://galerio.net/wp-content/uploads/fonts/tDbM2oWUg0MKoZw1yLHA8vL7lAE.woff2"
-                                },
-                                {
-                                    "fontFamily": "Arvo",
-                                    "fontStyle": "italic",
-                                    "fontWeight": "400",
-                                    "src": "https://galerio.net/wp-content/uploads/fonts/tDbN2oWUg0MKqSIQ7Z7u_vvijQ.woff2"
-                                },
-                                {
-                                    "fontFamily": "Arvo",
-                                    "fontStyle": "italic",
-                                    "fontWeight": "700",
-                                    "src": "https://galerio.net/wp-content/uploads/fonts/tDbO2oWUg0MKqSIoVLHK89D-hAHkGg.woff2"
-                                }
-                            ],
-                            "fontFamily": "Arvo, serif",
-                            "name": "Arvo",
-                            "slug": "arvo"
-                        },
-                        {
-                            "fontFace": [
-                                {
-                                    "fontFamily": "Lato",
-                                    "fontStyle": "normal",
-                                    "fontWeight": "100",
-                                    "src": "https://galerio.net/wp-content/uploads/fonts/S6u8w4BMUTPHh30wXiWrFCbw7A.woff2"
-                                },
-                                {
-                                    "fontFamily": "Lato",
-                                    "fontStyle": "normal",
-                                    "fontWeight": "300",
-                                    "src": "https://galerio.net/wp-content/uploads/fonts/S6u9w4BMUTPHh7USewqFGC_p9dw.woff2"
-                                },
-                                {
-                                    "fontFamily": "Lato",
-                                    "fontStyle": "normal",
-                                    "fontWeight": "400",
-                                    "src": "https://galerio.net/wp-content/uploads/fonts/S6uyw4BMUTPHvxw6XweuBCY.woff2"
-                                },
-                                {
-                                    "fontFamily": "Lato",
-                                    "fontStyle": "normal",
-                                    "fontWeight": "700",
-                                    "src": "https://galerio.net/wp-content/uploads/fonts/S6u9w4BMUTPHh6UVewqFGC_p9dw.woff2"
-                                },
-                                {
-                                    "fontFamily": "Lato",
-                                    "fontStyle": "normal",
-                                    "fontWeight": "900",
-                                    "src": "https://galerio.net/wp-content/uploads/fonts/S6u9w4BMUTPHh50XewqFGC_p9dw.woff2"
-                                },
-                                {
-                                    "fontFamily": "Lato",
-                                    "fontStyle": "italic",
-                                    "fontWeight": "100",
-                                    "src": "https://galerio.net/wp-content/uploads/fonts/S6u-w4BMUTPHjxsIPy-qNiPg7MU0.woff2"
-                                },
-                                {
-                                    "fontFamily": "Lato",
-                                    "fontStyle": "italic",
-                                    "fontWeight": "300",
-                                    "src": "https://galerio.net/wp-content/uploads/fonts/S6u_w4BMUTPHjxsI9w2PGQ3s5dwt7w.woff2"
-                                },
-                                {
-                                    "fontFamily": "Lato",
-                                    "fontStyle": "italic",
-                                    "fontWeight": "400",
-                                    "src": "https://galerio.net/wp-content/uploads/fonts/S6u8w4BMUTPHjxswXiWrFCbw7A.woff2"
-                                },
-                                {
-                                    "fontFamily": "Lato",
-                                    "fontStyle": "italic",
-                                    "fontWeight": "700",
-                                    "src": "https://galerio.net/wp-content/uploads/fonts/S6u_w4BMUTPHjxsI5wqPGQ3s5dwt7w.woff2"
-                                },
-                                {
-                                    "fontFamily": "Lato",
-                                    "fontStyle": "italic",
-                                    "fontWeight": "900",
-                                    "src": "https://galerio.net/wp-content/uploads/fonts/S6u_w4BMUTPHjxsI3wiPGQ3s5dwt7w.woff2"
-                                }
-                            ],
-                            "fontFamily": "Lato, sans-serif",
-                            "name": "Lato",
-                            "slug": "lato"
-                        }
-                    ],
-                    "fontSizes": [
-                        {
-                            "name": "Very Small",
-                            "size": "8px",
-                            "slug": "custom-1"
-                        }
-                    ],
-                    "fontStyle": true,
-                    "fontWeight": true,
-                    "letterSpacing": true,
-                    "textAlign": true,
-                    "textColumns": false,
-                    "textDecoration": true,
-                    "textTransform": true,
-                    "writingMode": false
-                },
-                "useRootPaddingAwareAlignments": true
-            }
-        },
         "color": {
             "palette": [
                 {
@@ -276,6 +57,49 @@
             "wideSize": "1100px"
         },
         "spacing": {
+            "defaultSpacingSizes": false,
+            "spacingSizes": [
+                {
+                    "slug": "10",
+                    "name": "2X-Small",
+                    "size": "0.375rem"
+                },
+                {
+                    "slug": "20",
+                    "name": "X-Small",
+                    "size": "0.5rem"
+                },
+                {
+                    "slug": "30",
+                    "name": "Small",
+                    "size": "0.75rem"
+                },
+                {
+                    "slug": "40",
+                    "name": "Medium",
+                    "size": "1rem"
+                },
+                {
+                    "slug": "50",
+                    "name": "Large",
+                    "size": "clamp(1.25rem, 1rem + 1vw, 1.5rem)"
+                },
+                {
+                    "slug": "60",
+                    "name": "X-Large",
+                    "size": "clamp(1.5rem, 1rem + 2vw, 2.25rem)"
+                },
+                {
+                    "slug": "70",
+                    "name": "2X-Large",
+                    "size": "clamp(2rem, 1.25rem + 3vw, 3.375rem)"
+                },
+                {
+                    "slug": "80",
+                    "name": "3X-Large",
+                    "size": "clamp(2.5rem, 1.5rem + 4vw, 5rem)"
+                }
+            ],
             "units": [
                 "px",
                 "em",
@@ -286,6 +110,8 @@
             ]
         },
         "typography": {
+            "defaultFontSizes": false,
+            "fluid": true,
             "fontFamilies": [
                 {
                     "name": "Arvo",
@@ -416,13 +242,70 @@
             ],
             "fontSizes": [
                 {
+                    "slug": "custom-1",
                     "name": "Very Small",
                     "size": "8px",
-                    "slug": "custom-1"
+                    "fluid": false
+                },
+                {
+                    "slug": "x-small",
+                    "name": "Extra Small",
+                    "size": "0.75rem",
+                    "fluid": false
+                },
+                {
+                    "slug": "small",
+                    "name": "Small",
+                    "size": "0.8125rem",
+                    "fluid": false
+                },
+                {
+                    "slug": "medium",
+                    "name": "Medium",
+                    "size": "1.25rem",
+                    "fluid": {
+                        "min": "1.125rem",
+                        "max": "1.25rem"
+                    }
+                },
+                {
+                    "slug": "large",
+                    "name": "Large",
+                    "size": "2.25rem",
+                    "fluid": {
+                        "min": "1.75rem",
+                        "max": "2.25rem"
+                    }
+                },
+                {
+                    "slug": "x-large",
+                    "name": "Extra Large",
+                    "size": "2.625rem",
+                    "fluid": {
+                        "min": "2rem",
+                        "max": "2.625rem"
+                    }
+                },
+                {
+                    "slug": "xx-large",
+                    "name": "Huge",
+                    "size": "4.5rem",
+                    "fluid": {
+                        "min": "2.75rem",
+                        "max": "4.5rem"
+                    }
                 }
             ]
         },
-        "useRootPaddingAwareAlignments": true
+        "useRootPaddingAwareAlignments": true,
+        "blocks": {
+            "core/image": {
+                "lightbox": {
+                    "enabled": true,
+                    "allowEditing": true
+                }
+            }
+        }
     },
     "styles": {
         "blocks": {
@@ -479,6 +362,20 @@
                                 }
                             }
                         }
+                    },
+                    "image-box": {
+                        "color": {
+                            "background": "var(--wp--preset--color--custom-hint)"
+                        },
+                        "spacing": {
+                            "padding": {
+                                "top": "var(--wp--preset--spacing--40)",
+                                "right": "var(--wp--preset--spacing--40)",
+                                "bottom": "var(--wp--preset--spacing--40)",
+                                "left": "var(--wp--preset--spacing--40)"
+                            }
+                        },
+                        "css": "display:flex;align-items:center;justify-content:center;& .wp-block-image{margin:0;}& .wp-block-image img{display:block;width:auto;max-height:calc(67vh - 2 * var(--wp--preset--spacing--40));object-fit:contain;}"
                     }
                 }
             },
@@ -650,9 +547,6 @@
                 }
             },
             "h1": {
-                "spacing": {
-                    "margin": []
-                },
                 "typography": {
                     "fontSize": "var(--wp--preset--font-size--large)",
                     "textTransform": "uppercase"
@@ -697,5 +591,40 @@
             "textTransform": "none"
         },
         "css": "/* A comma after an item, only when the next item has content (e.g. \"Welsh, b. 1978\"). */\n.galerio-comma-after:not(:empty):has(+ :not(:empty))::after{content:\",\";}"
-    }
+    },
+    "templateParts": [
+        {
+            "name": "site-header",
+            "title": "Site header",
+            "area": "header"
+        },
+        {
+            "name": "footer",
+            "title": "Footer",
+            "area": "footer"
+        }
+    ],
+    "customTemplates": [
+        {
+            "name": "title-page",
+            "title": "Title page",
+            "postTypes": [
+                "page"
+            ]
+        },
+        {
+            "name": "wp-custom-template-documentation",
+            "title": "Documentation",
+            "postTypes": [
+                "page"
+            ]
+        },
+        {
+            "name": "wp-custom-template-single-item-collection-project",
+            "title": "Single-item collection (project)",
+            "postTypes": [
+                "galerio_collection"
+            ]
+        }
+    ]
 }
