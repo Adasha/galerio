@@ -73,6 +73,12 @@ test.describe( 'Content type aliases', () => {
 			page.getByRole( 'heading', { level: 1, name: 'Exhibitions' } )
 		).toBeVisible();
 
+		// Template headings use the new names.
+		await page.goto( '/artist/ana-morgan/' );
+		await expect(
+			page.getByRole( 'heading', { name: 'Featured artworks:' } )
+		).toBeVisible();
+
 		// The old address redirects permanently.
 		const old = await request.get( '/collections/', { maxRedirects: 0 } );
 		expect( old.status() ).toBe( 301 );

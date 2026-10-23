@@ -7,6 +7,7 @@
 
 namespace Galerio\Core\Fields;
 
+use Galerio\Core\Aliases\Names;
 use WP_Block;
 
 defined( 'ABSPATH' ) || exit;
@@ -163,7 +164,8 @@ final class Bindings {
 	 * Add the optional prefix, suffix and link to a text value.
 	 *
 	 * `"prefix"` and `"suffix"` are plain text placed around the value, such as
-	 * "b. " before a year. `"link": true` links the value to the post.
+	 * "b. " before a year. Name tokens such as "{Collection}" in them become
+	 * the site's names for its types. `"link": true` links the value to the post.
 	 *
 	 * @param array    $args      Binding arguments.
 	 * @param string   $attribute Attribute being filled.
@@ -180,8 +182,8 @@ final class Bindings {
 			$value = sprintf( '<a href="%1$s">%2$s</a>', esc_url( get_permalink( $post ) ), $value );
 		}
 
-		$prefix = isset( $args['prefix'] ) && is_string( $args['prefix'] ) ? esc_html( $args['prefix'] ) : '';
-		$suffix = isset( $args['suffix'] ) && is_string( $args['suffix'] ) ? esc_html( $args['suffix'] ) : '';
+		$prefix = isset( $args['prefix'] ) && is_string( $args['prefix'] ) ? esc_html( Names::expand( $args['prefix'] ) ) : '';
+		$suffix = isset( $args['suffix'] ) && is_string( $args['suffix'] ) ? esc_html( Names::expand( $args['suffix'] ) ) : '';
 
 		return $prefix . $value . $suffix;
 	}
@@ -298,6 +300,7 @@ final class Bindings {
 		return array(
 			'objects'  => Registry::OBJECTS,
 			'fields'   => $fields,
+			'names'    => Names::tokens(),
 			/** This filter is documented in includes/fields/class-display.php */
 			'services' => apply_filters( 'galerio_link_services', Display::SERVICES ),
 		);

@@ -34,6 +34,26 @@
 			: Object.values( data.fields ).flat();
 	}
 
+	/**
+	 * The heading as the front end shows it: "{field}" becomes the field's
+	 * label, and name tokens such as "{Collections}" the site's type names.
+	 *
+	 * @param {string}      text  Heading as written in the block.
+	 * @param {Object|null} field Field definition.
+	 * @return {string} Heading.
+	 */
+	function headingText( text, field ) {
+		const names = data.names || {};
+
+		return text
+			.replace( '{field}', field ? field.label : '' )
+			.replace( /\{[A-Za-z]+\}/g, ( token ) =>
+				Object.prototype.hasOwnProperty.call( names, token )
+					? names[ token ]
+					: token
+			);
+	}
+
 	registerBlockType( 'galerio/field-display', {
 		edit( { attributes, setAttributes, context } ) {
 			const fields = fieldsFor( context.postType );
@@ -74,7 +94,7 @@
 					el( TextControl, {
 						label: __( 'Heading', 'galerio-core' ),
 						help: __(
-							'Shown above the value. Leave empty for none.',
+							'Shown above the value. Leave empty for none. {field} is the field\'s name, and {Collections}, {works} and similar are your site\'s names for its content types.',
 							'galerio-core'
 						),
 						value: attributes.label,
@@ -138,7 +158,7 @@
 								className:
 									'wp-block-galerio-field-display__label',
 							},
-							attributes.label
+							headingText( attributes.label, field )
 						),
 					el(
 						'p',

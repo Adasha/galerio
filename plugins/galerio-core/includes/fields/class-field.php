@@ -7,6 +7,7 @@
 
 namespace Galerio\Core\Fields;
 
+use Galerio\Core\Aliases\Names;
 use InvalidArgumentException;
 
 defined( 'ABSPATH' ) || exit;
@@ -68,7 +69,8 @@ final class Field {
 	public $type;
 
 	/**
-	 * Human-readable label.
+	 * Human-readable label, with the site's type names in place of name
+	 * tokens such as "{Collections}".
 	 *
 	 * @var string
 	 */
@@ -162,7 +164,7 @@ final class Field {
 		$this->object            = $parts[1];
 		$this->name              = $parts[2];
 		$this->type              = $args['type'];
-		$this->label             = $args['label'];
+		$this->label             = Names::expand( $args['label'] );
 		$this->source            = $args['source'];
 		$this->multiple          = (bool) $args['multiple'];
 		$this->target            = $args['target'];

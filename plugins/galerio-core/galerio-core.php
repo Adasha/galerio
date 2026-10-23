@@ -50,6 +50,7 @@ require_once GALERIO_CORE_DIR . 'includes/pods/field-types.php';
 require_once GALERIO_CORE_DIR . 'includes/pods/class-package.php';
 require_once GALERIO_CORE_DIR . 'includes/pods/class-importer.php';
 require_once GALERIO_CORE_DIR . 'includes/aliases/class-aliases.php';
+require_once GALERIO_CORE_DIR . 'includes/aliases/class-names.php';
 require_once GALERIO_CORE_DIR . 'includes/aliases/class-settings-page.php';
 
 Galerio\Core\Fields\Rest::init();
