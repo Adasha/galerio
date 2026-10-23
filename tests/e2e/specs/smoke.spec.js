@@ -180,3 +180,33 @@ test.describe( 'Admin', () => {
 		}
 	} );
 } );
+
+test.describe( 'Phone layout', () => {
+	test.use( { viewport: { width: 390, height: 844 } } );
+
+	test( 'a work page fits a phone screen', async ( { page } ) => {
+		await page.goto( '/work/low-tide-rhossili/' );
+
+		// The header is a bar: the menu button sits beside the site title.
+		const title = await page
+			.locator( '.galerio-site-header .wp-block-site-title' )
+			.boundingBox();
+		const menu = await page
+			.locator( '.galerio-site-header' )
+			.getByRole( 'button', { name: 'Open menu' } )
+			.boundingBox();
+		expect( menu.y ).toBeLessThan( title.y + title.height );
+
+		// The image box fits its image rather than most of the screen.
+		const imageBox = await page
+			.locator( '.is-style-image-box' )
+			.boundingBox();
+		expect( imageBox.height ).toBeLessThan( 844 * 0.5 );
+
+		// Nothing is wider than the screen.
+		const overflow = await page.evaluate(
+			() => document.documentElement.scrollWidth - window.innerWidth
+		);
+		expect( overflow ).toBeLessThanOrEqual( 0 );
+	} );
+} );

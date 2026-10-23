@@ -375,7 +375,7 @@
                                 "left": "var(--wp--preset--spacing--40)"
                             }
                         },
-                        "css": "display:flex;align-items:center;justify-content:center;& .wp-block-image{margin:0;}& .wp-block-image img{display:block;width:auto;max-height:calc(67vh - 2 * var(--wp--preset--spacing--40));object-fit:contain;}"
+                        "css": "display:flex;align-items:center;justify-content:center;min-height:67vh;& .wp-block-image{margin:0;}& .wp-block-image img{display:block;width:auto;max-height:calc(67vh - 2 * var(--wp--preset--spacing--40));object-fit:contain;}"
                     }
                 }
             },
@@ -476,7 +476,7 @@
                 }
             },
             "core/site-title": {
-                "css": "text-wrap: nowrap;",
+                "css": "overflow-wrap: anywhere;",
                 "typography": {
                     "fontFamily": "var(--wp--preset--font-family--arvo)",
                     "fontSize": "var(--wp--preset--font-size--x-large)",
@@ -590,12 +590,17 @@
             "lineHeight": "1.4",
             "textTransform": "none"
         },
-        "css": "/* A comma after an item, only when the next item has content (e.g. \"Welsh, b. 1978\"). */\n.galerio-comma-after:not(:empty):has(+ :not(:empty))::after{content:\",\";}"
+        "css": "/* A comma after an item, only when the next item has content (e.g. \"Welsh, b. 1978\"). */\n.galerio-comma-after:not(:empty):has(+ :not(:empty))::after{content:\",\";}\n/* On phones the image box fits its image instead of filling most of the screen. */\n@media (max-width: 781px){.wp-block-group.is-style-image-box{min-height:0;}}\n/* A details table: when its box is too narrow for a label beside its value, the label goes above. */\n.galerio-details{container-type:inline-size;}\n@container (max-width: 20rem){.galerio-details .wp-block-columns{flex-wrap:wrap !important;gap:0;}.galerio-details .wp-block-column{flex-basis:100% !important;}}\n/* On phones the side menu's header is a bar: site title on the left, menu button on the right. */\n@media (max-width: 781px){.wp-block-group.galerio-site-header{flex-direction:row;align-items:flex-start;justify-content:space-between;gap:var(--wp--preset--spacing--40);}}"
     },
     "templateParts": [
         {
             "name": "site-header",
             "title": "Site header",
+            "area": "header"
+        },
+        {
+            "name": "header-bar",
+            "title": "Header bar",
             "area": "header"
         },
         {
