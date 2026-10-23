@@ -24,6 +24,9 @@ Galerio is in alpha. Expect breaking changes.
 
 == Changelog ==
 
+= Unreleased =
+* Add content type aliases (Settings → Galerio content types): rename content types and taxonomies and change their addresses, with presets and redirects from old addresses.
+
 = 0.2.0-alpha =
 * Replace the original stub plugin, which registered post types that conflicted with the Pods package.
 * Add `wp galerio pods import` and `wp galerio pods repair-relationships`.

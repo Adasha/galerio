@@ -229,6 +229,15 @@ To start a new template in the Site Editor with the theme's standard layout (men
 
 The wp-env sites run with `WP_DEVELOPMENT_MODE` set to `all`, so WordPress doesn't cache the theme's patterns or `theme.json` between changes.
 
+## Renaming content types
+
+A site can give Galerio's content types and taxonomies its own names and addresses under **Settings → Galerio content types**, for example Collections → Exhibitions at `/exhibitions/`. The Gallery, Record label and Publisher presets fill in the form as a starting point, and every value can still be changed. An empty box keeps the registered name or slug.
+
+- The aliases are stored in the `galerio_aliases` option, not in the Pods package, so `wp galerio pods import` never overwrites them. They're applied with the `register_post_type_args` and `register_taxonomy_args` filters.
+- Internal names don't change (`galerio_collection`, field keys such as `collection.works`), so no content moves.
+- When a slug changes, the old address 301-redirects to the new one, for addresses that would otherwise be "not found". Turn this off on a site whose redirects are handled by another plugin.
+- Filter `galerio_alias_presets` to add or change presets.
+
 ## Licence
 
 GPL-2.0-or-later.

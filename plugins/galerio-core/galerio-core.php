@@ -30,6 +30,9 @@ define( 'GALERIO_CORE_URL', plugin_dir_url( __FILE__ ) );
  *
  * Templates and blocks read fields through the field API below, never through
  * Pods directly, so that the storage backend can be swapped later.
+ *
+ * A site can rename the types and move their addresses (Settings → Galerio
+ * content types). The aliases are applied while the types are registered.
  */
 
 require_once GALERIO_CORE_DIR . 'includes/fields/class-field.php';
@@ -46,11 +49,15 @@ require_once GALERIO_CORE_DIR . 'includes/fields/functions.php';
 require_once GALERIO_CORE_DIR . 'includes/pods/field-types.php';
 require_once GALERIO_CORE_DIR . 'includes/pods/class-package.php';
 require_once GALERIO_CORE_DIR . 'includes/pods/class-importer.php';
+require_once GALERIO_CORE_DIR . 'includes/aliases/class-aliases.php';
+require_once GALERIO_CORE_DIR . 'includes/aliases/class-settings-page.php';
 
 Galerio\Core\Fields\Rest::init();
 Galerio\Core\Fields\Bindings::init();
 Galerio\Core\Fields\Featured_Image::init();
 Galerio\Core\Fields\Field_Block::init();
+Galerio\Core\Aliases\Aliases::init();
+Galerio\Core\Aliases\Settings_Page::init();
 
 if ( defined( 'WP_CLI' ) && WP_CLI ) {
 	require_once GALERIO_CORE_DIR . 'includes/cli/class-pods-command.php';
