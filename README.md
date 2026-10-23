@@ -11,6 +11,7 @@ Galerio has a demo/dev site at <https://galerio.net>, but it's also in a very un
 | Path | Contents |
 | --- | --- |
 | `themes/galerio` | The Galerio block theme (presentation only). |
+| `themes/galerio-child-starter` | A starter child theme with its own colours, fonts and footer pattern. Its README explains how to make your own Galerio child. |
 | `plugins/galerio-core` | Data layer and tools, including the Pods package importer. |
 | `plugins/post-slider`, `plugins/query-carousel` | Block prototypes, to be merged into a single Galerio carousel block. |
 | `data/pods/galerio.json` | The Pods package defining Galerio's content types and fields. |

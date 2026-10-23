@@ -21,12 +21,12 @@
 <!-- /wp:heading -->
 
 <!-- wp:group {"metadata":{"name":"Year and creator"},"style":{"spacing":{"blockGap":"var:preset|spacing|10","margin":{"top":"0","bottom":"0"}}},"layout":{"type":"flex","flexWrap":"wrap"}} -->
-<div class="wp-block-group" style="margin-top:0;margin-bottom:0"><!-- wp:paragraph {"metadata":{"bindings":{"content":{"source":"galerio/field","args":{"key":"work.year"}}}},"className":"galerio-comma-after","fontSize":"medium","fontFamily":"arvo"} -->
-<p class="galerio-comma-after has-arvo-font-family has-medium-font-size"></p>
+<div class="wp-block-group" style="margin-top:0;margin-bottom:0"><!-- wp:paragraph {"metadata":{"bindings":{"content":{"source":"galerio/field","args":{"key":"work.year"}}}},"className":"galerio-comma-after","fontSize":"medium","fontFamily":"heading"} -->
+<p class="galerio-comma-after has-heading-font-family has-medium-font-size"></p>
 <!-- /wp:paragraph -->
 
-<!-- wp:paragraph {"metadata":{"bindings":{"content":{"source":"galerio/field","args":{"key":"work.creator"}}}},"fontSize":"medium","fontFamily":"arvo"} -->
-<p class="has-arvo-font-family has-medium-font-size"></p>
+<!-- wp:paragraph {"metadata":{"bindings":{"content":{"source":"galerio/field","args":{"key":"work.creator"}}}},"fontSize":"medium","fontFamily":"heading"} -->
+<p class="has-heading-font-family has-medium-font-size"></p>
 <!-- /wp:paragraph --></div>
 <!-- /wp:group -->
 

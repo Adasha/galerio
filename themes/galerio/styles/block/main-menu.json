@@ -57,7 +57,7 @@
 			}
 		},
 		"typography": {
-			"fontFamily": "var(--wp--preset--font-family--arvo)"
+			"fontFamily": "var(--wp--preset--font-family--heading)"
 		}
 	}
 }

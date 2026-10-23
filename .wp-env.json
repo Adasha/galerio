@@ -8,7 +8,7 @@
 		"https://downloads.wordpress.org/plugin/pods.zip",
 		"./plugins/galerio-core"
 	],
-	"themes": [ "./themes/galerio" ],
+	"themes": [ "./themes/galerio", "./themes/galerio-child-starter" ],
 	"mappings": {
 		"wp-content/galerio-data": "./data",
 		"wp-content/galerio-tools": "./tools",
