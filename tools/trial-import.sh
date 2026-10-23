@@ -41,7 +41,7 @@ wp transient delete --all
 wp db query "DELETE FROM wp_options WHERE option_name LIKE '%pods%cache%' OR option_name LIKE '_transient%pods%'"
 
 echo "==> Activating plugins"
-wp plugin activate pods wordpress-importer galerio-core
+wp plugin activate pods wordpress-importer galerio-core galerio-migrate
 if ! output=$( wp pods-legacy-api activate-component --component=migrate-packages 2>&1 ); then
 	[[ "$output" == *"already active"* ]] || { echo "$output" >&2; exit 1; }
 fi

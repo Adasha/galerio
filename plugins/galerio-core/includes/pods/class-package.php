@@ -43,7 +43,7 @@ final class Package {
 	 *
 	 * @var string[]
 	 */
-	const SITE_SETTINGS = array( 'wisdom_opt_out', 'wisdom_registered_setting' );
+	const SITE_SETTINGS = array( 'wisdom_opt_out', 'wisdom_registered_setting', 'autocomplete_limit', 'show_display_callback_notices' );
 
 	/**
 	 * Read a package file.
