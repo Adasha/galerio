@@ -139,7 +139,10 @@ final class Bindings {
 
 	/**
 	 * The value to use when the field is empty: `"fallback": "title"` uses the
-	 * post title, and `"fallback": "excerpt"` the post excerpt.
+	 * post title, e.g. for a work without a definitive title.
+	 *
+	 * There is deliberately no excerpt fallback: an excerpt summarises the
+	 * main text, so it can't stand in for a field such as a standfirst.
 	 *
 	 * @param array    $args      Binding arguments.
 	 * @param string   $attribute Attribute being filled.
@@ -147,17 +150,13 @@ final class Bindings {
 	 * @return string|null
 	 */
 	private static function fallback( array $args, $attribute, $post ) {
-		$fallback = isset( $args['fallback'] ) ? $args['fallback'] : '';
-
-		if ( 'title' === $fallback ) {
-			$text = get_the_title( $post );
-		} elseif ( 'excerpt' === $fallback ) {
-			$text = get_the_excerpt( $post );
-		} else {
+		if ( empty( $args['fallback'] ) || 'title' !== $args['fallback'] ) {
 			return null;
 		}
 
-		return in_array( $attribute, array( 'alt', 'title' ), true ) ? wp_strip_all_tags( $text ) : wp_kses_post( $text );
+		$title = get_the_title( $post );
+
+		return in_array( $attribute, array( 'alt', 'title' ), true ) ? wp_strip_all_tags( $title ) : wp_kses_post( $title );
 	}
 
 	/**

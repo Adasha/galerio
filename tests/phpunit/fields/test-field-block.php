@@ -219,9 +219,9 @@ class Test_Field_Block extends Galerio_TestCase {
 	}
 
 	/**
-	 * An empty field can fall back to the post excerpt.
+	 * An empty standfirst shows nothing, not the excerpt: they mean different things.
 	 */
-	public function test_binding_excerpt_fallback() {
+	public function test_empty_standfirst_shows_nothing() {
 		$article = self::factory()->post->create(
 			array(
 				'post_type'    => 'galerio_article',
@@ -231,16 +231,11 @@ class Test_Field_Block extends Galerio_TestCase {
 		$this->go_to( get_permalink( $article ) );
 		the_post();
 
-		$html = do_blocks(
-			$this->bound_paragraph(
-				array(
-					'key'      => 'standfirst',
-					'fallback' => 'excerpt',
-				)
-			)
-		);
+		$markup = '<!-- wp:paragraph {"metadata":{"bindings":{"content":{"source":"galerio/field","args":{"key":"standfirst","fallback":"excerpt"}}}}} --><p></p><!-- /wp:paragraph -->';
+		$html   = do_blocks( $markup );
 
-		$this->assertStringContainsString( 'A short summary.', $html );
+		$this->assertStringNotContainsString( 'A short summary.', $html );
+		$this->assertSame( '', trim( wp_strip_all_tags( $html ) ) );
 	}
 
 	/**
