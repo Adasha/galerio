@@ -3,7 +3,7 @@
  * Plugin Name:       Galerio Core
  * Plugin URI:        https://galerio.net
  * Description:       Data layer for Galerio: a field API over creators, works, collections and articles, used by the Galerio theme and blocks.
- * Version:           0.2.0-alpha
+ * Version:           0.3.0-alpha.1
  * Requires at least: 6.6
  * Requires PHP:      7.4
  * Requires Plugins:  pods
@@ -12,13 +12,14 @@
  * License:           GPL-2.0-or-later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
  * Text Domain:       galerio-core
+ * Domain Path:       /languages
  *
  * @package Galerio\Core
  */
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'GALERIO_CORE_VERSION', '0.2.0-alpha' );
+define( 'GALERIO_CORE_VERSION', '0.3.0-alpha.1' );
 define( 'GALERIO_CORE_FILE', __FILE__ );
 define( 'GALERIO_CORE_DIR', plugin_dir_path( __FILE__ ) );
 define( 'GALERIO_CORE_URL', plugin_dir_url( __FILE__ ) );
@@ -52,6 +53,15 @@ require_once GALERIO_CORE_DIR . 'includes/pods/class-importer.php';
 require_once GALERIO_CORE_DIR . 'includes/aliases/class-aliases.php';
 require_once GALERIO_CORE_DIR . 'includes/aliases/class-names.php';
 require_once GALERIO_CORE_DIR . 'includes/aliases/class-settings-page.php';
+
+// Galerio isn't hosted on WordPress.org, so its bundled translations in languages/ are loaded here.
+add_action(
+	'init',
+	function () {
+		load_plugin_textdomain( 'galerio-core', false, dirname( plugin_basename( GALERIO_CORE_FILE ) ) . '/languages' );
+	},
+	1
+);
 
 Galerio\Core\Fields\Rest::init();
 Galerio\Core\Fields\Bindings::init();
