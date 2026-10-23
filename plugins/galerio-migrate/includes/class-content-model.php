@@ -670,8 +670,11 @@ final class Content_Model {
 		$current = $field->normalise( 'link' === $field->type ? self::first( $raw ) : $raw );
 
 		// Pods keeps relationships two-way, so copying one side may already have
-		// added items here: keep the old list's order and append what Pods added.
-		if ( 'relation' === $field->type && $field->multiple ) {
+		// added items here, in its own order: keep the old list's order and append
+		// what Pods added. Nothing in the list is lost, so this is never a conflict.
+		$merge = 'relation' === $field->type && $field->multiple;
+
+		if ( $merge ) {
 			$value = array_values( array_unique( array_merge( $value, $current ) ) );
 		}
 
@@ -680,7 +683,7 @@ final class Content_Model {
 			return;
 		}
 
-		if ( $field->empty_value() !== $current ) {
+		if ( ! $merge && $field->empty_value() !== $current ) {
 			$this->note( $step, "$what: the new field already holds something different, so it was left alone." );
 			$this->count( $step, 'conflicts' );
 			return;
