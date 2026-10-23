@@ -37,6 +37,21 @@ test.describe( 'Demo site', () => {
 		} );
 	}
 
+	test( 'the not-found page links to this site', async ( { page } ) => {
+		const response = await page.goto( '/no-such-page/' );
+		expect( response.status() ).toBe( 404 );
+		await expect(
+			page.getByRole( 'heading', { name: /^404 . Page not found$/ } )
+		).toBeVisible();
+		await expect(
+			page.getByRole( 'link', { name: 'home page' } )
+		).toHaveAttribute( 'href', new URL( '/', page.url() ).href );
+		await expect(
+			page.getByRole( 'link', { name: 'Galerio', exact: true } )
+		).toBeVisible();
+		await expectCleanPage( page );
+	} );
+
 	test( 'a work page shows its title', async ( { page } ) => {
 		await page.goto( '/works/' );
 		await page

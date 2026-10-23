@@ -54,3 +54,36 @@ function galerio_register_block_styles() {
 		}
 	}
 }
+
+if ( ! function_exists( 'galerio_theme_text' ) ) {
+	/**
+	 * Prepare a translated text from a pattern: name tokens such as
+	 * "{Collections}" become the site's names for its content types.
+	 *
+	 * Without Galerio Core the tokens' braces are dropped, leaving the
+	 * standard names.
+	 *
+	 * @param string $text Translated text.
+	 * @return string
+	 */
+	function galerio_theme_text( $text ) {
+		return function_exists( 'galerio_expand_names' )
+			? galerio_expand_names( $text )
+			: preg_replace( '/\{([A-Za-z]+)\}/', '$1', $text );
+	}
+}
+
+if ( ! function_exists( 'galerio_theme_attr' ) ) {
+	/**
+	 * Echo a translated text as a quoted string for a block attribute in a
+	 * pattern's block comment, escaped as the block editor saves it.
+	 *
+	 * Name tokens are kept, for the block to replace as it renders.
+	 *
+	 * @param string $text Translated text.
+	 */
+	function galerio_theme_attr( $text ) {
+		// serialize_block_attributes() escapes for a block comment: quotes, <, >, & and "--".
+		echo substr( serialize_block_attributes( array( (string) $text ) ), 1, -1 ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Escaped for a block comment.
+	}
+}

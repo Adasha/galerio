@@ -225,6 +225,8 @@ Some fields can't sit in a core block: formatted text such as a profile's `bio`,
 
 The theme's templates use bindings and Field blocks only. They no longer depend on Pods shortcodes, Pods blocks or Pods Templates.
 
+Each Galerio template is a thin wrapper: the layout around a single `<!-- wp:pattern {"slug":"galerio/template-…"} /-->` block. The page's content lives in that hidden pattern in `themes/galerio/patterns/template-*.php`, so its wording is translatable (text domain `galerio`), and a child theme can override one pattern without copying the whole template. In patterns, `galerio_theme_text()` puts the site's type names into a translated text, using the same tokens as above, and `galerio_theme_attr()` writes a translated string into a block attribute.
+
 To start a new template in the Site Editor with the theme's standard layout (menu column on the left, content and footer on the right), choose the **Side menu layout** pattern.
 
 The wp-env sites run with `WP_DEVELOPMENT_MODE` set to `all`, so WordPress doesn't cache the theme's patterns or `theme.json` between changes.
