@@ -54,6 +54,9 @@ wp rewrite structure '/%postname%/' --hard
 wp import "$EXPORT" --authors=create
 
 echo "==> Setting up the site as the live one"
+# Links in the content point at the live site; point them here instead.
+live=$( grep -m1 -oP '(?<=<link>)[^<]+' "data/$1" )
+wp search-replace "$live" "$( wp option get home )" --skip-columns=guid --report-changed-only
 # An export carries content, not settings: use the Galerio theme (the live
 # site's saved templates were exported for it) and its title, and a page
 # called Home as the front page.
