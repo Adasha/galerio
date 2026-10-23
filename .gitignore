@@ -40,3 +40,7 @@ branding/
 
 # Pods exports from live sites, for comparison only
 data/pods/live/
+
+# Live site exports and backups (personal data, wp-config secrets): local only
+data/wp/
+data/site/
