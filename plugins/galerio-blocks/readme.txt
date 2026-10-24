@@ -4,7 +4,7 @@ Tags: carousel, slider, gallery, exhibition, art
 Requires at least: 6.6
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 0.1.0-alpha.1
+Stable tag: 0.2.0-alpha.1
 License: GPL-2.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -46,6 +46,14 @@ Ready-made Query Loops in the inserter, named after the site's content types: Ga
 Galerio is in alpha. Expect breaking changes.
 
 == Changelog ==
+
+= 0.2.0-alpha.1 =
+* Galerio Gallery: the current item's images or chosen ones, as a cropped grid, a masonry wall or one after another, with captions, an automatic order that follows a collection's Shuffle images, and a lightbox.
+* Galerio Exhibition Dates: a collection's opening and closing dates, in full or as a short range, with an optional Upcoming, On now or Past label.
+* Galerio Related Items: cards for a relationship's items, such as a creator's works or a collection's exhibitors, with a detail line, and hidden with its heading when there are none.
+* Query Loop variations: Galerio Works, Profiles, Collections, and current and upcoming collections, with a date filter for on now, upcoming or past.
+* Blocks are named "Galerio …" in the inserter.
+* Previews stay still in the editor: clicking a gallery image or carousel slide selects the block.
 
 = 0.1.0-alpha.1 =
 * The Carousel block, merging the Post Slider and Query Carousel prototypes. Either prototype's blocks can be transformed into it while the prototype's plugin is active.
