@@ -4,6 +4,7 @@
 
 	<file>./plugins/galerio-blocks</file>
 	<file>./plugins/galerio-core</file>
+	<file>./plugins/galerio-media</file>
 	<file>./plugins/galerio-migrate</file>
 	<file>./themes/galerio</file>
 	<file>./themes/galerio-child-starter</file>
@@ -31,6 +32,7 @@
 				<element value="galerio"/>
 				<element value="galerio-blocks"/>
 				<element value="galerio-core"/>
+				<element value="galerio-media"/>
 				<element value="galerio-child-starter"/>
 			</property>
 		</properties>
