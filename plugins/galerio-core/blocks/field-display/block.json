@@ -3,7 +3,7 @@
 	"apiVersion": 3,
 	"name": "galerio/field-display",
 	"version": "0.3.0",
-	"title": "Field",
+	"title": "Galerio Field",
 	"category": "theme",
 	"icon": "database",
 	"description": "Shows a Galerio field of the current item, such as a biography or a list of related works, with an optional heading. Hidden when the field is empty.",

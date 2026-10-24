@@ -209,7 +209,25 @@ function init( gallery ) {
 	} );
 }
 
+/**
+ * Whether this page is the block editor, which loads front-end scripts too.
+ * Its previews stay still, so blocks can be selected.
+ *
+ * @return {boolean} True in the editor.
+ */
+function inEditor() {
+	const { classList } = document.body;
+	return (
+		classList.contains( 'block-editor-iframe__body' ) ||
+		classList.contains( 'block-editor-page' )
+	);
+}
+
 function initAll() {
+	if ( inEditor() ) {
+		return;
+	}
+
 	document
 		.querySelectorAll( `.${ BLOCK }[data-galerio-lightbox]` )
 		.forEach( init );
