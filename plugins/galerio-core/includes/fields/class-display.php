@@ -97,6 +97,9 @@ final class Display {
 			case 'year':
 				return esc_html( (string) $value );
 
+			case 'number':
+				return esc_html( number_format_i18n( $value, floor( $value ) === $value ? 0 : 2 ) );
+
 			case 'boolean':
 				return $value ? esc_html__( 'Yes', 'galerio-core' ) : esc_html__( 'No', 'galerio-core' );
 

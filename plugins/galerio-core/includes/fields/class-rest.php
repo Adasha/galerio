@@ -79,6 +79,9 @@ final class Rest {
 			case 'year':
 				$type = array( 'integer', 'null' );
 				break;
+			case 'number':
+				$type = array( 'number', 'null' );
+				break;
 			case 'image':
 			case 'relation':
 				$type = 'integer';
