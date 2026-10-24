@@ -34,6 +34,7 @@ final class Field {
 		'embed'    => false,
 		'date'     => false,
 		'year'     => false,
+		'number'   => false,
 		'boolean'  => false,
 		'link'     => false,
 		'image'    => true,
@@ -200,6 +201,7 @@ final class Field {
 			case 'relation':
 				return 0;
 			case 'year':
+			case 'number':
 			case 'link':
 				return null;
 			default:
@@ -210,7 +212,7 @@ final class Field {
 	/**
 	 * Coerce a value to the field's canonical raw form.
 	 *
-	 * Text types become strings, dates "Y-m-d", years integers, booleans
+	 * Text types become strings, dates "Y-m-d", years integers, numbers floats, booleans
 	 * booleans, IDs positive integers and links arrays of url, label and
 	 * offline. Multiple fields become lists.
 	 *
@@ -272,6 +274,12 @@ final class Field {
 				}
 				$year = (int) substr( (string) $value, 0, 4 );
 				return $year > 0 ? $year : null;
+
+			case 'number':
+				if ( ! is_scalar( $value ) || ! is_numeric( trim( (string) $value ) ) ) {
+					return null;
+				}
+				return (float) $value;
 
 			case 'link':
 				if ( ! is_array( $value ) || ! isset( $value['url'] ) || ! is_scalar( $value['url'] ) || '' === trim( (string) $value['url'] ) ) {

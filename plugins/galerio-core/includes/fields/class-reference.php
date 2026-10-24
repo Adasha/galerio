@@ -41,6 +41,7 @@ final class Reference {
 		'embed'    => 'Embed URL',
 		'date'     => 'Date',
 		'year'     => 'Year',
+		'number'   => 'Number',
 		'boolean'  => 'On/off',
 		'link'     => 'Link',
 		'image'    => 'Image',
