@@ -400,6 +400,7 @@ msgid "Publisher"
 msgstr ""
 
 #: includes/aliases/presets.php:111
+#: includes/schema/class-schema-org.php:72
 msgid "Book"
 msgstr ""
 
@@ -717,6 +718,73 @@ msgstr ""
 #: includes/pods/class-status-notice.php:72
 #, php-format
 msgid "Galerio’s content types aren’t set up yet. Import the Galerio Pods package with %s."
+msgstr ""
+
+#: includes/schema/class-schema-org.php:63
+msgid "Creative work (general)"
+msgstr ""
+
+#: includes/schema/class-schema-org.php:64
+msgid "Visual artwork"
+msgstr ""
+
+#: includes/schema/class-schema-org.php:65
+msgid "Painting"
+msgstr ""
+
+#: includes/schema/class-schema-org.php:66
+msgid "Drawing"
+msgstr ""
+
+#: includes/schema/class-schema-org.php:67
+msgid "Photograph"
+msgstr ""
+
+#: includes/schema/class-schema-org.php:68
+msgid "Sculpture"
+msgstr ""
+
+#: includes/schema/class-schema-org.php:69
+msgid "Music composition"
+msgstr ""
+
+#: includes/schema/class-schema-org.php:70
+msgid "Music recording"
+msgstr ""
+
+#: includes/schema/class-schema-org.php:71
+msgid "Sound or audio work"
+msgstr ""
+
+#: includes/schema/class-schema-org.php:73
+msgid "Film"
+msgstr ""
+
+#: includes/schema/class-schema-org.php:74
+msgid "Video"
+msgstr ""
+
+#: includes/schema/class-schema-org.php:447
+#: includes/schema/class-schema-org.php:464
+msgid "Kind of work, for search engines"
+msgstr ""
+
+#: includes/schema/class-schema-org.php:449
+msgid "How works in this medium are described to search engines. Leave it to follow the parent medium, or Galerio’s guess from the name."
+msgstr ""
+
+#. translators: %s: a kind of work, such as "Painting".
+#: includes/schema/class-schema-org.php:471
+#, php-format
+msgid "Currently: %s, from the parent medium or the name."
+msgstr ""
+
+#: includes/schema/class-schema-org.php:473
+msgid "How works in this medium are described to search engines. Media inside this one follow it unless they set their own."
+msgstr ""
+
+#: includes/schema/class-schema-org.php:490
+msgid "Automatic"
 msgstr ""
 
 #. translators: %d: number of fonts.
