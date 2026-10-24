@@ -110,7 +110,7 @@ class Test_Page_Style extends Galerio_TestCase {
 	}
 
 	/**
-	 * A style replaces presets on :root, then adds its own CSS.
+	 * A style replaces presets on body, then adds its own CSS.
 	 */
 	public function test_css() {
 		$css = Page_Style::css(
@@ -121,7 +121,7 @@ class Test_Page_Style extends Galerio_TestCase {
 			)
 		);
 
-		$this->assertStringContainsString( ':root{--wp--preset--font-family--heading:', $css );
+		$this->assertStringContainsString( 'body{--wp--preset--font-family--heading:', $css );
 		$this->assertStringContainsString( '--wp--preset--color--base:#fafaf0;}', $css );
 		$this->assertStringEndsWith( "\n.x{color:red}", $css );
 		$this->assertSame( '', Page_Style::css( array() ) );
@@ -181,7 +181,6 @@ class Test_Page_Style extends Galerio_TestCase {
 		Page_Style::enqueue();
 		$this->assertTrue( wp_style_is( 'galerio-page-style' ) );
 		$this->assertStringContainsString( '#fafaf0', implode( '', wp_styles()->get_data( 'galerio-page-style', 'after' ) ) );
-		$this->assertContains( 'global-styles', wp_styles()->registered['galerio-page-style']->deps );
 
 		wp_dequeue_style( 'galerio-page-style' );
 		wp_deregister_style( 'galerio-page-style' );
@@ -201,6 +200,25 @@ class Test_Page_Style extends Galerio_TestCase {
 		Page_Style::register_meta();
 		$this->assertArrayHasKey( Page_Style::META, get_registered_meta_keys( 'post', 'galerio_article' ) );
 		$this->assertArrayNotHasKey( Page_Style::META, get_registered_meta_keys( 'post', 'galerio_work' ) );
+	}
+
+	/**
+	 * The style waits for the site's styles only when they're registered, as
+	 * they are with block themes; classic themes add them later.
+	 */
+	public function test_dependency_on_global_styles() {
+		update_post_meta( $this->collection, Page_Style::META, array( 'colors' => array( 'base' => '#fafaf0' ) ) );
+		$this->go_to( get_permalink( $this->collection ) );
+
+		wp_deregister_style( 'global-styles' );
+		Page_Style::enqueue();
+		$this->assertSame( array(), wp_styles()->registered['galerio-page-style']->deps );
+		wp_dequeue_style( 'galerio-page-style' );
+		wp_deregister_style( 'galerio-page-style' );
+
+		wp_register_style( 'global-styles', false, array(), '1' );
+		Page_Style::enqueue();
+		$this->assertSame( array( 'global-styles' ), wp_styles()->registered['galerio-page-style']->deps );
 	}
 
 	/**
