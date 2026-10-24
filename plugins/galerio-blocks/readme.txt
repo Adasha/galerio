@@ -8,7 +8,7 @@ Stable tag: 0.1.0-alpha.1
 License: GPL-2.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-Blocks for galleries, artists and publishers, starting with a carousel of exhibitions, works or any other items.
+Blocks for galleries, artists and publishers: a carousel and a gallery, for exhibitions, works or any other items.
 
 == Description ==
 
@@ -24,6 +24,12 @@ Shows items one after another as slides. Slides can come from:
 Slides move by sliding or fading, with arrows, dots and keyboard arrow keys. Autoplay pauses while the pointer or keyboard focus is on the carousel, and visitors get a pause button; it starts paused for visitors who prefer reduced motion. Slides out of view can't be tabbed into. Without JavaScript the slides scroll sideways instead.
 
 Themes can restyle the carousel with custom properties such as `--galerio-carousel-caption-background` (the full list is at the top of `src/carousel/style.scss`). Developers can change the query with the `galerio_carousel_query_args` filter, add transitions with `galerio_carousel_transitions`, and adjust the carousel engine ([Embla](https://www.embla-carousel.com/)) through the `galerio.carousel.options`, `galerio.carousel.plugins` and `galerio.carousel.init` JavaScript hooks.
+
+= Gallery =
+
+Shows images as a grid (cropped to a chosen shape), a masonry wall, or one after another at full width. The images can be the current item's own, such as a collection's or a work's images through Galerio Core, so the same block suits a template, or images chosen in the block. Order can be as saved, random, or automatic, which follows a collection's "Shuffle images" setting. Captions can show the image's caption, or its title and caption.
+
+Images open in a lightbox with previous and next buttons, arrow keys, swiping and Escape to close. Without JavaScript, each image links to its full-size file. Themes can restyle it with `--galerio-gallery-gap`, `--galerio-lightbox-background` and `--galerio-lightbox-color`, and `galerio_gallery_images` filters the images.
 
 Galerio is in alpha. Expect breaking changes.
 

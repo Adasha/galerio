@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-10-24T14:32:07+00:00\n"
+"POT-Creation-Date: 2026-10-24T19:12:32+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: galerio-blocks\n"
@@ -26,7 +26,7 @@ msgstr ""
 
 #. Description of the plugin
 #: galerio-blocks.php
-msgid "Blocks for galleries, artists and publishers, starting with a carousel of exhibitions, works or any other items."
+msgid "Blocks for galleries, artists and publishers: a carousel and a gallery, for exhibitions, works or any other items."
 msgstr ""
 
 #. Author of the plugin
@@ -89,13 +89,35 @@ msgid "Go to slide %d"
 msgstr ""
 
 #. translators: 1: slide number, 2: number of slides.
+#. translators: 1: image number, 2: number of images.
 #: includes/class-carousel-block.php:367
+#: includes/class-gallery-block.php:206
 #, php-format
 msgid "%1$d of %2$d"
 msgstr ""
 
 #: includes/class-carousel-block.php:369
 msgid "Play the carousel"
+msgstr ""
+
+#: includes/class-gallery-block.php:176
+msgid "No images to show yet."
+msgstr ""
+
+#: includes/class-gallery-block.php:201
+msgid "Image viewer"
+msgstr ""
+
+#: includes/class-gallery-block.php:202
+msgid "Close"
+msgstr ""
+
+#: includes/class-gallery-block.php:203
+msgid "Previous image"
+msgstr ""
+
+#: includes/class-gallery-block.php:204
+msgid "Next image"
 msgstr ""
 
 #: build/carousel/index.js:1
@@ -183,6 +205,7 @@ msgid "Number of items"
 msgstr ""
 
 #: build/carousel/index.js:1
+#: build/gallery/index.js:2
 msgid "Order"
 msgstr ""
 
@@ -343,6 +366,154 @@ msgstr ""
 msgid "For example “Current exhibitions”. Leave empty for “Carousel”."
 msgstr ""
 
+#: build/gallery/index.js:1
+msgid "Square"
+msgstr ""
+
+#: build/gallery/index.js:1
+msgid "Landscape, 4:3"
+msgstr ""
+
+#: build/gallery/index.js:1
+msgid "Portrait, 3:4"
+msgstr ""
+
+#: build/gallery/index.js:1
+msgid "Landscape, 3:2"
+msgstr ""
+
+#: build/gallery/index.js:1
+msgid "Portrait, 2:3"
+msgstr ""
+
+#: build/gallery/index.js:1
+msgid "Wide, 16:9"
+msgstr ""
+
+#: build/gallery/index.js:1
+msgid "Each image’s own shape"
+msgstr ""
+
+#: build/gallery/index.js:1
+msgid "Edit images"
+msgstr ""
+
+#: build/gallery/index.js:1
+msgid "Choose images"
+msgstr ""
+
+#: build/gallery/index.js:1
+msgid "Images"
+msgstr ""
+
+#: build/gallery/index.js:1
+msgid "Images come from"
+msgstr ""
+
+#: build/gallery/index.js:1
+msgid "This item’s images"
+msgstr ""
+
+#: build/gallery/index.js:1
+msgid "Images chosen here"
+msgstr ""
+
+#. translators: %d: number of images.
+#: build/gallery/index.js:2
+#, js-format
+msgid "%d image chosen. Use the toolbar to change them."
+msgid_plural "%d images chosen. Use the toolbar to change them."
+msgstr[0] ""
+msgstr[1] ""
+
+#: build/gallery/index.js:2
+msgid "The work’s, collection’s or other item’s own images, so the same block suits a template."
+msgstr ""
+
+#: build/gallery/index.js:2
+msgid "Automatic (follows the collection’s Shuffle images)"
+msgstr ""
+
+#: build/gallery/index.js:2
+msgid "As saved"
+msgstr ""
+
+#: build/gallery/index.js:2
+msgid "Random on every visit"
+msgstr ""
+
+#: build/gallery/index.js:2
+msgid "Layout"
+msgstr ""
+
+#: build/gallery/index.js:2
+msgid "Grid"
+msgstr ""
+
+#: build/gallery/index.js:2
+msgid "Masonry (each image’s own shape)"
+msgstr ""
+
+#: build/gallery/index.js:2
+msgid "One after another, full width"
+msgstr ""
+
+#: build/gallery/index.js:2
+msgid "Columns"
+msgstr ""
+
+#: build/gallery/index.js:2
+msgid "Phones show two at most."
+msgstr ""
+
+#: build/gallery/index.js:2
+msgid "Shape"
+msgstr ""
+
+#: build/gallery/index.js:2
+msgid "Captions"
+msgstr ""
+
+#: build/gallery/index.js:2
+msgid "None"
+msgstr ""
+
+#: build/gallery/index.js:2
+msgid "The image’s caption"
+msgstr ""
+
+#: build/gallery/index.js:2
+msgid "Title and caption"
+msgstr ""
+
+#: build/gallery/index.js:2
+msgid "Image size"
+msgstr ""
+
+#: build/gallery/index.js:2
+msgid "Medium"
+msgstr ""
+
+#: build/gallery/index.js:2
+msgid "Large"
+msgstr ""
+
+#: build/gallery/index.js:2
+msgid "Full size"
+msgstr ""
+
+#: build/gallery/index.js:2
+msgid "Open images in a lightbox"
+msgstr ""
+
+#: build/gallery/index.js:2
+msgid "Gallery"
+msgstr ""
+
+#: build/gallery/index.js:2
+msgid "Choose images from the Media Library, or upload new ones."
+msgstr ""
+
 #: build/carousel/block.json
 msgctxt "block title"
 msgid "Carousel"
@@ -369,6 +540,7 @@ msgid "slideshow"
 msgstr ""
 
 #: build/carousel/block.json
+#: build/gallery/block.json
 msgctxt "block keyword"
 msgid "galerio"
 msgstr ""
@@ -376,4 +548,34 @@ msgstr ""
 #: build/carousel/block.json
 msgctxt "block keyword"
 msgid "query"
+msgstr ""
+
+#: build/gallery/block.json
+msgctxt "block title"
+msgid "Gallery"
+msgstr ""
+
+#: build/gallery/block.json
+msgctxt "block description"
+msgid "Shows the images of the current work, collection or other item, or images you choose, as a grid, a masonry wall or one after another, with an optional lightbox."
+msgstr ""
+
+#: build/gallery/block.json
+msgctxt "block keyword"
+msgid "gallery"
+msgstr ""
+
+#: build/gallery/block.json
+msgctxt "block keyword"
+msgid "images"
+msgstr ""
+
+#: build/gallery/block.json
+msgctxt "block keyword"
+msgid "lightbox"
+msgstr ""
+
+#: build/gallery/block.json
+msgctxt "block keyword"
+msgid "masonry"
 msgstr ""

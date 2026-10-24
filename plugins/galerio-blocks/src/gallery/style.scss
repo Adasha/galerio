@@ -1,0 +1,222 @@
+/**
+ * The Gallery block and its lightbox.
+ *
+ * A theme can restyle them through these custom properties:
+ *
+ * --galerio-gallery-gap           Space between images.
+ * --galerio-lightbox-background   Behind the image in the lightbox.
+ * --galerio-lightbox-color        The lightbox's text and buttons.
+ */
+
+$block: ".wp-block-galerio-gallery";
+
+#{$block} {
+	--galerio-gallery-gap: var(--wp--preset--spacing--30, 1rem);
+}
+
+#{$block}__items {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+#{$block}__item {
+	margin: 0;
+	padding: 0;
+}
+
+#{$block}__figure {
+	margin: 0;
+}
+
+#{$block}__link {
+	display: block;
+}
+
+#{$block}__image {
+	display: block;
+	width: 100%;
+	height: auto;
+}
+
+#{$block}__caption {
+	margin-top: 0.5em;
+	font-size: var(--wp--preset--font-size--small, 0.875em);
+}
+
+/* Grid: equal columns, images cropped to the chosen shape. */
+#{$block}.is-layout-grid #{$block}__items {
+	display: grid;
+	grid-template-columns: repeat(var(--galerio-gallery-columns, 3), minmax(0, 1fr));
+	gap: var(--galerio-gallery-gap);
+}
+
+#{$block}.is-cropped #{$block}__image {
+	aspect-ratio: var(--galerio-gallery-ratio, 1);
+	object-fit: cover;
+}
+
+/* Masonry: columns of images at their own shapes. */
+#{$block}.is-layout-masonry #{$block}__items {
+	column-count: var(--galerio-gallery-columns, 3);
+	column-gap: var(--galerio-gallery-gap);
+}
+
+#{$block}.is-layout-masonry #{$block}__item {
+	margin-bottom: var(--galerio-gallery-gap);
+	break-inside: avoid;
+}
+
+/* Linear: one image after another, each at full width. */
+#{$block}.is-layout-linear #{$block}__items {
+	display: grid;
+	gap: calc(var(--galerio-gallery-gap) * 2);
+}
+
+@media (max-width: 781px) {
+	#{$block}.is-layout-grid #{$block}__items {
+		grid-template-columns: repeat(min(2, var(--galerio-gallery-columns, 3)), minmax(0, 1fr));
+	}
+
+	#{$block}.is-layout-masonry #{$block}__items {
+		column-count: min(2, var(--galerio-gallery-columns, 3));
+	}
+}
+
+#{$block}.has-lightbox #{$block}__link {
+	cursor: zoom-in;
+}
+
+/* The lightbox. */
+.galerio-lightbox {
+	--galerio-lightbox-background: rgba(0, 0, 0, 0.92);
+	--galerio-lightbox-color: #fff;
+
+	box-sizing: border-box;
+	width: 100vw;
+	max-width: none;
+	height: 100vh;
+	height: 100dvh;
+	max-height: none;
+	margin: 0;
+	padding: 3.5rem 4rem 2.5rem;
+	border: 0;
+	background: var(--galerio-lightbox-background);
+	color: var(--galerio-lightbox-color);
+
+	&::backdrop {
+		background: transparent;
+	}
+
+	&[open] {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+	}
+}
+
+.has-galerio-lightbox {
+	overflow: hidden;
+}
+
+.galerio-lightbox__figure {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	min-height: 0;
+	max-width: 100%;
+	max-height: 100%;
+	margin: 0;
+}
+
+.galerio-lightbox__image {
+	min-height: 0;
+	max-width: 100%;
+	max-height: calc(100dvh - 9rem);
+	width: auto;
+	height: auto;
+	object-fit: contain;
+}
+
+.galerio-lightbox__caption {
+	max-width: 60ch;
+	margin-top: 0.75rem;
+	text-align: center;
+
+	a {
+		color: inherit;
+	}
+}
+
+.galerio-lightbox__count {
+	position: absolute;
+	top: 1rem;
+	left: 1.25rem;
+	margin: 0;
+	font-size: 0.875rem;
+}
+
+.galerio-lightbox__close,
+.galerio-lightbox__prev,
+.galerio-lightbox__next {
+	position: absolute;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 2.75rem;
+	height: 2.75rem;
+	padding: 0;
+	border: 0;
+	border-radius: 50%;
+	background: transparent;
+	color: inherit;
+	cursor: pointer;
+
+	&:hover,
+	&:focus-visible {
+		background: rgba(255, 255, 255, 0.15);
+	}
+
+	&:focus-visible {
+		outline: 2px solid currentcolor;
+		outline-offset: 2px;
+	}
+
+	&[hidden] {
+		display: none;
+	}
+}
+
+.galerio-lightbox__close {
+	top: 0.5rem;
+	right: 0.5rem;
+}
+
+.galerio-lightbox__prev,
+.galerio-lightbox__next {
+	top: 50%;
+	transform: translateY(-50%);
+}
+
+.galerio-lightbox__prev {
+	left: 0.5rem;
+}
+
+.galerio-lightbox__next {
+	right: 0.5rem;
+}
+
+@media (max-width: 781px) {
+
+	.galerio-lightbox {
+		padding: 3.5rem 0.5rem 2rem;
+	}
+
+	.galerio-lightbox__prev,
+	.galerio-lightbox__next {
+		top: auto;
+		bottom: 0.5rem;
+		transform: none;
+	}
+}
