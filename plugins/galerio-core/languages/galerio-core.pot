@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-10-24T16:04:21+00:00\n"
+"POT-Creation-Date: 2026-10-24T17:11:59+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: galerio-core\n"
@@ -701,6 +701,101 @@ msgstr ""
 #: includes/pods/class-status-notice.php:72
 #, php-format
 msgid "Galerio’s content types aren’t set up yet. Import the Galerio Pods package with %s."
+msgstr ""
+
+#. translators: %d: number of fonts.
+#: assets/js/page-style.js:56
+#, js-format
+msgid "%d font"
+msgid_plural "%d fonts"
+msgstr[0] ""
+msgstr[1] ""
+
+#. translators: %d: number of colours.
+#: assets/js/page-style.js:65
+#, js-format
+msgid "%d colour"
+msgid_plural "%d colours"
+msgstr[0] ""
+msgstr[1] ""
+
+#: assets/js/page-style.js:71
+msgid "custom CSS"
+msgstr ""
+
+#. translators: %s: list such as "2 fonts, 3 colours, custom CSS".
+#: assets/js/page-style.js:77
+#, js-format
+msgid "Own style: %s."
+msgstr ""
+
+#: assets/js/page-style.js:80
+msgid "Uses the site’s style."
+msgstr ""
+
+#: assets/js/page-style.js:109
+msgid "Replace the theme’s fonts on this page only. Fonts added in the Font Library can be used here without making them part of the site’s style."
+msgstr ""
+
+#: assets/js/page-style.js:123
+msgid "The site’s font"
+msgstr ""
+
+#: assets/js/page-style.js:148
+msgid "Replace the theme’s colours on this page only."
+msgstr ""
+
+#: assets/js/page-style.js:180
+msgid "changed"
+msgstr ""
+
+#: assets/js/page-style.js:215
+msgid "Use the site’s colour"
+msgstr ""
+
+#: assets/js/page-style.js:234
+msgid "This page has custom CSS, which only administrators can change."
+msgstr ""
+
+#: assets/js/page-style.js:238
+msgid "Only administrators can add custom CSS."
+msgstr ""
+
+#: assets/js/page-style.js:248
+msgid "Custom CSS"
+msgstr ""
+
+#: assets/js/page-style.js:249
+msgid "Applies to this page only, after the settings above. Use it for what fonts and colours can’t do."
+msgstr ""
+
+#: assets/js/page-style.js:336
+msgid "Fonts"
+msgstr ""
+
+#: assets/js/page-style.js:341
+msgid "Colours"
+msgstr ""
+
+#: assets/js/page-style.js:344
+msgid "CSS"
+msgstr ""
+
+#: assets/js/page-style.js:351
+#: assets/js/page-style.js:363
+msgid "Page style"
+msgstr ""
+
+#: assets/js/page-style.js:357
+msgid "Edit page style…"
+msgstr ""
+
+#: assets/js/page-style.js:382
+msgid "Use the site’s style"
+msgstr ""
+
+#: assets/js/page-style.js:390
+msgid "Done"
 msgstr ""
 
 #: blocks/field-display/index.js:74
