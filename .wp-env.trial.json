@@ -9,6 +9,7 @@
 		"https://downloads.wordpress.org/plugin/wordpress-importer.zip",
 		"./plugins/galerio-core",
 		"./plugins/galerio-blocks",
+		"./plugins/galerio-media",
 		"./plugins/galerio-migrate"
 	],
 	"themes": [ "./themes/galerio" ],

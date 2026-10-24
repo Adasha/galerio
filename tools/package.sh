@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 #
 # Build installable zips of the theme, the child theme starter, Galerio Core,
-# Galerio Blocks and the one-off Galerio Migrate plugin into dist/, named <slug>-<version>.zip, each with a <slug>/ folder
+# Galerio Blocks, Galerio Media and the one-off Galerio Migrate plugin into dist/, named <slug>-<version>.zip, each with a <slug>/ folder
 # inside, ready for Plugins/Themes → Add New → Upload.
 #
 # The version comes from each package's header. The script stops if a
@@ -75,6 +75,14 @@ grep -q "define( 'GALERIO_BLOCKS_VERSION', '$blocks_version' );" "$blocks/galeri
 [ -f "$blocks/languages/galerio-blocks.pot" ] || fail "galerio-blocks: languages/galerio-blocks.pot is missing. Run: npm run i18n:pot"
 (cd "$repo" && npm run --silent build >/dev/null) || fail "galerio-blocks: npm run build failed."
 build "$blocks" galerio-blocks "$blocks_version"
+
+# Galerio Media.
+media="$repo/plugins/galerio-media"
+media_version="$(header "$media/galerio-media.php" Version)"
+[ "$media_version" = "$(header "$media/readme.txt" 'Stable tag')" ] || fail "galerio-media: plugin header and readme Stable tag differ."
+grep -q "define( 'GALERIO_MEDIA_VERSION', '$media_version' );" "$media/galerio-media.php" || fail "galerio-media: GALERIO_MEDIA_VERSION doesn't match the plugin header."
+[ -f "$media/languages/galerio-media.pot" ] || fail "galerio-media: languages/galerio-media.pot is missing. Run: npm run i18n:pot"
+build "$media" galerio-media "$media_version"
 
 # Galerio Migrate, with the Pods package it migrates to.
 migrate="$repo/plugins/galerio-migrate"
