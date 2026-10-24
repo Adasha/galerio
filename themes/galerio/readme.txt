@@ -3,7 +3,7 @@ Contributors: adasha
 Requires at least: 6.6
 Tested up to: 7.1
 Requires PHP: 7.4
-Version: 3.0.0-alpha.1
+Version: 3.0.0-alpha.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -20,6 +20,9 @@ Galerio presents creators, works, collections and articles: a page for each, lis
 * Translatable, and the wording follows the names a site gives its content types (e.g. Exhibitions for collections) under Settings → Galerio content types.
 
 == Changelog ==
+
+= 3.0.0-alpha.2 =
+* A Buttons style for the Galerio Field block, matching the term buttons, for lists such as a collection's exhibitors.
 
 = 3.0.0-alpha.1 =
 * Breaking: requires Galerio Core. The templates show fields through Galerio's block bindings and Field block instead of Pods shortcodes, blocks and Pods Templates.

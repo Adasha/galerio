@@ -4,7 +4,7 @@ Tags: gallery, art, artist, exhibition, portfolio
 Requires at least: 6.6
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 0.4.0-alpha.1
+Stable tag: 0.4.1-alpha.1
 License: GPL-2.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -23,6 +23,10 @@ The importer repairs bidirectional relationships, which Pods otherwise links to 
 Galerio is in alpha. Expect breaking changes.
 
 == Changelog ==
+
+= 0.4.1-alpha.1 =
+* The Field block is named "Galerio Field" in the inserter.
+* A Field block in a theme's Buttons style always shows a list, one link per item.
 
 = 0.4.0-alpha.1 =
 * Page styles: a collection, article or page can replace the theme's fonts and palette colours on that page only, plus custom CSS for the rest. Fonts can come from the Font Library without activating them for the whole site. Set in a closed "Page style" panel in the editor's sidebar, previewed as you edit. Only people who can edit CSS can change the CSS.
