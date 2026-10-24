@@ -50,6 +50,7 @@ require_once GALERIO_CORE_DIR . 'includes/fields/functions.php';
 require_once GALERIO_CORE_DIR . 'includes/pods/field-types.php';
 require_once GALERIO_CORE_DIR . 'includes/pods/class-package.php';
 require_once GALERIO_CORE_DIR . 'includes/pods/class-importer.php';
+require_once GALERIO_CORE_DIR . 'includes/pods/class-status-notice.php';
 require_once GALERIO_CORE_DIR . 'includes/aliases/class-aliases.php';
 require_once GALERIO_CORE_DIR . 'includes/aliases/class-names.php';
 require_once GALERIO_CORE_DIR . 'includes/aliases/class-settings-page.php';
@@ -69,6 +70,7 @@ Galerio\Core\Fields\Featured_Image::init();
 Galerio\Core\Fields\Field_Block::init();
 Galerio\Core\Aliases\Aliases::init();
 Galerio\Core\Aliases\Settings_Page::init();
+Galerio\Core\Pods\Status_Notice::init();
 
 if ( defined( 'WP_CLI' ) && WP_CLI ) {
 	require_once GALERIO_CORE_DIR . 'includes/cli/class-pods-command.php';

@@ -171,6 +171,7 @@ Every field templates, blocks and code can use, by content type. Keys work in `g
 | `collection.embeds` | Embeds | Embed URL (list) |  |
 | `collection.notes` | Notes | Formatted text |  |
 | `collection.profiles` | Profiles | Relationship to profiles (list) |  |
+| `collection.curators` | Curators | Relationship to profiles (list) |  |
 | `collection.other_contributors` | Other contributors | Text (list) |  |
 | `collection.works` | Works | Relationship to works (list) |  |
 | `collection.articles` | Articles | Relationship to articles (list) |  |

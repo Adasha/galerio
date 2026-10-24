@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-10-23T16:21:49+00:00\n"
+"POT-Creation-Date: 2026-10-24T16:04:21+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: galerio-core\n"
@@ -422,7 +422,7 @@ msgid "Author"
 msgstr ""
 
 #: includes/aliases/presets.php:118
-#: includes/fields/default-fields.php:260
+#: includes/fields/default-fields.php:266
 msgid "Authors"
 msgstr ""
 
@@ -483,7 +483,7 @@ msgid "Creator"
 msgstr ""
 
 #: includes/fields/default-fields.php:26
-#: includes/fields/default-fields.php:291
+#: includes/fields/default-fields.php:297
 msgid "Year"
 msgstr ""
 
@@ -605,7 +605,7 @@ msgid "Links"
 msgstr ""
 
 #: includes/fields/default-fields.php:183
-#: includes/fields/default-fields.php:254
+#: includes/fields/default-fields.php:260
 msgid "Standfirst"
 msgstr ""
 
@@ -625,25 +625,29 @@ msgstr ""
 msgid "Embeds"
 msgstr ""
 
-#: includes/fields/default-fields.php:230
+#: includes/fields/default-fields.php:232
+msgid "Curators"
+msgstr ""
+
+#: includes/fields/default-fields.php:236
 msgid "Other contributors"
 msgstr ""
 
 #. translators: Keep {collections} as it is: it becomes this site's name for collections.
-#: includes/fields/default-fields.php:249
+#: includes/fields/default-fields.php:255
 msgid "Related {collections}"
 msgstr ""
 
 #. translators: Keep {articles} as it is: it becomes this site's name for articles.
-#: includes/fields/default-fields.php:285
+#: includes/fields/default-fields.php:291
 msgid "Related {articles}"
 msgstr ""
 
-#: includes/fields/default-fields.php:294
+#: includes/fields/default-fields.php:300
 msgid "Credit"
 msgstr ""
 
-#: includes/fields/default-fields.php:297
+#: includes/fields/default-fields.php:303
 msgid "Copyright"
 msgstr ""
 
@@ -681,6 +685,22 @@ msgstr ""
 
 #: includes/pods/class-podsfield-galerio-link.php:230
 msgid "Add link"
+msgstr ""
+
+#. translators: %s: link to the Plugins screen.
+#: includes/pods/class-status-notice.php:66
+#, php-format
+msgid "Galerio Core needs the Pods plugin to read works, profiles and collections. Install and activate Pods on the %s screen."
+msgstr ""
+
+#: includes/pods/class-status-notice.php:67
+msgid "Plugins"
+msgstr ""
+
+#. translators: %s: the WP-CLI command.
+#: includes/pods/class-status-notice.php:72
+#, php-format
+msgid "Galerio’s content types aren’t set up yet. Import the Galerio Pods package with %s."
 msgstr ""
 
 #: blocks/field-display/index.js:74
