@@ -39,6 +39,10 @@ Shows when an exhibition or other collection opens and closes: both dates in the
 
 Shows the items a relationship of the current item points to (a creator's works, a collection's exhibitors or curators, a work's collections) as cards: a grid, or a list with the image beside the title. Each card has the item's image, its title and an optional detail such as a work's year or creator. The heading follows the relationship's name, and the whole block, heading included, is hidden when nothing is related. Only published items show.
 
+= Query Loop variations =
+
+Ready-made Query Loops in the inserter, named after the site's content types: Galerio Works (with their creators), Galerio Profiles (A to Z), Galerio Collections (with their dates), and Galerio current and upcoming exhibitions. The last has a "Show" setting for on now and upcoming, on now, upcoming, or past exhibitions, ordered by date; the editor previews them all, and the site shows only those that match. They're ordinary Query Loops, so everything about them can be changed.
+
 Galerio is in alpha. Expect breaking changes.
 
 == Changelog ==

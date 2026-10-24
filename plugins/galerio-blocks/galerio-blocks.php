@@ -33,6 +33,7 @@ require_once GALERIO_BLOCKS_DIR . 'includes/class-gallery-block.php';
 require_once GALERIO_BLOCKS_DIR . 'includes/class-exhibitions.php';
 require_once GALERIO_BLOCKS_DIR . 'includes/class-exhibition-dates-block.php';
 require_once GALERIO_BLOCKS_DIR . 'includes/class-related-items-block.php';
+require_once GALERIO_BLOCKS_DIR . 'includes/class-query-variations.php';
 
 // Galerio isn't hosted on WordPress.org, so its bundled translations in languages/ are loaded here.
 add_action(
@@ -47,3 +48,4 @@ Galerio\Blocks\Carousel_Block::init();
 Galerio\Blocks\Gallery_Block::init();
 Galerio\Blocks\Exhibition_Dates_Block::init();
 Galerio\Blocks\Related_Items_Block::init();
+Galerio\Blocks\Query_Variations::init();
