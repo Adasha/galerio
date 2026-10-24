@@ -331,8 +331,10 @@ final class Page_Style {
 			$vars .= sprintf( '--wp--preset--color--%s:%s;', $preset, $colour );
 		}
 
+		// On body rather than :root, so the page's values reach everything in
+		// it whichever of this and the site's styles loads last.
 		if ( '' !== $vars ) {
-			$css .= ':root{' . $vars . '}';
+			$css .= 'body{' . $vars . '}';
 		}
 
 		if ( ! empty( $style['css'] ) ) {
@@ -413,7 +415,10 @@ final class Page_Style {
 			return;
 		}
 
-		wp_register_style( 'galerio-page-style', false, array( 'global-styles' ), GALERIO_CORE_VERSION );
+		// Block themes have registered the site's styles by now; classic themes add them later, in the footer.
+		$deps = wp_style_is( 'global-styles', 'registered' ) ? array( 'global-styles' ) : array();
+
+		wp_register_style( 'galerio-page-style', false, $deps, GALERIO_CORE_VERSION );
 		wp_enqueue_style( 'galerio-page-style' );
 		wp_add_inline_style( 'galerio-page-style', $css );
 	}
