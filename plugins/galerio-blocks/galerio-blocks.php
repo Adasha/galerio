@@ -2,7 +2,7 @@
 /**
  * Plugin Name:       Galerio Blocks
  * Plugin URI:        https://galerio.net
- * Description:       Blocks for galleries, artists and publishers: a carousel, a gallery and exhibition dates, for exhibitions, works or any other items.
+ * Description:       Blocks for galleries, artists and publishers: a carousel, a gallery, exhibition dates and related items, for exhibitions, works and creators.
  * Version:           0.1.0-alpha.1
  * Requires at least: 6.6
  * Requires PHP:      7.4
@@ -32,6 +32,7 @@ require_once GALERIO_BLOCKS_DIR . 'includes/class-carousel-block.php';
 require_once GALERIO_BLOCKS_DIR . 'includes/class-gallery-block.php';
 require_once GALERIO_BLOCKS_DIR . 'includes/class-exhibitions.php';
 require_once GALERIO_BLOCKS_DIR . 'includes/class-exhibition-dates-block.php';
+require_once GALERIO_BLOCKS_DIR . 'includes/class-related-items-block.php';
 
 // Galerio isn't hosted on WordPress.org, so its bundled translations in languages/ are loaded here.
 add_action(
@@ -45,3 +46,4 @@ add_action(
 Galerio\Blocks\Carousel_Block::init();
 Galerio\Blocks\Gallery_Block::init();
 Galerio\Blocks\Exhibition_Dates_Block::init();
+Galerio\Blocks\Related_Items_Block::init();
