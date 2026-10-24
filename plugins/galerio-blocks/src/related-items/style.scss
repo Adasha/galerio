@@ -1,0 +1,80 @@
+/**
+ * The Related Items block. A theme can change the space between cards with
+ * --galerio-related-gap.
+ */
+
+$block: ".wp-block-galerio-related-items";
+
+#{$block} {
+	--galerio-related-gap: var(--wp--preset--spacing--30, 1rem);
+}
+
+#{$block}__heading {
+	margin-top: 0;
+}
+
+#{$block}__items {
+	display: grid;
+	grid-template-columns: repeat(var(--galerio-related-columns, 3), minmax(0, 1fr));
+	gap: calc(var(--galerio-related-gap) * 1.5) var(--galerio-related-gap);
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+#{$block}__item {
+	margin: 0;
+}
+
+#{$block}__image {
+	display: block;
+	margin-bottom: 0.5em;
+
+	img {
+		display: block;
+		width: 100%;
+		height: auto;
+	}
+}
+
+#{$block}.is-cropped #{$block}__image img {
+	aspect-ratio: var(--galerio-related-ratio, 4 / 3);
+	object-fit: cover;
+}
+
+#{$block}__title,
+#{$block}__detail {
+	margin: 0;
+}
+
+#{$block}__detail {
+	font-size: 0.875em;
+	opacity: 0.8;
+}
+
+/* List: a small image beside the title and detail. */
+#{$block}.is-layout-list #{$block}__item {
+	display: grid;
+	grid-template-columns: 6rem 1fr;
+	column-gap: var(--galerio-related-gap);
+	align-items: center;
+}
+
+#{$block}.is-layout-list #{$block}__image {
+	grid-row: span 2;
+	margin-bottom: 0;
+}
+
+#{$block}.is-layout-list #{$block}__title {
+	align-self: end;
+}
+
+#{$block}.is-layout-list #{$block}__detail {
+	align-self: start;
+}
+
+@media (max-width: 781px) {
+	#{$block}.is-layout-grid #{$block}__items {
+		grid-template-columns: repeat(min(2, var(--galerio-related-columns, 3)), minmax(0, 1fr));
+	}
+}
