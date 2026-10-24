@@ -54,6 +54,7 @@ require_once GALERIO_CORE_DIR . 'includes/pods/class-status-notice.php';
 require_once GALERIO_CORE_DIR . 'includes/aliases/class-aliases.php';
 require_once GALERIO_CORE_DIR . 'includes/aliases/class-names.php';
 require_once GALERIO_CORE_DIR . 'includes/aliases/class-settings-page.php';
+require_once GALERIO_CORE_DIR . 'includes/roles/class-type-capabilities.php';
 
 // Galerio isn't hosted on WordPress.org, so its bundled translations in languages/ are loaded here.
 add_action(
@@ -71,6 +72,7 @@ Galerio\Core\Fields\Field_Block::init();
 Galerio\Core\Aliases\Aliases::init();
 Galerio\Core\Aliases\Settings_Page::init();
 Galerio\Core\Pods\Status_Notice::init();
+Galerio\Core\Roles\Type_Capabilities::init();
 
 if ( defined( 'WP_CLI' ) && WP_CLI ) {
 	require_once GALERIO_CORE_DIR . 'includes/cli/class-pods-command.php';
