@@ -225,6 +225,12 @@ return array(
 		'multiple' => true,
 		'label'    => '{Profiles}',
 	),
+	'collection.curators'            => array(
+		'type'     => 'relation',
+		'target'   => 'profile',
+		'multiple' => true,
+		'label'    => __( 'Curators', 'galerio-core' ),
+	),
 	'collection.other_contributors'  => array(
 		'multiple' => true,
 		'label'    => __( 'Other contributors', 'galerio-core' ),
