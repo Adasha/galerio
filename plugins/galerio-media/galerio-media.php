@@ -34,6 +34,7 @@ require_once GALERIO_MEDIA_DIR . 'includes/class-list-view.php';
 require_once GALERIO_MEDIA_DIR . 'includes/class-filebird-import.php';
 require_once GALERIO_MEDIA_DIR . 'includes/class-rest.php';
 require_once GALERIO_MEDIA_DIR . 'includes/class-library.php';
+require_once GALERIO_MEDIA_DIR . 'includes/class-folder-directories.php';
 
 // Galerio isn't hosted on WordPress.org, so its bundled translations in languages/ are loaded here.
 add_action(
@@ -50,6 +51,7 @@ Galerio\Media\Own_Uploads::init();
 Galerio\Media\List_View::init();
 Galerio\Media\Rest::init();
 Galerio\Media\Library::init();
+Galerio\Media\Folder_Directories::init();
 
 if ( defined( 'WP_CLI' ) && WP_CLI ) {
 	require_once GALERIO_MEDIA_DIR . 'includes/class-media-command.php';

@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-10-24T22:49:44+00:00\n"
+"POT-Creation-Date: 2026-10-24T23:04:24+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: galerio-media\n"
@@ -45,7 +45,7 @@ msgstr ""
 
 #: includes/class-folders.php:72
 #: includes/class-list-view.php:120
-#: includes/class-settings.php:110
+#: includes/class-settings.php:133
 #: build/folders.js:2
 msgid "Folders"
 msgstr ""
@@ -117,27 +117,35 @@ msgstr ""
 msgid "Those folders belong to someone else."
 msgstr ""
 
-#: includes/class-settings.php:103
+#: includes/class-settings.php:126
 msgid "Galerio"
 msgstr ""
 
-#: includes/class-settings.php:112
+#: includes/class-settings.php:135
 msgid "Each person can have their own folders as well as the shared ones"
 msgstr ""
 
-#: includes/class-settings.php:120
+#: includes/class-settings.php:143
+msgid "Folder directories"
+msgstr ""
+
+#: includes/class-settings.php:145
+msgid "Save files uploaded into a shared folder in a directory named after the folder, such as uploads/collections/visions/, instead of year and month directories"
+msgstr ""
+
+#: includes/class-settings.php:153
 msgid "Uploads"
 msgstr ""
 
-#: includes/class-settings.php:122
+#: includes/class-settings.php:155
 msgid "People who can’t edit others’ posts, such as contributors, see only their own uploads"
 msgstr ""
 
-#: includes/class-settings.php:130
+#: includes/class-settings.php:163
 msgid "Attachment pages"
 msgstr ""
 
-#: includes/class-settings.php:132
+#: includes/class-settings.php:165
 msgid "Give each uploaded file its own page. Off, links to a file go to the file itself."
 msgstr ""
 
