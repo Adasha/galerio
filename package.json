@@ -38,6 +38,8 @@
 		"seed": "bash tools/seed-demo.sh",
 		"seed:test": "bash tools/seed-demo.sh --test",
 		"wp": "wp-env run cli wp",
+		"build": "wp-scripts build --webpack-src-dir=plugins/galerio-blocks/src --output-path=plugins/galerio-blocks/build",
+		"start": "wp-scripts start --webpack-src-dir=plugins/galerio-blocks/src --output-path=plugins/galerio-blocks/build",
 		"lint": "npm run lint:js && npm run lint:css && npm run lint:php",
 		"lint:js": "wp-scripts lint-js \"plugins/galerio-*/src\" \"plugins/galerio-*/assets/js\" \"plugins/galerio-*/blocks\" \"tests/e2e\" --no-error-on-unmatched-pattern",
 		"lint:css": "wp-scripts lint-style \"plugins/galerio-*/src/**/*.{css,scss}\" --allow-empty-input",
@@ -45,11 +47,11 @@
 		"lint:php:fix": "bash tools/composer.sh lint:fix",
 		"composer": "bash tools/composer.sh",
 		"format": "wp-scripts format",
-		"i18n:pot": "wp-env run cli --env-cwd=wp-content/themes/galerio wp i18n make-pot . languages/galerio.pot --slug=galerio --exclude=assets && wp-env run cli --env-cwd=wp-content/plugins/galerio-core wp i18n make-pot . languages/galerio-core.pot --slug=galerio-core",
+		"i18n:pot": "wp-env run cli --env-cwd=wp-content/themes/galerio wp i18n make-pot . languages/galerio.pot --slug=galerio --exclude=assets && wp-env run cli --env-cwd=wp-content/plugins/galerio-core wp i18n make-pot . languages/galerio-core.pot --slug=galerio-core && wp-env run cli --env-cwd=wp-content/plugins/galerio-blocks wp i18n make-pot . languages/galerio-blocks.pot --slug=galerio-blocks --exclude=src,node_modules",
 		"package": "bash tools/package.sh",
 		"docs:fields": "bash tools/update-field-reference.sh",
 		"test:php": "wp-env --config=.wp-env.test.json run cli --env-cwd=wp-content/galerio-repo vendor/bin/phpunit",
-		"check:plugins": "wp-env --config=.wp-env.test.json run cli wp plugin check galerio-core",
+		"check:plugins": "wp-env --config=.wp-env.test.json run cli wp plugin check galerio-core && wp-env --config=.wp-env.test.json run cli wp plugin check galerio-blocks",
 		"test:e2e": "playwright test --config tests/e2e/playwright.config.js"
 	},
 	"devDependencies": {
@@ -57,5 +59,9 @@
 		"@wordpress/e2e-test-utils-playwright": "^3.1.0",
 		"@wordpress/env": "^12.0.0",
 		"@wordpress/scripts": "^37.0.0"
+	},
+	"dependencies": {
+		"embla-carousel": "^8.6.0",
+		"embla-carousel-fade": "^8.6.0"
 	}
 }

@@ -6,7 +6,8 @@
 	"testsEnvironment": false,
 	"plugins": [
 		"https://downloads.wordpress.org/plugin/pods.zip",
-		"./plugins/galerio-core"
+		"./plugins/galerio-core",
+		"./plugins/galerio-blocks"
 	],
 	"themes": [ "./themes/galerio", "./themes/galerio-child-starter" ],
 	"mappings": {

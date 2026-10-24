@@ -1,6 +1,7 @@
 <?php
 /**
- * PHPUnit bootstrap: loads the WordPress test suite with Pods and Galerio Core.
+ * PHPUnit bootstrap: loads the WordPress test suite with Pods, Galerio Core and
+ * Galerio Blocks (whose blocks need `npm run build` first).
  *
  * Run through `npm run test:php`, which executes inside the wp-env test
  * environment where the WordPress test library is mounted at /wordpress-phpunit.
@@ -28,6 +29,7 @@ tests_add_filter(
 	function () use ( $repo ) {
 		require WP_CONTENT_DIR . '/plugins/pods/init.php';
 		require $repo . '/plugins/galerio-core/galerio-core.php';
+		require $repo . '/plugins/galerio-blocks/galerio-blocks.php';
 	}
 );
 

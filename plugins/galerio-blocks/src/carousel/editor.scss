@@ -1,0 +1,7 @@
+/**
+ * The Carousel block in the editor, where the preview doesn't move: links in
+ * the server-rendered preview aren't followed.
+ */
+.wp-block-galerio-carousel .wp-block-galerio-carousel__slide a {
+	pointer-events: none;
+}

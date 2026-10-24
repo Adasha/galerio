@@ -13,7 +13,7 @@ Galerio has a demo/dev site at <https://galerio.net>, but it's also in a very un
 | `themes/galerio` | The Galerio block theme (presentation only). |
 | `themes/galerio-child-starter` | A starter child theme with its own colours, fonts and footer pattern. Its README explains how to make your own Galerio child. |
 | `plugins/galerio-core` | Data layer and tools, including the Pods package importer. |
-| `plugins/post-slider`, `plugins/query-carousel` | Block prototypes, to be merged into a single Galerio carousel block. |
+| `plugins/galerio-blocks` | Galerio's blocks, starting with the Carousel. Sources are in `src/`, compiled into `build/` by `npm run build`. |
 | `data/pods/galerio.json` | The Pods package defining Galerio's content types and fields. |
 | `tools/` | Development scripts: demo content seeding, a Composer wrapper, and must-use plugins mounted into the wp-env sites only (`tools/mu-plugins`). |
 | `tests/phpunit` | PHPUnit tests, run inside the test site. |
@@ -32,6 +32,7 @@ Galerio has a demo/dev site at <https://galerio.net>, but it's also in a very un
 ```sh
 nvm use
 npm install
+npm run build       # compile the blocks
 npm run env:start   # WordPress at http://localhost:8888 (admin / password)
 npm run seed        # import the Pods package and create demo content
 ```
@@ -45,6 +46,7 @@ If the site loses the theme or plugins after you switch branches, restart it wit
 | Command | What it does |
 | --- | --- |
 | `npm run env:start` / `env:stop` | Start or stop the development site (port 8888). |
+| `npm run build` / `start` | Compile the blocks in `plugins/galerio-blocks` once, or keep recompiling as you edit. |
 | `npm run seed` | Import the Pods package and create demo content. Safe to re-run; add `-- --reset` to recreate the demo content. |
 | `npm run env:reset` | Reset the development database and re-seed. |
 | `npm run wp -- <command>` | Run WP-CLI against the development site. |

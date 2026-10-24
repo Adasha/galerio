@@ -1,0 +1,379 @@
+# Copyright (C) 2026 Adam Shailer
+# This file is distributed under the GPL-2.0-or-later.
+msgid ""
+msgstr ""
+"Project-Id-Version: Galerio Blocks 0.1.0-alpha.1\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/galerio-blocks\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2026-10-24T14:32:07+00:00\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"X-Generator: WP-CLI 2.12.0\n"
+"X-Domain: galerio-blocks\n"
+
+#. Plugin Name of the plugin
+#: galerio-blocks.php
+msgid "Galerio Blocks"
+msgstr ""
+
+#. Plugin URI of the plugin
+#: galerio-blocks.php
+msgid "https://galerio.net"
+msgstr ""
+
+#. Description of the plugin
+#: galerio-blocks.php
+msgid "Blocks for galleries, artists and publishers, starting with a carousel of exhibitions, works or any other items."
+msgstr ""
+
+#. Author of the plugin
+#: galerio-blocks.php
+msgid "Adam Shailer"
+msgstr ""
+
+#. Author URI of the plugin
+#: galerio-blocks.php
+msgid "https://adasha.com"
+msgstr ""
+
+#: includes/class-carousel-block.php:79
+#: build/carousel/index.js:1
+msgid "Slide"
+msgstr ""
+
+#: includes/class-carousel-block.php:83
+#: build/carousel/index.js:1
+msgid "Fade"
+msgstr ""
+
+#: includes/class-carousel-block.php:121
+msgid "No items to show yet. Choose another content type or other terms."
+msgstr ""
+
+#: includes/class-carousel-block.php:136
+msgid "carousel"
+msgstr ""
+
+#: includes/class-carousel-block.php:137
+msgid "Carousel"
+msgstr ""
+
+#: includes/class-carousel-block.php:146
+#: includes/class-carousel-block.php:368
+msgid "Pause the carousel"
+msgstr ""
+
+#: includes/class-carousel-block.php:155
+msgid "Choose a slide"
+msgstr ""
+
+#: includes/class-carousel-block.php:299
+msgid "Previous slide"
+msgstr ""
+
+#: includes/class-carousel-block.php:301
+msgid "Next slide"
+msgstr ""
+
+#: includes/class-carousel-block.php:363
+msgid "slide"
+msgstr ""
+
+#. translators: %d: slide number.
+#: includes/class-carousel-block.php:365
+#, php-format
+msgid "Go to slide %d"
+msgstr ""
+
+#. translators: 1: slide number, 2: number of slides.
+#: includes/class-carousel-block.php:367
+#, php-format
+msgid "%1$d of %2$d"
+msgstr ""
+
+#: includes/class-carousel-block.php:369
+msgid "Play the carousel"
+msgstr ""
+
+#: build/carousel/index.js:1
+msgid "Top left"
+msgstr ""
+
+#: build/carousel/index.js:1
+msgid "Top centre"
+msgstr ""
+
+#: build/carousel/index.js:1
+msgid "Top right"
+msgstr ""
+
+#: build/carousel/index.js:1
+msgid "Middle left"
+msgstr ""
+
+#: build/carousel/index.js:1
+msgid "Middle"
+msgstr ""
+
+#: build/carousel/index.js:1
+msgid "Middle right"
+msgstr ""
+
+#: build/carousel/index.js:1
+msgid "Bottom left"
+msgstr ""
+
+#: build/carousel/index.js:1
+msgid "Bottom centre"
+msgstr ""
+
+#: build/carousel/index.js:1
+msgid "Bottom right"
+msgstr ""
+
+#: build/carousel/index.js:1
+msgid "Newest first"
+msgstr ""
+
+#: build/carousel/index.js:1
+msgid "Oldest first"
+msgstr ""
+
+#: build/carousel/index.js:1
+msgid "Title, A to Z"
+msgstr ""
+
+#: build/carousel/index.js:1
+msgid "Title, Z to A"
+msgstr ""
+
+#: build/carousel/index.js:1
+msgid "Recently updated first"
+msgstr ""
+
+#: build/carousel/index.js:1
+msgid "Page order"
+msgstr ""
+
+#: build/carousel/index.js:1
+msgid "Random"
+msgstr ""
+
+#: build/carousel/index.js:1
+msgid "Items"
+msgstr ""
+
+#: build/carousel/index.js:1
+msgid "Content type"
+msgstr ""
+
+#: build/carousel/index.js:1
+msgid "Chosen items"
+msgstr ""
+
+#: build/carousel/index.js:1
+msgid "Leave empty to show the latest items. Chosen items replace the settings below and show in the order chosen."
+msgstr ""
+
+#: build/carousel/index.js:1
+msgid "Number of items"
+msgstr ""
+
+#: build/carousel/index.js:1
+msgid "Order"
+msgstr ""
+
+#: build/carousel/index.js:1
+msgid "Only items in"
+msgstr ""
+
+#: build/carousel/index.js:1
+msgctxt "taxonomy"
+msgid "Any"
+msgstr ""
+
+#: build/carousel/index.js:1
+msgid "Terms"
+msgstr ""
+
+#: build/carousel/index.js:1
+msgid "Source"
+msgstr ""
+
+#: build/carousel/index.js:1
+msgid "Slides come from"
+msgstr ""
+
+#: build/carousel/index.js:1
+msgid "Items with their images"
+msgstr ""
+
+#: build/carousel/index.js:1
+msgid "A Query Loop"
+msgstr ""
+
+#: build/carousel/index.js:1
+msgid "Each item of the Query Loop inside becomes a slide, laid out by the loop’s own template."
+msgstr ""
+
+#: build/carousel/index.js:1
+msgid "Each item is a slide: its featured image, with its title and a button over it."
+msgstr ""
+
+#: build/carousel/index.js:1
+msgid "Slides"
+msgstr ""
+
+#: build/carousel/index.js:1
+msgid "Height"
+msgstr ""
+
+#: build/carousel/index.js:1
+msgid "For example 70vh (70% of the window’s height), 500px or 30rem."
+msgstr ""
+
+#: build/carousel/index.js:1
+msgid "Caption position"
+msgstr ""
+
+#: build/carousel/index.js:1
+msgid "Image"
+msgstr ""
+
+#: build/carousel/index.js:1
+msgid "Fill the slide (may crop)"
+msgstr ""
+
+#: build/carousel/index.js:1
+msgid "Show it whole"
+msgstr ""
+
+#: build/carousel/index.js:1
+msgid "Show the title"
+msgstr ""
+
+#: build/carousel/index.js:1
+msgid "Title heading level"
+msgstr ""
+
+#: build/carousel/index.js:1
+msgid "Show the excerpt"
+msgstr ""
+
+#: build/carousel/index.js:1
+msgid "Shown for items with a written excerpt."
+msgstr ""
+
+#: build/carousel/index.js:1
+msgid "Button text"
+msgstr ""
+
+#: build/carousel/index.js:1
+msgid "Leave empty for no button; the title links to the item instead."
+msgstr ""
+
+#: build/carousel/index.js:1
+msgid "Motion"
+msgstr ""
+
+#: build/carousel/index.js:1
+msgid "Transition"
+msgstr ""
+
+#: build/carousel/index.js:1
+msgid "Slides in view"
+msgstr ""
+
+#: build/carousel/index.js:1
+msgid "Transition length"
+msgstr ""
+
+#: build/carousel/index.js:1
+msgid "Higher is slower."
+msgstr ""
+
+#: build/carousel/index.js:1
+msgid "Go back to the start after the last slide"
+msgstr ""
+
+#: build/carousel/index.js:1
+msgid "Play automatically"
+msgstr ""
+
+#: build/carousel/index.js:1
+msgid "Visitors get a pause button. It starts paused for visitors who prefer less motion."
+msgstr ""
+
+#: build/carousel/index.js:1
+msgid "Seconds per slide"
+msgstr ""
+
+#: build/carousel/index.js:1
+msgid "Navigation"
+msgstr ""
+
+#: build/carousel/index.js:1
+msgid "Show arrows"
+msgstr ""
+
+#: build/carousel/index.js:1
+msgid "Arrows sit"
+msgstr ""
+
+#: build/carousel/index.js:1
+msgid "At the sides"
+msgstr ""
+
+#: build/carousel/index.js:1
+msgid "On the caption"
+msgstr ""
+
+#: build/carousel/index.js:1
+msgid "Show dots"
+msgstr ""
+
+#: build/carousel/index.js:1
+msgid "Name for screen readers"
+msgstr ""
+
+#: build/carousel/index.js:1
+msgid "For example “Current exhibitions”. Leave empty for “Carousel”."
+msgstr ""
+
+#: build/carousel/block.json
+msgctxt "block title"
+msgid "Carousel"
+msgstr ""
+
+#: build/carousel/block.json
+msgctxt "block description"
+msgid "Shows items one after another as slides, such as the latest exhibitions with their images, or the results of a Query Loop."
+msgstr ""
+
+#: build/carousel/block.json
+msgctxt "block keyword"
+msgid "carousel"
+msgstr ""
+
+#: build/carousel/block.json
+msgctxt "block keyword"
+msgid "slider"
+msgstr ""
+
+#: build/carousel/block.json
+msgctxt "block keyword"
+msgid "slideshow"
+msgstr ""
+
+#: build/carousel/block.json
+msgctxt "block keyword"
+msgid "galerio"
+msgstr ""
+
+#: build/carousel/block.json
+msgctxt "block keyword"
+msgid "query"
+msgstr ""

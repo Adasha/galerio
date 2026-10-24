@@ -1,0 +1,337 @@
+/**
+ * The Carousel block, on the front end and in the editor.
+ *
+ * Colours come from the theme's palette (base and contrast), with fallbacks
+ * for themes that don't define them. A theme or child theme can restyle the
+ * block through these custom properties:
+ *
+ * --galerio-carousel-height              Height of a slide (block setting).
+ * --galerio-carousel-gap                 Space between slides in view at once.
+ * --galerio-carousel-backdrop            Behind an image that is shown whole.
+ * --galerio-carousel-caption-background  The caption box.
+ * --galerio-carousel-caption-color       Text in the caption box.
+ * --galerio-carousel-control-background  Arrows, dots and the pause button.
+ * --galerio-carousel-control-color       Their icons.
+ */
+
+$block: ".wp-block-galerio-carousel";
+$base: var(--galerio-carousel-base);
+$contrast: var(--galerio-carousel-contrast);
+$veil: color-mix(in srgb, #{$base} 67%, transparent);
+
+#{$block} {
+	--galerio-carousel-base: var(--wp--preset--color--base, #fff);
+	--galerio-carousel-contrast: var(--wp--preset--color--contrast, #111);
+	--galerio-carousel-space: var(--wp--preset--spacing--40, 1.5rem);
+
+	position: relative;
+}
+
+/* Without JavaScript the slides scroll sideways; once view.js is ready,
+   Embla moves them. */
+#{$block}__viewport {
+	overflow-x: auto;
+	overscroll-behavior-x: contain;
+	scroll-snap-type: x mandatory;
+}
+
+/* Snapping is off then, or the browser would re-snap as slides move. */
+#{$block}.is-ready #{$block}__viewport {
+	overflow: hidden;
+	scroll-snap-type: none;
+}
+
+#{$block}__track {
+	display: flex;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	touch-action: pan-y pinch-zoom;
+}
+
+/* A Query Loop's template becomes the track, whatever its own layout. */
+#{$block}.is-source-loop .wp-block-post-template {
+	display: flex;
+	flex-wrap: nowrap;
+	gap: 0;
+	margin-block: 0;
+	max-width: none;
+}
+
+#{$block}.has-several-in-view {
+	--galerio-carousel-gap: var(--wp--preset--spacing--30, 1rem);
+}
+
+#{$block}__track > *,
+#{$block}.is-source-loop .wp-block-post-template > * {
+	flex: 0 0 calc(100% / var(--galerio-carousel-per-view, 1));
+	box-sizing: border-box;
+	min-width: 0;
+	max-width: none;
+	margin: 0;
+	padding-inline: calc(var(--galerio-carousel-gap, 0px) / 2);
+	scroll-snap-align: start;
+}
+
+/* A slide of the block's own query: its image fills the slide, with the
+   caption over it. */
+#{$block}.is-source-query #{$block}__slide {
+	position: relative;
+	display: flex;
+	box-sizing: border-box;
+	height: var(--galerio-carousel-height, 70vh);
+	padding: var(--galerio-carousel-space);
+	background-color: var(--galerio-carousel-backdrop, transparent);
+	overflow: hidden;
+}
+
+#{$block}__image {
+	position: absolute;
+	inset: 0;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+#{$block}.is-image-contain #{$block}__image {
+	object-fit: contain;
+}
+
+#{$block}.is-image-contain {
+	--galerio-carousel-backdrop: color-mix(in srgb, #{$contrast} 5%, #{$base});
+}
+
+#{$block}__caption {
+	position: relative;
+	box-sizing: border-box;
+	max-width: min(32rem, 100%);
+	padding: var(--galerio-carousel-space);
+	background-color: var(--galerio-carousel-caption-background, #{$veil});
+	color: var(--galerio-carousel-caption-color, #{$contrast});
+}
+
+#{$block}__title {
+	margin: 0;
+
+	a {
+		color: inherit;
+		text-decoration: none;
+
+		&:hover,
+		&:focus-visible {
+			text-decoration: underline;
+		}
+	}
+}
+
+#{$block}__excerpt {
+	margin: 0.5em 0 0;
+}
+
+#{$block}__button {
+	display: inline-block;
+	margin-top: var(--galerio-carousel-space);
+}
+
+/* Caption position: "top", "center" or "bottom", then "left", "center" or
+   "right". */
+#{$block}.is-position-top-left #{$block}__slide,
+#{$block}.is-position-top-center #{$block}__slide,
+#{$block}.is-position-top-right #{$block}__slide {
+	align-items: flex-start;
+}
+
+#{$block}.is-position-center-left #{$block}__slide,
+#{$block}.is-position-center-center #{$block}__slide,
+#{$block}.is-position-center-right #{$block}__slide {
+	align-items: center;
+}
+
+#{$block}.is-position-bottom-left #{$block}__slide,
+#{$block}.is-position-bottom-center #{$block}__slide,
+#{$block}.is-position-bottom-right #{$block}__slide {
+	align-items: flex-end;
+}
+
+#{$block}.is-position-top-left #{$block}__slide,
+#{$block}.is-position-center-left #{$block}__slide,
+#{$block}.is-position-bottom-left #{$block}__slide {
+	justify-content: flex-start;
+}
+
+#{$block}.is-position-top-center #{$block}__slide,
+#{$block}.is-position-center-center #{$block}__slide,
+#{$block}.is-position-bottom-center #{$block}__slide {
+	justify-content: center;
+}
+
+#{$block}.is-position-top-right #{$block}__slide,
+#{$block}.is-position-center-right #{$block}__slide,
+#{$block}.is-position-bottom-right #{$block}__slide {
+	justify-content: flex-end;
+}
+
+/* Controls: hidden until view.js is ready, and when there's only one slide. */
+#{$block}:not(.is-ready) #{$block}__controls,
+#{$block}:not(.is-ready) #{$block}__nav,
+#{$block}.is-single #{$block}__controls,
+#{$block}.is-single #{$block}__nav {
+	display: none;
+}
+
+#{$block}__prev,
+#{$block}__next,
+#{$block}__pause,
+#{$block}__dot {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	margin: 0;
+	padding: 0;
+	border: 0;
+	border-radius: 0;
+	background-color: var(--galerio-carousel-control-background, #{$contrast});
+	color: var(--galerio-carousel-control-color, #{$base});
+	cursor: pointer;
+
+	&:focus-visible {
+		outline: 2px solid #{$contrast};
+		outline-offset: 2px;
+		box-shadow: 0 0 0 2px #{$base};
+	}
+}
+
+#{$block}__prev,
+#{$block}__next,
+#{$block}__pause {
+	width: 2.75rem;
+	height: 2.75rem;
+
+	&:hover {
+		opacity: 0.85;
+	}
+
+	&:disabled {
+		opacity: 0.4;
+		cursor: default;
+	}
+}
+
+/* Arrows at the sides, halfway down. */
+#{$block}.has-arrows-sides #{$block}__controls #{$block}__nav {
+	position: absolute;
+	inset-inline: 0;
+	top: 50%;
+	display: flex;
+	justify-content: space-between;
+	padding-inline: calc(var(--galerio-carousel-space) / 2);
+	transform: translateY(-50%);
+	pointer-events: none;
+
+	button {
+		pointer-events: auto;
+	}
+}
+
+/* Arrows on the caption: a pair sitting on its top edge, at the right. */
+#{$block}__caption #{$block}__nav {
+	position: absolute;
+	bottom: 100%;
+	right: 0;
+	display: flex;
+}
+
+/* Dots along the bottom, the pause button in the bottom corner. */
+#{$block}__dots {
+	position: absolute;
+	inset-inline: 0;
+	bottom: calc(var(--galerio-carousel-space) / 3);
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	gap: 0.5rem;
+	pointer-events: none;
+}
+
+#{$block}.is-position-bottom-center #{$block}__dots {
+	position: static;
+	margin-top: calc(var(--galerio-carousel-space) / 2);
+	pointer-events: auto;
+}
+
+#{$block}__dot {
+	position: relative;
+	width: 0.75rem;
+	height: 0.75rem;
+	border-radius: 50%;
+	box-shadow: 0 0 0 2px #{$base};
+	opacity: 0.5;
+	pointer-events: auto;
+
+	// A larger target than the dot itself.
+	&::after {
+		content: "";
+		position: absolute;
+		inset: -0.5rem;
+	}
+
+	&[aria-current="true"] {
+		opacity: 1;
+	}
+}
+
+#{$block}__pause {
+	position: absolute;
+	top: calc(var(--galerio-carousel-space) / 2);
+	left: calc(var(--galerio-carousel-space) / 2);
+
+	// Two bars for pause, a triangle for play.
+	span {
+		width: 0.75rem;
+		height: 0.875rem;
+		border-inline: 0.25rem solid currentcolor;
+		box-sizing: border-box;
+	}
+
+	&.is-paused span {
+		width: 0;
+		height: 0;
+		border-block: 0.4375rem solid transparent;
+		border-inline: 0.75rem solid currentcolor;
+		border-inline-end-width: 0;
+		margin-inline-start: 0.2rem;
+	}
+}
+
+#{$block} .screen-reader-text {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	margin: -1px;
+	padding: 0;
+	overflow: hidden;
+	clip-path: inset(50%);
+	white-space: nowrap;
+	border: 0;
+}
+
+@media (max-width: 781px) {
+	#{$block} {
+		--galerio-carousel-space: var(--wp--preset--spacing--30, 1rem);
+	}
+
+	#{$block}__track > *,
+	#{$block}.is-source-loop .wp-block-post-template > * {
+		flex-basis: 100%;
+	}
+
+	#{$block}__caption {
+		max-width: 100%;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	#{$block}__viewport {
+		scroll-behavior: auto;
+	}
+}
