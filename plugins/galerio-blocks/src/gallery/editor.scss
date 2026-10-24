@@ -1,0 +1,8 @@
+/**
+ * The Gallery block in the editor: clicking an image selects the block
+ * instead of following its link or opening the lightbox.
+ */
+.wp-block-galerio-gallery .wp-block-galerio-gallery__link {
+	pointer-events: none;
+	cursor: default;
+}

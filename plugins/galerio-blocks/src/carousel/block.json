@@ -3,7 +3,7 @@
 	"apiVersion": 3,
 	"name": "galerio/carousel",
 	"version": "0.1.0",
-	"title": "Carousel",
+	"title": "Galerio Carousel",
 	"category": "media",
 	"icon": "slides",
 	"description": "Shows items one after another as slides, such as the latest exhibitions with their images, or the results of a Query Loop.",

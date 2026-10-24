@@ -290,7 +290,7 @@ export default function Edit( { attributes, setAttributes, context } ) {
 					<MediaPlaceholder
 						icon="format-gallery"
 						labels={ {
-							title: __( 'Gallery', 'galerio-blocks' ),
+							title: __( 'Galerio Gallery', 'galerio-blocks' ),
 							instructions: __(
 								'Choose images from the Media Library, or upload new ones.',
 								'galerio-blocks'
