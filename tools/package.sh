@@ -59,7 +59,13 @@ core_version="$(header "$core/galerio-core.php" Version)"
 [ "$core_version" = "$(header "$core/readme.txt" 'Stable tag')" ] || fail "galerio-core: plugin header and readme Stable tag differ."
 grep -q "define( 'GALERIO_CORE_VERSION', '$core_version' );" "$core/galerio-core.php" || fail "galerio-core: GALERIO_CORE_VERSION doesn't match the plugin header."
 [ -f "$core/languages/galerio-core.pot" ] || fail "galerio-core: languages/galerio-core.pot is missing. Run: npm run i18n:pot"
-build "$core" galerio-core "$core_version"
+# Galerio Core carries the Pods package it expects, for `wp galerio pods import`.
+core_staging="$(mktemp -d)"
+cp -r "$core" "$core_staging/galerio-core"
+mkdir -p "$core_staging/galerio-core/package"
+cp "$repo/data/pods/galerio.json" "$core_staging/galerio-core/package/galerio.json"
+build "$core_staging/galerio-core" galerio-core "$core_version"
+rm -rf "$core_staging"
 
 # Galerio Blocks, compiled fresh so the zip never carries a stale build.
 blocks="$repo/plugins/galerio-blocks"
