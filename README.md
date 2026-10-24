@@ -126,6 +126,10 @@ Every field templates, blocks and code can use, by content type. Keys work in `g
 | `work.duration` | Duration | Text |  |
 | `work.location` | Location | Text |  |
 | `work.owner` | Current owner | Text | Private: not shown on the site, in REST or in block bindings. |
+| `work.valuation` | Valuation | Number | Private: not shown on the site, in REST or in block bindings. |
+| `work.valuation_date` | Valuation date | Date | Private: not shown on the site, in REST or in block bindings. |
+| `work.valued_by` | Valued by | Text | Private: not shown on the site, in REST or in block bindings. |
+| `work.valuation_notes` | Valuation notes | Plain text, several lines | Private: not shown on the site, in REST or in block bindings. |
 | `work.website` | Website | Link |  |
 | `work.collections` | Collections | Relationship to collections (list) |  |
 | `work.articles` | Articles | Relationship to articles (list) |  |

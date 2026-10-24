@@ -54,6 +54,25 @@ return array(
 		'public' => false,
 		'label'  => __( 'Current owner', 'galerio-core' ),
 	),
+	'work.valuation'                 => array(
+		'type'   => 'number',
+		'public' => false,
+		'label'  => __( 'Valuation', 'galerio-core' ),
+	),
+	'work.valuation_date'            => array(
+		'type'   => 'date',
+		'public' => false,
+		'label'  => __( 'Valuation date', 'galerio-core' ),
+	),
+	'work.valued_by'                 => array(
+		'public' => false,
+		'label'  => __( 'Valued by', 'galerio-core' ),
+	),
+	'work.valuation_notes'           => array(
+		'type'   => 'textarea',
+		'public' => false,
+		'label'  => __( 'Valuation notes', 'galerio-core' ),
+	),
 	'work.website'                   => array(
 		'type'  => 'link',
 		'label' => __( 'Website', 'galerio-core' ),

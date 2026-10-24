@@ -132,6 +132,10 @@ class Test_Registry extends Galerio_TestCase {
 			'empty year'          => array( array( 'type' => 'year' ), '', null ),
 			'zero date'           => array( array( 'type' => 'date' ), '0000-00-00', '' ),
 			'datetime to date'    => array( array( 'type' => 'date' ), '2024-03-15 10:00:00', '2024-03-15' ),
+			'number from text'    => array( array( 'type' => 'number' ), '1250.50', 1250.5 ),
+			'whole number'        => array( array( 'type' => 'number' ), 12, 12.0 ),
+			'empty number'        => array( array( 'type' => 'number' ), '', null ),
+			'not a number'        => array( array( 'type' => 'number' ), 'about 100', null ),
 			'boolean string zero' => array( array( 'type' => 'boolean' ), '0', false ),
 			'boolean string one'  => array( array( 'type' => 'boolean' ), '1', true ),
 			'post row to ID'      => array(

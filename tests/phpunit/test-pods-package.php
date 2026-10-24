@@ -25,6 +25,7 @@ class Test_Pods_Package extends WP_UnitTestCase {
 		'website'      => array( 'url' ),
 		'oembed'       => array( 'embed' ),
 		'date'         => array( 'date', 'year' ),
+		'number'       => array( 'number' ),
 		'boolean'      => array( 'boolean' ),
 		'file'         => array( 'image' ),
 		'pick'         => array( 'relation' ),

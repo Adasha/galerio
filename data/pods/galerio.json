@@ -2510,6 +2510,77 @@
                             "text_allowed_html_tags": "strong em a ul ol li b i",
                             "text_max_length": "255",
                             "weight": 1
+                        },
+                        {
+                            "name": "valuation",
+                            "id": 93,
+                            "label": "Valuation",
+                            "type": "number",
+                            "description": "Private: the work's value, in the site's currency. Seen by editors and administrators only.",
+                            "number_decimals": "2",
+                            "number_format": "i18n",
+                            "number_format_type": "number",
+                            "number_min": "0",
+                            "number_step": "any",
+                            "rest_pick_depth": "1",
+                            "rest_pick_response": "array",
+                            "restrict_role": "1",
+                            "roles_allowed": [
+                                "administrator",
+                                "editor"
+                            ],
+                            "weight": 2
+                        },
+                        {
+                            "name": "valuation_date",
+                            "id": 94,
+                            "label": "Valuation date",
+                            "type": "date",
+                            "date_allow_empty": "1",
+                            "date_format": "ymd_dash",
+                            "date_format_type": "date",
+                            "date_html5": "1",
+                            "description": "Private: when the work was valued.",
+                            "rest_pick_depth": "1",
+                            "rest_pick_response": "array",
+                            "restrict_role": "1",
+                            "roles_allowed": [
+                                "administrator",
+                                "editor"
+                            ],
+                            "weight": 3
+                        },
+                        {
+                            "name": "valued_by",
+                            "id": 95,
+                            "label": "Valued by",
+                            "type": "text",
+                            "description": "Private: who valued the work.",
+                            "rest_pick_depth": "1",
+                            "rest_pick_response": "array",
+                            "restrict_role": "1",
+                            "roles_allowed": [
+                                "administrator",
+                                "editor"
+                            ],
+                            "text_max_length": "255",
+                            "weight": 4
+                        },
+                        {
+                            "name": "valuation_notes",
+                            "id": 96,
+                            "label": "Valuation notes",
+                            "type": "paragraph",
+                            "description": "Private: anything else about the valuation, such as its purpose or the documents behind it.",
+                            "paragraph_allow_html": "0",
+                            "rest_pick_depth": "1",
+                            "rest_pick_response": "array",
+                            "restrict_role": "1",
+                            "roles_allowed": [
+                                "administrator",
+                                "editor"
+                            ],
+                            "weight": 5
                         }
                     ]
                 }
@@ -2517,7 +2588,7 @@
         },
         {
             "name": "media",
-            "id": 93,
+            "id": 97,
             "label": "Media",
             "type": "media",
             "built_in_taxonomies_media_category": "1",
@@ -2530,7 +2601,7 @@
             "groups": [
                 {
                     "name": "media_metadata",
-                    "id": 94,
+                    "id": 98,
                     "label": "Metadata",
                     "description": "",
                     "roles_allowed": "administrator",
@@ -2538,7 +2609,7 @@
                     "fields": [
                         {
                             "name": "year",
-                            "id": 95,
+                            "id": 99,
                             "label": "Year",
                             "type": "date",
                             "date_allow_empty": "1",
@@ -2554,7 +2625,7 @@
                         },
                         {
                             "name": "credit",
-                            "id": 96,
+                            "id": 100,
                             "label": "Credit",
                             "type": "text",
                             "description": "Who made it, for a creator without a profile.",
@@ -2570,7 +2641,7 @@
                         },
                         {
                             "name": "copyright",
-                            "id": 97,
+                            "id": 101,
                             "label": "Copyright",
                             "type": "text",
                             "description": "",
@@ -2588,7 +2659,7 @@
                 },
                 {
                     "name": "media_taxonomy",
-                    "id": 98,
+                    "id": 102,
                     "label": "Taxonomy",
                     "description": "",
                     "roles_allowed": "administrator",
@@ -2596,7 +2667,7 @@
                     "fields": [
                         {
                             "name": "intent",
-                            "id": 99,
+                            "id": 103,
                             "label": "Intent",
                             "type": "pick",
                             "default_empty_fields": "0",
@@ -2635,7 +2706,7 @@
         },
         {
             "name": "media_intent",
-            "id": 100,
+            "id": 104,
             "label": "Media Intents",
             "type": "taxonomy",
             "built_in_post_types_attachment": "1",
@@ -2664,7 +2735,7 @@
             "groups": [
                 {
                     "name": "more_fields",
-                    "id": 101,
+                    "id": 105,
                     "label": "More Fields",
                     "description": "",
                     "weight": 0,
@@ -2674,7 +2745,7 @@
         },
         {
             "name": "user",
-            "id": 102,
+            "id": 106,
             "label": "User",
             "type": "user",
             "description": "",
@@ -2683,14 +2754,14 @@
             "groups": [
                 {
                     "name": "more_fields",
-                    "id": 103,
+                    "id": 107,
                     "label": "More Fields",
                     "description": "",
                     "weight": 0,
                     "fields": [
                         {
                             "name": "profile",
-                            "id": 104,
+                            "id": 108,
                             "label": "Profile",
                             "type": "pick",
                             "default_empty_fields": "0",
