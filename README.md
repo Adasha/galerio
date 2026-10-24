@@ -13,7 +13,7 @@ Galerio has a demo/dev site at <https://galerio.net>, but it's also in a very un
 | `themes/galerio` | The Galerio block theme (presentation only). |
 | `themes/galerio-child-starter` | A starter child theme with its own colours, fonts and footer pattern. Its README explains how to make your own Galerio child. |
 | `plugins/galerio-core` | Data layer and tools, including the Pods package importer. |
-| `plugins/galerio-blocks` | Galerio's blocks: the Carousel and the Gallery. Sources are in `src/`, compiled into `build/` by `npm run build`. |
+| `plugins/galerio-blocks` | Galerio's blocks: Carousel, Gallery and Exhibition Dates. Sources are in `src/`, compiled into `build/` by `npm run build`. |
 | `data/pods/galerio.json` | The Pods package defining Galerio's content types and fields. |
 | `tools/` | Development scripts: demo content seeding, a Composer wrapper, and must-use plugins mounted into the wp-env sites only (`tools/mu-plugins`). |
 | `tests/phpunit` | PHPUnit tests, run inside the test site. |

@@ -8,7 +8,7 @@ Stable tag: 0.1.0-alpha.1
 License: GPL-2.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-Blocks for galleries, artists and publishers: a carousel and a gallery, for exhibitions, works or any other items.
+Blocks for galleries, artists and publishers: a carousel, a gallery and exhibition dates, for exhibitions, works or any other items.
 
 == Description ==
 
@@ -30,6 +30,10 @@ Themes can restyle the carousel with custom properties such as `--galerio-carous
 Shows images as a grid (cropped to a chosen shape), a masonry wall, or one after another at full width. The images can be the current item's own, such as a collection's or a work's images through Galerio Core, so the same block suits a template, or images chosen in the block. Order can be as saved, random, or automatic, which follows a collection's "Shuffle images" setting. Captions can show the image's caption, or its title and caption.
 
 Images open in a lightbox with previous and next buttons, arrow keys, swiping and Escape to close. Without JavaScript, each image links to its full-size file. Themes can restyle it with `--galerio-gallery-gap`, `--galerio-lightbox-background` and `--galerio-lightbox-color`, and `galerio_gallery_images` filters the images.
+
+= Exhibition Dates =
+
+Shows when an exhibition or other collection opens and closes: both dates in the site's date format, or a short range such as "19 May – 16 June 2023" or "19–23 May 2023". It can add an Upcoming, On now or Past label, worked out from today's date in the site's time zone. It's hidden when the collection has no dates.
 
 Galerio is in alpha. Expect breaking changes.
 
