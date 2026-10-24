@@ -1,0 +1,76 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "galerio/gallery",
+	"version": "0.1.0",
+	"title": "Gallery",
+	"category": "media",
+	"icon": "format-gallery",
+	"description": "Shows the images of the current work, collection or other item, or images you choose, as a grid, a masonry wall or one after another, with an optional lightbox.",
+	"keywords": [ "gallery", "images", "lightbox", "masonry", "galerio" ],
+	"textdomain": "galerio-blocks",
+	"usesContext": [ "postId", "postType" ],
+	"attributes": {
+		"source": {
+			"type": "string",
+			"enum": [ "field", "media" ],
+			"default": "field"
+		},
+		"field": {
+			"type": "string",
+			"default": ""
+		},
+		"ids": {
+			"type": "array",
+			"items": { "type": "number" },
+			"default": []
+		},
+		"layout": {
+			"type": "string",
+			"enum": [ "grid", "masonry", "linear" ],
+			"default": "grid"
+		},
+		"columns": {
+			"type": "number",
+			"default": 3
+		},
+		"aspectRatio": {
+			"type": "string",
+			"default": "1"
+		},
+		"order": {
+			"type": "string",
+			"enum": [ "auto", "saved", "random" ],
+			"default": "auto"
+		},
+		"caption": {
+			"type": "string",
+			"enum": [ "none", "caption", "title" ],
+			"default": "caption"
+		},
+		"lightbox": {
+			"type": "boolean",
+			"default": true
+		},
+		"imageSize": {
+			"type": "string",
+			"default": "large"
+		}
+	},
+	"supports": {
+		"html": false,
+		"anchor": true,
+		"align": [ "wide", "full" ],
+		"color": {
+			"background": true,
+			"text": true
+		},
+		"spacing": {
+			"margin": true,
+			"padding": true
+		}
+	},
+	"editorScript": "file:./index.js",
+	"style": "file:./style-index.css",
+	"viewScript": "file:./view.js"
+}
