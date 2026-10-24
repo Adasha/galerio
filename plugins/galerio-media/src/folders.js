@@ -1,0 +1,547 @@
+/**
+ * The folder tree in the Media Library grid and the media picker.
+ *
+ * WordPress builds both from the same "attachments browser" view, so the tree
+ * is added to every browser as it renders: a column on the left listing the
+ * shared folders and "My folders". Choosing a folder narrows the files shown
+ * (sent as `query[galerio_folder]`), files dragged onto a folder are filed
+ * there, and uploads made while a folder is open go into it.
+ */
+import { __, sprintf } from '@wordpress/i18n';
+import apiFetch from '@wordpress/api-fetch';
+import { Button, Spinner } from '@wordpress/components';
+import { createRoot, useEffect, useRef, useState } from '@wordpress/element';
+
+import './style.scss';
+
+const DRAG_TYPE = 'application/x-galerio-attachments';
+const EXPANDED_KEY = 'galerio-media-expanded';
+
+/**
+ * Folder IDs the person had open, remembered in this browser.
+ *
+ * @return {Set<number>} Open folders.
+ */
+function loadExpanded() {
+	try {
+		return new Set(
+			JSON.parse( window.localStorage.getItem( EXPANDED_KEY ) || '[]' )
+		);
+	} catch {
+		return new Set();
+	}
+}
+
+/**
+ * Remember open folders.
+ *
+ * @param {Set<number>} expanded Open folders.
+ */
+function saveExpanded( expanded ) {
+	try {
+		window.localStorage.setItem(
+			EXPANDED_KEY,
+			JSON.stringify( [ ...expanded ] )
+		);
+	} catch {}
+}
+
+/**
+ * The browser's files and uploader, so the tree can steer them.
+ *
+ * @param {Object} browser Attachments browser view.
+ * @return {Object} Helpers.
+ */
+function library( browser ) {
+	const { collection } = browser;
+
+	return {
+		chosen: () => collection.props.get( 'galerio_folder' ) || 0,
+
+		choose( folder ) {
+			if ( folder ) {
+				collection.props.set( { galerio_folder: folder } );
+			} else {
+				collection.props.unset( 'galerio_folder' );
+			}
+
+			// Uploads go into the folder that's open.
+			const value = typeof folder === 'number' ? folder : 0;
+			const uploader = browser.controller?.uploader?.uploader?.uploader;
+			if ( uploader?.settings?.multipart_params ) {
+				uploader.settings.multipart_params.galerio_folder = value;
+			}
+			if ( window.wp?.Uploader?.defaults?.multipart_params ) {
+				window.wp.Uploader.defaults.multipart_params.galerio_folder =
+					value;
+			}
+		},
+
+		// Files moved out of the folder being shown leave the view.
+		moved( ids, folder ) {
+			const chosen = collection.props.get( 'galerio_folder' );
+			if ( chosen && chosen !== folder ) {
+				collection.remove( ids );
+			}
+			window.wp?.media?.model?.Query?.cleanQueries?.();
+		},
+	};
+}
+
+function FolderTree( { browser } ) {
+	const lib = useRef( library( browser ) ).current;
+	const [ data, setData ] = useState( null );
+	const [ chosen, setChosen ] = useState( lib.chosen() );
+	const [ expanded, setExpanded ] = useState( loadExpanded );
+	const [ editing, setEditing ] = useState( null );
+	const [ target, setTarget ] = useState( null );
+	const [ message, setMessage ] = useState( '' );
+	const field = useRef();
+
+	// The name field takes focus when it opens.
+	useEffect( () => {
+		field.current?.focus();
+	}, [ editing?.mode, editing?.id, editing?.personal ] );
+
+	const load = () =>
+		apiFetch( { path: '/galerio-media/v1/folders' } )
+			.then( setData )
+			.catch( () => setData( { folders: [] } ) );
+
+	useEffect( () => {
+		load();
+	}, [] );
+
+	if ( ! data ) {
+		return (
+			<div className="galerio-folders is-loading">
+				<Spinner />
+			</div>
+		);
+	}
+
+	const byParent = new Map();
+	data.folders.forEach( ( folder ) => {
+		const list = byParent.get( folder.parent ) || [];
+		list.push( folder );
+		byParent.set( folder.parent, list );
+	} );
+	const find = ( id ) => data.folders.find( ( folder ) => folder.id === id );
+	const current = typeof chosen === 'number' ? find( chosen ) : null;
+	const root = data.folders.find( ( folder ) => folder.root );
+
+	const choose = ( folder ) => {
+		setChosen( folder );
+		lib.choose( folder );
+	};
+
+	const toggle = ( id ) => {
+		const next = new Set( expanded );
+		if ( next.has( id ) ) {
+			next.delete( id );
+		} else {
+			next.add( id );
+		}
+		setExpanded( next );
+		saveExpanded( next );
+	};
+
+	const fail = ( error ) =>
+		setMessage(
+			error?.message || __( 'That didn’t work.', 'galerio-media' )
+		);
+
+	// Add a folder inside the chosen one, or at the top of its space.
+	const startAdd = ( personal ) => {
+		const inside =
+			current &&
+			! current.root &&
+			( personal ? current.owner : ! current.owner )
+				? current.id
+				: 0;
+		setEditing( { mode: 'add', parent: inside, personal, value: '' } );
+	};
+
+	const save = ( event ) => {
+		event.preventDefault();
+		const name = editing.value.trim();
+		if ( ! name ) {
+			setEditing( null );
+			return;
+		}
+
+		const request =
+			editing.mode === 'add'
+				? apiFetch( {
+						path: '/galerio-media/v1/folders',
+						method: 'POST',
+						data: {
+							name,
+							parent: editing.parent,
+							personal: editing.personal,
+						},
+					} ).then( ( response ) => {
+						if ( editing.parent ) {
+							const next = new Set( expanded ).add(
+								editing.parent
+							);
+							setExpanded( next );
+							saveExpanded( next );
+						}
+						return response;
+					} )
+				: apiFetch( {
+						path: `/wp/v2/media-folders/${ editing.id }`,
+						method: 'POST',
+						data: { name },
+					} );
+
+		request
+			.then( () => {
+				setEditing( null );
+				setMessage( '' );
+				load();
+			} )
+			.catch( fail );
+	};
+
+	const remove = () => {
+		if (
+			// eslint-disable-next-line no-alert
+			! window.confirm(
+				sprintf(
+					/* translators: %s: folder name. */
+					__(
+						'Delete the folder “%s”? Its files stay in the Media Library, and folders inside it move up a level.',
+						'galerio-media'
+					),
+					current.name
+				)
+			)
+		) {
+			return;
+		}
+
+		apiFetch( {
+			path: `/wp/v2/media-folders/${ current.id }?force=true`,
+			method: 'DELETE',
+		} )
+			.then( () => {
+				choose( 0 );
+				load();
+			} )
+			.catch( fail );
+	};
+
+	// Dropping files on a folder files them there; on "Not in a folder" or
+	// "My folders", takes them out of that space's folders.
+	const drop = ( event, folder, owner ) => {
+		event.preventDefault();
+		setTarget( null );
+
+		let ids;
+		try {
+			ids = JSON.parse( event.dataTransfer.getData( DRAG_TYPE ) );
+		} catch {
+			return;
+		}
+
+		apiFetch( {
+			path: '/galerio-media/v1/file',
+			method: 'POST',
+			data: { folder, owner, attachments: ids },
+		} )
+			.then( ( response ) => {
+				lib.moved( ids, folder );
+				setMessage(
+					sprintf(
+						/* translators: %d: number of files. */
+						__( '%d moved.', 'galerio-media' ),
+						response.filed
+					)
+				);
+				load();
+			} )
+			.catch( fail );
+	};
+
+	const dropProps = ( key, folder, owner ) => ( {
+		onDragOver: ( event ) => {
+			if ( event.dataTransfer.types.includes( DRAG_TYPE ) ) {
+				event.preventDefault();
+				event.dataTransfer.dropEffect = 'move';
+				setTarget( key );
+			}
+		},
+		onDragLeave: () => setTarget( null ),
+		onDrop: ( event ) => drop( event, folder, owner ),
+	} );
+
+	const item = ( key, label, value, extra = {} ) => (
+		<li key={ key }>
+			<Button
+				className={ [
+					'galerio-folders__item',
+					chosen === value ? 'is-chosen' : '',
+					target === key ? 'is-drop-target' : '',
+				].join( ' ' ) }
+				aria-current={ chosen === value ? 'true' : undefined }
+				onClick={ () => choose( value ) }
+				{ ...extra }
+			>
+				{ label }
+			</Button>
+		</li>
+	);
+
+	const branch = ( parent, depth ) =>
+		( byParent.get( parent ) || [] ).map( ( folder ) => {
+			const children = byParent.has( folder.id );
+			const open = expanded.has( folder.id );
+
+			return (
+				<li key={ folder.id }>
+					<div
+						className={ [
+							'galerio-folders__row',
+							chosen === folder.id ? 'is-chosen' : '',
+							target === folder.id ? 'is-drop-target' : '',
+						].join( ' ' ) }
+						style={ { '--depth': depth } }
+						{ ...dropProps( folder.id, folder.id, folder.owner ) }
+					>
+						{ children ? (
+							<Button
+								className="galerio-folders__toggle"
+								icon={
+									open
+										? 'arrow-down-alt2'
+										: 'arrow-right-alt2'
+								}
+								label={
+									open
+										? __( 'Close folder', 'galerio-media' )
+										: __( 'Open folder', 'galerio-media' )
+								}
+								aria-expanded={ open }
+								onClick={ () => toggle( folder.id ) }
+								size="small"
+							/>
+						) : (
+							<span className="galerio-folders__spacer" />
+						) }
+						<Button
+							className="galerio-folders__item"
+							aria-current={
+								chosen === folder.id ? 'true' : undefined
+							}
+							onClick={ () => choose( folder.id ) }
+						>
+							<span className="galerio-folders__name">
+								{ folder.name }
+							</span>
+							{ folder.count !== null && (
+								<span className="galerio-folders__count">
+									{ folder.count }
+								</span>
+							) }
+						</Button>
+					</div>
+					{ children && open && (
+						<ul>{ branch( folder.id, depth + 1 ) }</ul>
+					) }
+				</li>
+			);
+		} );
+
+	const canAdd = ( personal ) =>
+		personal ? data.personal : data.canAddShared;
+	const editingForm = editing && (
+		<form className="galerio-folders__form" onSubmit={ save }>
+			{  }
+			<input
+				type="text"
+				ref={ field }
+				aria-label={
+					editing.mode === 'add'
+						? __( 'New folder name', 'galerio-media' )
+						: __( 'Folder name', 'galerio-media' )
+				}
+				value={ editing.value }
+				onChange={ ( event ) =>
+					setEditing( { ...editing, value: event.target.value } )
+				}
+				onKeyDown={ ( event ) =>
+					event.key === 'Escape' && setEditing( null )
+				}
+			/>
+			<Button variant="primary" type="submit" size="small">
+				{ __( 'Save', 'galerio-media' ) }
+			</Button>
+			<Button
+				variant="tertiary"
+				size="small"
+				onClick={ () => setEditing( null ) }
+			>
+				{ __( 'Cancel', 'galerio-media' ) }
+			</Button>
+		</form>
+	);
+
+	return (
+		<nav
+			className="galerio-folders"
+			aria-label={ __( 'Folders', 'galerio-media' ) }
+		>
+			<ul className="galerio-folders__fixed">
+				{ item( 'all', __( 'All files', 'galerio-media' ), 0 ) }
+				{ item(
+					'unfiled',
+					__( 'Not in a folder', 'galerio-media' ),
+					'unfiled',
+					dropProps( 'unfiled', 0, 0 )
+				) }
+			</ul>
+
+			<div className="galerio-folders__heading">
+				<h2>{ __( 'Folders', 'galerio-media' ) }</h2>
+				{ canAdd( false ) && (
+					<Button
+						size="small"
+						variant="tertiary"
+						onClick={ () => startAdd( false ) }
+					>
+						{ __( 'New', 'galerio-media' ) }
+					</Button>
+				) }
+			</div>
+			{ editing && ! editing.personal && editingForm }
+			<ul className="galerio-folders__tree">{ branch( 0, 0 ) }</ul>
+
+			{ data.personal && (
+				<>
+					<div
+						className={ [
+							'galerio-folders__heading',
+							target === 'mine' ? 'is-drop-target' : '',
+						].join( ' ' ) }
+						{ ...dropProps( 'mine', 0, data.user ) }
+					>
+						<h2>{ __( 'My folders', 'galerio-media' ) }</h2>
+						<Button
+							size="small"
+							variant="tertiary"
+							onClick={ () => startAdd( true ) }
+						>
+							{ __( 'New', 'galerio-media' ) }
+						</Button>
+					</div>
+					{ editing && editing.personal && editingForm }
+					<ul className="galerio-folders__tree">
+						{ root ? branch( root.id, 0 ) : null }
+					</ul>
+				</>
+			) }
+
+			{ current && ( current.canEdit || current.canDelete ) && (
+				<div className="galerio-folders__actions">
+					{ current.canEdit && (
+						<Button
+							size="small"
+							variant="secondary"
+							onClick={ () =>
+								setEditing( {
+									mode: 'rename',
+									id: current.id,
+									personal: !! current.owner,
+									value: current.name,
+								} )
+							}
+						>
+							{ __( 'Rename', 'galerio-media' ) }
+						</Button>
+					) }
+					{ current.canDelete && (
+						<Button
+							size="small"
+							variant="secondary"
+							isDestructive
+							onClick={ remove }
+						>
+							{ __( 'Delete', 'galerio-media' ) }
+						</Button>
+					) }
+				</div>
+			) }
+
+			<p className="galerio-folders__message" aria-live="polite">
+				{ message }
+			</p>
+		</nav>
+	);
+}
+
+/**
+ * Let files in the browser be dragged onto folders: one, or all of those
+ * selected when the dragged one is among them.
+ *
+ * @param {Object} browser Attachments browser view.
+ */
+function makeDraggable( browser ) {
+	const mark = () =>
+		browser.el
+			.querySelectorAll( 'li.attachment:not([draggable])' )
+			.forEach( ( item ) => item.setAttribute( 'draggable', 'true' ) );
+
+	new window.MutationObserver( mark ).observe( browser.el, {
+		childList: true,
+		subtree: true,
+	} );
+	mark();
+
+	browser.el.addEventListener( 'dragstart', ( event ) => {
+		const item = event.target.closest?.( 'li.attachment' );
+		if ( ! item ) {
+			return;
+		}
+
+		const id = Number( item.dataset.id );
+		const selection = browser.options.selection;
+		const ids =
+			selection && selection.length > 1 && selection.get( id )
+				? selection.pluck( 'id' )
+				: [ id ];
+
+		event.dataTransfer.setData( DRAG_TYPE, JSON.stringify( ids ) );
+		event.dataTransfer.effectAllowed = 'move';
+	} );
+}
+
+const media = window.wp?.media;
+const Browser = media?.view?.AttachmentsBrowser;
+
+if ( Browser ) {
+	const render = Browser.prototype.render;
+	const remove = Browser.prototype.remove;
+
+	Browser.prototype.render = function () {
+		render.apply( this, arguments );
+
+		if ( ! this.galerioFolders ) {
+			const container = document.createElement( 'div' );
+			container.className = 'galerio-folders-column';
+			this.el.prepend( container );
+			this.el.classList.add( 'has-galerio-folders' );
+			this.galerioFolders = createRoot( container );
+			this.galerioFolders.render( <FolderTree browser={ this } /> );
+			makeDraggable( this );
+		}
+
+		return this;
+	};
+
+	Browser.prototype.remove = function () {
+		this.galerioFolders?.unmount();
+		return remove.apply( this, arguments );
+	};
+}

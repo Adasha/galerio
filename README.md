@@ -33,7 +33,7 @@ Galerio has a demo/dev site at <https://galerio.net>, but it's also in a very un
 ```sh
 nvm use
 npm install
-npm run build       # compile the blocks
+npm run build       # compile the blocks and the media folder tree
 npm run env:start   # WordPress at http://localhost:8888 (admin / password)
 npm run seed        # import the Pods package and create demo content
 ```
@@ -47,7 +47,7 @@ If the site loses the theme or plugins after you switch branches, restart it wit
 | Command | What it does |
 | --- | --- |
 | `npm run env:start` / `env:stop` | Start or stop the development site (port 8888). |
-| `npm run build` / `start` | Compile the blocks in `plugins/galerio-blocks` once, or keep recompiling as you edit. |
+| `npm run build` | Compile the blocks in `plugins/galerio-blocks` and the folder tree in `plugins/galerio-media`. `npm run start` keeps recompiling the blocks as you edit. |
 | `npm run seed` | Import the Pods package and create demo content. Safe to re-run; add `-- --reset` to recreate the demo content. |
 | `npm run env:reset` | Reset the development database and re-seed. |
 | `npm run wp -- <command>` | Run WP-CLI against the development site. |

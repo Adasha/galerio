@@ -16,7 +16,7 @@ Media Library folders, shared and per person, with a FileBird import, and upload
 
 Files can be filed in folders, nested as deeply as needed. Shared folders are seen by everyone who can upload and managed by editors. When Settings → Media allows it, each person can also have their own folders, which only they see and manage; two people can use the same folder names. A file can be in one shared folder and in one of each person's own. Folders organise the Media Library only: files stay where they are on disk.
 
-For now folders are used from the Media Library's list view (a folder filter and a Folders column) and from each file's details. A folder tree for the grid view and the media picker comes next.
+The Media Library's grid and the media picker get a folder column: "All files", "Not in a folder", the shared folders and "My folders". Click a folder to see its files; drag files onto a folder to file them (all of a bulk selection at once); files uploaded while a folder is open go into it. Folders can be added, renamed and deleted there, by the people allowed to. The list view has a folder filter and a Folders column, and each file's details a folder dropdown.
 
 = Importing from FileBird =
 
@@ -35,7 +35,7 @@ Galerio is in alpha. Expect breaking changes.
 == Changelog ==
 
 = 0.1.0-alpha.1 =
-* Folders for the Media Library, shared and per person, from the list view and each file's details.
+* Folders for the Media Library, shared and per person: a folder tree in the grid and the media picker, with drag-and-drop filing and uploads into the open folder, plus a filter and column in the list view and a dropdown in each file's details.
 * `wp galerio media import-filebird`.
 * Uploads private to the people who made them.
 * Switches on Settings → Media for personal folders, private uploads and attachment pages.
