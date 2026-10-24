@@ -4,7 +4,7 @@ Tags: gallery, art, artist, exhibition, portfolio
 Requires at least: 6.6
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 0.3.0-alpha.1
+Stable tag: 0.4.0-alpha.1
 License: GPL-2.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -23,6 +23,14 @@ The importer repairs bidirectional relationships, which Pods otherwise links to 
 Galerio is in alpha. Expect breaking changes.
 
 == Changelog ==
+
+= 0.4.0-alpha.1 =
+* Page styles: a collection, article or page can replace the theme's fonts and palette colours on that page only, plus custom CSS for the rest. Fonts can come from the Font Library without activating them for the whole site. Set in a closed "Page style" panel in the editor's sidebar, previewed as you edit. Only people who can edit CSS can change the CSS.
+* Galerio's content types have their own permissions (`edit_galerio_works`, `publish_galerio_profiles`, …), under the names PublishPress Capabilities uses, so roles can write without publishing, with or without that plugin. Administrators and editors get every permission once. `galerio_type_capabilities` switches it off.
+* Schema.org data (JSON-LD) on works, profiles and collections. A work's type comes from its medium (Painting, Photograph, Music composition, Film, …), set on each medium's edit screen or guessed from its name. Profiles are a Person or, for collectives, an Organization, and leave out what they hide on the site. Collections with dates are an ExhibitionEvent. `galerio_schema_enabled` switches it off.
+* New fields: `collection.curators`, and private valuation fields on works (`valuation`, `valuation_date`, `valued_by`, `valuation_notes`) that only editors and administrators see. The field registry has a `number` type.
+* A notice tells administrators when Pods isn't active, or when Galerio's content types haven't been imported.
+* The Pods package is included in the plugin at `package/galerio.json`, for `wp galerio pods import`.
 
 = 0.3.0-alpha.1 =
 * Field API: every field is declared once (`galerio_fields()`) and read with `galerio_get_field()` and `galerio_get_related()`, through a storage adapter. Pods is the adapter for now.

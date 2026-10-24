@@ -3,7 +3,7 @@
  * Plugin Name:       Galerio Core
  * Plugin URI:        https://galerio.net
  * Description:       Data layer for Galerio: a field API over creators, works, collections and articles, used by the Galerio theme and blocks.
- * Version:           0.3.0-alpha.1
+ * Version:           0.4.0-alpha.1
  * Requires at least: 6.6
  * Requires PHP:      7.4
  * Requires Plugins:  pods
@@ -19,7 +19,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'GALERIO_CORE_VERSION', '0.3.0-alpha.1' );
+define( 'GALERIO_CORE_VERSION', '0.4.0-alpha.1' );
 define( 'GALERIO_CORE_FILE', __FILE__ );
 define( 'GALERIO_CORE_DIR', plugin_dir_path( __FILE__ ) );
 define( 'GALERIO_CORE_URL', plugin_dir_url( __FILE__ ) );
