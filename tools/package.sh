@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 #
-# Build installable zips of the theme, the child theme starter, Galerio Core
-# and the one-off Galerio Migrate plugin into dist/, named <slug>-<version>.zip, each with a <slug>/ folder
+# Build installable zips of the theme, the child theme starter, Galerio Core,
+# Galerio Blocks and the one-off Galerio Migrate plugin into dist/, named <slug>-<version>.zip, each with a <slug>/ folder
 # inside, ready for Plugins/Themes → Add New → Upload.
 #
 # The version comes from each package's header. The script stops if a
@@ -60,6 +60,15 @@ core_version="$(header "$core/galerio-core.php" Version)"
 grep -q "define( 'GALERIO_CORE_VERSION', '$core_version' );" "$core/galerio-core.php" || fail "galerio-core: GALERIO_CORE_VERSION doesn't match the plugin header."
 [ -f "$core/languages/galerio-core.pot" ] || fail "galerio-core: languages/galerio-core.pot is missing. Run: npm run i18n:pot"
 build "$core" galerio-core "$core_version"
+
+# Galerio Blocks, compiled fresh so the zip never carries a stale build.
+blocks="$repo/plugins/galerio-blocks"
+blocks_version="$(header "$blocks/galerio-blocks.php" Version)"
+[ "$blocks_version" = "$(header "$blocks/readme.txt" 'Stable tag')" ] || fail "galerio-blocks: plugin header and readme Stable tag differ."
+grep -q "define( 'GALERIO_BLOCKS_VERSION', '$blocks_version' );" "$blocks/galerio-blocks.php" || fail "galerio-blocks: GALERIO_BLOCKS_VERSION doesn't match the plugin header."
+[ -f "$blocks/languages/galerio-blocks.pot" ] || fail "galerio-blocks: languages/galerio-blocks.pot is missing. Run: npm run i18n:pot"
+(cd "$repo" && npm run --silent build >/dev/null) || fail "galerio-blocks: npm run build failed."
+build "$blocks" galerio-blocks "$blocks_version"
 
 # Galerio Migrate, with the Pods package it migrates to.
 migrate="$repo/plugins/galerio-migrate"

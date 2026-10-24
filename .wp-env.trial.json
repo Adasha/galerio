@@ -8,6 +8,7 @@
 		"https://downloads.wordpress.org/plugin/pods.zip",
 		"https://downloads.wordpress.org/plugin/wordpress-importer.zip",
 		"./plugins/galerio-core",
+		"./plugins/galerio-blocks",
 		"./plugins/galerio-migrate"
 	],
 	"themes": [ "./themes/galerio" ],

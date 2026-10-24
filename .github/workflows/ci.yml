@@ -59,6 +59,9 @@ jobs:
       - run: composer install --no-interaction --no-progress
       - run: npx playwright install --with-deps chromium
 
+      - name: Build blocks
+        run: npm run build
+
       - name: Start WordPress
         run: npm run env:test:start
 

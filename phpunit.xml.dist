@@ -15,6 +15,7 @@
 	<coverage includeUncoveredFiles="true">
 		<include>
 			<directory suffix=".php">plugins/galerio-core/includes</directory>
+			<directory suffix=".php">plugins/galerio-blocks/includes</directory>
 		</include>
 	</coverage>
 </phpunit>

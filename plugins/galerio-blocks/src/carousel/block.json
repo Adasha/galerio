@@ -1,0 +1,142 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "galerio/carousel",
+	"version": "0.1.0",
+	"title": "Carousel",
+	"category": "media",
+	"icon": "slides",
+	"description": "Shows items one after another as slides, such as the latest exhibitions with their images, or the results of a Query Loop.",
+	"keywords": [ "carousel", "slider", "slideshow", "galerio", "query" ],
+	"textdomain": "galerio-blocks",
+	"attributes": {
+		"source": {
+			"type": "string",
+			"enum": [ "query", "loop" ],
+			"default": "query"
+		},
+		"postType": {
+			"type": "string",
+			"default": "galerio_collection"
+		},
+		"perPage": {
+			"type": "number",
+			"default": 5
+		},
+		"orderBy": {
+			"type": "string",
+			"default": "date"
+		},
+		"order": {
+			"type": "string",
+			"enum": [ "asc", "desc" ],
+			"default": "desc"
+		},
+		"taxonomy": {
+			"type": "string",
+			"default": ""
+		},
+		"terms": {
+			"type": "array",
+			"items": { "type": "number" },
+			"default": []
+		},
+		"postIds": {
+			"type": "array",
+			"items": { "type": "number" },
+			"default": []
+		},
+		"imageSize": {
+			"type": "string",
+			"default": "large"
+		},
+		"imageFit": {
+			"type": "string",
+			"enum": [ "cover", "contain" ],
+			"default": "cover"
+		},
+		"height": {
+			"type": "string",
+			"default": "70vh"
+		},
+		"contentPosition": {
+			"type": "string",
+			"default": "bottom right"
+		},
+		"showTitle": {
+			"type": "boolean",
+			"default": true
+		},
+		"titleLevel": {
+			"type": "number",
+			"default": 2
+		},
+		"showExcerpt": {
+			"type": "boolean",
+			"default": false
+		},
+		"buttonText": {
+			"type": "string",
+			"default": ""
+		},
+		"slidesPerView": {
+			"type": "number",
+			"default": 1
+		},
+		"transition": {
+			"type": "string",
+			"default": "slide"
+		},
+		"duration": {
+			"type": "number",
+			"default": 25
+		},
+		"loop": {
+			"type": "boolean",
+			"default": true
+		},
+		"autoplay": {
+			"type": "boolean",
+			"default": false
+		},
+		"interval": {
+			"type": "number",
+			"default": 6000
+		},
+		"showArrows": {
+			"type": "boolean",
+			"default": true
+		},
+		"arrowsPosition": {
+			"type": "string",
+			"enum": [ "sides", "caption" ],
+			"default": "sides"
+		},
+		"showDots": {
+			"type": "boolean",
+			"default": true
+		},
+		"label": {
+			"type": "string",
+			"default": ""
+		}
+	},
+	"supports": {
+		"html": false,
+		"anchor": true,
+		"align": [ "wide", "full" ],
+		"color": {
+			"background": true,
+			"text": true,
+			"link": true
+		},
+		"spacing": {
+			"margin": true,
+			"padding": true
+		}
+	},
+	"editorScript": "file:./index.js",
+	"editorStyle": "file:./index.css",
+	"style": "file:./style-index.css",
+	"viewScript": "file:./view.js"
+}
