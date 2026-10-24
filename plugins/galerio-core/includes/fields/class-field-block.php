@@ -67,7 +67,10 @@ final class Field_Block {
 			return '';
 		}
 
-		if ( 'list' === $attributes['layout'] ) {
+		// The Buttons style needs one link per item, so it always uses a list.
+		$buttons = isset( $attributes['className'] ) && preg_match( '/(^|\s)is-style-buttons(\s|$)/', $attributes['className'] );
+
+		if ( 'list' === $attributes['layout'] || $buttons ) {
 			$items = Display::items( $field, $raw );
 			$html  = $items ? '<ul class="wp-block-galerio-field-display__list"><li>' . implode( '</li><li>', $items ) . '</li></ul>' : '';
 		} else {

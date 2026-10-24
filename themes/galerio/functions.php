@@ -32,19 +32,25 @@ function galerio_register_pattern_category() {
 function galerio_register_block_styles() {
 
 	$styles = array(
-		'core/post-terms' => array(
+		'core/post-terms'       => array(
 			array(
 				'name'  => 'buttons',
 				'label' => __( 'Buttons', 'galerio' ),
 			),
 		),
-		'core/navigation' => array(
+		'galerio/field-display' => array(
+			array(
+				'name'  => 'buttons',
+				'label' => __( 'Buttons', 'galerio' ),
+			),
+		),
+		'core/navigation'       => array(
 			array(
 				'name'  => 'main-menu',
 				'label' => __( 'Main Menu', 'galerio' ),
 			),
 		),
-		'core/group'      => array(
+		'core/group'            => array(
 			array(
 				'name'  => 'asides',
 				'label' => __( 'Asides', 'galerio' ),

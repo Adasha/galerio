@@ -524,6 +524,54 @@
                         "left": "0"
                     }
                 }
+            },
+            "galerio/field-display": {
+                "variations": {
+                    "buttons": {
+                        "elements": {
+                            "link": {
+                                ":hover": {
+                                    "color": {
+                                        "background": "var(--wp--preset--color--custom-hint)",
+                                        "text": "var(--wp--preset--color--custom-lower-contrast)"
+                                    }
+                                },
+                                "border": {
+                                    "radius": "var(--wp--custom--button--border-radius)"
+                                },
+                                "color": {
+                                    "background": "var(--wp--preset--color--custom-highlight)",
+                                    "text": "var(--wp--preset--color--custom-lowlight)"
+                                },
+                                "css": "text-wrap: nowrap",
+                                "spacing": {
+                                    "padding": {
+                                        "bottom": "var(--wp--preset--spacing--20)",
+                                        "left": "var(--wp--preset--spacing--40)",
+                                        "right": "var(--wp--preset--spacing--40)",
+                                        "top": "var(--wp--preset--spacing--20)"
+                                    }
+                                },
+                                "typography": {
+                                    "textDecoration": "none"
+                                }
+                            }
+                        },
+                        "spacing": {
+                            "blockGap": "var(--wp--preset--spacing--20)",
+                            "margin": {
+                                "bottom": "var(--wp--preset--spacing--20)",
+                                "top": "var(--wp--preset--spacing--20)"
+                            }
+                        },
+                        "typography": {
+                            "fontSize": "var(--wp--preset--font-size--small)",
+                            "lineHeight": "2.4",
+                            "textTransform": "uppercase"
+                        },
+                        "css": "& .wp-block-galerio-field-display__list{display:flex;flex-wrap:wrap;gap:var(--wp--preset--spacing--20);margin:0;padding:0;list-style:none;}& .wp-block-galerio-field-display__list li{margin:0;}& .wp-block-galerio-field-display__list a{display:inline-block;}"
+                    }
+                }
             }
         },
         "color": {

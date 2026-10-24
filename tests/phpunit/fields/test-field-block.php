@@ -141,6 +141,23 @@ class Test_Field_Block extends Galerio_TestCase {
 	}
 
 	/**
+	 * The Buttons style needs one item per button, so it always uses a list.
+	 */
+	public function test_buttons_style_uses_a_list() {
+		$html = $this->render(
+			$this->field_block(
+				array(
+					'key'       => 'profile.accolades',
+					'className' => 'is-style-buttons',
+				)
+			)
+		);
+
+		$this->assertSame( 2, substr_count( $html, '<li>' ) );
+		$this->assertStringNotContainsString( 'First prize, Residency', $html );
+	}
+
+	/**
 	 * The block disappears entirely when it has nothing to show.
 	 *
 	 * @dataProvider data_hidden
