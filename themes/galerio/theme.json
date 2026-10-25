@@ -682,6 +682,14 @@
     ],
     "customTemplates": [
         {
+            "name": "wp-custom-template-blank",
+            "title": "Blank",
+            "postTypes": [
+                "galerio_collection",
+                "galerio_article"
+            ]
+        },
+        {
             "name": "title-page",
             "title": "Title page",
             "postTypes": [
