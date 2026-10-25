@@ -9,14 +9,14 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-10-25T12:00:39+00:00\n"
+"POT-Creation-Date: 2026-10-25T12:30:33+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: galerio\n"
 
 #. Theme Name of the theme
 #: style.css
-#: functions.php:26
+#: functions.php:29
 msgid "Galerio"
 msgstr ""
 
@@ -40,29 +40,61 @@ msgstr ""
 msgid "https://adasha.com"
 msgstr ""
 
-#: functions.php:39
-#: functions.php:45
+#: functions.php:42
+#: functions.php:48
 msgid "Buttons"
 msgstr ""
 
-#: functions.php:51
+#: functions.php:54
 msgid "Keep words whole"
 msgstr ""
 
-#: functions.php:55
+#: functions.php:58
 msgid "Hyphenate"
 msgstr ""
 
-#: functions.php:61
+#: functions.php:64
 msgid "Main Menu"
 msgstr ""
 
-#: functions.php:67
+#: functions.php:70
 msgid "Asides"
 msgstr ""
 
-#: functions.php:71
+#: functions.php:74
 msgid "Image Box"
+msgstr ""
+
+#. translators: %s: A content type's name, such as Work.
+#: functions.php:139
+#, php-format
+msgid "%s page"
+msgstr ""
+
+#. translators: %s: A content type's name, such as Work.
+#: functions.php:141
+#, php-format
+msgid "Shows one item of the type %s."
+msgstr ""
+
+#. translators: %s: A content type's plural name, such as Works.
+#. translators: %s: A taxonomy's name, such as Group.
+#: functions.php:145
+#: functions.php:156
+#, php-format
+msgid "%s archive"
+msgstr ""
+
+#. translators: %s: A content type's plural name, such as Works.
+#: functions.php:147
+#, php-format
+msgid "Lists the %s."
+msgstr ""
+
+#. translators: %s: A taxonomy's plural name, such as Groups.
+#: functions.php:158
+#, php-format
+msgid "Lists the items in one of the %s."
 msgstr ""
 
 #: patterns/collection-card.php
