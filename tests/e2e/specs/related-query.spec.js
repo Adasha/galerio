@@ -74,4 +74,42 @@ test.describe( 'Related items in Query Loops', () => {
 			page.getByRole( 'button', { name: 'Related items' } )
 		).toHaveCount( 0 );
 	} );
+
+	test( 'a carousel on a profile can show its works', async ( {
+		admin,
+		editor,
+		page,
+		requestUtils,
+	} ) => {
+		const [ profile ] = await requestUtils.rest( {
+			path: '/wp/v2/galerio_profile',
+			params: { slug: 'ana-morgan', context: 'edit' },
+		} );
+		await admin.editPost( profile.id );
+		await editor.insertBlock( { name: 'galerio/carousel' } );
+		await editor.openDocumentSettingsSidebar();
+
+		await page
+			.getByRole( 'combobox', { name: 'Show' } )
+			.selectOption( { label: 'Works' } );
+		await expect(
+			page.getByRole( 'combobox', { name: 'Content type' } )
+		).toHaveCount( 0 );
+		await expect(
+			page.getByRole( 'combobox', { name: 'Order', exact: true } )
+		).toHaveValue( 'post__in/asc' );
+
+		// The preview shows her works.
+		await expect(
+			editor.canvas.getByRole( 'region', { name: 'Carousel' } )
+		).toContainText( 'Low Tide, Rhossili' );
+
+		const [ carousel ] = ( await editor.getBlocks() ).filter(
+			( block ) => block.name === 'galerio/carousel'
+		);
+		expect( carousel.attributes ).toMatchObject( {
+			related: 'profile.works',
+			postType: 'galerio_work',
+		} );
+	} );
 } );

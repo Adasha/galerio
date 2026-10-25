@@ -67,6 +67,9 @@
 		);
 	}
 
+	// For other blocks with the same choice, such as the Carousel.
+	data.useRelations = useRelations;
+
 	addFilter(
 		'editor.BlockEdit',
 		'galerio/related-query',

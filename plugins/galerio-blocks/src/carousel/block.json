@@ -55,6 +55,10 @@
 			},
 			"default": []
 		},
+		"related": {
+			"type": "string",
+			"default": ""
+		},
 		"postIds": {
 			"type": "array",
 			"items": {

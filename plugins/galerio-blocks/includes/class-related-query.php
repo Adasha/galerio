@@ -88,6 +88,12 @@ final class Related_Query {
 		);
 		wp_set_script_translations( 'galerio-related-query', 'galerio-blocks', GALERIO_BLOCKS_DIR . 'languages' );
 
+		// The Carousel offers the same relationships, through this script.
+		$carousel = wp_scripts()->query( 'galerio-carousel-editor-script' );
+		if ( $carousel && ! in_array( 'galerio-related-query', $carousel->deps, true ) ) {
+			$carousel->deps[] = 'galerio-related-query';
+		}
+
 		wp_add_inline_script(
 			'galerio-related-query',
 			'window.galerioRelatedQuery = ' . wp_json_encode( array( 'relations' => $relations ) ) . ';',
