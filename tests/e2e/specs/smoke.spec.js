@@ -181,6 +181,37 @@ test.describe( 'Admin', () => {
 	} );
 } );
 
+test.describe( 'Main menu', () => {
+	test( 'highlights the current page and the item under the pointer', async ( {
+		page,
+	} ) => {
+		await page.goto( '/sample-page/' );
+
+		const highlight = ( link ) =>
+			link.evaluate(
+				( a ) =>
+					a.ownerDocument.defaultView.getComputedStyle( a )
+						.backgroundColor
+			);
+		const current = page
+			.locator( '.galerio-site-header [aria-current="page"]' )
+			.first();
+		const other = page
+			.locator(
+				'.galerio-site-header .wp-block-navigation-item__content:not([aria-current])'
+			)
+			.first();
+
+		expect( await highlight( current ) ).not.toBe( 'rgba(0, 0, 0, 0)' );
+		expect( await highlight( other ) ).toBe( 'rgba(0, 0, 0, 0)' );
+
+		await other.hover();
+		await expect
+			.poll( () => highlight( other ) )
+			.toBe( await highlight( current ) );
+	} );
+} );
+
 test.describe( 'Phone layout', () => {
 	test.use( { viewport: { width: 390, height: 844 } } );
 
@@ -196,6 +227,12 @@ test.describe( 'Phone layout', () => {
 			.getByRole( 'button', { name: 'Open menu' } )
 			.boundingBox();
 		expect( menu.y ).toBeLessThan( title.y + title.height );
+		expect( menu.x ).toBeGreaterThanOrEqual( title.x + title.width );
+
+		// The tagline is hidden on phones.
+		await expect(
+			page.locator( '.galerio-site-header .wp-block-site-tagline' )
+		).toBeHidden();
 
 		// The image box fits its image rather than most of the screen.
 		const imageBox = await page

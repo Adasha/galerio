@@ -44,6 +44,16 @@ function galerio_register_block_styles() {
 				'label' => __( 'Buttons', 'galerio' ),
 			),
 		),
+		'core/site-title'       => array(
+			array(
+				'name'  => 'keep-words',
+				'label' => __( 'Keep words whole', 'galerio' ),
+			),
+			array(
+				'name'  => 'hyphenate',
+				'label' => __( 'Hyphenate', 'galerio' ),
+			),
+		),
 		'core/navigation'       => array(
 			array(
 				'name'  => 'main-menu',

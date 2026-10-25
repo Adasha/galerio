@@ -3,33 +3,20 @@
 	"version": 3,
 	"slug": "main-menu",
 	"title": "Main Menu",
-	"blockTypes": [ "core/navigation" ],
+	"blockTypes": [
+		"core/navigation"
+	],
 	"settings": {
 		"appearanceTools": true,
-		"units": [ "px", "em", "rem" ]
+		"units": [
+			"px",
+			"em",
+			"rem"
+		]
 	},
 	"styles": {
 		"blocks": {
 			"core/navigation-link": {
-				"elements": {
-					"link": {
-						":hover": {
-							"color": {
-								"background": "var(--wp--preset--color--contrast)",
-								"text": "var(--wp--preset--color--base)"
-							}
-						},
-						"color": {
-							"text": "var(--wp--preset--color--contrast)",
-							"background": "none"
-						},
-						"spacing": {
-							"padding": {
-								"top": "10px"
-							}
-						}
-					}
-				},
 				"typography": {
 					"textTransform": "uppercase"
 				}
@@ -47,9 +34,7 @@
 				}
 			}
 		},
-		"elements": {
-
-		},
+		"elements": {},
 		"spacing": {
 			"blockGap": "0px",
 			"margin": {
