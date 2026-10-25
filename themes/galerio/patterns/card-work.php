@@ -11,12 +11,12 @@
 ?>
 <!-- wp:group {"metadata":{"name":"Card"},"className":"galerio-card galerio-card-work","layout":{"type":"default"}} -->
 <div class="wp-block-group galerio-card galerio-card-work"><!-- wp:columns {"align":"wide"} -->
-<div class="wp-block-columns alignwide"><!-- wp:column {"width":"66.66%"} -->
-<div class="wp-block-column" style="flex-basis:66.66%"><!-- wp:post-featured-image {"isLink":true,"aspectRatio":"auto","sizeSlug":"large"} /--></div>
+<div class="wp-block-columns alignwide"><!-- wp:column {"width":"50%"} -->
+<div class="wp-block-column" style="flex-basis:50%"><!-- wp:post-featured-image {"isLink":true,"aspectRatio":"auto","sizeSlug":"large"} /--></div>
 <!-- /wp:column -->
 
-<!-- wp:column {"width":"33.33%","style":{"spacing":{"blockGap":"var:preset|spacing|20"}}} -->
-<div class="wp-block-column" style="flex-basis:33.33%"><!-- wp:heading {"level":2,"metadata":{"bindings":{"content":{"source":"galerio/field","args":{"key":"work.definitive_title","fallback":"title","link":true}}}}} -->
+<!-- wp:column {"width":"50%","style":{"spacing":{"blockGap":"var:preset|spacing|20"}}} -->
+<div class="wp-block-column" style="flex-basis:50%"><!-- wp:heading {"level":2,"metadata":{"bindings":{"content":{"source":"galerio/field","args":{"key":"work.definitive_title","fallback":"title","link":true}}}}} -->
 <h2 class="wp-block-heading"></h2>
 <!-- /wp:heading -->
 

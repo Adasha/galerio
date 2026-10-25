@@ -13,7 +13,7 @@
 <main class="wp-block-group"><!-- wp:query-title {"type":"archive","showPrefix":false} /-->
 
 <!-- wp:query {"queryId":22,"query":{"perPage":10,"pages":0,"offset":0,"postType":"galerio_work","order":"desc","orderBy":"date","author":"","search":"","exclude":[],"sticky":"","inherit":true},"metadata":{"categories":["posts"],"patternName":"core/query-medium-posts","name":"Image at left"}} -->
-<div class="wp-block-query"><!-- wp:post-template {"layout":{"type":"grid","columnCount":null,"minimumColumnWidth":"22rem"}} -->
+<div class="wp-block-query"><!-- wp:post-template {"layout":{"type":"grid","columnCount":null,"minimumColumnWidth":"32rem"}} -->
 <!-- wp:template-part {"slug":"card-work","tagName":"div"} /-->
 <!-- /wp:post-template -->
 
