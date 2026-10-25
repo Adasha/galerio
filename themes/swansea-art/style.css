@@ -1,0 +1,96 @@
+/*
+Theme Name: swansea.art
+Theme URI: https://swansea.art
+Template: galerio
+Author: Adasha
+Author URI: https://adasha.com
+Description: swansea.art's theme: Galerio with the site's wordmark, colours, fonts and header, and the helper classes its pages use.
+Requires at least: 6.6
+Tested up to: 7.1
+Requires PHP: 7.4
+Version: 0.1.0-alpha.1
+License: GNU General Public License v2 or later
+License URI: https://www.gnu.org/licenses/gpl-2.0.html
+Text Domain: swansea-art
+*/
+
+/* The collections archive shows each exhibition as tall as the front page carousel's slides. */
+.post-type-archive-galerio_collection .galerio-collection-card {
+	--galerio-collection-card-height: 90vh;
+}
+
+/* Header: the log in link, search and social links sit under the menu, in the menu's type. */
+.swansea-art-visitor-tools .wp-block-loginout {
+	font-family: var(--wp--preset--font-family--heading);
+	text-transform: uppercase;
+}
+
+.swansea-art-visitor-tools .wp-block-loginout a {
+	color: var(--wp--preset--color--contrast);
+	text-decoration: none;
+}
+
+/* On phones the visitor tools drop below the header bar, in a row. */
+@media (max-width: 781px) {
+	.wp-block-group.galerio-site-header {
+		flex-wrap: wrap;
+	}
+
+	.galerio-site-header .swansea-art-visitor-tools {
+		flex-basis: 100%;
+		flex-direction: row;
+		align-items: center;
+		flex-wrap: wrap;
+	}
+
+	.galerio-site-header .swansea-art-visitor-tools .wp-block-search {
+		flex: 1 1 10rem;
+	}
+}
+
+/* Cover blocks whose text sits at the bottom edge (class "bottom-text"). */
+.bottom-text .wp-block-cover__inner-container {
+	align-self: end;
+}
+
+.bottom-text .wp-block-cover__inner-container * {
+	margin-bottom: 0;
+}
+
+/* An introductory paragraph (class "standfirst"). */
+.standfirst {
+	font-style: italic;
+	font-weight: 700;
+	font-size: var(--wp--preset--font-size--medium);
+}
+
+/* Helper classes used in page content. */
+.add-padding {
+	padding: 1em;
+}
+
+.remove-padding {
+	padding: 0 !important;
+}
+
+.pull-up {
+	margin-bottom: 0 !important;
+}
+
+.no-para-spacing p {
+	margin-bottom: 0;
+}
+
+.no-bullet {
+	list-style-type: none;
+}
+
+.section-spacer {
+	height: 20px;
+}
+
+/* News posts listed one after another are divided by a dotted line. */
+.wp-block-post-template > .category-news + .category-news {
+	border-top: 1px dotted var(--wp--preset--color--contrast);
+	padding-top: var(--wp--preset--spacing--50);
+}

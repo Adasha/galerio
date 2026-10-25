@@ -6,7 +6,7 @@
  */
 
 /**
- * The theme's style variations and the child starter's palette work with
+ * The theme's style variations and the child themes' palettes work with
  * Galerio's styles and are readable.
  *
  * @coversNothing
@@ -39,7 +39,7 @@ class Test_Style_Variations extends WP_UnitTestCase {
 	);
 
 	/**
-	 * Theme.json files with a palette: the theme's own, its colour variations and the child starter.
+	 * Theme.json files with a palette: the theme's own, its colour variations and the child starter and swansea.art.
 	 *
 	 * @return array[]
 	 */
@@ -48,6 +48,7 @@ class Test_Style_Variations extends WP_UnitTestCase {
 		$files  = array(
 			'galerio'               => array( $themes . '/galerio/theme.json' ),
 			'galerio-child-starter' => array( $themes . '/galerio-child-starter/theme.json' ),
+			'swansea-art'           => array( $themes . '/swansea-art/theme.json' ),
 		);
 
 		foreach ( glob( $themes . '/galerio/styles/*.json' ) as $file ) {
