@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-10-25T12:00:39+00:00\n"
+"POT-Creation-Date: 2026-10-25T12:15:34+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: galerio\n"
@@ -190,6 +190,11 @@ msgctxt "Pattern description"
 msgid "The list of creator profiles. Used by the archive-galerio_profile template; a child theme can override this pattern alone."
 msgstr ""
 
+#. translators: Keep {profiles} as it is: it becomes this site's name for profiles.
+#: patterns/template-archive-profiles.php:32
+msgid "No {profiles} yet."
+msgstr ""
+
 #: patterns/template-archive-works.php
 msgctxt "Pattern title"
 msgid "Works archive"
@@ -198,6 +203,40 @@ msgstr ""
 #: patterns/template-archive-works.php
 msgctxt "Pattern description"
 msgid "The list of works. Used by the archive-galerio_work template; a child theme can override this pattern alone."
+msgstr ""
+
+#. translators: Keep {works} as it is: it becomes this site's name for works.
+#: patterns/template-archive-works.php:48
+msgid "No {works} yet."
+msgstr ""
+
+#: patterns/template-page.php
+msgctxt "Pattern title"
+msgid "Page"
+msgstr ""
+
+#: patterns/template-page.php
+msgctxt "Pattern description"
+msgid "A page's title and content. Used by the page template; a child theme can override this pattern alone."
+msgstr ""
+
+#: patterns/template-search.php
+msgctxt "Pattern title"
+msgid "Search results"
+msgstr ""
+
+#: patterns/template-search.php
+msgctxt "Pattern description"
+msgid "The search form and what it found. Used by the search template; a child theme can override this pattern alone."
+msgstr ""
+
+#: patterns/template-search.php:15
+msgid "Search"
+msgstr ""
+
+#. translators: Shown when a search finds nothing.
+#: patterns/template-search.php:40
+msgid "Nothing matched your search. Try other words."
 msgstr ""
 
 #: patterns/template-single-article.php
@@ -308,6 +347,26 @@ msgstr ""
 #: patterns/template-taxonomy-group.php
 msgctxt "Pattern description"
 msgid "The items in a group. Used by the taxonomy-galerio_group template; a child theme can override this pattern alone."
+msgstr ""
+
+#. translators: Shown on a group's page when it has no items.
+#: patterns/template-taxonomy-group.php:32
+msgid "Nothing in this group yet."
+msgstr ""
+
+#: patterns/template-taxonomy.php
+msgctxt "Pattern title"
+msgid "Term archive"
+msgstr ""
+
+#: patterns/template-taxonomy.php
+msgctxt "Pattern description"
+msgid "Everything with one term, such as a medium, label, role or category, whatever its type. Used by the taxonomy template; a child theme can override this pattern alone."
+msgstr ""
+
+#. translators: Shown on a medium, label, role or category page with no items.
+#: patterns/template-taxonomy.php:32
+msgid "Nothing here yet."
 msgstr ""
 
 #: patterns/top-header-layout.php
