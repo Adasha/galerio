@@ -192,6 +192,18 @@ return array(
 
 	// CSS added to the end of an item's Page style: item => CSS.
 	'css_append'      => array(
+		// Eclecticon's Custom Collection template framed the page in a grey border.
+		3452 => '/* The grey frame of Eclecticon\'s Custom Collection template. */
+.wp-block-post-content
+{
+  border: 16px solid #ececec;
+}
+
+/* Eclecticon stacked the sections with no gap; Galerio puts 24px between blocks. */
+.article-container > *
+{
+  margin-block-start: 0;
+}',
 		5553 => '/* Eclecticon\'s tighter spacing in the exhibitor list: Galerio puts 24px between blocks. */
 .wp-block-group:has(> .exhibitor-container),
 .wp-block-group.exhibit-text
