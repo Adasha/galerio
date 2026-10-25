@@ -2,14 +2,14 @@
 # This file is distributed under the GPL-2.0-or-later.
 msgid ""
 msgstr ""
-"Project-Id-Version: Galerio Blocks 0.2.0-alpha.1\n"
+"Project-Id-Version: Galerio Blocks 0.3.0-alpha.1\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/galerio-blocks\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-10-25T12:00:43+00:00\n"
+"POT-Creation-Date: 2026-10-25T17:49:53+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: galerio-blocks\n"
@@ -49,54 +49,58 @@ msgstr ""
 msgid "Fade"
 msgstr ""
 
-#: includes/class-carousel-block.php:121
+#: includes/class-carousel-block.php:125
+msgid "The related items show here when the item has some."
+msgstr ""
+
+#: includes/class-carousel-block.php:126
 msgid "No items to show yet. Choose another content type or other terms."
 msgstr ""
 
-#: includes/class-carousel-block.php:137
+#: includes/class-carousel-block.php:142
 msgid "carousel"
 msgstr ""
 
-#: includes/class-carousel-block.php:138
+#: includes/class-carousel-block.php:143
 msgid "Carousel"
 msgstr ""
 
-#: includes/class-carousel-block.php:147
-#: includes/class-carousel-block.php:425
+#: includes/class-carousel-block.php:152
+#: includes/class-carousel-block.php:438
 msgid "Pause the carousel"
 msgstr ""
 
-#: includes/class-carousel-block.php:156
+#: includes/class-carousel-block.php:161
 msgid "Choose a slide"
 msgstr ""
 
-#: includes/class-carousel-block.php:355
+#: includes/class-carousel-block.php:368
 msgid "Previous slide"
 msgstr ""
 
-#: includes/class-carousel-block.php:357
+#: includes/class-carousel-block.php:370
 msgid "Next slide"
 msgstr ""
 
-#: includes/class-carousel-block.php:420
+#: includes/class-carousel-block.php:433
 msgid "slide"
 msgstr ""
 
 #. translators: %d: slide number.
-#: includes/class-carousel-block.php:422
+#: includes/class-carousel-block.php:435
 #, php-format
 msgid "Go to slide %d"
 msgstr ""
 
 #. translators: 1: slide number, 2: number of slides.
 #. translators: 1: image number, 2: number of images.
-#: includes/class-carousel-block.php:424
+#: includes/class-carousel-block.php:437
 #: includes/class-gallery-block.php:206
 #, php-format
 msgid "%1$d of %2$d"
 msgstr ""
 
-#: includes/class-carousel-block.php:426
+#: includes/class-carousel-block.php:439
 msgid "Play the carousel"
 msgstr ""
 
@@ -188,54 +192,93 @@ msgstr ""
 msgid "Galerio current and upcoming %s"
 msgstr ""
 
-#: assets/js/query-variations.js:82
+#: assets/js/query-variations.js:94
 msgid "Nothing to show yet."
 msgstr ""
 
-#: assets/js/query-variations.js:97
+#: assets/js/query-variations.js:109
 msgid "A grid of works, newest first, with their creators."
 msgstr ""
 
-#: assets/js/query-variations.js:122
+#: assets/js/query-variations.js:134
 msgid "A grid of creators, A to Z."
 msgstr ""
 
-#: assets/js/query-variations.js:133
+#: assets/js/query-variations.js:145
 msgid "A grid of collections, newest first, with their dates."
 msgstr ""
 
-#: assets/js/query-variations.js:144
+#: assets/js/query-variations.js:156
 msgid "Exhibitions that are on now or coming up, soonest first. Can also show only current, upcoming or past ones."
 msgstr ""
 
-#: assets/js/query-variations.js:188
+#: assets/js/query-variations.js:200
 msgid "On now and upcoming"
 msgstr ""
 
-#: assets/js/query-variations.js:191
+#: assets/js/query-variations.js:203
 msgid "On now"
 msgstr ""
 
-#: assets/js/query-variations.js:192
+#: assets/js/query-variations.js:204
 msgid "Upcoming"
 msgstr ""
 
-#: assets/js/query-variations.js:194
+#: assets/js/query-variations.js:206
 msgid "Past, most recent first"
 msgstr ""
 
-#: assets/js/query-variations.js:223
+#: assets/js/query-variations.js:235
 #: build/exhibition-dates/index.js:1
 msgid "Dates"
 msgstr ""
 
-#: assets/js/query-variations.js:227
+#: assets/js/query-variations.js:239
+#: assets/js/related-query.js:148
+#: build/carousel/index.js:1
 #: build/related-items/index.js:1
 msgid "Show"
 msgstr ""
 
-#: assets/js/query-variations.js:231
+#: assets/js/query-variations.js:243
 msgid "The editor shows them all; the site shows only those that match, by today’s date."
+msgstr ""
+
+#: assets/js/related-query.js:28
+#: build/carousel/index.js:1
+msgid "As arranged on the item"
+msgstr ""
+
+#: assets/js/related-query.js:31
+#: build/carousel/index.js:1
+msgid "Random"
+msgstr ""
+
+#: assets/js/related-query.js:33
+msgid "Use the Query Loop’s order"
+msgstr ""
+
+#: assets/js/related-query.js:142
+msgid "Related items"
+msgstr ""
+
+#: assets/js/related-query.js:152
+msgid "Not related (normal query)"
+msgstr ""
+
+#: assets/js/related-query.js:165
+msgid "The editor previews recent items; the site shows the ones related to the item. With none, the whole Query Loop is hidden, unless its No results block has something to say."
+msgstr ""
+
+#: assets/js/related-query.js:169
+msgid "Show the items this item is linked to, such as a creator’s works."
+msgstr ""
+
+#: assets/js/related-query.js:195
+#: build/carousel/index.js:1
+#: build/gallery/index.js:2
+#: build/related-items/index.js:1
+msgid "Order"
 msgstr ""
 
 #: build/carousel/index.js:1
@@ -299,12 +342,20 @@ msgid "Page order"
 msgstr ""
 
 #: build/carousel/index.js:1
-msgid "Random"
+#: build/related-items/index.js:1
+msgid "Items"
 msgstr ""
 
 #: build/carousel/index.js:1
-#: build/related-items/index.js:1
-msgid "Items"
+msgid "Latest or chosen items"
+msgstr ""
+
+#: build/carousel/index.js:1
+msgid "The items this item is linked to. The carousel is hidden when there are none."
+msgstr ""
+
+#: build/carousel/index.js:1
+msgid "Most items"
 msgstr ""
 
 #: build/carousel/index.js:1
@@ -321,12 +372,6 @@ msgstr ""
 
 #: build/carousel/index.js:1
 msgid "Number of items"
-msgstr ""
-
-#: build/carousel/index.js:1
-#: build/gallery/index.js:2
-#: build/related-items/index.js:1
-msgid "Order"
 msgstr ""
 
 #: build/carousel/index.js:1
@@ -838,7 +883,7 @@ msgstr ""
 
 #: build/related-items/block.json
 msgctxt "block description"
-msgid "Shows the items related to the current one as cards, such as a creator's works, a collection's exhibitors or a work's collections. Hidden, heading and all, when there are none."
+msgid "Retired: use a Query Loop's Related items setting instead, or transform this block into one. Shows the items related to the current one as cards."
 msgstr ""
 
 #: build/related-items/block.json

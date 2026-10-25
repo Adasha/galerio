@@ -3,7 +3,7 @@ Contributors: adasha
 Requires at least: 6.6
 Tested up to: 7.1
 Requires PHP: 7.4
-Version: 3.0.0-alpha.2
+Version: 3.0.0-alpha.3
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -21,6 +21,15 @@ Galerio presents creators, works, collections and articles: a page for each, lis
 * Translatable, and the wording follows the names a site gives its content types (e.g. Exhibitions for collections) under Settings → Galerio content types.
 
 == Changelog ==
+
+= 3.0.0-alpha.3 =
+* Card template parts in a new Card area: Work, Profile, Article and Collection cards, used by the archives, Galerio Query Loops and Carousel slide designs. Edit a card once and every list follows. The generic Card part shows each item with its own type's card, for lists that mix types.
+* The single templates show the current item's gallery, exhibition dates and related items (with Galerio Blocks), as related Query Loops drawing each type's card. A template gallery steps aside when the item's content has its own.
+* New templates: term archive, search and page, plus a Blank template for collections and articles designed in the editor. Archives link to their next pages. Content type and taxonomy templates are named after the site's types.
+* New patterns: Collection layout (the standard collection page as blocks to rearrange), Site presents… (for guest collections) and Work details.
+* Items without a featured image fall back to their own image, or show a plain colour band.
+* Contrast fixes to the default palette; the default palette passes WCAG AA.
+* Main menu highlight on hover, a tidier phone header (no tagline, the title gives way to the menu button), list titles without underlines, and Site Title styles to keep words whole or hyphenate.
 
 = 3.0.0-alpha.2 =
 * A Buttons style for the Galerio Field block, matching the term buttons, for lists such as a collection's exhibitors.

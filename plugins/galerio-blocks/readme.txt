@@ -4,11 +4,11 @@ Tags: carousel, slider, gallery, exhibition, art
 Requires at least: 6.6
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 0.2.0-alpha.1
+Stable tag: 0.3.0-alpha.1
 License: GPL-2.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-Blocks for galleries, artists and publishers: a carousel, a gallery, exhibition dates, and Query Loops of exhibitions and related items, for exhibitions, works and creators.
+Blocks for galleries, artists and publishers: a carousel, a gallery, exhibition dates, and Query Loops of exhibitions and related items.
 
 == Description ==
 
@@ -47,6 +47,13 @@ Ready-made Query Loops in the inserter, named after the site's content types: Ga
 Galerio is in alpha. Expect breaking changes.
 
 == Changelog ==
+
+= 0.3.0-alpha.1 =
+* Breaking: the Galerio Related Items block is removed. A Query Loop's Related items setting replaces it; any copy left in content renders nothing.
+* Query Loops get a Related items setting in single templates and items' content: the current item's related items, as arranged on the item, at random, or in the loop's own order, hidden with their heading when there are none.
+* The Carousel's own query can show the current item's related items, with an "As arranged on the item" order.
+* The Carousel's slide design can be any template part, such as the theme's cards.
+* New Galerio Query Loops use the theme's card for their type when it has one.
 
 = 0.2.0-alpha.1 =
 * Galerio Gallery: the current item's images or chosen ones, as a cropped grid, a masonry wall or one after another, with captions, an automatic order that follows a collection's Shuffle images, and a lightbox.
