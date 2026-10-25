@@ -21,6 +21,24 @@ test.describe( 'Theme templates', () => {
 		).toBeVisible();
 	} );
 
+	test( "a list using the Card part shows each item with its type's card", async ( {
+		page,
+	} ) => {
+		await page.goto( '/medium/ceramics/' );
+
+		const main = page.getByRole( 'main' );
+		await expect(
+			main
+				.locator( '.galerio-card-profile' )
+				.filter( { hasText: 'Kiln Collective' } )
+		).toBeVisible();
+		await expect(
+			main
+				.locator( '.galerio-card-work' )
+				.filter( { hasText: 'Ash Glaze Vessel' } )
+		).toBeVisible();
+	} );
+
 	test( 'search shows its form, results, or a message', async ( {
 		page,
 	} ) => {

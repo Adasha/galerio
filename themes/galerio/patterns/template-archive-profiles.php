@@ -14,11 +14,7 @@
 
 <!-- wp:query {"queryId":26,"query":{"perPage":10,"pages":0,"offset":0,"postType":"post","order":"desc","orderBy":"date","author":"","search":"","exclude":[],"sticky":"","inherit":true},"metadata":{"categories":["posts"],"patternName":"core/query-standard-posts","name":"Standard"}} -->
 <div class="wp-block-query"><!-- wp:post-template {"layout":{"type":"grid","columnCount":null,"minimumColumnWidth":"14rem"}} -->
-<!-- wp:post-featured-image {"isLink":true,"aspectRatio":"1","width":"","height":"","style":{"spacing":{"margin":{"top":"var:preset|spacing|30","bottom":"var:preset|spacing|30"}}}} /-->
-
-<!-- wp:post-title {"isLink":true,"fontSize":"medium"} /-->
-
-<!-- wp:post-terms {"term":"galerio_group","separator":" ","className":"is-style-buttons","style":{"spacing":{"margin":{"top":"var:preset|spacing|30","bottom":"var:preset|spacing|30"}}}} /-->
+<!-- wp:template-part {"slug":"card-profile","tagName":"div"} /-->
 <!-- /wp:post-template -->
 
 <!-- wp:query-pagination {"layout":{"type":"flex","flexWrap":"nowrap","justifyContent":"left"}} -->

@@ -10,6 +10,8 @@ add_action( 'init', 'galerio_register_pattern_category' );
 add_action( 'init', 'galerio_register_block_styles' );
 add_filter( 'render_block_core/cover', 'galerio_mark_imageless_cover', 10, 3 );
 add_filter( 'render_block_galerio/gallery', 'galerio_skip_template_gallery', 10, 3 );
+add_filter( 'default_wp_template_part_areas', 'galerio_template_part_areas' );
+add_filter( 'render_block_data', 'galerio_card_for_item' );
 add_filter( 'default_template_types', 'galerio_template_types' );
 add_filter( 'get_block_templates', 'galerio_name_saved_templates' );
 add_filter( 'pre_get_block_template', 'galerio_name_saved_template_early', 10, 3 );
@@ -286,4 +288,73 @@ function galerio_skip_template_gallery( $content, $block, $instance ) {
 	}
 
 	return $content;
+}
+
+/**
+ * Add a Card area for template parts, so the Site Editor keeps the cards
+ * (card, card-work, card-collection…) apart from headers and footers.
+ *
+ * @param array $areas Template part areas.
+ * @return array
+ */
+function galerio_template_part_areas( $areas ) {
+	$areas[] = array(
+		'area'        => 'galerio-card',
+		'label'       => _x( 'Card', 'template part area', 'galerio' ),
+		'description' => __( 'How one item looks in a list, such as an archive, a Query Loop or a carousel. Edit a card and every list using it follows.', 'galerio' ),
+		'icon'        => 'layout',
+		'area_tag'    => 'div',
+	);
+
+	return $areas;
+}
+
+/**
+ * Draw each item in a list using the Card part with its own type's card,
+ * such as card-work for a work, when the theme or the site has one. Lists
+ * that mix types (term archives, carousels) then match each type's archive.
+ *
+ * The type's card is "card-" and the type's name without "galerio_", so a
+ * site can add one for another type, e.g. card-post, in the Site Editor.
+ *
+ * @param array $block Parsed block.
+ * @return array
+ */
+function galerio_card_for_item( $block ) {
+	if ( 'core/template-part' !== $block['blockName'] || ! isset( $block['attrs']['slug'] ) || 'card' !== $block['attrs']['slug'] ) {
+		return $block;
+	}
+
+	if ( isset( $block['attrs']['theme'] ) && get_stylesheet() !== $block['attrs']['theme'] ) {
+		return $block;
+	}
+
+	$post_type = get_post_type();
+	if ( ! $post_type ) {
+		return $block;
+	}
+
+	$slug = galerio_card_slug( $post_type );
+	if ( $slug ) {
+		$block['attrs']['slug'] = $slug;
+	}
+
+	return $block;
+}
+
+/**
+ * The card template part for a content type, if there is one.
+ *
+ * @param string $post_type Post type.
+ * @return string Part slug, or empty.
+ */
+function galerio_card_slug( $post_type ) {
+	static $slugs = array();
+
+	if ( ! isset( $slugs[ $post_type ] ) ) {
+		$slug                = 'card-' . preg_replace( '/^galerio_/', '', $post_type );
+		$slugs[ $post_type ] = get_block_template( get_stylesheet() . '//' . $slug, 'wp_template_part' ) ? $slug : '';
+	}
+
+	return $slugs[ $post_type ];
 }
