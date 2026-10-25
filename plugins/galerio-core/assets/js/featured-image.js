@@ -36,7 +36,7 @@
 			return null;
 		}
 
-		const off = !! meta[ data.meta ];
+		const used = !! meta[ data.meta ];
 
 		return el( ToggleControl, {
 			__nextHasNoMarginBottom: true,
@@ -55,7 +55,7 @@
 						__( 'Use the “%s” instead', 'galerio-core' ),
 						data.field
 					),
-			help: off
+			help: ! used
 				? __(
 						'A plain colour shows where the featured image would be.',
 						'galerio-core'
@@ -64,7 +64,7 @@
 						'Shown where the featured image would be, while none is set.',
 						'galerio-core'
 					),
-			checked: ! off,
+			checked: used,
 			onChange: ( value ) =>
 				setMeta(
 					Object.assign( {}, meta, { [ data.meta ]: ! value } )

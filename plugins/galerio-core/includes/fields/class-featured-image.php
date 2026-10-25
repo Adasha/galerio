@@ -22,8 +22,9 @@ defined( 'ABSPATH' ) || exit;
  * The featured image may interpret the work while the definitive image is
  * its single true representation, so they are separate fields; most items
  * only need one, so the featured image falls back to the other. Each item
- * can turn the fallback off, for example someone who'd rather their portrait
- * isn't shown large, and the theme then shows a plain colour instead.
+ * can turn the fallback on or off; the theme shows a plain colour without
+ * an image. Profiles start with it off, so a portrait is never shown large
+ * unless someone chooses it; works, collections and articles start with it on.
  *
  * The fallback applies wherever the site reads a featured image, but not in
  * the REST API's `featured_media`, so the editor shows only an image that
@@ -32,9 +33,14 @@ defined( 'ABSPATH' ) || exit;
 final class Featured_Image {
 
 	/**
-	 * Post meta: the item has turned the fallback off.
+	 * Post meta: whether the item uses its own image when it has no featured image.
 	 */
-	const OFF = 'galerio_image_fallback_off';
+	const USE = 'galerio_image_fallback';
+
+	/**
+	 * Post types whose fallback starts off.
+	 */
+	const OFF_BY_DEFAULT = array( 'galerio_profile' );
 
 	/**
 	 * Hook into WordPress.
@@ -82,7 +88,7 @@ final class Featured_Image {
 		$post_type = get_post_type( $post_id );
 		$fallbacks = self::fallbacks();
 
-		if ( ! isset( $fallbacks[ $post_type ] ) || get_post_meta( $post_id, self::OFF, true ) ) {
+		if ( ! isset( $fallbacks[ $post_type ] ) || ! self::used( $post_id ) ) {
 			return 0;
 		}
 
@@ -101,6 +107,22 @@ final class Featured_Image {
 		$image = is_array( $value ) ? reset( $value ) : $value;
 
 		return $image ? (int) $image : 0;
+	}
+
+	/**
+	 * Whether an item uses the fallback: its own choice, or its type's default.
+	 *
+	 * @param int $post_id Item.
+	 * @return bool
+	 */
+	public static function used( $post_id ) {
+		$saved = get_metadata_raw( 'post', $post_id, self::USE, true );
+
+		if ( null === $saved ) {
+			return ! in_array( get_post_type( $post_id ), self::OFF_BY_DEFAULT, true );
+		}
+
+		return (bool) $saved;
 	}
 
 	/**
@@ -159,11 +181,11 @@ final class Featured_Image {
 
 			register_post_meta(
 				$post_type,
-				self::OFF,
+				self::USE,
 				array(
 					'type'          => 'boolean',
 					'single'        => true,
-					'default'       => false,
+					'default'       => ! in_array( $post_type, self::OFF_BY_DEFAULT, true ),
 					'show_in_rest'  => true,
 					'auth_callback' => function ( $allowed, $meta_key, $post_id ) {
 						return current_user_can( 'edit_post', $post_id );
@@ -202,7 +224,7 @@ final class Featured_Image {
 			'galerio-featured-image',
 			'window.galerioFeaturedImage = ' . wp_json_encode(
 				array(
-					'meta'     => self::OFF,
+					'meta'     => self::USE,
 					'field'    => Names::expand( $field->label ),
 					'multiple' => (bool) $field->multiple,
 				)

@@ -62,18 +62,22 @@ class Test_Featured_Image extends Galerio_TestCase {
 	}
 
 	/**
-	 * A profile uses its portrait, but only when it shows the portrait.
+	 * A profile uses its portrait only when someone turns that on, and only
+	 * while the profile shows its portrait.
 	 */
 	public function test_profile_portrait() {
 		$profile = self::factory()->post->create( array( 'post_type' => 'galerio_profile' ) );
 		$image   = $this->image();
 		galerio_fields()->save( galerio_fields()->get( 'profile.portrait' ), $profile, $image );
+		galerio_fields()->save( galerio_fields()->get( 'profile.show_portrait' ), $profile, true );
+
+		$this->assertFalse( has_post_thumbnail( $profile ), 'Off by default for profiles.' );
+
+		update_post_meta( $profile, Galerio\Core\Fields\Featured_Image::USE, true );
+		$this->assertSame( $image, get_post_thumbnail_id( $profile ) );
 
 		galerio_fields()->save( galerio_fields()->get( 'profile.show_portrait' ), $profile, false );
 		$this->assertFalse( has_post_thumbnail( $profile ), 'A hidden portrait isn’t shown as an image either.' );
-
-		galerio_fields()->save( galerio_fields()->get( 'profile.show_portrait' ), $profile, true );
-		$this->assertSame( $image, get_post_thumbnail_id( $profile ) );
 	}
 
 	/**
@@ -93,7 +97,7 @@ class Test_Featured_Image extends Galerio_TestCase {
 	public function test_turned_off() {
 		$work = self::factory()->post->create( array( 'post_type' => 'galerio_work' ) );
 		galerio_fields()->save( galerio_fields()->get( 'work.definitive_image' ), $work, $this->image() );
-		update_post_meta( $work, Galerio\Core\Fields\Featured_Image::OFF, true );
+		update_post_meta( $work, Galerio\Core\Fields\Featured_Image::USE, false );
 
 		$this->assertFalse( has_post_thumbnail( $work ) );
 	}
