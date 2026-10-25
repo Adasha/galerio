@@ -93,8 +93,8 @@ final class Site_Content {
 		$this->blocks();
 		$this->drafts();
 		$this->menu_archives();
-		$this->navigation();
 		$this->aliases();
+		$this->navigation();
 	}
 
 	/**
@@ -475,53 +475,93 @@ final class Site_Content {
 	/**
 	 * Turn the site's classic menu into a block menu (wp_navigation), the
 	 * newest one, so the theme's Navigation block, which names no menu, shows it.
+	 *
+	 * Done in a fresh process: this one registered the content types with the
+	 * old Pods settings, so archive links would get their old addresses.
 	 */
 	private function navigation() {
 		$menu_id = (int) $this->site['navigation'];
-		$menu    = $menu_id ? wp_get_nav_menu_object( $menu_id ) : null;
 
-		if ( ! $menu ) {
+		if ( ! $menu_id ) {
 			return;
 		}
 
-		$existing = get_posts(
+		if ( $this->dry ) {
+			$this->report->count( 'Navigation', self::converted_menu( $menu_id ) ? 'already done' : 'would convert' );
+			return;
+		}
+
+		$result  = \WP_CLI::runcommand(
+			'galerio migrate navigation ' . $menu_id,
 			array(
-				'post_type'   => 'wp_navigation',
-				'post_status' => 'publish',
-				'meta_key'    => '_galerio_from_menu', // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key -- One-off migration.
-				'meta_value'  => $menu_id, // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value -- One-off migration.
+				'launch'     => true,
+				'return'     => 'all',
+				'exit_error' => false,
 			)
 		);
+		$message = trim( $result->stdout );
 
-		if ( $existing ) {
-			$this->report->count( 'Navigation', 'already done' );
-			return;
+		$this->report->count( 'Navigation', 0 === $result->return_code ? ( false !== strpos( $message, 'already' ) ? 'already done' : 'converted' ) : 'failed' );
+		$this->report->note( 'Navigation', $message );
+	}
+
+	/**
+	 * Turn a classic menu into a block menu, once.
+	 *
+	 * @param int $menu_id Classic menu ID.
+	 * @return string What happened.
+	 */
+	public static function convert_menu( $menu_id ) {
+		$menu = wp_get_nav_menu_object( $menu_id );
+
+		if ( ! $menu ) {
+			return "There's no classic menu $menu_id.";
+		}
+
+		if ( self::converted_menu( $menu_id ) ) {
+			return sprintf( 'The menu "%s" is already the block menu.', $menu->name );
 		}
 
 		$blocks = \WP_Classic_To_Block_Menu_Converter::convert( $menu );
 
 		if ( is_wp_error( $blocks ) || '' === $blocks ) {
-			$this->report->note( 'Navigation', sprintf( 'The menu "%s" could not be converted.', $menu->name ) );
-			return;
+			return sprintf( 'The menu "%s" could not be converted.', $menu->name );
 		}
 
-		$this->report->count( 'Navigation', $this->dry ? 'would convert' : 'converted' );
-		$this->report->note( 'Navigation', sprintf( 'The classic menu "%s" (%d items) becomes the block menu the header shows.', $menu->name, $menu->count ) );
+		$id = wp_insert_post(
+			array(
+				'post_type'    => 'wp_navigation',
+				'post_status'  => 'publish',
+				'post_title'   => $menu->name,
+				'post_content' => $blocks,
+			)
+		);
 
-		if ( ! $this->dry ) {
-			$id = wp_insert_post(
-				array(
-					'post_type'    => 'wp_navigation',
-					'post_status'  => 'publish',
-					'post_title'   => $menu->name,
-					'post_content' => $blocks,
-				)
-			);
-
-			if ( $id && ! is_wp_error( $id ) ) {
-				update_post_meta( $id, '_galerio_from_menu', $menu_id );
-			}
+		if ( ! $id || is_wp_error( $id ) ) {
+			return sprintf( 'The menu "%s" could not be saved as a block menu.', $menu->name );
 		}
+
+		update_post_meta( $id, '_galerio_from_menu', $menu_id );
+
+		return sprintf( 'The classic menu "%s" (%d items) is now the block menu the header shows.', $menu->name, $menu->count );
+	}
+
+	/**
+	 * Whether a classic menu has been turned into a block menu already.
+	 *
+	 * @param int $menu_id Classic menu ID.
+	 * @return bool
+	 */
+	private static function converted_menu( $menu_id ) {
+		return (bool) get_posts(
+			array(
+				'post_type'   => 'wp_navigation',
+				'post_status' => 'publish',
+				'fields'      => 'ids',
+				'meta_key'    => '_galerio_from_menu', // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key -- One-off migration.
+				'meta_value'  => $menu_id, // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value -- One-off migration.
+			)
+		);
 	}
 
 	/**
