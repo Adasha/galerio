@@ -7,12 +7,21 @@
 	"category": "media",
 	"icon": "slides",
 	"description": "Shows items one after another as slides, such as the latest exhibitions with their images, or the results of a Query Loop.",
-	"keywords": [ "carousel", "slider", "slideshow", "galerio", "query" ],
+	"keywords": [
+		"carousel",
+		"slider",
+		"slideshow",
+		"galerio",
+		"query"
+	],
 	"textdomain": "galerio-blocks",
 	"attributes": {
 		"source": {
 			"type": "string",
-			"enum": [ "query", "loop" ],
+			"enum": [
+				"query",
+				"loop"
+			],
 			"default": "query"
 		},
 		"postType": {
@@ -29,7 +38,10 @@
 		},
 		"order": {
 			"type": "string",
-			"enum": [ "asc", "desc" ],
+			"enum": [
+				"asc",
+				"desc"
+			],
 			"default": "desc"
 		},
 		"taxonomy": {
@@ -38,13 +50,21 @@
 		},
 		"terms": {
 			"type": "array",
-			"items": { "type": "number" },
+			"items": {
+				"type": "number"
+			},
 			"default": []
 		},
 		"postIds": {
 			"type": "array",
-			"items": { "type": "number" },
+			"items": {
+				"type": "number"
+			},
 			"default": []
+		},
+		"slidePart": {
+			"type": "string",
+			"default": ""
 		},
 		"imageSize": {
 			"type": "string",
@@ -52,7 +72,10 @@
 		},
 		"imageFit": {
 			"type": "string",
-			"enum": [ "cover", "contain" ],
+			"enum": [
+				"cover",
+				"contain"
+			],
 			"default": "cover"
 		},
 		"height": {
@@ -109,7 +132,10 @@
 		},
 		"arrowsPosition": {
 			"type": "string",
-			"enum": [ "sides", "caption" ],
+			"enum": [
+				"sides",
+				"caption"
+			],
 			"default": "sides"
 		},
 		"showDots": {
@@ -124,7 +150,10 @@
 	"supports": {
 		"html": false,
 		"anchor": true,
-		"align": [ "wide", "full" ],
+		"align": [
+			"wide",
+			"full"
+		],
 		"color": {
 			"background": true,
 			"text": true,

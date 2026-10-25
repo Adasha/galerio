@@ -673,6 +673,11 @@
             "name": "footer",
             "title": "Footer",
             "area": "footer"
+        },
+        {
+            "name": "collection-card",
+            "title": "Collection card",
+            "area": "uncategorized"
         }
     ],
     "customTemplates": [

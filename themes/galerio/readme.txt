@@ -17,6 +17,7 @@ Galerio presents creators, works, collections and articles: a page for each, lis
 * Two layouts: a side menu (the standard) or a top header.
 * Style variations: Gallery White and Dark Room colours, and Editorial typography.
 * Each page's content is a pattern, so a child theme can change one page without copying its template. See the Galerio Child Starter theme.
+* A Collection card template part draws each collection on the collections page, and can draw the slides of a Galerio Carousel too, so one edit in the Site Editor changes both. Its height is set where it's used: `--galerio-collection-card-height` for a list, the carousel's own Height for slides.
 * Translatable, and the wording follows the names a site gives its content types (e.g. Exhibitions for collections) under Settings → Galerio content types.
 
 == Changelog ==

@@ -85,6 +85,22 @@ $veil: color-mix(in srgb, #{$base} 67%, transparent);
 	overflow: hidden;
 }
 
+/* A slide drawn from a template part, such as the Collection card: the part
+   fills the slide, and a card inside it takes the carousel's height. */
+#{$block}.has-slide-part #{$block}__slide {
+	--galerio-collection-card-height: 100%;
+	display: block;
+	padding: 0;
+	background: none;
+}
+
+#{$block}__slide.is-part > .wp-block-template-part,
+#{$block}__slide.is-part > .wp-block-template-part > .wp-block-cover {
+	box-sizing: border-box;
+	height: 100%;
+	margin: 0;
+}
+
 #{$block}__image {
 	position: absolute;
 	inset: 0;

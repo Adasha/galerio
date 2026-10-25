@@ -87,6 +87,31 @@ test.describe( 'Carousel block', () => {
 		await expect( dots.first() ).toHaveAttribute( 'aria-current', 'true' );
 	} );
 
+	test( 'draws slides with the Collection card part, at its height', async ( {
+		page,
+		requestUtils,
+	} ) => {
+		await page.goto(
+			await publish( requestUtils, {
+				slidePart: 'collection-card',
+				height: '400px',
+				label: 'Collection cards',
+			} )
+		);
+
+		const carousel = page.getByRole( 'region', {
+			name: 'Collection cards',
+		} );
+		const card = carousel
+			.locator( '.galerio-collection-card' )
+			.filter( { hasText: 'Shorelines' } );
+		await expect( card ).toBeVisible();
+		await expect(
+			card.getByRole( 'link', { name: /View collection/ } )
+		).toHaveAttribute( 'href', /\/collection\/shorelines\/$/ );
+		expect( ( await card.boundingBox() ).height ).toBeCloseTo( 400, 0 );
+	} );
+
 	test( 'autoplay can be paused, and starts paused for reduced motion', async ( {
 		page,
 		requestUtils,

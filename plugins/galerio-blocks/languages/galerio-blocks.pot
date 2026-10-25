@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-10-24T21:23:59+00:00\n"
+"POT-Creation-Date: 2026-10-25T12:00:43+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: galerio-blocks\n"
@@ -53,50 +53,50 @@ msgstr ""
 msgid "No items to show yet. Choose another content type or other terms."
 msgstr ""
 
-#: includes/class-carousel-block.php:136
+#: includes/class-carousel-block.php:137
 msgid "carousel"
 msgstr ""
 
-#: includes/class-carousel-block.php:137
+#: includes/class-carousel-block.php:138
 msgid "Carousel"
 msgstr ""
 
-#: includes/class-carousel-block.php:146
-#: includes/class-carousel-block.php:368
+#: includes/class-carousel-block.php:147
+#: includes/class-carousel-block.php:425
 msgid "Pause the carousel"
 msgstr ""
 
-#: includes/class-carousel-block.php:155
+#: includes/class-carousel-block.php:156
 msgid "Choose a slide"
 msgstr ""
 
-#: includes/class-carousel-block.php:299
+#: includes/class-carousel-block.php:355
 msgid "Previous slide"
 msgstr ""
 
-#: includes/class-carousel-block.php:301
+#: includes/class-carousel-block.php:357
 msgid "Next slide"
 msgstr ""
 
-#: includes/class-carousel-block.php:363
+#: includes/class-carousel-block.php:420
 msgid "slide"
 msgstr ""
 
 #. translators: %d: slide number.
-#: includes/class-carousel-block.php:365
+#: includes/class-carousel-block.php:422
 #, php-format
 msgid "Go to slide %d"
 msgstr ""
 
 #. translators: 1: slide number, 2: number of slides.
 #. translators: 1: image number, 2: number of images.
-#: includes/class-carousel-block.php:367
+#: includes/class-carousel-block.php:424
 #: includes/class-gallery-block.php:206
 #, php-format
 msgid "%1$d of %2$d"
 msgstr ""
 
-#: includes/class-carousel-block.php:369
+#: includes/class-carousel-block.php:426
 msgid "Play the carousel"
 msgstr ""
 
@@ -376,6 +376,18 @@ msgstr ""
 
 #: build/carousel/index.js:1
 msgid "For example 70vh (70% of the window’s height), 500px or 30rem."
+msgstr ""
+
+#: build/carousel/index.js:1
+msgid "Slide design"
+msgstr ""
+
+#: build/carousel/index.js:1
+msgid "A template part draws each slide; edit the part in the Site Editor and every place using it changes."
+msgstr ""
+
+#: build/carousel/index.js:1
+msgid "Built-in: image and caption"
 msgstr ""
 
 #: build/carousel/index.js:1

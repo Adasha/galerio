@@ -18,7 +18,7 @@ Galerio Blocks adds blocks for presenting creative work. It goes with the Galeri
 
 Shows items one after another as slides. Slides can come from:
 
-* **Items with their images:** the latest items of a content type, optionally only those in chosen terms, or items picked by hand in your own order. Each slide shows the item's featured image, with its title, an optional excerpt and an optional button over it. The caption can sit in any corner, the side or the middle.
+* **Items with their images:** the latest items of a content type, optionally only those in chosen terms, or items picked by hand in your own order. Each slide shows the item's featured image, with its title, an optional excerpt and an optional button over it. The caption can sit in any corner, the side or the middle. Or choose a template part as the slide design, such as the Galerio theme's Collection card, and each slide is drawn by that part for its item; edit the part in the Site Editor and every carousel and list using it changes.
 * **A Query Loop:** each item of the Query Loop inside becomes a slide, laid out by the loop's own template. Several slides can be in view at once.
 
 Slides move by sliding or fading, with arrows, dots and keyboard arrow keys. Autoplay pauses while the pointer or keyboard focus is on the carousel, and visitors get a pause button; it starts paused for visitors who prefer reduced motion. Slides out of view can't be tabbed into. Without JavaScript the slides scroll sideways instead.

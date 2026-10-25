@@ -292,9 +292,34 @@ function QuerySettings( { attributes, setAttributes } ) {
 	);
 }
 
+/**
+ * Template parts a slide can be drawn from: any but headers and footers.
+ *
+ * @return {Object[]} Options with `label` and `value`.
+ */
+function useSlideParts() {
+	const parts = useSelect(
+		( select ) =>
+			select( coreStore ).getEntityRecords(
+				'postType',
+				'wp_template_part',
+				{ per_page: -1 }
+			) || EMPTY,
+		[]
+	);
+
+	return parts
+		.filter( ( part ) => ! [ 'header', 'footer' ].includes( part.area ) )
+		.map( ( part ) => ( {
+			label: part.title?.rendered || part.slug,
+			value: part.slug,
+		} ) );
+}
+
 export default function Edit( { attributes, setAttributes, clientId } ) {
 	const {
 		source,
+		slidePart,
 		imageFit,
 		height,
 		contentPosition,
@@ -314,6 +339,8 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 		label,
 	} = attributes;
 	const fromLoop = source === 'loop';
+	const slideParts = useSlideParts();
+	const fromPart = ! fromLoop && !! slidePart;
 	const { replaceInnerBlocks } = useDispatch( 'core/block-editor' );
 	const blockProps = useBlockProps();
 
@@ -382,93 +409,134 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 						<SelectControl
 							__next40pxDefaultSize
 							__nextHasNoMarginBottom
-							label={ __( 'Caption position', 'galerio-blocks' ) }
-							value={ contentPosition }
-							options={ POSITIONS }
-							onChange={ ( value ) =>
-								setAttributes( { contentPosition: value } )
-							}
-						/>
-						<SelectControl
-							__next40pxDefaultSize
-							__nextHasNoMarginBottom
-							label={ __( 'Image', 'galerio-blocks' ) }
-							value={ imageFit }
+							label={ __( 'Slide design', 'galerio-blocks' ) }
+							help={ __(
+								'A template part draws each slide; edit the part in the Site Editor and every place using it changes.',
+								'galerio-blocks'
+							) }
+							value={ slidePart }
 							options={ [
 								{
 									label: __(
-										'Fill the slide (may crop)',
+										'Built-in: image and caption',
 										'galerio-blocks'
 									),
-									value: 'cover',
+									value: '',
 								},
-								{
-									label: __(
-										'Show it whole',
-										'galerio-blocks'
-									),
-									value: 'contain',
-								},
+								...slideParts,
 							] }
 							onChange={ ( value ) =>
-								setAttributes( { imageFit: value } )
+								setAttributes( { slidePart: value } )
 							}
 						/>
-						<ToggleControl
-							__nextHasNoMarginBottom
-							label={ __( 'Show the title', 'galerio-blocks' ) }
-							checked={ showTitle }
-							onChange={ ( value ) =>
-								setAttributes( { showTitle: value } )
-							}
-						/>
-						{ showTitle && (
-							<SelectControl
-								__next40pxDefaultSize
-								__nextHasNoMarginBottom
-								label={ __(
-									'Title heading level',
-									'galerio-blocks'
+						{ ! fromPart && (
+							<>
+								<SelectControl
+									__next40pxDefaultSize
+									__nextHasNoMarginBottom
+									label={ __(
+										'Caption position',
+										'galerio-blocks'
+									) }
+									value={ contentPosition }
+									options={ POSITIONS }
+									onChange={ ( value ) =>
+										setAttributes( {
+											contentPosition: value,
+										} )
+									}
+								/>
+								<SelectControl
+									__next40pxDefaultSize
+									__nextHasNoMarginBottom
+									label={ __( 'Image', 'galerio-blocks' ) }
+									value={ imageFit }
+									options={ [
+										{
+											label: __(
+												'Fill the slide (may crop)',
+												'galerio-blocks'
+											),
+											value: 'cover',
+										},
+										{
+											label: __(
+												'Show it whole',
+												'galerio-blocks'
+											),
+											value: 'contain',
+										},
+									] }
+									onChange={ ( value ) =>
+										setAttributes( { imageFit: value } )
+									}
+								/>
+								<ToggleControl
+									__nextHasNoMarginBottom
+									label={ __(
+										'Show the title',
+										'galerio-blocks'
+									) }
+									checked={ showTitle }
+									onChange={ ( value ) =>
+										setAttributes( { showTitle: value } )
+									}
+								/>
+								{ showTitle && (
+									<SelectControl
+										__next40pxDefaultSize
+										__nextHasNoMarginBottom
+										label={ __(
+											'Title heading level',
+											'galerio-blocks'
+										) }
+										value={ String( titleLevel ) }
+										options={ [ 1, 2, 3, 4, 5, 6 ].map(
+											( level ) => ( {
+												label: `H${ level }`,
+												value: String( level ),
+											} )
+										) }
+										onChange={ ( value ) =>
+											setAttributes( {
+												titleLevel: Number( value ),
+											} )
+										}
+									/>
 								) }
-								value={ String( titleLevel ) }
-								options={ [ 1, 2, 3, 4, 5, 6 ].map(
-									( level ) => ( {
-										label: `H${ level }`,
-										value: String( level ),
-									} )
-								) }
-								onChange={ ( value ) =>
-									setAttributes( {
-										titleLevel: Number( value ),
-									} )
-								}
-							/>
+								<ToggleControl
+									__nextHasNoMarginBottom
+									label={ __(
+										'Show the excerpt',
+										'galerio-blocks'
+									) }
+									help={ __(
+										'Shown for items with a written excerpt.',
+										'galerio-blocks'
+									) }
+									checked={ showExcerpt }
+									onChange={ ( value ) =>
+										setAttributes( { showExcerpt: value } )
+									}
+								/>
+								<TextControl
+									__next40pxDefaultSize
+									__nextHasNoMarginBottom
+									label={ __(
+										'Button text',
+										'galerio-blocks'
+									) }
+									help={ __(
+										'Leave empty for no button; the title links to the item instead.',
+										'galerio-blocks'
+									) }
+									value={ buttonText }
+									onChange={ ( value ) =>
+										setAttributes( { buttonText: value } )
+									}
+								/>
+							</>
 						) }
-						<ToggleControl
-							__nextHasNoMarginBottom
-							label={ __( 'Show the excerpt', 'galerio-blocks' ) }
-							help={ __(
-								'Shown for items with a written excerpt.',
-								'galerio-blocks'
-							) }
-							checked={ showExcerpt }
-							onChange={ ( value ) =>
-								setAttributes( { showExcerpt: value } )
-							}
-						/>
-						<TextControl
-							__next40pxDefaultSize
-							__nextHasNoMarginBottom
-							label={ __( 'Button text', 'galerio-blocks' ) }
-							help={ __(
-								'Leave empty for no button; the title links to the item instead.',
-								'galerio-blocks'
-							) }
-							value={ buttonText }
-							onChange={ ( value ) =>
-								setAttributes( { buttonText: value } )
-							}
-						/>
 					</PanelBody>
 				) }
 				<PanelBody title={ __( 'Motion', 'galerio-blocks' ) }>

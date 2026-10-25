@@ -15,7 +15,7 @@
 <!-- wp:query {"queryId":31,"query":{"perPage":10,"pages":0,"offset":0,"postType":"post","order":"desc","orderBy":"date","author":"","search":"","exclude":[],"sticky":"","inherit":true},"metadata":{"categories":["posts"],"patternName":"core/fullwidth-posts-with-uppercase-titles","name":"Fullwidth posts with uppercase titles"},"align":"full","layout":{"type":"default"}} -->
 <div class="wp-block-query alignfull"><!-- wp:group {"align":"full","style":{"spacing":{"padding":{"top":"0","right":"0","bottom":"0","left":"0"}}},"layout":{"type":"default"}} -->
 <div class="wp-block-group alignfull" style="padding-top:0;padding-right:0;padding-bottom:0;padding-left:0"><!-- wp:post-template {"style":{"spacing":{"blockGap":"var:preset|spacing|40"},"typography":{"textTransform":"none"}}} -->
-<!-- wp:pattern {"slug":"galerio/collection-card"} /-->
+<!-- wp:template-part {"slug":"collection-card","tagName":"div"} /-->
 <!-- /wp:post-template --></div>
 <!-- /wp:group -->
 
