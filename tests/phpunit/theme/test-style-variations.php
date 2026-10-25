@@ -39,13 +39,16 @@ class Test_Style_Variations extends WP_UnitTestCase {
 	);
 
 	/**
-	 * Theme.json files with a palette: the theme's colour variations and the child starter.
+	 * Theme.json files with a palette: the theme's own, its colour variations and the child starter.
 	 *
 	 * @return array[]
 	 */
 	public function palette_files() {
 		$themes = dirname( __DIR__, 3 ) . '/themes';
-		$files  = array( 'galerio-child-starter' => array( $themes . '/galerio-child-starter/theme.json' ) );
+		$files  = array(
+			'galerio'               => array( $themes . '/galerio/theme.json' ),
+			'galerio-child-starter' => array( $themes . '/galerio-child-starter/theme.json' ),
+		);
 
 		foreach ( glob( $themes . '/galerio/styles/*.json' ) as $file ) {
 			$data = json_decode( file_get_contents( $file ), true ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents -- Local file.
