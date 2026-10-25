@@ -21,8 +21,8 @@
 <?php endif; ?></div>
 <!-- /wp:column -->
 
-<!-- wp:column {"width":"25%"} -->
-<div class="wp-block-column" style="flex-basis:25%"><!-- wp:post-title {"style":{"spacing":{"margin":{"bottom":"0"}}}} /-->
+<!-- wp:column {"width":"25%","className":"is-style-stays-in-view"} -->
+<div class="wp-block-column is-style-stays-in-view" style="flex-basis:25%"><!-- wp:post-title {"style":{"spacing":{"margin":{"bottom":"0"}}}} /-->
 
 <!-- wp:post-terms {"term":"galerio_collection_category","className":"is-style-default","style":{"spacing":{"margin":{"top":"0"}}}} /-->
 

@@ -8,7 +8,9 @@
 add_action( 'after_setup_theme', 'galerio_load_textdomain' );
 add_action( 'init', 'galerio_register_pattern_category' );
 add_action( 'init', 'galerio_register_block_styles' );
+add_action( 'init', 'galerio_register_scripts' );
 add_filter( 'render_block_core/cover', 'galerio_mark_imageless_cover', 10, 3 );
+add_filter( 'render_block_core/column', 'galerio_stays_in_view_script', 10, 2 );
 add_filter( 'render_block_galerio/gallery', 'galerio_skip_template_gallery', 10, 3 );
 add_filter( 'default_wp_template_part_areas', 'galerio_template_part_areas' );
 add_filter( 'render_block_data', 'galerio_card_for_item' );
@@ -67,6 +69,12 @@ function galerio_register_block_styles() {
 				'label' => __( 'Main Menu', 'galerio' ),
 			),
 		),
+		'core/column'           => array(
+			array(
+				'name'  => 'stays-in-view',
+				'label' => __( 'Stays in view', 'galerio' ),
+			),
+		),
 		'core/group'            => array(
 			array(
 				'name'  => 'asides',
@@ -84,6 +92,37 @@ function galerio_register_block_styles() {
 			register_block_style( $block, $style_props );
 		}
 	}
+}
+
+/**
+ * Register the theme's scripts, loaded only by the blocks that need them.
+ */
+function galerio_register_scripts() {
+	wp_register_script(
+		'galerio-stays-in-view',
+		get_template_directory_uri() . '/assets/js/stays-in-view.js',
+		array(),
+		wp_get_theme( 'galerio' )->get( 'Version' ),
+		array(
+			'in_footer' => true,
+			'strategy'  => 'defer',
+		)
+	);
+}
+
+/**
+ * Load the "Stays in view" column script on pages with such a column.
+ *
+ * @param string $content Rendered column.
+ * @param array  $block   Parsed block.
+ * @return string
+ */
+function galerio_stays_in_view_script( $content, $block ) {
+	if ( isset( $block['attrs']['className'] ) && false !== strpos( $block['attrs']['className'], 'is-style-stays-in-view' ) ) {
+		wp_enqueue_script( 'galerio-stays-in-view' );
+	}
+
+	return $content;
 }
 
 if ( ! function_exists( 'galerio_theme_text' ) ) {
