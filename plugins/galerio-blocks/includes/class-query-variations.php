@@ -65,10 +65,32 @@ final class Query_Variations {
 						/* translators: %s: the site's name for collections, in lower case, e.g. "exhibitions". */
 						'exhibitions' => sprintf( __( 'Galerio current and upcoming %s', 'galerio-blocks' ), galerio_expand_names( '{collections}' ) ),
 					),
+					'cards' => self::cards(),
 				)
 			) . ';',
 			'before'
 		);
+	}
+
+	/**
+	 * The theme's card template parts for the variations' types, such as
+	 * card-work in the Galerio theme, so a new Query Loop shows its items
+	 * the same way as their archive does.
+	 *
+	 * @return array Post type => part slug, for the types that have one.
+	 */
+	public static function cards() {
+		$cards = array();
+
+		foreach ( array( 'galerio_work', 'galerio_profile', 'galerio_collection' ) as $post_type ) {
+			$slug = 'card-' . substr( $post_type, strlen( 'galerio_' ) );
+
+			if ( get_block_template( get_stylesheet() . '//' . $slug, 'wp_template_part' ) ) {
+				$cards[ $post_type ] = $slug;
+			}
+		}
+
+		return $cards;
 	}
 
 	/**

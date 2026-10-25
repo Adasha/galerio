@@ -51,26 +51,38 @@
 	}
 
 	/**
-	 * A grid of cards: image and title, then the blocks given.
+	 * A grid of cards: the theme's card for the type when it has one (such
+	 * as the Galerio theme's card-work), or else image and title, then the
+	 * blocks given.
 	 *
-	 * @param {Array[]} extra Inner blocks under the title.
+	 * @param {string}  postType Post type.
+	 * @param {Array[]} extra    Inner blocks under the title.
 	 * @return {Array[]} Inner blocks of the Query Loop.
 	 */
-	function cards( extra ) {
+	function cards( postType, extra ) {
+		const card = ( data.cards || {} )[ postType ];
+
 		return [
 			[
 				'core/post-template',
 				{ layout: { type: 'grid', columnCount: 3 } },
-				[
-					[
-						'core/post-featured-image',
-						{ isLink: true, aspectRatio: '4/3' },
-					],
-					[
-						'core/post-title',
-						{ isLink: true, level: 3, fontSize: 'medium' },
-					],
-				].concat( extra ),
+				card
+					? [
+							[
+								'core/template-part',
+								{ slug: card, tagName: 'div' },
+							],
+						]
+					: [
+							[
+								'core/post-featured-image',
+								{ isLink: true, aspectRatio: '4/3' },
+							],
+							[
+								'core/post-title',
+								{ isLink: true, level: 3, fontSize: 'medium' },
+							],
+						].concat( extra ),
 			],
 			[
 				'core/query-no-results',
@@ -173,7 +185,7 @@
 				namespace: variation.name,
 				query: variation.query,
 			},
-			innerBlocks: cards( variation.extra ),
+			innerBlocks: cards( variation.query.postType, variation.extra ),
 			isActive: [ 'namespace' ],
 			allowedControls: variation.controls || [
 				'order',

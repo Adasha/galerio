@@ -16,9 +16,7 @@
 
 <!-- wp:query {"queryId":50,"query":{"perPage":12,"pages":0,"offset":0,"postType":"post","order":"desc","orderBy":"date","author":"","search":"","exclude":[],"sticky":"","inherit":true},"metadata":{"name":"Term items"}} -->
 <div class="wp-block-query"><!-- wp:post-template {"layout":{"type":"grid","columnCount":null,"minimumColumnWidth":"14rem"}} -->
-<!-- wp:post-featured-image {"isLink":true,"aspectRatio":"1","style":{"spacing":{"margin":{"top":"var:preset|spacing|30","bottom":"var:preset|spacing|30"}}}} /-->
-
-<!-- wp:post-title {"isLink":true,"fontSize":"medium"} /-->
+<!-- wp:template-part {"slug":"card","tagName":"div"} /-->
 <!-- /wp:post-template -->
 
 <!-- wp:query-pagination {"layout":{"type":"flex","flexWrap":"nowrap","justifyContent":"left"}} -->

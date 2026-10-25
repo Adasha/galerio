@@ -93,7 +93,7 @@ test.describe( 'Carousel block', () => {
 	} ) => {
 		await page.goto(
 			await publish( requestUtils, {
-				slidePart: 'collection-card',
+				slidePart: 'card-collection',
 				height: '400px',
 				label: 'Collection cards',
 			} )
