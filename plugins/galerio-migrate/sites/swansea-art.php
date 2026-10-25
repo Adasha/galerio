@@ -159,6 +159,20 @@ return array(
 		'template-frontpage.php'                  => '',
 	),
 
+	/*
+	 * Templates by content type, ahead of the list above: type => old template
+	 * ('' for the default) => Galerio's. Eclecticon showed an exhibition on
+	 * the default or Fullwidth template as its content alone (the page is
+	 * designed in the editor, as Multocular and the summer shows are), which
+	 * is Galerio's Blank template.
+	 */
+	'type_templates'  => array(
+		'galerio_collection' => array(
+			''                       => 'wp-custom-template-blank',
+			'template-fullwidth.php' => 'wp-custom-template-blank',
+		),
+	),
+
 	// Items on these old templates get the "Site presents…" line at the top of their content.
 	'presents'        => array( 'template-guest_collection.php' ),
 

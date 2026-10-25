@@ -70,6 +70,7 @@ final class Site_Content {
 		$this->site   = $site + array(
 			'post_types'     => array(),
 			'page_templates' => array(),
+			'type_templates' => array(),
 			'presents'       => array(),
 			'page_css'       => '',
 			'drafts'         => array(),
@@ -102,6 +103,8 @@ final class Site_Content {
 		global $wpdb;
 
 		$step = 'Page templates';
+
+		$this->type_templates();
 
 		if ( ! $this->site['page_templates'] ) {
 			return;
@@ -136,6 +139,40 @@ final class Site_Content {
 
 		if ( ! $rows ) {
 			$this->report->count( $step, 'already done' );
+		}
+	}
+
+	/**
+	 * Swap old templates for Galerio's by content type, where a type's old
+	 * template meant something else than the same template elsewhere: post
+	 * type => old template ('' for none or "default") => Galerio's.
+	 */
+	private function type_templates() {
+		global $wpdb;
+
+		foreach ( $this->site['type_templates'] as $type => $map ) {
+			$types = array_merge( array( $type ), $this->dry ? array_keys( $this->site['post_types'], $type, true ) : array() );
+			$in    = implode( ', ', array_fill( 0, count( $types ), '%s' ) );
+
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare -- One-off migration; $in is placeholders.
+			$rows = $wpdb->get_results( $wpdb->prepare( "SELECT p.ID, COALESCE(m.meta_value, '') AS template FROM {$wpdb->posts} p LEFT JOIN {$wpdb->postmeta} m ON m.post_id = p.ID AND m.meta_key = '_wp_page_template' WHERE p.post_type IN ($in) AND p.post_status NOT IN ('auto-draft', 'trash')", $types ) );
+
+			foreach ( $rows as $row ) {
+				$old = 'default' === $row->template ? '' : $row->template;
+
+				if ( ! isset( $map[ $old ] ) || $map[ $old ] === $old ) {
+					continue;
+				}
+
+				$id = (int) $row->ID;
+
+				$this->report->count( 'Page templates', $this->dry ? 'would change' : 'changed' );
+				$this->report->note( 'Page templates', sprintf( '%s (#%d): %s → %s.', get_the_title( $id ), $id, '' !== $old ? $old : 'default', $map[ $old ] ) );
+
+				if ( ! $this->dry ) {
+					update_post_meta( $id, '_wp_page_template', $map[ $old ] );
+				}
+			}
 		}
 	}
 
