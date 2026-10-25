@@ -162,7 +162,7 @@ final class Relationships {
 
 				if ( ! $this->dry ) {
 					$theirs[] = $item;
-					$this->save_list( $sister, $related, $theirs );
+					self::save_list( $sister, $related, $theirs );
 				}
 			}
 		}
@@ -308,11 +308,11 @@ final class Relationships {
 	 * Store an item's list for a field in meta, the way Pods does: one row per
 	 * item plus its ordered list. Written directly, so Pods doesn't sync it.
 	 *
-	 * @param array $field Field.
+	 * @param array $field Field: its `name`, and its pod `type` ("user" for user meta).
 	 * @param int   $item  Item ID.
-	 * @param int[] $ids  IDs.
+	 * @param int[] $ids   IDs.
 	 */
-	private function save_list( array $field, $item, array $ids ) {
+	public static function save_list( array $field, $item, array $ids ) {
 		global $wpdb;
 
 		$table = 'user' === $field['type'] ? $wpdb->usermeta : $wpdb->postmeta;

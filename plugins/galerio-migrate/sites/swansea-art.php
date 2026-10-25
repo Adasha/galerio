@@ -84,6 +84,10 @@ return array(
 		'galerio_settings.restrict_media',
 	),
 
+	// Works' creators where the old lists disagreed: work => profile. Storeroom
+	// Installation is Stella Hubbard-Smith's alone.
+	'creators'        => array( 2708 => 4917 ),
+
 	/*
 	 * Galerio settings to set: field => value. swansea.art suppressed
 	 * featured images, which Galerio asks the other way round.

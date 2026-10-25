@@ -84,6 +84,7 @@ final class Content_Model {
 			'profile_links'   => array(),
 			'retire'          => array(),
 			'settings'        => array(),
+			'creators'        => array(),
 			'rename'          => array(),
 			'labels'          => array(),
 			'medium_tree'     => array(),
@@ -110,6 +111,7 @@ final class Content_Model {
 		$this->check_managed_media();
 		$this->rebuild_membership();
 		$this->copy_user_fields();
+		$this->set_creators();
 		$this->move_terms();
 		$this->apply_settings();
 		$this->clean_up();
@@ -163,6 +165,62 @@ final class Content_Model {
 				}
 			}
 			// phpcs:enable
+		}
+	}
+
+	/**
+	 * Give works the creator the site's decisions name, and list each such work
+	 * only on that creator's profile. Written directly, so Pods' syncing doesn't
+	 * reshuffle other lists; the relationship table is rebuilt afterwards.
+	 */
+	private function set_creators() {
+		$step = 'Creators';
+
+		foreach ( $this->site['creators'] as $work => $creator ) {
+			$current = (int) self::first( self::raw( $work, 'creator' ) );
+
+			if ( $current !== (int) $creator ) {
+				$this->count( $step, $this->dry ? 'would set' : 'set' );
+				$this->note( $step, sprintf( '%s (#%d) is by %s (#%d).', get_the_title( $work ), $work, get_the_title( $creator ), $creator ) );
+
+				if ( ! $this->dry ) {
+					Relationships::save_list(
+						array(
+							'name' => 'creator',
+							'type' => 'post_type',
+						),
+						$work,
+						array( $creator )
+					);
+				}
+			}
+
+			foreach ( $this->items( 'galerio_profile' ) as $profile ) {
+				$works = array_map( 'intval', self::raw( $profile, 'works' ) );
+				$has   = in_array( (int) $work, $works, true );
+
+				if ( (int) $profile === (int) $creator && ! $has ) {
+					$works[] = (int) $work;
+				} elseif ( (int) $profile !== (int) $creator && $has ) {
+					$works = array_values( array_diff( $works, array( (int) $work ) ) );
+					$this->note( $step, sprintf( '%s (#%d) taken off %s (#%d).', get_the_title( $work ), $work, get_the_title( $profile ), $profile ) );
+				} else {
+					continue;
+				}
+
+				$this->count( $step, $this->dry ? 'would change profile works' : 'changed profile works' );
+
+				if ( ! $this->dry ) {
+					Relationships::save_list(
+						array(
+							'name' => 'works',
+							'type' => 'post_type',
+						),
+						$profile,
+						$works
+					);
+				}
+			}
 		}
 	}
 
