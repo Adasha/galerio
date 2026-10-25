@@ -190,6 +190,21 @@ return array(
 		5553 => array( '.wp-block-group.exhibitor-container > *' => '.wp-block-group.exhibitor-container' ),
 	),
 
+	// CSS added to the end of an item's Page style: item => CSS.
+	'css_append'      => array(
+		5553 => '/* Eclecticon\'s tighter spacing in the exhibitor list: Galerio puts 24px between blocks. */
+.wp-block-group:has(> .exhibitor-container),
+.wp-block-group.exhibit-text
+{
+  gap: 0.5em;
+}
+
+.wp-block-group.exhibitor-container > *
+{
+  margin-block-start: 0;
+}',
+	),
+
 	/*
 	 * Pages to set to draft: All Profiles (Galerio's profiles archive takes its
 	 * address, /profiles/) and Collections (Eclecticon's empty project listing).

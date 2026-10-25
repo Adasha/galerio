@@ -74,6 +74,7 @@ final class Site_Content {
 			'presents'       => array(),
 			'page_css'       => '',
 			'css_replace'    => array(),
+			'css_append'     => array(),
 			'drafts'         => array(),
 			'menu_archives'  => array(),
 			'navigation'     => 0,
@@ -219,6 +220,10 @@ final class Site_Content {
 
 			if ( isset( $this->site['css_replace'][ $id ] ) ) {
 				$css = strtr( $css, $this->site['css_replace'][ $id ] );
+			}
+
+			if ( isset( $this->site['css_append'][ $id ] ) ) {
+				$css .= "\n\n" . trim( $this->site['css_append'][ $id ] );
 			}
 
 			$style = get_post_meta( $id, 'galerio_page_style', true );
