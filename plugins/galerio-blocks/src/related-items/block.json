@@ -6,7 +6,7 @@
 	"title": "Galerio Related Items",
 	"category": "theme",
 	"icon": "screenoptions",
-	"description": "Shows the items related to the current one as cards, such as a creator's works, a collection's exhibitors or a work's collections. Hidden, heading and all, when there are none.",
+	"description": "Retired: use a Query Loop's Related items setting instead, or transform this block into one. Shows the items related to the current one as cards.",
 	"keywords": [ "related", "works", "profiles", "collections", "galerio" ],
 	"textdomain": "galerio-blocks",
 	"usesContext": [ "postId", "postType" ],
@@ -55,6 +55,7 @@
 		}
 	},
 	"supports": {
+		"inserter": false,
 		"html": false,
 		"anchor": true,
 		"align": [ "wide", "full" ],

@@ -117,6 +117,66 @@ if ( ! function_exists( 'galerio_theme_has_block' ) ) {
 	}
 }
 
+if ( ! function_exists( 'galerio_theme_has_related' ) ) {
+	/**
+	 * Whether Query Loops can show related items: Galerio Blocks' Related
+	 * items setting, with Galerio Core's fields.
+	 *
+	 * @return bool
+	 */
+	function galerio_theme_has_related() {
+		return class_exists( '\\Galerio\\Blocks\\Related_Query' ) && function_exists( 'galerio_fields' );
+	}
+}
+
+if ( ! function_exists( 'galerio_related_query' ) ) {
+	/**
+	 * Echo a Query Loop of the current item's related items for a pattern:
+	 * a heading, then the related type's card (card-work, card-article…).
+	 * The whole loop is hidden when nothing is related.
+	 *
+	 * @param string $key     Relationship field key, e.g. "profile.works".
+	 * @param string $heading Heading, already translated; empty for the field's name.
+	 * @param int    $columns Columns in the grid; 1 for a list.
+	 */
+	function galerio_related_query( $key, $heading = '', $columns = 3 ) {
+		static $query_id = 100;
+
+		$field = galerio_fields()->get( $key );
+		if ( ! $field || ! isset( \Galerio\Core\Fields\Registry::OBJECTS[ $field->target ] ) ) {
+			return;
+		}
+
+		$heading = '' !== $heading ? $heading : galerio_theme_text( $field->label );
+		$layout  = $columns > 1 ? array(
+			'type'        => 'grid',
+			'columnCount' => (int) $columns,
+		) : array( 'type' => 'default' );
+		$attrs   = array(
+			'queryId'  => ++$query_id,
+			'query'    => array(
+				'perPage'        => 100,
+				'pages'          => 0,
+				'offset'         => 0,
+				'postType'       => \Galerio\Core\Fields\Registry::OBJECTS[ $field->target ],
+				'order'          => 'desc',
+				'orderBy'        => 'date',
+				'inherit'        => false,
+				'galerioRelated' => $key,
+			),
+			'metadata' => array( 'name' => $heading ),
+		);
+
+		printf(
+			"<!-- wp:query %1\$s -->\n<div class=\"wp-block-query\"><!-- wp:heading -->\n<h2 class=\"wp-block-heading\">%2\$s</h2>\n<!-- /wp:heading -->\n\n<!-- wp:post-template %3\$s -->\n<!-- wp:template-part {\"slug\":\"card-%4\$s\",\"tagName\":\"div\"} /-->\n<!-- /wp:post-template --></div>\n<!-- /wp:query -->\n",
+			serialize_block_attributes( $attrs ), // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Escaped for a block comment.
+			esc_html( $heading ),
+			serialize_block_attributes( array( 'layout' => $layout ) ), // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Escaped for a block comment.
+			esc_attr( $field->target )
+		);
+	}
+}
+
 if ( ! function_exists( 'galerio_theme_attr' ) ) {
 	/**
 	 * Echo a translated text as a quoted string for a block attribute in a
