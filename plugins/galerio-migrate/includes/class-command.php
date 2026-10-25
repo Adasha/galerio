@@ -101,6 +101,23 @@ final class Command {
 	}
 
 	/**
+	 * Turn a classic menu into the block menu the theme's header shows.
+	 *
+	 * The content model migration runs this in a fresh process, so archive
+	 * links get the content types' new addresses.
+	 *
+	 * ## OPTIONS
+	 *
+	 * <menu>
+	 * : The classic menu's ID.
+	 *
+	 * @param array $args Positional arguments.
+	 */
+	public function navigation( $args ) {
+		WP_CLI::log( Site_Content::convert_menu( (int) $args[0] ) );
+	}
+
+	/**
 	 * Remove a theme's templates, template parts and global styles saved in the Site Editor.
 	 *
 	 * The theme's own files are used again afterwards. Changes made in the Site
