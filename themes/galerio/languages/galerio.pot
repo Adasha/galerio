@@ -2,21 +2,21 @@
 # This file is distributed under the GNU General Public License v2 or later.
 msgid ""
 msgstr ""
-"Project-Id-Version: Galerio 3.0.0-alpha.2\n"
+"Project-Id-Version: Galerio 3.0.0-alpha.3\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/theme/galerio\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-10-25T12:15:34+00:00\n"
+"POT-Creation-Date: 2026-10-25T17:49:50+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: galerio\n"
 
 #. Theme Name of the theme
 #: style.css
-#: functions.php:29
+#: functions.php:32
 msgid "Galerio"
 msgstr ""
 
@@ -40,76 +40,154 @@ msgstr ""
 msgid "https://adasha.com"
 msgstr ""
 
-#: functions.php:42
-#: functions.php:48
+#: functions.php:45
+#: functions.php:51
 msgid "Buttons"
 msgstr ""
 
-#: functions.php:54
+#: functions.php:57
 msgid "Keep words whole"
 msgstr ""
 
-#: functions.php:58
+#: functions.php:61
 msgid "Hyphenate"
 msgstr ""
 
-#: functions.php:64
+#: functions.php:67
 msgid "Main Menu"
 msgstr ""
 
-#: functions.php:70
+#: functions.php:73
 msgid "Asides"
 msgstr ""
 
-#: functions.php:74
+#: functions.php:77
 msgid "Image Box"
 msgstr ""
 
 #. translators: %s: A content type's name, such as Work.
-#: functions.php:139
+#: functions.php:215
 #, php-format
 msgid "%s page"
 msgstr ""
 
 #. translators: %s: A content type's name, such as Work.
-#: functions.php:141
+#: functions.php:217
 #, php-format
 msgid "Shows one item of the type %s."
 msgstr ""
 
 #. translators: %s: A content type's plural name, such as Works.
 #. translators: %s: A taxonomy's name, such as Group.
-#: functions.php:145
-#: functions.php:156
+#: functions.php:221
+#: functions.php:232
 #, php-format
 msgid "%s archive"
 msgstr ""
 
 #. translators: %s: A content type's plural name, such as Works.
-#: functions.php:147
+#: functions.php:223
 #, php-format
 msgid "Lists the %s."
 msgstr ""
 
 #. translators: %s: A taxonomy's plural name, such as Groups.
-#: functions.php:158
+#: functions.php:234
 #, php-format
 msgid "Lists the items in one of the %s."
 msgstr ""
 
-#: patterns/collection-card.php
+#: functions.php:363
+msgctxt "template part area"
+msgid "Card"
+msgstr ""
+
+#: functions.php:364
+msgid "How one item looks in a list, such as an archive, a Query Loop or a carousel. Edit a card and every list using it follows."
+msgstr ""
+
+#: patterns/card-article.php
+msgctxt "Pattern title"
+msgid "Article card"
+msgstr ""
+
+#: patterns/card-article.php
+msgctxt "Pattern description"
+msgid "An article in a list: its image beside its categories, title, standfirst, date and authors, stacking when the card is narrow. Edit the template part in the Site Editor, or override parts/card-article.html in a child theme, and every place that uses it follows: archives, Query Loops and Galerio Carousels."
+msgstr ""
+
+#. translators: Before the author's name in a list of articles.
+#: patterns/card-article.php:30
+msgid "· by "
+msgstr ""
+
+#: patterns/card-collection.php
 msgctxt "Pattern title"
 msgid "Collection card"
 msgstr ""
 
-#: patterns/collection-card.php
+#: patterns/card-collection.php
 msgctxt "Pattern description"
 msgid "The content of the Collection card template part: a collection as a slide like the front page carousel's, with its image filling the card and a caption box holding the title, dates, categories and a button. Edit the template part in the Site Editor, and every place that uses it follows: the collections archive, Query Loops and Galerio Carousels. Its height is 420px unless --galerio-collection-card-height says otherwise."
 msgstr ""
 
 #. translators: Button on a collection card. {collection} is the site's name for a collection, such as "exhibition".
-#: patterns/collection-card.php:20
+#: patterns/card-collection.php:20
 msgid "View {collection}"
+msgstr ""
+
+#: patterns/card-profile.php
+msgctxt "Pattern title"
+msgid "Profile card"
+msgstr ""
+
+#: patterns/card-profile.php
+msgctxt "Pattern description"
+msgid "A profile in a list: its portrait, name and groups. Edit the template part in the Site Editor, or override parts/card-profile.html in a child theme, and every place that uses it follows: archives, Query Loops and Galerio Carousels."
+msgstr ""
+
+#: patterns/card-work.php
+msgctxt "Pattern title"
+msgid "Work card"
+msgstr ""
+
+#: patterns/card-work.php
+msgctxt "Pattern description"
+msgid "A work in a list: its image beside its title, creator, year and mediums, stacking when the card is narrow. Edit the template part in the Site Editor, or override parts/card-work.html in a child theme, and every place that uses it follows: archives, Query Loops and Galerio Carousels."
+msgstr ""
+
+#: patterns/card.php
+msgctxt "Pattern title"
+msgid "Card"
+msgstr ""
+
+#: patterns/card.php
+msgctxt "Pattern description"
+msgid "Any item in a list: its image and title. A list using this card shows each item with its own type's card instead (card-work, card-profile and so on) when there is one, so lists that mix types stay consistent. Edit the template part in the Site Editor, or override parts/card.html in a child theme, and every place that uses it follows: archives, Query Loops and Galerio Carousels."
+msgstr ""
+
+#: patterns/collection-layout.php
+msgctxt "Pattern title"
+msgid "Collection layout"
+msgstr ""
+
+#: patterns/collection-layout.php
+msgctxt "Pattern description"
+msgid "The standard collection page as blocks to rearrange: title, dates, standfirst, images, description, notes, details and related items. A starting point for a collection designed in the editor with the Blank template."
+msgstr ""
+
+#. translators: Heading above the profiles a collection features.
+#: patterns/collection-layout.php:56
+#: patterns/template-single-collection.php:56
+msgid "Featuring"
+msgstr ""
+
+#. translators: Heading above the profiles a collection features.
+#. translators: Heading above the profiles an article features.
+#: patterns/collection-layout.php:64
+#: patterns/template-single-article.php:42
+#: patterns/template-single-collection.php:64
+msgid "Featuring:"
 msgstr ""
 
 #: patterns/footer-credit.php
@@ -126,6 +204,21 @@ msgstr ""
 #: patterns/footer-credit.php:13
 #, php-format
 msgid "Powered by %s"
+msgstr ""
+
+#: patterns/presents.php
+msgctxt "Pattern title"
+msgid "Site presents…"
+msgstr ""
+
+#: patterns/presents.php
+msgctxt "Pattern description"
+msgid "A line introducing the page as the site's presentation, e.g. \"swansea.art presents…\", for guest collections. It shows the current site title."
+msgstr ""
+
+#. translators: Follows the site's name, as in "swansea.art presents…".
+#: patterns/presents.php:17
+msgid "presents…"
 msgstr ""
 
 #: patterns/side-menu-layout.php
@@ -182,13 +275,8 @@ msgctxt "Pattern description"
 msgid "The list of articles. Used by the archive-galerio_article template; a child theme can override this pattern alone."
 msgstr ""
 
-#. translators: Before the author's name in a list of articles.
-#: patterns/template-archive-articles.php:34
-msgid "· by "
-msgstr ""
-
 #. translators: Keep {articles} as it is: it becomes this site's name for articles.
-#: patterns/template-archive-articles.php:50
+#: patterns/template-archive-articles.php:28
 msgid "No {articles} yet."
 msgstr ""
 
@@ -223,7 +311,7 @@ msgid "The list of creator profiles. Used by the archive-galerio_profile templat
 msgstr ""
 
 #. translators: Keep {profiles} as it is: it becomes this site's name for profiles.
-#: patterns/template-archive-profiles.php:32
+#: patterns/template-archive-profiles.php:28
 msgid "No {profiles} yet."
 msgstr ""
 
@@ -238,8 +326,18 @@ msgid "The list of works. Used by the archive-galerio_work template; a child the
 msgstr ""
 
 #. translators: Keep {works} as it is: it becomes this site's name for works.
-#: patterns/template-archive-works.php:48
+#: patterns/template-archive-works.php:28
 msgid "No {works} yet."
+msgstr ""
+
+#: patterns/template-blank.php
+msgctxt "Pattern title"
+msgid "Blank"
+msgstr ""
+
+#: patterns/template-blank.php
+msgctxt "Pattern description"
+msgid "Only the item's content, with no title or fields, for pages designed entirely in the editor (with their own Page style). Used by the wp-custom-template-blank template; a child theme can override this pattern alone."
 msgstr ""
 
 #: patterns/template-page.php
@@ -291,11 +389,6 @@ msgstr ""
 msgid "By "
 msgstr ""
 
-#. translators: Heading above the profiles an article features.
-#: patterns/template-single-article.php:42
-msgid "Featuring:"
-msgstr ""
-
 #: patterns/template-single-collection.php
 msgctxt "Pattern title"
 msgid "Single collection"
@@ -303,7 +396,7 @@ msgstr ""
 
 #: patterns/template-single-collection.php
 msgctxt "Pattern description"
-msgid "The main content of a single collection: its title, description, images and notes. Used by the single-galerio_collection template; a child theme can override this pattern alone."
+msgid "The main content of a single collection: its title, dates, standfirst, images, description, notes and related items. Used by the single-galerio_collection template; a child theme can override this pattern alone."
 msgstr ""
 
 #: patterns/template-single-item-collection.php
@@ -337,18 +430,30 @@ msgid "– d. "
 msgstr ""
 
 #. translators: Heading above the collections a profile is in.
-#: patterns/template-single-profile.php:54
+#: patterns/template-single-profile.php:55
 msgid "Featured in:"
 msgstr ""
 
 #. translators: Keep {works} as it is: it becomes this site's name for works.
-#: patterns/template-single-profile.php:56
+#: patterns/template-single-profile.php:57
 msgid "Featured {works}:"
 msgstr ""
 
 #. translators: Heading above a profile's links.
-#: patterns/template-single-profile.php:58
+#: patterns/template-single-profile.php:60
 msgid "More links:"
+msgstr ""
+
+#. translators: Heading above a profile's works. Keep {works} as it is: it becomes this site's name for works.
+#: patterns/template-single-profile.php:72
+msgid "Featured {works}"
+msgstr ""
+
+#. translators: Heading above the collections a profile is in.
+#. translators: Heading beside the collections a work is in.
+#: patterns/template-single-profile.php:74
+#: patterns/work-details.php:57
+msgid "Featured in"
 msgstr ""
 
 #: patterns/template-single-work.php
@@ -358,16 +463,16 @@ msgstr ""
 
 #: patterns/template-single-work.php
 msgctxt "Pattern description"
-msgid "The main content of a single work: its definitive image, title, details and description. Used by the single-galerio_work template; a child theme can override this pattern alone."
+msgid "The main content of a single work: its definitive image, title, details, description, other images and related items. Used by the single-galerio_work template; a child theme can override this pattern alone."
 msgstr ""
 
 #. translators: Keep {Labels} as it is: it becomes this site's name for its labels.
-#: patterns/template-single-work.php:46
+#: patterns/template-single-work.php:52
 msgid "{Labels}:"
 msgstr ""
 
 #. translators: Keep {Mediums} as it is: it becomes this site's name for its mediums.
-#: patterns/template-single-work.php:58
+#: patterns/template-single-work.php:64
 msgid "{Mediums}:"
 msgstr ""
 
@@ -382,7 +487,7 @@ msgid "The items in a group. Used by the taxonomy-galerio_group template; a chil
 msgstr ""
 
 #. translators: Shown on a group's page when it has no items.
-#: patterns/template-taxonomy-group.php:32
+#: patterns/template-taxonomy-group.php:28
 msgid "Nothing in this group yet."
 msgstr ""
 
@@ -397,7 +502,7 @@ msgid "Everything with one term, such as a medium, label, role or category, what
 msgstr ""
 
 #. translators: Shown on a medium, label, role or category page with no items.
-#: patterns/template-taxonomy.php:32
+#: patterns/template-taxonomy.php:30
 msgid "Nothing here yet."
 msgstr ""
 
@@ -432,11 +537,6 @@ msgstr ""
 
 #: patterns/work-details.php:43
 msgid "Dimensions"
-msgstr ""
-
-#. translators: Heading beside the collections a work is in.
-#: patterns/work-details.php:57
-msgid "Featured in"
 msgstr ""
 
 #: theme.json
@@ -609,7 +709,32 @@ msgstr ""
 
 #: theme.json
 msgctxt "Template part name"
+msgid "Card (matches each item's type)"
+msgstr ""
+
+#: theme.json
+msgctxt "Template part name"
+msgid "Work card"
+msgstr ""
+
+#: theme.json
+msgctxt "Template part name"
+msgid "Profile card"
+msgstr ""
+
+#: theme.json
+msgctxt "Template part name"
 msgid "Collection card"
+msgstr ""
+
+#: theme.json
+msgctxt "Template part name"
+msgid "Article card"
+msgstr ""
+
+#: theme.json
+msgctxt "Custom template name"
+msgid "Blank"
 msgstr ""
 
 #: theme.json
