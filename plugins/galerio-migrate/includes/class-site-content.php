@@ -73,6 +73,8 @@ final class Site_Content {
 			'type_templates' => array(),
 			'presents'       => array(),
 			'page_css'       => '',
+			'css_replace'    => array(),
+			'css_append'     => array(),
 			'drafts'         => array(),
 			'menu_archives'  => array(),
 			'navigation'     => 0,
@@ -212,8 +214,18 @@ final class Site_Content {
 		$rows = $wpdb->get_results( $wpdb->prepare( "SELECT post_id, meta_value FROM {$wpdb->postmeta} WHERE meta_key = %s AND meta_value <> ''", $key ) );
 
 		foreach ( $rows as $row ) {
-			$id    = (int) $row->post_id;
-			$css   = trim( (string) $row->meta_value );
+			$id = (int) $row->post_id;
+			// WP Add Custom CSS saves through wp_kses, which turns ">" into "&gt;", and turns it back when printing.
+			$css = trim( str_replace( '&gt;', '>', (string) $row->meta_value ) );
+
+			if ( isset( $this->site['css_replace'][ $id ] ) ) {
+				$css = strtr( $css, $this->site['css_replace'][ $id ] );
+			}
+
+			if ( isset( $this->site['css_append'][ $id ] ) ) {
+				$css .= "\n\n" . trim( $this->site['css_append'][ $id ] );
+			}
+
 			$style = get_post_meta( $id, 'galerio_page_style', true );
 			$style = is_array( $style ) ? $style : array();
 

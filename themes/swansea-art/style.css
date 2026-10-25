@@ -19,6 +19,17 @@ Text Domain: swansea-art
 	--galerio-collection-card-height: 90vh;
 }
 
+/* Pages were designed under Eclecticon, where blocks in a group filled the column: no 700px content width inside page content. */
+.wp-block-post-content {
+	--wp--style--global--content-size: 100%;
+	--wp--style--global--wide-size: 100%;
+}
+
+/* Eclecticon (Ignition) padded full-width groups with a background by 30px. A group's own padding, set in the editor, still wins. */
+.wp-block-post-content .wp-block-group.alignfull.has-background {
+	padding: 30px;
+}
+
 /* Header: the log in link, search and social links sit under the menu, in the menu's type. */
 .swansea-art-visitor-tools .wp-block-loginout {
 	font-family: var(--wp--preset--font-family--heading);
