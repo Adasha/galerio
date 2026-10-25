@@ -74,10 +74,10 @@
 <!-- /wp:column --></div>
 <!-- /wp:columns -->
 
-<?php if ( galerio_theme_has_block( 'galerio/related-items' ) ) : ?>
-<!-- wp:galerio/related-items {"field":"work.related_works","columns":4,"detail":"work.year"} /-->
+<?php if ( galerio_theme_has_related() ) : ?>
+	<?php galerio_related_query( 'work.related_works', '', 4 ); ?>
 
-<!-- wp:galerio/related-items {"field":"work.articles","columns":3} /-->
+	<?php galerio_related_query( 'work.articles', '', 1 ); ?>
 <?php else : ?>
 <!-- wp:galerio/field-display {"key":"work.related_works","label":"{field}:","layout":"list"} /-->
 

@@ -1,8 +1,12 @@
 /**
  * The Related Items block: settings in the sidebar and a preview rendered by
  * the server, as on the front end.
+ *
+ * Retired: a Query Loop's Related items setting does the same with the
+ * theme's cards. The block still renders where it's used, is hidden from the
+ * inserter, and transforms into a related Query Loop.
  */
-import { registerBlockType } from '@wordpress/blocks';
+import { createBlock, registerBlockType } from '@wordpress/blocks';
 import { __ } from '@wordpress/i18n';
 import { InspectorControls, useBlockProps } from '@wordpress/block-editor';
 import {
@@ -242,4 +246,92 @@ function Edit( { attributes, setAttributes, context } ) {
 	);
 }
 
-registerBlockType( metadata.name, { edit: Edit } );
+/**
+ * The Query Loop that replaces a Related Items block: the same relationship,
+ * order and limit, its heading inside the loop (so it hides with it), and the
+ * theme's card for the related type, or else image and title.
+ *
+ * @param {Object} attributes Related Items attributes.
+ * @return {Object} Query Loop block.
+ */
+function toQueryLoop( attributes ) {
+	const relation =
+		DATA.relations.find( ( item ) => item.key === attributes.field ) ||
+		DATA.relations[ 0 ];
+	const target = relation ? relation.target : 'galerio_work';
+	const cards = ( window.galerioQueryVariations || {} ).cards || {};
+	const heading = ( attributes.heading || '' ).replace(
+		'{field}',
+		relation ? relation.label : ''
+	);
+	const order = { saved: undefined, random: 'random', title: 'query' }[
+		attributes.order
+	];
+
+	const card = cards[ target ]
+		? [
+				createBlock( 'core/template-part', {
+					slug: cards[ target ],
+					tagName: 'div',
+				} ),
+			]
+		: [
+				createBlock( 'core/post-featured-image', {
+					isLink: true,
+					aspectRatio: attributes.aspectRatio,
+				} ),
+				createBlock( 'core/post-title', { isLink: true, level: 3 } ),
+			];
+
+	const inner = [
+		createBlock(
+			'core/post-template',
+			{
+				layout:
+					'list' === attributes.layout
+						? { type: 'default' }
+						: { type: 'grid', columnCount: attributes.columns },
+			},
+			card
+		),
+	];
+	if ( heading.trim() ) {
+		inner.unshift(
+			createBlock( 'core/heading', {
+				level: attributes.headingLevel,
+				content: heading,
+			} )
+		);
+	}
+
+	return createBlock(
+		'core/query',
+		{
+			query: {
+				perPage: attributes.limit > 0 ? attributes.limit : 100,
+				pages: 0,
+				offset: 0,
+				postType: target,
+				order: 'title' === attributes.order ? 'asc' : 'desc',
+				orderBy: 'title' === attributes.order ? 'title' : 'date',
+				inherit: false,
+				galerioRelated: relation ? relation.key : undefined,
+				galerioRelatedOrder: order,
+			},
+		},
+		inner
+	);
+}
+
+registerBlockType( metadata.name, {
+	edit: Edit,
+	transforms: {
+		to: [
+			{
+				type: 'block',
+				blocks: [ 'core/query' ],
+				transform: toQueryLoop,
+			},
+		],
+	},
+} );

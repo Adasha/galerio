@@ -117,7 +117,7 @@ test.describe( 'Field details', () => {
 			main.getByRole( 'heading', { name: 'Articles' } )
 		).toBeVisible();
 		await expect(
-			main.getByRole( 'link', { name: 'In conversation: Shorelines' } )
+			main.getByRole( 'heading', { name: 'In conversation: Shorelines' } )
 		).toBeVisible();
 	} );
 

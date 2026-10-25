@@ -43,7 +43,8 @@
 
 <!-- wp:galerio/field-display {"key":"article.works","label":"{field}:","layout":"list"} /-->
 
-<!-- wp:galerio/field-display {"key":"article.collections","label":"{field}:","layout":"list"} /--><?php if ( ! galerio_theme_has_block( 'galerio/related-items' ) ) : ?>
+<!-- wp:galerio/field-display {"key":"article.collections","label":"{field}:","layout":"list"} /-->
+<?php if ( ! galerio_theme_has_related() ) : ?>
 
 <!-- wp:galerio/field-display {"key":"article.related_articles","label":"{field}:","layout":"list"} /-->
 <?php endif; ?></div>
@@ -51,7 +52,7 @@
 <!-- /wp:column --></div>
 <!-- /wp:columns -->
 
-<?php if ( galerio_theme_has_block( 'galerio/related-items' ) ) : ?>
-<!-- wp:galerio/related-items {"field":"article.related_articles","columns":3} /-->
+<?php if ( galerio_theme_has_related() ) : ?>
+	<?php galerio_related_query( 'article.related_articles', '', 1 ); ?>
 <?php endif; ?></main>
 <!-- /wp:group -->

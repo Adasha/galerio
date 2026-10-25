@@ -52,14 +52,14 @@
 <!-- /wp:column --></div>
 <!-- /wp:columns -->
 
-<?php if ( galerio_theme_has_block( 'galerio/related-items' ) ) : ?>
-<!-- wp:galerio/related-items {"field":"collection.profiles","heading":<?php galerio_theme_attr( /* translators: Heading above the profiles a collection features. */ __( 'Featuring', 'galerio' ) ); ?>,"columns":4,"aspectRatio":"1"} /-->
+<?php if ( galerio_theme_has_related() ) : ?>
+	<?php galerio_related_query( 'collection.profiles', galerio_theme_text( /* translators: Heading above the profiles a collection features. */ __( 'Featuring', 'galerio' ) ), 4 ); ?>
 
-<!-- wp:galerio/related-items {"field":"collection.works","columns":4,"detail":"work.creator"} /-->
+	<?php galerio_related_query( 'collection.works', '', 4 ); ?>
 
-<!-- wp:galerio/related-items {"field":"collection.articles","columns":3} /-->
+	<?php galerio_related_query( 'collection.articles', '', 1 ); ?>
 
-<!-- wp:galerio/related-items {"field":"collection.related_collections","columns":3} /-->
+	<?php galerio_related_query( 'collection.related_collections', '', 3 ); ?>
 <?php else : ?>
 <!-- wp:galerio/field-display {"key":"collection.profiles","label":<?php galerio_theme_attr( /* translators: Heading above the profiles a collection features. */ __( 'Featuring:', 'galerio' ) ); ?>,"layout":"list"} /-->
 

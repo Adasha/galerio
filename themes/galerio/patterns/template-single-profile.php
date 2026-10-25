@@ -51,7 +51,7 @@
 
 <!-- wp:galerio/field-display {"key":"profile.accolades","label":"{field}:","layout":"list"} /-->
 
-<?php if ( ! galerio_theme_has_block( 'galerio/related-items' ) ) : ?>
+<?php if ( ! galerio_theme_has_related() ) : ?>
 <!-- wp:galerio/field-display {"key":"profile.collections","label":<?php galerio_theme_attr( /* translators: Heading above the collections a profile is in. */ __( 'Featured in:', 'galerio' ) ); ?>,"layout":"list"} /-->
 
 <!-- wp:galerio/field-display {"key":"profile.works","label":<?php galerio_theme_attr( /* translators: Keep {works} as it is: it becomes this site's name for works. */ __( 'Featured {works}:', 'galerio' ) ); ?>,"layout":"list"} /-->
@@ -68,13 +68,13 @@
 
 <!-- wp:post-content /-->
 
-<?php if ( galerio_theme_has_block( 'galerio/related-items' ) ) : ?>
-<!-- wp:galerio/related-items {"field":"profile.works","heading":<?php galerio_theme_attr( /* translators: Heading above a profile's works. Keep {works} as it is: it becomes this site's name for works. */ __( 'Featured {works}', 'galerio' ) ); ?>,"columns":4,"detail":"work.year"} /-->
+<?php if ( galerio_theme_has_related() ) : ?>
+	<?php galerio_related_query( 'profile.works', galerio_theme_text( /* translators: Heading above a profile's works. Keep {works} as it is: it becomes this site's name for works. */ __( 'Featured {works}', 'galerio' ) ), 4 ); ?>
 
-<!-- wp:galerio/related-items {"field":"profile.collections","heading":<?php galerio_theme_attr( /* translators: Heading above the collections a profile is in. */ __( 'Featured in', 'galerio' ) ); ?>,"columns":3} /-->
+	<?php galerio_related_query( 'profile.collections', galerio_theme_text( /* translators: Heading above the collections a profile is in. */ __( 'Featured in', 'galerio' ) ), 3 ); ?>
 
-<!-- wp:galerio/related-items {"field":"profile.authored_articles","columns":3} /-->
+	<?php galerio_related_query( 'profile.authored_articles', '', 1 ); ?>
 
-<!-- wp:galerio/related-items {"field":"profile.article_mentions","columns":3} /-->
+	<?php galerio_related_query( 'profile.article_mentions', '', 1 ); ?>
 <?php endif; ?></main>
 <!-- /wp:group -->
