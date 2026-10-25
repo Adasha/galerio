@@ -122,12 +122,13 @@
             "heading": {
                 "typography": {
                     "fontWeight": "700",
-                    "letterSpacing": "-0.05em"
+                    "letterSpacing": "-0.05em",
+                    "textTransform": "inherit"
                 }
             },
             "h1": {
                 "typography": {
-                    "textTransform": "none"
+                    "textTransform": "inherit"
                 }
             },
             "link": {

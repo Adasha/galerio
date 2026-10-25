@@ -180,6 +180,17 @@ return array(
 	'page_css'        => '_single_add_custom_css',
 
 	/*
+	 * Changes to that CSS: item => old text => new. In Eclecticon (a classic
+	 * theme) every Group wrapped its blocks in an inner container, so
+	 * AMESSWHA's "exhibitor-container > *" styled that wrapper: one box per
+	 * exhibitor. Galerio's groups have no wrapper, so the rule styles the
+	 * group itself.
+	 */
+	'css_replace'     => array(
+		5553 => array( '.wp-block-group.exhibitor-container > *' => '.wp-block-group.exhibitor-container' ),
+	),
+
+	/*
 	 * Pages to set to draft: All Profiles (Galerio's profiles archive takes its
 	 * address, /profiles/) and Collections (Eclecticon's empty project listing).
 	 */
