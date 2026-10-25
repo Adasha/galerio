@@ -688,9 +688,57 @@ final class Content_Model {
 		}
 
 		$this->medium_tree();
+		$this->repoint_block_taxonomies();
 
 		$this->categorise();
 		$this->infer_mediums();
+	}
+
+	/**
+	 * Name the new taxonomies in blocks that named the old ones, such as a
+	 * Query Loop of one profile group's profiles. Terms keep their IDs when
+	 * they move, so only the taxonomy's name changes. Without this the
+	 * filter names a taxonomy that no longer exists, and is ignored.
+	 */
+	private function repoint_block_taxonomies() {
+		global $wpdb;
+
+		$step  = 'Blocks naming old taxonomies';
+		$moves = array();
+
+		foreach ( $this->taxonomies() as $old => $new ) {
+			$moves[ '"' . $old . '"' ] = '"' . $new . '"';
+		}
+
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery -- One-off migration.
+		$posts = $wpdb->get_results( "SELECT ID, post_title, post_content FROM {$wpdb->posts} WHERE post_type <> 'revision' AND post_content LIKE '%<!-- wp:%'" );
+
+		foreach ( $posts as $post ) {
+			$changed = 0;
+			$content = preg_replace_callback(
+				'#(<!-- wp:[a-z0-9/-]+ )(\{.*?\})( /)?-->#s',
+				function ( $block ) use ( $moves, &$changed ) {
+					$attrs = strtr( $block[2], $moves );
+					if ( $attrs !== $block[2] ) {
+						++$changed;
+					}
+					return $block[1] . $attrs . ( isset( $block[3] ) ? $block[3] : '' ) . '-->';
+				},
+				$post->post_content
+			);
+
+			if ( ! $changed ) {
+				continue;
+			}
+
+			$this->count( $step, $this->dry ? 'would repoint' : 'repointed', $changed );
+			$this->note( $step, sprintf( '%s (#%d): %d blocks.', $post->post_title, $post->ID, $changed ) );
+
+			if ( ! $this->dry ) {
+				$wpdb->update( $wpdb->posts, array( 'post_content' => $content ), array( 'ID' => $post->ID ) ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery -- One-off migration.
+				clean_post_cache( (int) $post->ID );
+			}
+		}
 	}
 
 	/**
