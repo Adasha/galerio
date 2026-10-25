@@ -120,6 +120,9 @@
     "styles": {
         "elements": {
             "heading": {
+                "color": {
+                    "text": "inherit"
+                },
                 "typography": {
                     "fontWeight": "700",
                     "letterSpacing": "-0.05em",
