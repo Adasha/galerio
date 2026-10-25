@@ -2,9 +2,8 @@
 /**
  * Title: Collection card
  * Slug: galerio/collection-card
- * Categories: galerio
- * Block Types: core/post-template
- * Description: A collection as a slide like the front page carousel's: its image filling the card, with a caption box holding the title, dates, categories and a button. Use it inside a Query Loop of collections, or in a Galerio Carousel's Query Loop. Its height is 420px unless --galerio-collection-card-height says otherwise, so a child theme can make the cards taller in one place, such as the collections archive.
+ * Inserter: no
+ * Description: The content of the Collection card template part: a collection as a slide like the front page carousel's, with its image filling the card and a caption box holding the title, dates, categories and a button. Edit the template part in the Site Editor, and every place that uses it follows: the collections archive, Query Loops and Galerio Carousels. Its height is 420px unless --galerio-collection-card-height says otherwise.
  *
  * @package Galerio
  */

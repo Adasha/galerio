@@ -222,4 +222,35 @@ class Test_Carousel_Block extends Galerio_TestCase {
 		$this->assertStringContainsString( '__viewport"><div class="wp-block-query"><ul class="wp-block-post-template"><li>One</li>', $html );
 		$this->assertStringNotContainsString( 'wp-block-galerio-carousel__track', $html );
 	}
+
+	/**
+	 * A template part draws each slide, for its own item; a part that doesn't
+	 * exist falls back to the built-in caption.
+	 */
+	public function test_slide_part() {
+		// A part saved in the Site Editor, as the theme's own would be.
+		$part = self::factory()->post->create(
+			array(
+				'post_type'    => 'wp_template_part',
+				'post_name'    => 'card',
+				'post_status'  => 'publish',
+				'post_content' => '<!-- wp:post-title {"className":"test-card"} /-->',
+			)
+		);
+		wp_set_object_terms( $part, get_stylesheet(), 'wp_theme' );
+		wp_set_object_terms( $part, 'uncategorized', 'wp_template_part_area' );
+
+		$html = $this->render( array( 'slidePart' => 'card' ) );
+
+		$this->assertStringContainsString( 'has-slide-part', $html );
+		$this->assertSame( 3, substr_count( $html, 'wp-block-galerio-carousel__slide is-part' ) );
+		foreach ( array( 'Shore', 'Harbour', 'Lighthouse' ) as $title ) {
+			$this->assertMatchesRegularExpression( "/test-card[^>]*>$title</", $html );
+		}
+		$this->assertStringNotContainsString( 'wp-block-galerio-carousel__caption', $html );
+
+		$html = $this->render( array( 'slidePart' => 'no-such-part' ) );
+		$this->assertStringNotContainsString( 'has-slide-part', $html );
+		$this->assertStringContainsString( 'wp-block-galerio-carousel__caption', $html );
+	}
 }

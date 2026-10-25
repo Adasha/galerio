@@ -121,9 +121,10 @@ final class Carousel_Block {
 				return self::in_editor() ? '<p>' . esc_html__( 'No items to show yet. Choose another content type or other terms.', 'galerio-blocks' ) . '</p>' : '';
 			}
 
+			$part   = self::slide_part( $attributes );
 			$slides = '';
 			foreach ( array_values( $posts ) as $index => $post ) {
-				$slides .= self::slide( $post, $index, $attributes );
+				$slides .= $part ? self::part_slide( $post, $part ) : self::slide( $post, $index, $attributes );
 			}
 			$slides = '<div class="wp-block-galerio-carousel__track">' . $slides . '</div>';
 		}
@@ -220,6 +221,61 @@ final class Carousel_Block {
 	}
 
 	/**
+	 * The template part the slides are drawn from, if one is chosen and exists.
+	 *
+	 * @param array $attributes Block attributes.
+	 * @return string Its slug, or empty for the built-in slide.
+	 */
+	public static function slide_part( $attributes ) {
+		$slug = sanitize_title( isset( $attributes['slidePart'] ) ? $attributes['slidePart'] : '' );
+
+		if ( '' === $slug || ! get_block_template( get_stylesheet() . '//' . $slug, 'wp_template_part' ) ) {
+			return '';
+		}
+
+		return $slug;
+	}
+
+	/**
+	 * One slide drawn from a template part, such as the theme's Collection
+	 * card, with the item as the current post, so the part's blocks show it.
+	 * Editing the part in the Site Editor changes these slides too.
+	 *
+	 * @param WP_Post $item Item.
+	 * @param string  $slug Template part.
+	 * @return string
+	 */
+	private static function part_slide( WP_Post $item, $slug ) {
+		global $post;
+
+		$previous = $post;
+		$post     = $item; // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited -- The part's blocks read the current post; restored below.
+		setup_postdata( $item );
+
+		$html = do_blocks(
+			sprintf(
+				'<!-- wp:template-part %s /-->',
+				wp_json_encode(
+					array(
+						'slug'    => $slug,
+						'theme'   => get_stylesheet(),
+						'tagName' => 'div',
+					)
+				)
+			)
+		);
+
+		$post = $previous; // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited -- Restoring the current post.
+		if ( $previous ) {
+			setup_postdata( $previous );
+		} else {
+			wp_reset_postdata();
+		}
+
+		return '<div class="wp-block-galerio-carousel__slide is-part">' . $html . '</div>';
+	}
+
+	/**
 	 * One slide of the block's own query.
 	 *
 	 * @param WP_Post $post       Item.
@@ -312,6 +368,7 @@ final class Carousel_Block {
 	private static function classes( $attributes ) {
 		$classes = array(
 			'is-source-' . ( 'loop' === $attributes['source'] ? 'loop' : 'query' ),
+			'loop' !== $attributes['source'] && self::slide_part( $attributes ) ? 'has-slide-part' : '',
 			'is-transition-' . sanitize_html_class( $attributes['transition'] ),
 			'is-image-' . ( 'contain' === $attributes['imageFit'] ? 'contain' : 'cover' ),
 			'is-position-' . str_replace( ' ', '-', self::position( $attributes['contentPosition'] ) ),
@@ -325,7 +382,7 @@ final class Carousel_Block {
 			$classes[] = 'has-arrows-' . ( 'caption' === $attributes['arrowsPosition'] && 'loop' !== $attributes['source'] ? 'caption' : 'sides' );
 		}
 
-		return $classes;
+		return array_values( array_filter( $classes ) );
 	}
 
 	/**
