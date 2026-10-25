@@ -51,10 +51,12 @@
 
 <!-- wp:galerio/field-display {"key":"profile.accolades","label":"{field}:","layout":"list"} /-->
 
+<?php if ( ! galerio_theme_has_block( 'galerio/related-items' ) ) : ?>
 <!-- wp:galerio/field-display {"key":"profile.collections","label":<?php galerio_theme_attr( /* translators: Heading above the collections a profile is in. */ __( 'Featured in:', 'galerio' ) ); ?>,"layout":"list"} /-->
 
 <!-- wp:galerio/field-display {"key":"profile.works","label":<?php galerio_theme_attr( /* translators: Keep {works} as it is: it becomes this site's name for works. */ __( 'Featured {works}:', 'galerio' ) ); ?>,"layout":"list"} /-->
 
+<?php endif; ?>
 <!-- wp:galerio/field-display {"key":"profile.links","label":<?php galerio_theme_attr( /* translators: Heading above a profile's links. */ __( 'More links:', 'galerio' ) ); ?>,"showIf":"show_links"} /--></div>
 <!-- /wp:group --></div>
 <!-- /wp:column --></div>
@@ -64,5 +66,15 @@
 <hr class="wp-block-separator has-alpha-channel-opacity is-style-dots"/>
 <!-- /wp:separator -->
 
-<!-- wp:post-content /--></main>
+<!-- wp:post-content /-->
+
+<?php if ( galerio_theme_has_block( 'galerio/related-items' ) ) : ?>
+<!-- wp:galerio/related-items {"field":"profile.works","heading":<?php galerio_theme_attr( /* translators: Heading above a profile's works. Keep {works} as it is: it becomes this site's name for works. */ __( 'Featured {works}', 'galerio' ) ); ?>,"columns":4,"detail":"work.year"} /-->
+
+<!-- wp:galerio/related-items {"field":"profile.collections","heading":<?php galerio_theme_attr( /* translators: Heading above the collections a profile is in. */ __( 'Featured in', 'galerio' ) ); ?>,"columns":3} /-->
+
+<!-- wp:galerio/related-items {"field":"profile.authored_articles","columns":3} /-->
+
+<!-- wp:galerio/related-items {"field":"profile.article_mentions","columns":3} /-->
+<?php endif; ?></main>
 <!-- /wp:group -->

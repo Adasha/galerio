@@ -9,6 +9,7 @@ add_action( 'after_setup_theme', 'galerio_load_textdomain' );
 add_action( 'init', 'galerio_register_pattern_category' );
 add_action( 'init', 'galerio_register_block_styles' );
 add_filter( 'render_block_core/cover', 'galerio_mark_imageless_cover', 10, 3 );
+add_filter( 'render_block_galerio/gallery', 'galerio_skip_template_gallery', 10, 3 );
 add_filter( 'default_template_types', 'galerio_template_types' );
 add_filter( 'get_block_templates', 'galerio_name_saved_templates' );
 add_filter( 'pre_get_block_template', 'galerio_name_saved_template_early', 10, 3 );
@@ -98,6 +99,19 @@ if ( ! function_exists( 'galerio_theme_text' ) ) {
 		return function_exists( 'galerio_expand_names' )
 			? galerio_expand_names( $text )
 			: preg_replace( '/\{([A-Za-z]+)\}/', '$1', $text );
+	}
+}
+
+if ( ! function_exists( 'galerio_theme_has_block' ) ) {
+	/**
+	 * Whether a block is available, such as one from the Galerio Blocks
+	 * plugin, so a pattern can fall back to another when it isn't.
+	 *
+	 * @param string $name Block name, e.g. "galerio/gallery".
+	 * @return bool
+	 */
+	function galerio_theme_has_block( $name ) {
+		return WP_Block_Type_Registry::get_instance()->is_registered( $name );
 	}
 }
 
@@ -247,4 +261,29 @@ function galerio_mark_imageless_cover( $content, $block, $instance ) {
 	}
 
 	return $cover->get_updated_html();
+}
+
+/**
+ * Leave out a template's gallery (one with the galerio-template-gallery
+ * class) when the item's own content already has a gallery, so the images
+ * aren't shown twice. Older sites often placed galleries in the content.
+ *
+ * @param string   $content  Rendered gallery.
+ * @param array    $block    Parsed block.
+ * @param WP_Block $instance Block instance.
+ * @return string
+ */
+function galerio_skip_template_gallery( $content, $block, $instance ) {
+	if ( empty( $block['attrs']['className'] ) || ! in_array( 'galerio-template-gallery', explode( ' ', $block['attrs']['className'] ), true ) ) {
+		return $content;
+	}
+
+	$post_id = isset( $instance->context['postId'] ) ? (int) $instance->context['postId'] : (int) get_the_ID();
+	$post    = $post_id ? get_post( $post_id ) : null;
+
+	if ( $post && ( has_block( 'galerio/gallery', $post ) || has_block( 'core/gallery', $post ) ) ) {
+		return '';
+	}
+
+	return $content;
 }

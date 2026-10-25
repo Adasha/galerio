@@ -3,7 +3,7 @@
  * Title: Single work
  * Slug: galerio/template-single-work
  * Inserter: no
- * Description: The main content of a single work: its definitive image, title, details and description. Used by the single-galerio_work template; a child theme can override this pattern alone.
+ * Description: The main content of a single work: its definitive image, title, details, description, other images and related items. Used by the single-galerio_work template; a child theme can override this pattern alone.
  *
  * @package Galerio
  */
@@ -39,6 +39,12 @@
 <div class="wp-block-column" style="flex-basis:67%"><!-- wp:group {"tagName":"article","layout":{"type":"default"}} -->
 <article class="wp-block-group"><!-- wp:post-content /-->
 
+<?php if ( galerio_theme_has_block( 'galerio/gallery' ) ) : ?>
+<!-- wp:galerio/gallery {"field":"work.images","columns":3,"metadata":{"name":"Other images"},"className":"galerio-template-gallery"} /-->
+<?php else : ?>
+<!-- wp:galerio/field-display {"key":"work.images"} /-->
+<?php endif; ?>
+
 <!-- wp:group {"tagName":"aside","style":{"spacing":{"blockGap":"0"}},"layout":{"type":"flex","orientation":"vertical","flexWrap":"nowrap","justifyContent":"stretch"}} -->
 <aside class="wp-block-group"><!-- wp:columns {"verticalAlignment":"center","isStackedOnMobile":false,"style":{"spacing":{"padding":{"top":"var:preset|spacing|20","bottom":"var:preset|spacing|20"}}}} -->
 <div class="wp-block-columns are-vertically-aligned-center is-not-stacked-on-mobile" style="padding-top:var(--wp--preset--spacing--20);padding-bottom:var(--wp--preset--spacing--20)"><!-- wp:column {"verticalAlignment":"center","width":"15%"} -->
@@ -66,5 +72,15 @@
 <!-- /wp:group --></article>
 <!-- /wp:group --></div>
 <!-- /wp:column --></div>
-<!-- /wp:columns --></main>
+<!-- /wp:columns -->
+
+<?php if ( galerio_theme_has_block( 'galerio/related-items' ) ) : ?>
+<!-- wp:galerio/related-items {"field":"work.related_works","columns":4,"detail":"work.year"} /-->
+
+<!-- wp:galerio/related-items {"field":"work.articles","columns":3} /-->
+<?php else : ?>
+<!-- wp:galerio/field-display {"key":"work.related_works","label":"{field}:","layout":"list"} /-->
+
+<!-- wp:galerio/field-display {"key":"work.articles","label":"{field}:","layout":"list"} /-->
+<?php endif; ?></main>
 <!-- /wp:group -->

@@ -14,13 +14,21 @@
 <div class="wp-block-columns"><!-- wp:column {"width":"75%"} -->
 <div class="wp-block-column" style="flex-basis:75%"><!-- wp:post-content /-->
 
-<!-- wp:galerio/field-display {"key":"collection.images"} /--></div>
+<?php if ( galerio_theme_has_block( 'galerio/gallery' ) ) : ?>
+<!-- wp:galerio/gallery {"field":"collection.images","layout":"linear","metadata":{"name":"Images"},"className":"galerio-template-gallery"} /-->
+<?php else : ?>
+<!-- wp:galerio/field-display {"key":"collection.images"} /-->
+<?php endif; ?></div>
 <!-- /wp:column -->
 
 <!-- wp:column {"width":"25%"} -->
 <div class="wp-block-column" style="flex-basis:25%"><!-- wp:post-title {"style":{"spacing":{"margin":{"bottom":"0"}}}} /-->
 
 <!-- wp:post-terms {"term":"galerio_collection_category","className":"is-style-default","style":{"spacing":{"margin":{"top":"0"}}}} /-->
+
+<?php if ( galerio_theme_has_block( 'galerio/exhibition-dates' ) ) : ?>
+<!-- wp:galerio/exhibition-dates {"showStatus":true} /-->
+<?php endif; ?>
 
 <!-- wp:galerio/field-display {"key":"collection.description"} /-->
 
