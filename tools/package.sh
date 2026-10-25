@@ -53,6 +53,10 @@ build "$theme" galerio "$theme_version"
 child="$repo/themes/galerio-child-starter"
 build "$child" galerio-child-starter "$(header "$child/style.css" Version)"
 
+# swansea.art's child theme.
+swansea="$repo/themes/swansea-art"
+build "$swansea" swansea-art "$(header "$swansea/style.css" Version)"
+
 # Galerio Core.
 core="$repo/plugins/galerio-core"
 core_version="$(header "$core/galerio-core.php" Version)"

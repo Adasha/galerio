@@ -10,7 +10,7 @@
 		"./plugins/galerio-blocks",
 		"./plugins/galerio-media"
 	],
-	"themes": [ "./themes/galerio", "./themes/galerio-child-starter" ],
+	"themes": [ "./themes/galerio", "./themes/galerio-child-starter", "./themes/swansea-art" ],
 	"mappings": {
 		"wp-content/galerio-data": "./data",
 		"wp-content/galerio-tools": "./tools",
