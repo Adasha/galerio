@@ -28,7 +28,7 @@ final class Carousel_Block {
 	/**
 	 * Orders the block's own query accepts.
 	 */
-	const ORDER_BY = array( 'date', 'title', 'modified', 'menu_order', 'rand' );
+	const ORDER_BY = array( 'date', 'title', 'modified', 'menu_order', 'rand', 'post__in' );
 
 	/**
 	 * Most slides the block's own query shows.
@@ -118,7 +118,12 @@ final class Carousel_Block {
 			$posts = get_posts( self::query_args( $attributes ) );
 
 			if ( ! $posts ) {
-				return self::in_editor() ? '<p>' . esc_html__( 'No items to show yet. Choose another content type or other terms.', 'galerio-blocks' ) . '</p>' : '';
+				if ( ! self::in_editor() ) {
+					return '';
+				}
+				return '<p>' . ( '' !== $attributes['related']
+					? esc_html__( 'The related items show here when the item has some.', 'galerio-blocks' )
+					: esc_html__( 'No items to show yet. Choose another content type or other terms.', 'galerio-blocks' ) ) . '</p>';
 			}
 
 			$part   = self::slide_part( $attributes );
@@ -188,15 +193,23 @@ final class Carousel_Block {
 			'suppress_filters'    => false,
 		);
 
-		$ids = array_values( array_unique( array_filter( array_map( 'absint', (array) $attributes['postIds'] ) ) ) );
+		$ids      = array_values( array_unique( array_filter( array_map( 'absint', (array) $attributes['postIds'] ) ) ) );
+		$relation = '' !== $attributes['related'] ? Related_Query::relation_for( array( 'galerioRelated' => $attributes['related'] ) ) : null;
 
-		if ( $ids ) {
+		if ( $relation ) {
+			// The current item's related items, as arranged on it unless another order is chosen.
+			$related           = Related_Query::related_ids( $relation, (int) get_the_ID() );
+			$args['post_type'] = $relation['target'];
+			$args['post__in']  = $related ? $related : array( 0 );
+			$args['orderby']   = in_array( $attributes['orderBy'], self::ORDER_BY, true ) ? $attributes['orderBy'] : 'post__in';
+			$args['order']     = 'asc' === strtolower( $attributes['order'] ) ? 'ASC' : 'DESC';
+		} elseif ( $ids ) {
 			// Chosen items win over everything else, in the order they were chosen.
 			$args['post__in']       = array_slice( $ids, 0, self::MAX_ITEMS );
 			$args['orderby']        = 'post__in';
 			$args['posts_per_page'] = count( $args['post__in'] );
 		} else {
-			$args['orderby'] = in_array( $attributes['orderBy'], self::ORDER_BY, true ) ? $attributes['orderBy'] : 'date';
+			$args['orderby'] = in_array( $attributes['orderBy'], self::ORDER_BY, true ) && 'post__in' !== $attributes['orderBy'] ? $attributes['orderBy'] : 'date';
 			$args['order']   = 'asc' === strtolower( $attributes['order'] ) ? 'ASC' : 'DESC';
 
 			$terms = array_values( array_filter( array_map( 'absint', (array) $attributes['terms'] ) ) );

@@ -78,6 +78,27 @@ const ORDERS = [
 	{ label: __( 'Random', 'galerio-blocks' ), value: 'rand/desc' },
 ];
 
+const RELATED_ORDERS = [
+	{
+		label: __( 'As arranged on the item', 'galerio-blocks' ),
+		value: 'post__in/asc',
+	},
+	...ORDERS,
+];
+
+const NO_RELATIONS = () => EMPTY;
+
+/**
+ * The current item's relationships, as the Query Loop's Related items
+ * setting offers them, when Galerio Core is active. That script loads
+ * first, so the choice is the same on every render.
+ *
+ * @return {Object[]} Relationships.
+ */
+function useRelations() {
+	return ( window.galerioRelatedQuery?.useRelations || NO_RELATIONS )();
+}
+
 /**
  * The transitions offered, including any added by the PHP filter.
  *
@@ -141,9 +162,10 @@ function RecordTokens( { label, help, records, value, onChange, onSearch } ) {
  * @param {(next: Object) => void} props.setAttributes Attribute setter.
  */
 function QuerySettings( { attributes, setAttributes } ) {
-	const { postType, perPage, orderBy, order, taxonomy, terms, postIds } =
+	const { postType, perPage, orderBy, order, taxonomy, postIds, related } =
 		attributes;
 	const [ search, setSearch ] = useState( '' );
+	const relations = useRelations();
 
 	const { allTypes, taxonomies, termRecords, chosen, found } = useSelect(
 		( select ) => {
@@ -198,6 +220,124 @@ function QuerySettings( { attributes, setAttributes } ) {
 
 	return (
 		<PanelBody title={ __( 'Items', 'galerio-blocks' ) }>
+			{ ( !! relations.length || !! related ) && (
+				<SelectControl
+					__next40pxDefaultSize
+					__nextHasNoMarginBottom
+					label={ __( 'Show', 'galerio-blocks' ) }
+					value={ related }
+					options={ [
+						{
+							label: __(
+								'Latest or chosen items',
+								'galerio-blocks'
+							),
+							value: '',
+						},
+						...relations.map( ( relation ) => ( {
+							label: relation.label,
+							value: relation.key,
+						} ) ),
+					] }
+					help={
+						related
+							? __(
+									'The items this item is linked to. The carousel is hidden when there are none.',
+									'galerio-blocks'
+								)
+							: undefined
+					}
+					onChange={ ( value ) => {
+						const relation = relations.find(
+							( item ) => item.key === value
+						);
+						setAttributes(
+							relation
+								? {
+										related: value,
+										postType: relation.target,
+										postIds: [],
+										taxonomy: '',
+										terms: [],
+										orderBy: 'post__in',
+										order: 'asc',
+									}
+								: {
+										related: '',
+										orderBy: 'date',
+										order: 'desc',
+									}
+						);
+					} }
+				/>
+			) }
+			{ related ? (
+				<>
+					<RangeControl
+						__next40pxDefaultSize
+						__nextHasNoMarginBottom
+						label={ __( 'Most items', 'galerio-blocks' ) }
+						value={ perPage }
+						onChange={ ( value ) =>
+							setAttributes( { perPage: value } )
+						}
+						min={ 1 }
+						max={ 20 }
+					/>
+					<SelectControl
+						__next40pxDefaultSize
+						__nextHasNoMarginBottom
+						label={ __( 'Order', 'galerio-blocks' ) }
+						value={ `${ orderBy }/${ order }` }
+						options={ RELATED_ORDERS }
+						onChange={ ( value ) => {
+							const [ by, direction ] = value.split( '/' );
+							setAttributes( { orderBy: by, order: direction } );
+						} }
+					/>
+				</>
+			) : (
+				<UnrelatedSettings
+					attributes={ attributes }
+					setAttributes={ setAttributes }
+					postTypes={ postTypes }
+					posts={ posts }
+					taxonomies={ taxonomies }
+					termRecords={ termRecords }
+					setSearch={ setSearch }
+				/>
+			) }
+		</PanelBody>
+	);
+}
+
+/**
+ * The settings for latest or chosen items: content type, chosen items,
+ * number, order and terms.
+ *
+ * @param {Object}                 props
+ * @param {Object}                 props.attributes    Block attributes.
+ * @param {(next: Object) => void} props.setAttributes Attribute setter.
+ * @param {Object[]}               props.postTypes     Content types to offer.
+ * @param {Object[]}               props.posts         Items to choose from.
+ * @param {Object[]}               props.taxonomies    The type's taxonomies.
+ * @param {Object[]}               props.termRecords   The taxonomy's terms.
+ * @param {(text: string) => void} props.setSearch     Search for items.
+ */
+function UnrelatedSettings( {
+	attributes,
+	setAttributes,
+	postTypes,
+	posts,
+	taxonomies,
+	termRecords,
+	setSearch,
+} ) {
+	const { postType, perPage, orderBy, order, taxonomy, terms, postIds } =
+		attributes;
+
+	return (
+		<>
 			<SelectControl
 				__next40pxDefaultSize
 				__nextHasNoMarginBottom
@@ -288,7 +428,7 @@ function QuerySettings( { attributes, setAttributes } ) {
 					) }
 				</>
 			) }
-		</PanelBody>
+		</>
 	);
 }
 

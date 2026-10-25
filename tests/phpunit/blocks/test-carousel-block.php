@@ -253,4 +253,63 @@ class Test_Carousel_Block extends Galerio_TestCase {
 		$this->assertStringNotContainsString( 'has-slide-part', $html );
 		$this->assertStringContainsString( 'wp-block-galerio-carousel__caption', $html );
 	}
+
+	/**
+	 * A carousel can show the current item's related items, as arranged on
+	 * the item or in another order, and is hidden when there are none.
+	 */
+	public function test_related_items() {
+		$fields  = galerio_fields();
+		$make    = function ( $type, $title ) {
+			return self::factory()->post->create(
+				array(
+					'post_type'   => $type,
+					'post_title'  => $title,
+					'post_status' => 'publish',
+				)
+			);
+		};
+		$profile = $make( 'galerio_profile', 'Ana Morgan' );
+		$loner   = $make( 'galerio_profile', 'Tomos Price' );
+		$tide    = $make( 'galerio_work', 'Tide' );
+		$bay     = $make( 'galerio_work', 'Bay' );
+		$fields->save( $fields->get( 'profile.works' ), $profile, array( $tide, $bay ) );
+
+		$this->go_to( get_permalink( $profile ) );
+		the_post();
+
+		$args = Carousel_Block::query_args(
+			array(
+				'related' => 'profile.works',
+				'orderBy' => 'post__in',
+				'order'   => 'asc',
+				'postIds' => array( $bay ),
+			)
+		);
+		$this->assertSame( 'galerio_work', $args['post_type'] );
+		$this->assertSame( array( $tide, $bay ), $args['post__in'] );
+		$this->assertSame( 'post__in', $args['orderby'] );
+
+		$html = $this->render(
+			array(
+				'related' => 'profile.works',
+				'orderBy' => 'title',
+				'order'   => 'asc',
+			)
+		);
+		$this->assertLessThan( strpos( $html, 'Tide' ), strpos( $html, 'Bay' ) );
+
+		$this->go_to( get_permalink( $loner ) );
+		the_post();
+		$this->assertSame( '', trim( $this->render( array( 'related' => 'profile.works' ) ) ) );
+	}
+
+	/**
+	 * Without a relationship, "as arranged" isn't an order.
+	 */
+	public function test_saved_order_needs_a_relationship() {
+		$args = Carousel_Block::query_args( array( 'orderBy' => 'post__in' ) );
+
+		$this->assertSame( 'date', $args['orderby'] );
+	}
 }
