@@ -9,6 +9,9 @@ add_action( 'after_setup_theme', 'galerio_load_textdomain' );
 add_action( 'init', 'galerio_register_pattern_category' );
 add_action( 'init', 'galerio_register_block_styles' );
 add_filter( 'render_block_core/cover', 'galerio_mark_imageless_cover', 10, 3 );
+add_filter( 'default_template_types', 'galerio_template_types' );
+add_filter( 'get_block_templates', 'galerio_name_saved_templates' );
+add_filter( 'pre_get_block_template', 'galerio_name_saved_template_early', 10, 3 );
 
 /**
  * Load the theme's bundled translations, from languages/.
@@ -111,6 +114,107 @@ if ( ! function_exists( 'galerio_theme_attr' ) ) {
 		// serialize_block_attributes() escapes for a block comment: quotes, <, >, & and "--".
 		echo substr( serialize_block_attributes( array( (string) $text ) ), 1, -1 ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Escaped for a block comment.
 	}
+}
+
+/**
+ * Name the templates WordPress picks by content type or taxonomy, such as
+ * single-galerio_work, from the type's own labels.
+ *
+ * Without this the Site Editor shows their file names, and WordPress offers
+ * them in every item's Template menu as if they were custom templates.
+ *
+ * @param array $types Template types: slug => title and description.
+ * @return array
+ */
+function galerio_template_types( $types ) {
+	$own = array(
+		'public'   => true,
+		'_builtin' => false,
+	);
+
+	foreach ( get_post_types( $own, 'objects' ) as $post_type ) {
+		$types += array(
+			"single-{$post_type->name}"  => array(
+				/* translators: %s: A content type's name, such as Work. */
+				'title'       => sprintf( __( '%s page', 'galerio' ), $post_type->labels->singular_name ),
+				/* translators: %s: A content type's name, such as Work. */
+				'description' => sprintf( __( 'Shows one item of the type %s.', 'galerio' ), $post_type->labels->singular_name ),
+			),
+			"archive-{$post_type->name}" => array(
+				/* translators: %s: A content type's plural name, such as Works. */
+				'title'       => sprintf( __( '%s archive', 'galerio' ), $post_type->labels->name ),
+				/* translators: %s: A content type's plural name, such as Works. */
+				'description' => sprintf( __( 'Lists the %s.', 'galerio' ), $post_type->labels->name ),
+			),
+		);
+	}
+
+	foreach ( get_taxonomies( $own, 'objects' ) as $taxonomy ) {
+		$types += array(
+			"taxonomy-{$taxonomy->name}" => array(
+				/* translators: %s: A taxonomy's name, such as Group. */
+				'title'       => sprintf( __( '%s archive', 'galerio' ), $taxonomy->labels->singular_name ),
+				/* translators: %s: A taxonomy's plural name, such as Groups. */
+				'description' => sprintf( __( 'Lists the items in one of the %s.', 'galerio' ), $taxonomy->labels->name ),
+			),
+		);
+	}
+
+	return $types;
+}
+
+/**
+ * Give an edited template still titled with its file name, as the Site
+ * Editor saves it, the name from galerio_template_types().
+ *
+ * @param WP_Block_Template|null $template Template.
+ * @return WP_Block_Template|null
+ */
+function galerio_name_saved_template( $template ) {
+	if ( $template && 'wp_template' === $template->type && $template->title === $template->slug ) {
+		$types = get_default_block_template_types();
+
+		if ( isset( $types[ $template->slug ] ) ) {
+			$template->title       = $types[ $template->slug ]['title'];
+			$template->description = $template->description ? $template->description : $types[ $template->slug ]['description'];
+		}
+	}
+
+	return $template;
+}
+
+/**
+ * Name an edited template fetched on its own, as the Site Editor does:
+ * get_block_template() returns one saved in the database unfiltered, so
+ * look it up here first; see galerio_name_saved_template().
+ *
+ * @param WP_Block_Template|null $template      Template found so far.
+ * @param string                 $id            Template ID, theme//slug.
+ * @param string                 $template_type wp_template or wp_template_part.
+ * @return WP_Block_Template|null
+ */
+function galerio_name_saved_template_early( $template, $id, $template_type ) {
+	static $looking = false;
+
+	if ( null !== $template || $looking || 'wp_template' !== $template_type ) {
+		return $template;
+	}
+
+	$looking  = true;
+	$template = get_block_template( $id, $template_type );
+	$looking  = false;
+
+	return galerio_name_saved_template( $template );
+}
+
+/**
+ * Name edited templates in a list; see galerio_name_saved_template().
+ *
+ * @param WP_Block_Template[] $templates Templates.
+ * @return WP_Block_Template[]
+ */
+function galerio_name_saved_templates( $templates ) {
+	return array_map( 'galerio_name_saved_template', $templates );
 }
 
 /**
