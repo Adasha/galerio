@@ -19,6 +19,18 @@
 <!-- wp:post-title {"isLink":true,"fontSize":"medium"} /-->
 
 <!-- wp:post-terms {"term":"galerio_group","separator":" ","className":"is-style-buttons","style":{"spacing":{"margin":{"top":"var:preset|spacing|30","bottom":"var:preset|spacing|30"}}}} /-->
-<!-- /wp:post-template --></div>
+<!-- /wp:post-template -->
+
+<!-- wp:query-pagination {"layout":{"type":"flex","flexWrap":"nowrap","justifyContent":"left"}} -->
+<!-- wp:query-pagination-previous /-->
+
+<!-- wp:query-pagination-next /-->
+<!-- /wp:query-pagination -->
+
+<!-- wp:query-no-results -->
+<!-- wp:paragraph -->
+<p><?php echo esc_html( galerio_theme_text( /* translators: Keep {profiles} as it is: it becomes this site's name for profiles. */ __( 'No {profiles} yet.', 'galerio' ) ) ); ?></p>
+<!-- /wp:paragraph -->
+<!-- /wp:query-no-results --></div>
 <!-- /wp:query --></main>
 <!-- /wp:group -->
