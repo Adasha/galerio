@@ -16,7 +16,7 @@
                     "slug": "contrast"
                 },
                 {
-                    "color": "#e92323",
+                    "color": "#dc1616",
                     "name": "Primary",
                     "slug": "primary"
                 },
@@ -41,7 +41,7 @@
                     "slug": "custom-hint"
                 },
                 {
-                    "color": "#878787",
+                    "color": "#686868",
                     "name": "Lowlight",
                     "slug": "custom-lowlight"
                 }
