@@ -6,7 +6,7 @@
  */
 
 /**
- * A work's featured image falls back to its definitive image.
+ * An item without a featured image uses one of its own images.
  *
  * @covers \Galerio\Core\Fields\Featured_Image
  */
@@ -54,11 +54,70 @@ class Test_Featured_Image extends Galerio_TestCase {
 	 * Works without either image, and other post types, are unaffected.
 	 */
 	public function test_no_fallback_elsewhere() {
-		$work    = self::factory()->post->create( array( 'post_type' => 'galerio_work' ) );
-		$profile = self::factory()->post->create( array( 'post_type' => 'galerio_profile' ) );
-		galerio_fields()->save( galerio_fields()->get( 'profile.portrait' ), $profile, $this->image() );
+		$work = self::factory()->post->create( array( 'post_type' => 'galerio_work' ) );
+		$page = self::factory()->post->create( array( 'post_type' => 'page' ) );
 
 		$this->assertFalse( has_post_thumbnail( $work ) );
-		$this->assertFalse( has_post_thumbnail( $profile ), 'A portrait is not a featured image.' );
+		$this->assertFalse( has_post_thumbnail( $page ) );
+	}
+
+	/**
+	 * A profile uses its portrait, but only when it shows the portrait.
+	 */
+	public function test_profile_portrait() {
+		$profile = self::factory()->post->create( array( 'post_type' => 'galerio_profile' ) );
+		$image   = $this->image();
+		galerio_fields()->save( galerio_fields()->get( 'profile.portrait' ), $profile, $image );
+
+		galerio_fields()->save( galerio_fields()->get( 'profile.show_portrait' ), $profile, false );
+		$this->assertFalse( has_post_thumbnail( $profile ), 'A hidden portrait isn’t shown as an image either.' );
+
+		galerio_fields()->save( galerio_fields()->get( 'profile.show_portrait' ), $profile, true );
+		$this->assertSame( $image, get_post_thumbnail_id( $profile ) );
+	}
+
+	/**
+	 * A collection uses its first image.
+	 */
+	public function test_collection_first_image() {
+		$collection = self::factory()->post->create( array( 'post_type' => 'galerio_collection' ) );
+		$first      = $this->image();
+		galerio_fields()->save( galerio_fields()->get( 'collection.images' ), $collection, array( $first, $this->image() ) );
+
+		$this->assertSame( $first, get_post_thumbnail_id( $collection ) );
+	}
+
+	/**
+	 * Each item can turn the fallback off.
+	 */
+	public function test_turned_off() {
+		$work = self::factory()->post->create( array( 'post_type' => 'galerio_work' ) );
+		galerio_fields()->save( galerio_fields()->get( 'work.definitive_image' ), $work, $this->image() );
+		update_post_meta( $work, Galerio\Core\Fields\Featured_Image::OFF, true );
+
+		$this->assertFalse( has_post_thumbnail( $work ) );
+	}
+
+	/**
+	 * The REST API reports only a featured image that was actually set, so
+	 * the editor isn't shown the fallback as if it were.
+	 */
+	public function test_rest_reports_the_real_featured_image() {
+		wp_set_current_user( self::factory()->user->create( array( 'role' => 'administrator' ) ) );
+		$work = self::factory()->post->create(
+			array(
+				'post_type'   => 'galerio_work',
+				'post_status' => 'publish',
+			)
+		);
+		galerio_fields()->save( galerio_fields()->get( 'work.definitive_image' ), $work, $this->image() );
+
+		$response = rest_do_request( new WP_REST_Request( 'GET', "/wp/v2/galerio_work/$work" ) );
+
+		// Don't leave this REST server for later tests: it caches routes.
+		$GLOBALS['wp_rest_server'] = null;
+
+		$this->assertSame( 0, $response->get_data()['featured_media'] );
+		$this->assertTrue( has_post_thumbnail( $work ), 'The site still uses the fallback.' );
 	}
 }
