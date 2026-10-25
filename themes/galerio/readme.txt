@@ -3,7 +3,7 @@ Contributors: adasha
 Requires at least: 6.6
 Tested up to: 7.1
 Requires PHP: 7.4
-Version: 3.0.0-alpha.3
+Version: 3.0.0-alpha.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -21,6 +21,11 @@ Galerio presents creators, works, collections and articles: a page for each, lis
 * Translatable, and the wording follows the names a site gives its content types (e.g. Exhibitions for collections) under Settings → Galerio content types.
 
 == Changelog ==
+
+= 3.0.0-alpha.4 =
+* A "Stays in view" style for Column blocks: the column stays in view as the page scrolls, and a column taller than the window first scrolls to its end. The Single-item collection (project) template's side panel uses it.
+* The side menu stays still as the page scrolls, instead of moving up a little before it sticks.
+* Roomier works archive: wider columns, and work cards split half image, half text.
 
 = 3.0.0-alpha.3 =
 * Card template parts in a new Card area: Work, Profile, Article and Collection cards, used by the archives, Galerio Query Loops and Carousel slide designs. Edit a card once and every list follows. The generic Card part shows each item with its own type's card, for lists that mix types.

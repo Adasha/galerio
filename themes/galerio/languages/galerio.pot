@@ -2,21 +2,21 @@
 # This file is distributed under the GNU General Public License v2 or later.
 msgid ""
 msgstr ""
-"Project-Id-Version: Galerio 3.0.0-alpha.3\n"
+"Project-Id-Version: Galerio 3.0.0-alpha.4\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/theme/galerio\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-10-25T17:49:50+00:00\n"
+"POT-Creation-Date: 2026-10-25T22:42:21+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: galerio\n"
 
 #. Theme Name of the theme
 #: style.css
-#: functions.php:32
+#: functions.php:34
 msgid "Galerio"
 msgstr ""
 
@@ -40,69 +40,73 @@ msgstr ""
 msgid "https://adasha.com"
 msgstr ""
 
-#: functions.php:45
-#: functions.php:51
+#: functions.php:47
+#: functions.php:53
 msgid "Buttons"
 msgstr ""
 
-#: functions.php:57
+#: functions.php:59
 msgid "Keep words whole"
 msgstr ""
 
-#: functions.php:61
+#: functions.php:63
 msgid "Hyphenate"
 msgstr ""
 
-#: functions.php:67
+#: functions.php:69
 msgid "Main Menu"
 msgstr ""
 
-#: functions.php:73
+#: functions.php:75
+msgid "Stays in view"
+msgstr ""
+
+#: functions.php:81
 msgid "Asides"
 msgstr ""
 
-#: functions.php:77
+#: functions.php:85
 msgid "Image Box"
 msgstr ""
 
 #. translators: %s: A content type's name, such as Work.
-#: functions.php:215
+#: functions.php:254
 #, php-format
 msgid "%s page"
 msgstr ""
 
 #. translators: %s: A content type's name, such as Work.
-#: functions.php:217
+#: functions.php:256
 #, php-format
 msgid "Shows one item of the type %s."
 msgstr ""
 
 #. translators: %s: A content type's plural name, such as Works.
 #. translators: %s: A taxonomy's name, such as Group.
-#: functions.php:221
-#: functions.php:232
+#: functions.php:260
+#: functions.php:271
 #, php-format
 msgid "%s archive"
 msgstr ""
 
 #. translators: %s: A content type's plural name, such as Works.
-#: functions.php:223
+#: functions.php:262
 #, php-format
 msgid "Lists the %s."
 msgstr ""
 
 #. translators: %s: A taxonomy's plural name, such as Groups.
-#: functions.php:234
+#: functions.php:273
 #, php-format
 msgid "Lists the items in one of the %s."
 msgstr ""
 
-#: functions.php:363
+#: functions.php:402
 msgctxt "template part area"
 msgid "Card"
 msgstr ""
 
-#: functions.php:364
+#: functions.php:403
 msgid "How one item looks in a list, such as an archive, a Query Loop or a carousel. Edit a card and every list using it follows."
 msgstr ""
 
