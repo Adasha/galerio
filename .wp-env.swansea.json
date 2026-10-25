@@ -10,7 +10,13 @@
 		"wp-content/plugins": "./data/site/swansea/plugins",
 		"wp-content/themes": "./data/site/swansea/themes",
 		"wp-content/mu-plugins": "./tools/local-copy-mu",
-		"wp-content/galerio-data": "./data"
+		"wp-content/galerio-data": "./data",
+		"wp-content/plugins/galerio-core": "./plugins/galerio-core",
+		"wp-content/plugins/galerio-blocks": "./plugins/galerio-blocks",
+		"wp-content/plugins/galerio-media": "./plugins/galerio-media",
+		"wp-content/plugins/galerio-migrate": "./plugins/galerio-migrate",
+		"wp-content/themes/galerio": "./themes/galerio",
+		"wp-content/themes/swansea-art": "./themes/swansea-art"
 	},
 	"config": {
 		"WP_DEBUG_LOG": true,

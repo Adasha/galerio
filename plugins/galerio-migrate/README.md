@@ -25,6 +25,24 @@ The reset keeps which menu each Navigation block showed: the theme's version of 
 
 A value already in its new place is left alone. If a new field already holds something different, it's reported and never overwritten.
 
+## A site's decisions
+
+`sites/<site>.php` returns the site's decisions. Each key is optional:
+
+| Key | What it does |
+| --- | --- |
+| `post_types` | Moves an old post type's items to a Galerio type, keeping IDs, fields and menu items; blocks that query the old type follow. |
+| `taxonomies`, `drop_taxonomies` | Moves more old taxonomies into Galerio's (terms keep their IDs), or deletes them. |
+| `fields`, `profile_links`, `retire` | More field renames, link fields to merge, and old fields to remove (their values are listed first). |
+| `settings` | Galerio settings to set. |
+| `rename`, `labels`, `medium_tree`, `forms`, `categorisation`, `infer_medium` | Term renames and merges, terms that become Labels, the Medium hierarchy (missing terms are created; a form can sit under two disciplines). |
+| `page_templates`, `presents`, `page_css` | Old page templates → Galerio's, the "Site presents…" line, and per-item custom CSS → Page style. |
+| `drafts`, `menu_archives`, `navigation`, `aliases` | Pages to retire, menu items that become archive links, the classic menu to show as the block menu, and Galerio's names and addresses for content types. |
+
+Fields the site has that the package doesn't, and that aren't retired (such as swansea.art's review checklist), are kept with their group. Pods blocks become Field, Gallery, Exhibition Dates and Post Terms blocks. At the end, Pods' relationship table is rebuilt from the lists the site shows: where only one side of a two-way relationship lists the other, the other side gains it.
+
 ## Trying it locally
 
-`npm run env:trial:start`, then `npm run trial:import -- wp/<export>.xml pods/live/<package>.json` builds the trial site (port 8890) from a live site's WordPress export and Pods package, keeping post IDs. Run the commands above with `npx wp-env --config=.wp-env.trial.json run cli wp …`.
+For swansea.art: `npm run swansea:load -- <dump.sql> https://swansea.art` loads a database dump into the local copy (port 8891, images served from the live site), which mounts the Galerio plugins and themes from this repository. Deactivate Ignition there before looking at pages: Eclecticon's framework takes over archive templates.
+
+For galerio.net: `npm run env:trial:start`, then `npm run trial:import -- wp/<export>.xml pods/live/<package>.json` builds the trial site (port 8890) from a live site's WordPress export and Pods package, keeping post IDs. Run the commands above with `npx wp-env --config=.wp-env.trial.json run cli wp …`.
