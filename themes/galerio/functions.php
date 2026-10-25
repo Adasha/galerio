@@ -8,6 +8,7 @@
 add_action( 'after_setup_theme', 'galerio_load_textdomain' );
 add_action( 'init', 'galerio_register_pattern_category' );
 add_action( 'init', 'galerio_register_block_styles' );
+add_filter( 'render_block_core/cover', 'galerio_mark_imageless_cover', 10, 3 );
 
 /**
  * Load the theme's bundled translations, from languages/.
@@ -110,4 +111,36 @@ if ( ! function_exists( 'galerio_theme_attr' ) ) {
 		// serialize_block_attributes() escapes for a block comment: quotes, <, >, & and "--".
 		echo substr( serialize_block_attributes( array( (string) $text ) ), 1, -1 ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Escaped for a block comment.
 	}
+}
+
+/**
+ * Mark a cover that shows its item's featured image but finds none, so the
+ * theme can show a plain colour band in its place instead of nothing.
+ *
+ * Galerio Core first falls back to the item's own image (a work's
+ * definitive image, a profile's portrait…), so this is for items with no
+ * image at all, or whose fallback is turned off.
+ *
+ * @param string   $content Rendered cover.
+ * @param array    $block   Parsed block.
+ * @param WP_Block $instance Block instance.
+ * @return string
+ */
+function galerio_mark_imageless_cover( $content, $block, $instance ) {
+	if ( empty( $block['attrs']['useFeaturedImage'] ) ) {
+		return $content;
+	}
+
+	$post_id = isset( $instance->context['postId'] ) ? (int) $instance->context['postId'] : (int) get_the_ID();
+
+	if ( $post_id && has_post_thumbnail( $post_id ) ) {
+		return $content;
+	}
+
+	$cover = new WP_HTML_Tag_Processor( $content );
+	if ( $cover->next_tag( array( 'class_name' => 'wp-block-cover' ) ) ) {
+		$cover->add_class( 'galerio-cover-no-image' );
+	}
+
+	return $cover->get_updated_html();
 }
