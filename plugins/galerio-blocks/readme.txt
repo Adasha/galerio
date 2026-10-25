@@ -8,7 +8,7 @@ Stable tag: 0.2.0-alpha.1
 License: GPL-2.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-Blocks for galleries, artists and publishers: a carousel, a gallery, exhibition dates and related items, for exhibitions, works and creators.
+Blocks for galleries, artists and publishers: a carousel, a gallery, exhibition dates, and Query Loops of exhibitions and related items, for exhibitions, works and creators.
 
 == Description ==
 
@@ -35,9 +35,9 @@ Images open in a lightbox with previous and next buttons, arrow keys, swiping an
 
 Shows when an exhibition or other collection opens and closes: both dates in the site's date format, or a short range such as "19 May – 16 June 2023" or "19–23 May 2023". It can add an Upcoming, On now or Past label, worked out from today's date in the site's time zone. It's hidden when the collection has no dates.
 
-= Related Items =
+= Related items in Query Loops =
 
-Shows the items a relationship of the current item points to (a creator's works, a collection's exhibitors or curators, a work's collections) as cards: a grid, or a list with the image beside the title. Each card has the item's image, its title and an optional detail such as a work's year or creator. The heading follows the relationship's name, and the whole block, heading included, is hidden when nothing is related. Only published items show.
+Any Query Loop in a single template, or in a work's, profile's, collection's or article's content, gets a Related items panel in its settings. It shows the items a relationship of the current item points to (a creator's works, a collection's exhibitors or curators, a work's related works) in the order arranged on the item, at random, or in the Query Loop's own order. Only published items show. A Query Loop with nothing related is hidden entirely, heading included, unless its No results block has something to say. The editor previews recent items; the site shows the related ones.
 
 = Query Loop variations =
 
