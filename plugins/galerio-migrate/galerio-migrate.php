@@ -24,10 +24,13 @@ define( 'GALERIO_MIGRATE_DIR', plugin_dir_path( __FILE__ ) );
  *     wp galerio migrate content-model --site=<site> --dry-run
  *     wp galerio migrate theme-reset --dry-run
  *
- * Each site's term decisions are in sites/<site>.php.
+ * Each site's decisions are in sites/<site>.php.
  */
 if ( defined( 'WP_CLI' ) && WP_CLI ) {
 	require_once GALERIO_MIGRATE_DIR . 'includes/class-map.php';
+	require_once GALERIO_MIGRATE_DIR . 'includes/class-report.php';
+	require_once GALERIO_MIGRATE_DIR . 'includes/class-relationships.php';
+	require_once GALERIO_MIGRATE_DIR . 'includes/class-site-content.php';
 	require_once GALERIO_MIGRATE_DIR . 'includes/class-content-model.php';
 	require_once GALERIO_MIGRATE_DIR . 'includes/class-command.php';
 

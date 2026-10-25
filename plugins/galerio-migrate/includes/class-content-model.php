@@ -47,18 +47,25 @@ final class Content_Model {
 	private $site;
 
 	/**
-	 * Counts by step and outcome: step => outcome => count.
+	 * What this run did.
 	 *
-	 * @var array<string, array<string, int>>
+	 * @var Report
 	 */
-	private $counts = array();
+	private $report;
 
 	/**
-	 * Things for a person to look at, by step.
+	 * Fields to keep that the package doesn't have, saved before the import, each with its group.
 	 *
-	 * @var array<string, string[]>
+	 * @var array[]
 	 */
-	private $notes = array();
+	private $kept = array();
+
+	/**
+	 * Whether terms have moved to their new taxonomies yet.
+	 *
+	 * @var bool
+	 */
+	private $terms_moved = false;
 
 	/**
 	 * Set up a run.
@@ -70,13 +77,22 @@ final class Content_Model {
 	public function __construct( array $package, array $site, $dry ) {
 		$this->package = $package;
 		$this->site    = $site + array(
-			'rename'         => array(),
-			'medium_tree'    => array(),
-			'categorisation' => array(),
-			'infer_medium'   => array(),
-			'forms'          => array(),
+			'post_types'      => array(),
+			'taxonomies'      => array(),
+			'drop_taxonomies' => array(),
+			'fields'          => array(),
+			'profile_links'   => array(),
+			'retire'          => array(),
+			'settings'        => array(),
+			'rename'          => array(),
+			'labels'          => array(),
+			'medium_tree'     => array(),
+			'categorisation'  => array(),
+			'infer_medium'    => array(),
+			'forms'           => array(),
 		);
 		$this->dry     = (bool) $dry;
+		$this->report  = new Report();
 	}
 
 	/**
@@ -85,7 +101,9 @@ final class Content_Model {
 	 * @return array{counts: array, notes: array, remaining: array} The report. The command fills in `remaining`.
 	 */
 	public function run() {
+		$this->move_post_types();
 		$this->import_package();
+		$this->regroup_fields();
 		$this->copy_fields();
 		$this->merge_links();
 		$this->merge_websites();
@@ -93,13 +111,113 @@ final class Content_Model {
 		$this->rebuild_membership();
 		$this->copy_user_fields();
 		$this->move_terms();
+		$this->apply_settings();
 		$this->clean_up();
 
+		( new Relationships( $this->report, $this->dry ) )->rebuild();
+		( new Site_Content( $this->site, $this->report, $this->dry ) )->run();
+
 		return array(
-			'counts'    => $this->counts,
-			'notes'     => $this->notes,
+			'counts'    => $this->report->counts,
+			'notes'     => $this->report->notes,
 			'remaining' => array(),
 		);
+	}
+
+	/**
+	 * Step 1: move items of an old post type to their Galerio type, keeping
+	 * their IDs and fields. Menu items and blocks that name the old type
+	 * (Query Loops, Carousels) follow.
+	 */
+	private function move_post_types() {
+		global $wpdb;
+
+		foreach ( $this->site['post_types'] as $old => $new ) {
+			// phpcs:disable WordPress.DB.DirectDatabaseQuery -- One-off migration.
+			$count = (int) $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(*) FROM {$wpdb->posts} WHERE post_type = %s", $old ) );
+
+			if ( ! $count ) {
+				$this->count( 'Move post types', 'already done' );
+			} else {
+				$this->count( 'Move post types', $this->dry ? 'would move' : 'moved', $count );
+				$this->note( 'Move post types', "$count $old items → $new." );
+
+				if ( ! $this->dry ) {
+					$wpdb->update( $wpdb->posts, array( 'post_type' => $new ), array( 'post_type' => $old ) );
+					$wpdb->query( $wpdb->prepare( "UPDATE {$wpdb->postmeta} SET meta_value = %s WHERE meta_key = '_menu_item_object' AND meta_value = %s", $new, $old ) );
+					wp_cache_flush();
+				}
+			}
+
+			// Blocks that query the old type, e.g. a Carousel of the latest exhibitions.
+			$needle = '"postType":"' . $old . '"';
+			$posts  = $wpdb->get_results( $wpdb->prepare( "SELECT ID, post_title, post_content FROM {$wpdb->posts} WHERE post_content LIKE %s AND post_type <> 'revision'", '%' . $wpdb->esc_like( $needle ) . '%' ) );
+
+			foreach ( $posts as $post ) {
+				$this->count( 'Move post types', $this->dry ? 'would repoint blocks' : 'repointed blocks' );
+				$this->note( 'Move post types', sprintf( '%s (#%d): blocks showing %s now show %s.', $post->post_title, $post->ID, $old, $new ) );
+
+				if ( ! $this->dry ) {
+					$wpdb->update( $wpdb->posts, array( 'post_content' => str_replace( $needle, '"postType":"' . $new . '"', $post->post_content ) ), array( 'ID' => $post->ID ) );
+					clean_post_cache( (int) $post->ID );
+				}
+			}
+			// phpcs:enable
+		}
+	}
+
+	/**
+	 * Set Galerio settings the site's decisions name.
+	 */
+	private function apply_settings() {
+		foreach ( $this->site['settings'] as $name => $value ) {
+			$current = get_option( 'galerio_settings_' . $name, null );
+
+			if ( null !== $current && (string) $current === (string) $value ) {
+				$this->count( 'Settings', 'already done' );
+				continue;
+			}
+
+			$this->count( 'Settings', $this->dry ? 'would set' : 'set' );
+			$this->note( 'Settings', "$name → $value." );
+
+			if ( ! $this->dry ) {
+				pods( 'galerio_settings' )->save( $name, $value );
+			}
+		}
+	}
+
+	/**
+	 * Fields copied to a new name: Map::RENAMES and the site's own.
+	 *
+	 * @return array<string, array<string, string>>
+	 */
+	private function renames() {
+		$renames = Map::RENAMES;
+
+		foreach ( $this->site['fields'] as $pod => $fields ) {
+			$renames[ $pod ] = ( isset( $renames[ $pod ] ) ? $renames[ $pod ] : array() ) + $fields;
+		}
+
+		return $renames;
+	}
+
+	/**
+	 * A profile's old link fields, in the order they join `links`.
+	 *
+	 * @return string[]
+	 */
+	private function profile_links() {
+		return array_merge( Map::PROFILE_LINKS, $this->site['profile_links'] );
+	}
+
+	/**
+	 * Old taxonomies and the taxonomy their terms move to: Map::TAXONOMIES and the site's own.
+	 *
+	 * @return array<string, string>
+	 */
+	private function taxonomies() {
+		return Map::TAXONOMIES + $this->site['taxonomies'];
 	}
 
 	/**
@@ -111,6 +229,8 @@ final class Content_Model {
 			return;
 		}
 
+		$this->save_kept_fields();
+
 		$report = Importer::import( $this->package );
 
 		if ( is_wp_error( $report ) ) {
@@ -119,13 +239,194 @@ final class Content_Model {
 
 		$this->count( 'Import package', 'imported' );
 		$this->refresh_pods();
+		$this->restore_kept_fields();
+	}
+
+	/**
+	 * Save the records of fields the site keeps that the package doesn't have,
+	 * such as swansea.art's review checklist: importing drops a group the
+	 * package doesn't name, with its fields. Read from the database, since
+	 * loading them through Pods leaves its cache in a state the import trips over.
+	 */
+	private function save_kept_fields() {
+		$retired = $this->retired_fields();
+		$names   = $this->package_fields();
+
+		foreach ( array_keys( $names ) as $pod_name ) {
+			$pod = $this->config_id( 'pod', $pod_name );
+
+			if ( ! $pod || isset( $this->site['post_types'][ $pod_name ] ) ) {
+				continue;
+			}
+
+			foreach ( get_posts(
+				array(
+					'post_type'      => '_pods_field',
+					'post_parent'    => $pod,
+					'post_status'    => 'any',
+					'posts_per_page' => -1,
+				)
+			) as $field ) {
+				if ( in_array( $field->post_name, $names[ $pod_name ], true ) || in_array( "$pod_name.{$field->post_name}", $retired, true ) ) {
+					continue;
+				}
+
+				$group = get_post( (int) get_post_meta( $field->ID, 'group', true ) );
+
+				$this->kept[] = array(
+					'field' => $this->config_record( $field ),
+					'group' => $group ? $this->config_record( $group ) : null,
+				);
+			}
+		}
+
+		pods_api()->cache_flush_pods();
+	}
+
+	/**
+	 * A Pods configuration post and its settings.
+	 *
+	 * @param \WP_Post $post Post.
+	 * @return array{post: array, meta: array}
+	 */
+	private function config_record( $post ) {
+		$meta = array();
+
+		foreach ( get_post_meta( $post->ID ) as $key => $values ) {
+			$meta[ $key ] = array_map( 'maybe_unserialize', $values );
+		}
+
+		return array(
+			'post' => $post->to_array(),
+			'meta' => $meta,
+		);
+	}
+
+	/**
+	 * Recreate kept fields the import dropped, and their group, with their old IDs.
+	 */
+	private function restore_kept_fields() {
+		$restored = false;
+
+		foreach ( $this->kept as $kept ) {
+			if ( get_post( $kept['field']['post']['ID'] ) ) {
+				continue;
+			}
+
+			if ( $kept['group'] && ! get_post( $kept['group']['post']['ID'] ) ) {
+				$this->insert_record( $kept['group'] );
+			}
+
+			$this->insert_record( $kept['field'] );
+			$restored = true;
+
+			$this->count( 'Import package', 'kept site fields restored' );
+			$this->note( 'Import package', sprintf( "Kept %s, which the package doesn't have.", $kept['field']['post']['post_name'] ) );
+		}
+
+		if ( $restored ) {
+			$this->refresh_pods();
+		}
+	}
+
+	/**
+	 * Insert a saved Pods configuration post with its old ID and settings.
+	 *
+	 * @param array $record Record, from config_record().
+	 */
+	private function insert_record( array $record ) {
+		$post              = $record['post'];
+		$post['import_id'] = $post['ID'];
+		unset( $post['ID'], $post['guid'] );
+
+		$id = wp_insert_post( wp_slash( $post ), true );
+
+		if ( is_wp_error( $id ) ) {
+			$this->note( 'Import package', sprintf( "Couldn't restore %s: %s", $post['post_name'], $id->get_error_message() ) );
+			return;
+		}
+
+		foreach ( $record['meta'] as $key => $values ) {
+			foreach ( $values as $value ) {
+				add_post_meta( $id, $key, wp_slash( $value ) );
+			}
+		}
+	}
+
+	/**
+	 * The package's field names, by pod.
+	 *
+	 * @return array<string, string[]>
+	 */
+	private function package_fields() {
+		$names = array();
+
+		foreach ( $this->package['pods'] as $pod ) {
+			$names[ $pod['name'] ] = array();
+
+			foreach ( isset( $pod['groups'] ) ? $pod['groups'] : array() as $group ) {
+				foreach ( isset( $group['fields'] ) ? $group['fields'] : array() as $field ) {
+					$names[ $pod['name'] ][] = $field['name'];
+				}
+			}
+		}
+
+		return $names;
+	}
+
+	/**
+	 * Put each field the package has into the package's group for it.
+	 *
+	 * Importing updates a field that already exists by name but leaves it in
+	 * its old group, and Pods deletes a group's fields with the group, so
+	 * without this the clean-up would take fields such as a collection's
+	 * description with the old groups.
+	 */
+	private function regroup_fields() {
+		$step = 'Field groups';
+
+		foreach ( $this->package['pods'] as $pod ) {
+			foreach ( isset( $pod['groups'] ) ? $pod['groups'] : array() as $group ) {
+				$group_id = $this->config_id( 'group', $pod['name'] . '/' . $group['name'] );
+
+				foreach ( isset( $group['fields'] ) ? $group['fields'] : array() as $field ) {
+					$field_id = $this->config_id( 'field', $pod['name'] . '.' . $field['name'] );
+
+					if ( ! $field_id ) {
+						continue;
+					}
+
+					$current = (int) get_post_meta( $field_id, 'group', true );
+
+					if ( $group_id && $current === $group_id ) {
+						$this->count( $step, 'already done' );
+						continue;
+					}
+
+					// A dry run hasn't imported the package's groups, so it compares names.
+					if ( ! $group_id && get_post_field( 'post_name', $current ) === $group['name'] ) {
+						continue;
+					}
+
+					$this->count( $step, $this->dry ? 'would move' : 'moved' );
+
+					if ( ! $this->dry && $group_id ) {
+						update_post_meta( $field_id, 'group', $group_id );
+					}
+				}
+			}
+		}
+
+		if ( ! $this->dry ) {
+			$this->refresh_pods();
+		}
 	}
 
 	/**
 	 * Step 3: copy each old field's values to its new name.
 	 */
 	private function copy_fields() {
-		foreach ( Map::RENAMES as $pod => $renames ) {
+		foreach ( $this->renames() as $pod => $renames ) {
 			foreach ( $this->items( $pod ) as $id ) {
 				foreach ( $renames as $old => $new ) {
 					$field = $this->field( $pod, $new );
@@ -144,7 +445,7 @@ final class Content_Model {
 		foreach ( $this->items( 'galerio_profile' ) as $id ) {
 			$links = array();
 
-			foreach ( Map::PROFILE_LINKS as $old ) {
+			foreach ( $this->profile_links() as $old ) {
 				foreach ( (array) self::raw( $id, $old ) as $url ) {
 					$url = trim( (string) $url );
 
@@ -277,10 +578,24 @@ final class Content_Model {
 	 * medium hierarchy, categorisation and inferred mediums.
 	 */
 	private function move_terms() {
-		foreach ( Map::TAXONOMIES as $old => $new ) {
+		foreach ( $this->taxonomies() as $old => $new ) {
 			foreach ( $this->terms( $old ) as $term ) {
 				$parent_name = 'galerio_form' === $old && isset( $this->site['forms'][ $term->name ] ) ? $this->site['forms'][ $term->name ] : '';
 				$this->move_term( 'Move terms', $term, $new, $term->name, $parent_name );
+			}
+		}
+
+		$this->terms_moved = true;
+
+		foreach ( $this->site['drop_taxonomies'] as $taxonomy ) {
+			foreach ( $this->terms( $taxonomy ) as $term ) {
+				$this->count( 'Drop taxonomies', $this->dry ? 'would delete' : 'deleted' );
+				$this->note( 'Drop taxonomies', sprintf( '%s "%s" deleted (%d items).', $taxonomy, $term->name, $term->count ) );
+
+				if ( ! $this->dry ) {
+					$this->ensure_taxonomy( $taxonomy );
+					wp_delete_term( $term->term_id, $taxonomy );
+				}
 			}
 		}
 
@@ -304,21 +619,106 @@ final class Content_Model {
 			}
 		}
 
-		foreach ( $this->site['medium_tree'] as $discipline => $forms ) {
-			$existing = array_filter(
-				$forms,
-				function ( $form ) {
-					return (bool) $this->find_term( $form, 'galerio_medium' );
-				}
-			);
+		foreach ( $this->site['labels'] as $taxonomy => $names ) {
+			foreach ( $names as $name ) {
+				$term = $this->find_term( $name, $taxonomy );
 
-			foreach ( $existing as $form ) {
-				$this->move_term( 'Medium hierarchy', $this->find_term( $form, 'galerio_medium' ), 'galerio_medium', $form, $discipline );
+				if ( $term ) {
+					$this->move_term( 'Labels', $term, 'galerio_label', $term->name, '' );
+				}
 			}
 		}
 
+		$this->medium_tree();
+
 		$this->categorise();
 		$this->infer_mediums();
+	}
+
+	/**
+	 * Arrange mediums as disciplines with forms beneath them, creating the
+	 * ones that are missing, so unused forms are there to choose. A form can
+	 * sit under more than one discipline; an existing top-level term goes
+	 * under the first discipline that lists it.
+	 */
+	private function medium_tree() {
+		$step     = 'Medium hierarchy';
+		$taxonomy = 'galerio_medium';
+		$tree     = $this->site['medium_tree'];
+		$claimed  = array();
+
+		foreach ( $tree as $discipline => $forms ) {
+			$discipline_id = $this->tree_term( $step, $discipline, 0, '' );
+
+			foreach ( $forms as $form ) {
+				if ( $discipline_id > 0 && $this->find_child( $form, $taxonomy, $discipline_id ) ) {
+					$this->count( $step, 'already done' );
+					continue;
+				}
+
+				$loose = $this->find_child( $form, $taxonomy, 0 );
+
+				if ( $loose && ! isset( $tree[ $loose->name ] ) && ! isset( $claimed[ $loose->term_id ] ) ) {
+					$claimed[ $loose->term_id ] = true;
+					$this->count( $step, $this->dry ? 'would move' : 'moved' );
+					$this->note( $step, sprintf( '"%s" → under "%s" (%d items).', $loose->name, $discipline, $loose->count ) );
+
+					if ( ! $this->dry ) {
+						wp_update_term( $loose->term_id, $taxonomy, array( 'parent' => $discipline_id ) );
+					}
+					continue;
+				}
+
+				$this->tree_term( $step, $form, $discipline_id, $discipline );
+			}
+		}
+	}
+
+	/**
+	 * A medium term under a parent, created if need be.
+	 *
+	 * @param string $step        Step.
+	 * @param string $name        Name.
+	 * @param int    $parent_id   Parent's ID, 0 for the top level, or -1 for a parent a dry run hasn't made.
+	 * @param string $parent_name Parent's name, for the report.
+	 * @return int The term's ID, or -1 in a dry run when it doesn't exist.
+	 */
+	private function tree_term( $step, $name, $parent_id, $parent_name ) {
+		$term = $parent_id >= 0 ? $this->find_child( $name, 'galerio_medium', $parent_id ) : null;
+
+		if ( $term ) {
+			return (int) $term->term_id;
+		}
+
+		$this->count( $step, $this->dry ? 'would create' : 'created' );
+		$this->note( $step, $parent_name ? "\"$name\" created under \"$parent_name\"." : "\"$name\" created." );
+
+		if ( $this->dry ) {
+			return -1;
+		}
+
+		$this->ensure_taxonomy( 'galerio_medium' );
+		$created = wp_insert_term( $name, 'galerio_medium', array( 'parent' => $parent_id ) );
+
+		return is_wp_error( $created ) ? 0 : (int) $created['term_id'];
+	}
+
+	/**
+	 * A term by name under a given parent.
+	 *
+	 * @param string $name      Name.
+	 * @param string $taxonomy  Taxonomy.
+	 * @param int    $parent_id Parent's ID, 0 for the top level.
+	 * @return \WP_Term|null
+	 */
+	private function find_child( $name, $taxonomy, $parent_id ) {
+		foreach ( $this->terms( $taxonomy ) as $term ) {
+			if ( (int) $term->parent === (int) $parent_id && 0 === strcasecmp( $term->name, $name ) ) {
+				return $term;
+			}
+		}
+
+		return null;
 	}
 
 	/**
@@ -418,14 +818,30 @@ final class Content_Model {
 		$api  = pods_api();
 		$step = 'Clean up';
 
+		$old_types = $this->site['post_types'];
+		$old_pods  = $this->taxonomies() + array_flip( $this->site['drop_taxonomies'] ) + $old_types;
+
 		if ( 'field' === $kind && ! in_array( $name, $retired, true ) ) {
-			$this->note( $step, "Field $name isn't in the package or the migration's map, so it was kept." );
+			// A moved post type's fields go with its pod; their values now belong to the new type's fields.
+			if ( ! isset( $old_types[ strtok( $name, '.' ) ] ) ) {
+				$this->note( $step, "Field $name isn't in the package or the migration's map, so it was kept." );
+			}
 			return;
 		}
 
-		if ( 'pod' === $kind && ! isset( Map::TAXONOMIES[ $name ] ) ) {
+		if ( 'pod' === $kind && ! isset( $old_pods[ $name ] ) ) {
 			$this->note( $step, "Pod $name isn't in the package or the migration's map, so it was kept." );
 			return;
+		}
+
+		// Pods deletes a group's fields with it, so a group holding fields that are kept stays too.
+		if ( 'group' === $kind ) {
+			$kept = $this->kept_fields( $name, $retired );
+
+			if ( $kept ) {
+				$this->note( $step, sprintf( 'Group %s was kept for its fields %s.', $name, implode( ', ', $kept ) ) );
+				return;
+			}
 		}
 
 		$this->count( $step, ( $this->dry ? 'would remove ' : 'removed ' ) . $kind );
@@ -436,9 +852,12 @@ final class Content_Model {
 
 		switch ( $kind ) {
 			case 'pod':
-				$this->ensure_taxonomy( $name );
-				foreach ( $this->terms( $name ) as $term ) {
-					wp_delete_term( $term->term_id, $name );
+				// A post type's items have moved already; a taxonomy's leftover terms go with it.
+				if ( ! isset( $old_types[ $name ] ) ) {
+					$this->ensure_taxonomy( $name );
+					foreach ( $this->terms( $name ) as $term ) {
+						wp_delete_term( $term->term_id, $name );
+					}
 				}
 				$api->delete_pod( array( 'name' => $name ) );
 				break;
@@ -464,6 +883,52 @@ final class Content_Model {
 	}
 
 	/**
+	 * The fields of a group that neither the package has nor the migration retires.
+	 *
+	 * @param string   $name    Group, as "pod/group".
+	 * @param string[] $retired Fields known to be copied or retired, as "pod.field".
+	 * @return string[] Field names.
+	 */
+	private function kept_fields( $name, array $retired ) {
+		list( $pod ) = explode( '/', $name, 2 );
+
+		$id = $this->config_id( 'group', $name );
+
+		if ( ! $id || isset( $this->site['post_types'][ $pod ] ) ) {
+			return array();
+		}
+
+		$in_package = array();
+		foreach ( $this->package['pods'] as $package_pod ) {
+			if ( $package_pod['name'] !== $pod ) {
+				continue;
+			}
+			foreach ( isset( $package_pod['groups'] ) ? $package_pod['groups'] : array() as $group ) {
+				foreach ( isset( $group['fields'] ) ? $group['fields'] : array() as $field ) {
+					$in_package[] = $field['name'];
+				}
+			}
+		}
+
+		$kept = array();
+		foreach ( get_posts(
+			array(
+				'post_type'      => '_pods_field',
+				'post_status'    => 'any',
+				'posts_per_page' => -1,
+				'meta_key'       => 'group', // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key -- One-off migration.
+				'meta_value'     => $id, // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value -- One-off migration.
+			)
+		) as $field ) {
+			if ( ! in_array( $field->post_name, $in_package, true ) && ! in_array( "$pod.{$field->post_name}", $retired, true ) ) {
+				$kept[] = $field->post_name;
+			}
+		}
+
+		return $kept;
+	}
+
+	/**
 	 * Remove a retired field and its values, if there are any left.
 	 *
 	 * @param string $name Field, as "pod.field".
@@ -481,6 +946,15 @@ final class Content_Model {
 		$this->count( 'Clean up', $this->dry ? 'would remove field' : 'removed field' );
 		$this->count( 'Clean up', $this->dry ? 'old values to delete' : 'old values deleted', $values );
 
+		if ( $values && in_array( $name, $this->site['retire'], true ) ) {
+			$this->note_values( $pod, $field );
+		}
+
+		// Settings pods keep their values in options.
+		if ( 'galerio_settings' === $pod && ! $this->dry ) {
+			delete_option( "{$pod}_{$field}" );
+		}
+
 		if ( $this->dry ) {
 			return;
 		}
@@ -495,6 +969,36 @@ final class Content_Model {
 		}
 
 		$this->delete_values( $pod, $field );
+	}
+
+	/**
+	 * List a retired field's values in the report, so nothing goes unseen.
+	 *
+	 * @param string $pod   Pod.
+	 * @param string $field Field.
+	 */
+	private function note_values( $pod, $field ) {
+		global $wpdb;
+
+		// phpcs:disable WordPress.DB.DirectDatabaseQuery -- One-off migration.
+		if ( 'user' === $pod ) {
+			$rows = $wpdb->get_results( $wpdb->prepare( "SELECT u.user_login AS item, m.meta_value AS value FROM {$wpdb->usermeta} m JOIN {$wpdb->users} u ON u.ID = m.user_id WHERE m.meta_key = %s AND m.meta_value <> '' ORDER BY u.user_login", $field ) );
+		} else {
+			$rows = $wpdb->get_results( $wpdb->prepare( "SELECT CONCAT(p.post_title, ' (#', p.ID, ')') AS item, m.meta_value AS value FROM {$wpdb->postmeta} m JOIN {$wpdb->posts} p ON p.ID = m.post_id WHERE p.post_type = %s AND m.meta_key = %s AND m.meta_value <> '' ORDER BY p.ID", 'media' === $pod ? 'attachment' : $pod, $field ) );
+		}
+		// phpcs:enable
+
+		foreach ( $rows as $row ) {
+			$value = $row->value;
+
+			// A term ID, as a relationship to a taxonomy stores it.
+			if ( is_numeric( $value ) ) {
+				$term  = get_term( (int) $value );
+				$value = $term && ! is_wp_error( $term ) ? $term->name : $value;
+			}
+
+			$this->note( 'Retired values', sprintf( '%s.%s: %s: %s', $pod, $field, $row->item, wp_trim_words( (string) $value, 12 ) ) );
+		}
 	}
 
 	/**
@@ -624,13 +1128,15 @@ final class Content_Model {
 			'user.profile_page',
 		);
 
-		foreach ( Map::RENAMES as $pod => $renames ) {
+		$fields = array_merge( $fields, $this->site['retire'] );
+
+		foreach ( $this->renames() as $pod => $renames ) {
 			foreach ( array_keys( $renames ) as $old ) {
 				$fields[] = "$pod.$old";
 			}
 		}
 
-		foreach ( Map::PROFILE_LINKS as $old ) {
+		foreach ( $this->profile_links() as $old ) {
 			$fields[] = "galerio_profile.$old";
 		}
 
@@ -662,12 +1168,24 @@ final class Content_Model {
 	 * @param string $what  Description for the report.
 	 */
 	private function put( $step, Field $field, $id, $value, $what ) {
+		$raw     = self::raw( $id, $field->source );
+		$current = $field->normalise( 'link' === $field->type ? self::first( $raw ) : $raw );
+
+		// Links to deleted items are dropped, from the old list and the new.
+		if ( $field->holds_ids() ) {
+			$kept = self::existing( $value );
+
+			if ( $kept !== $value ) {
+				$this->count( $step, 'links to deleted items dropped', count( (array) $value ) - count( (array) $kept ) );
+				$value = $kept;
+			}
+
+			$current = self::existing( $current );
+		}
+
 		if ( $field->empty_value() === $value ) {
 			return;
 		}
-
-		$raw     = self::raw( $id, $field->source );
-		$current = $field->normalise( 'link' === $field->type ? self::first( $raw ) : $raw );
 
 		// Pods keeps relationships two-way, so copying one side may already have
 		// added items here, in its own order: keep the old list's order and append
@@ -752,6 +1270,31 @@ final class Content_Model {
 					'parent' => $parent_id,
 				)
 			);
+			return;
+		}
+
+		// Nothing of that name in the new taxonomy yet: the term moves whole,
+		// keeping its ID (which fields, menus and links may hold) and its parent,
+		// which moves with it.
+		if ( ! $target ) {
+			global $wpdb;
+
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery -- One-off migration; WordPress has no API to move a term between taxonomies.
+			$wpdb->update(
+				$wpdb->term_taxonomy,
+				array(
+					'taxonomy' => $taxonomy,
+					'parent'   => $parent_name ? $parent_id : (int) $term->parent,
+				),
+				array( 'term_taxonomy_id' => $term->term_taxonomy_id )
+			);
+			clean_term_cache( $term->term_id, '', false );
+			delete_option( "{$term->taxonomy}_children" );
+			delete_option( "{$taxonomy}_children" );
+
+			if ( $name !== $term->name ) {
+				wp_update_term( $term->term_id, $taxonomy, array( 'name' => $name ) );
+			}
 			return;
 		}
 
@@ -859,8 +1402,17 @@ final class Content_Model {
 	private function terms( $taxonomy ) {
 		global $wpdb;
 
-		// phpcs:ignore WordPress.DB.DirectDatabaseQuery -- One-off migration over taxonomies that may not be registered.
-		$rows = $wpdb->get_results( $wpdb->prepare( "SELECT t.term_id, t.name, t.slug, tt.term_taxonomy_id, tt.taxonomy, tt.parent, tt.count FROM {$wpdb->terms} t JOIN {$wpdb->term_taxonomy} tt ON tt.term_id = t.term_id WHERE tt.taxonomy = %s ORDER BY t.term_id", $taxonomy ) );
+		$taxonomies = array( $taxonomy );
+
+		// A dry run hasn't moved old taxonomies' terms, so once past that step it counts them as their new taxonomy's.
+		if ( $this->dry && $this->terms_moved ) {
+			$taxonomies = array_merge( $taxonomies, array_keys( $this->taxonomies(), $taxonomy, true ) );
+		}
+
+		$in = implode( ', ', array_fill( 0, count( $taxonomies ), '%s' ) );
+
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare -- One-off migration over taxonomies that may not be registered; $in is placeholders.
+		$rows = $wpdb->get_results( $wpdb->prepare( "SELECT t.term_id, t.name, t.slug, tt.term_taxonomy_id, tt.taxonomy, tt.parent, tt.count FROM {$wpdb->terms} t JOIN {$wpdb->term_taxonomy} tt ON tt.term_id = t.term_id WHERE tt.taxonomy IN ($in) ORDER BY t.term_id", $taxonomies ) );
 
 		return array_map(
 			function ( $row ) {
@@ -926,7 +1478,7 @@ final class Content_Model {
 			pods_init()->setup_content_types( true );
 		}
 
-		foreach ( array_unique( Map::TAXONOMIES ) as $taxonomy ) {
+		foreach ( array_unique( $this->taxonomies() ) as $taxonomy ) {
 			$this->ensure_taxonomy( $taxonomy );
 		}
 	}
@@ -961,8 +1513,17 @@ final class Content_Model {
 			return array();
 		}
 
-		// phpcs:ignore WordPress.DB.DirectDatabaseQuery -- One-off migration; includes drafts, private items and attachments.
-		return array_map( 'intval', $wpdb->get_col( $wpdb->prepare( "SELECT ID FROM {$wpdb->posts} WHERE post_type = %s AND post_status <> 'auto-draft' ORDER BY ID", 'media' === $pod ? 'attachment' : $pod ) ) );
+		$types = array( 'media' === $pod ? 'attachment' : $pod );
+
+		// A dry run hasn't moved old post types' items, so it counts them as their new type's.
+		if ( $this->dry ) {
+			$types = array_merge( $types, array_keys( $this->site['post_types'], $pod, true ) );
+		}
+
+		$in = implode( ', ', array_fill( 0, count( $types ), '%s' ) );
+
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare -- One-off migration; includes drafts, private items and attachments. $in is placeholders.
+		return array_map( 'intval', $wpdb->get_col( $wpdb->prepare( "SELECT ID FROM {$wpdb->posts} WHERE post_type IN ($in) AND post_status <> 'auto-draft' ORDER BY ID", $types ) ) );
 	}
 
 	/**
@@ -1003,6 +1564,27 @@ final class Content_Model {
 	}
 
 	/**
+	 * Keep only IDs of posts that exist: a list, or a single ID (0 when it doesn't).
+	 *
+	 * @param int|int[] $ids IDs.
+	 * @return int|int[]
+	 */
+	private static function existing( $ids ) {
+		if ( ! is_array( $ids ) ) {
+			return $ids && get_post_status( (int) $ids ) ? $ids : 0;
+		}
+
+		return array_values(
+			array_filter(
+				$ids,
+				function ( $id ) {
+					return (bool) get_post_status( (int) $id );
+				}
+			)
+		);
+	}
+
+	/**
 	 * The first of a list of values.
 	 *
 	 * @param mixed $values Values.
@@ -1021,10 +1603,7 @@ final class Content_Model {
 	 * @param int    $by      Amount.
 	 */
 	private function count( $step, $outcome, $by = 1 ) {
-		if ( ! isset( $this->counts[ $step ][ $outcome ] ) ) {
-			$this->counts[ $step ][ $outcome ] = 0;
-		}
-		$this->counts[ $step ][ $outcome ] += $by;
+		$this->report->count( $step, $outcome, $by );
 	}
 
 	/**
@@ -1034,6 +1613,6 @@ final class Content_Model {
 	 * @param string $text Note.
 	 */
 	private function note( $step, $text ) {
-		$this->notes[ $step ][] = $text;
+		$this->report->note( $step, $text );
 	}
 }

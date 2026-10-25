@@ -55,6 +55,7 @@ final class Map {
 			'hidden_bio'          => 'notes',
 			'featured_works'      => 'works',
 			'in_collections'      => 'collections',
+			'in_articles'         => 'article_mentions',
 			'show_external_links' => 'show_links',
 		),
 		'galerio_collection' => array(
