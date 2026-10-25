@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-10-25T11:18:11+00:00\n"
+"POT-Creation-Date: 2026-10-25T11:37:45+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: galerio\n"
@@ -72,7 +72,7 @@ msgstr ""
 
 #: patterns/collection-card.php
 msgctxt "Pattern description"
-msgid "A collection as a slide like the front page carousel's: its image filling the card, with a caption box holding the title, dates, categories and a button. Use it inside a Query Loop of collections, or in a Galerio Carousel's Query Loop."
+msgid "A collection as a slide like the front page carousel's: its image filling the card, with a caption box holding the title, dates, categories and a button. Use it inside a Query Loop of collections, or in a Galerio Carousel's Query Loop. Its height is 420px unless --galerio-collection-card-height says otherwise, so a child theme can make the cards taller in one place, such as the collections archive."
 msgstr ""
 
 #. translators: Button on a collection card. {collection} is the site's name for a collection, such as "exhibition".
