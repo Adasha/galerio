@@ -110,7 +110,14 @@ test.describe( 'Field details', () => {
 		await expect( main ).toContainText( 'Oil on canvas' );
 		await expect( main ).toContainText( '120 × 90 cm' );
 		await expect(
-			main.getByRole( 'link', { name: 'Shorelines' } )
+			main.getByRole( 'link', { name: 'Shorelines', exact: true } )
+		).toBeVisible();
+		// Related items from Galerio Blocks, as cards.
+		await expect(
+			main.getByRole( 'heading', { name: 'Articles' } )
+		).toBeVisible();
+		await expect(
+			main.getByRole( 'link', { name: 'In conversation: Shorelines' } )
 		).toBeVisible();
 	} );
 

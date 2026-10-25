@@ -76,7 +76,7 @@ test.describe( 'Content type aliases', () => {
 		// Template headings use the new names.
 		await page.goto( '/artist/ana-morgan/' );
 		await expect(
-			page.getByRole( 'heading', { name: 'Featured artworks:' } )
+			page.getByRole( 'heading', { name: 'Featured artworks' } )
 		).toBeVisible();
 
 		// So does the theme's own wording that names a taxonomy or type.
