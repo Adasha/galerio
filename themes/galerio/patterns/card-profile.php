@@ -10,7 +10,7 @@
 
 ?>
 <!-- wp:group {"metadata":{"name":"Card"},"className":"galerio-card galerio-card-profile","layout":{"type":"default"}} -->
-<div class="wp-block-group galerio-card galerio-card-profile"><!-- wp:post-featured-image {"isLink":true,"aspectRatio":"1","width":"","height":"","style":{"spacing":{"margin":{"top":"var:preset|spacing|30","bottom":"var:preset|spacing|30"}}}} /-->
+<div class="wp-block-group galerio-card galerio-card-profile"><!-- wp:post-featured-image {"isLink":true,"aspectRatio":"1","width":"","height":"","style":{"spacing":{"margin":{"top":"0","bottom":"var:preset|spacing|30"}}}} /-->
 
 <!-- wp:post-title {"isLink":true,"fontSize":"medium"} /-->
 

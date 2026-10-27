@@ -20,7 +20,7 @@
 <h2 class="wp-block-heading"></h2>
 <!-- /wp:heading -->
 
-<!-- wp:heading {"level":3,"metadata":{"bindings":{"content":{"source":"galerio/field","args":{"key":"work.creator"}}}}} -->
+<!-- wp:heading {"level":3,"metadata":{"bindings":{"content":{"source":"galerio/field","args":{"key":"work.creator","omitCurrent":true}}}}} -->
 <h3 class="wp-block-heading"></h3>
 <!-- /wp:heading -->
 
