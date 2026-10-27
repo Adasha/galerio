@@ -16,7 +16,7 @@ Media Library folders, shared and per person, with a FileBird import, and upload
 
 Files can be filed in folders, nested as deeply as needed. Shared folders are seen by everyone who can upload and managed by editors. When Settings → Media allows it, each person can also have their own folders, which only they see and manage; two people can use the same folder names. A file can be in one shared folder and in one of each person's own. Folders organise the Media Library only: files stay where they are on disk.
 
-The Media Library's grid and the media picker get a folder column: "All files", "Not in a folder", the shared folders and "My folders". Click a folder to see its files; drag files onto a folder to file them (all of a bulk selection at once); files uploaded while a folder is open go into it. Folders can be added, renamed and deleted there, by the people allowed to. The list view has a folder filter and a Folders column, and each file's details a folder dropdown.
+The Media Library (grid and list views) and the media picker get a folder column: "All files", "Not in a folder", the shared folders and "My folders". Click a folder to see its files; drag files onto a folder to file them (in the list view, a row, or all the ticked rows); files uploaded while a folder is open go into it, including from the list view's "Add Media File". "New" adds a folder at the top, and "New folder inside" one inside the chosen folder; folders can also be renamed and deleted there, by the people allowed to. The list view also has a Folders column, and each file's details a folder dropdown.
 
 = Folder directories =
 
@@ -39,7 +39,7 @@ Galerio is in alpha. Expect breaking changes.
 == Changelog ==
 
 = 0.1.0-alpha.1 =
-* Folders for the Media Library, shared and per person: a folder tree in the grid and the media picker, with drag-and-drop filing and uploads into the open folder, plus a filter and column in the list view and a dropdown in each file's details.
+* Folders for the Media Library, shared and per person: a folder tree in the grid and list views and the media picker, with drag-and-drop filing and uploads into the open folder, plus a column in the list view and a dropdown in each file's details.
 * `wp galerio media import-filebird`.
 * Uploads private to the people who made them.
 * New uploads into shared folders saved in the folder's directory, when switched on.

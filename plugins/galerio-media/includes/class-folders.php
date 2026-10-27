@@ -378,6 +378,61 @@ final class Folders {
 	}
 
 	/**
+	 * A tax query narrowing files to a folder the current person may use, or to
+	 * files in no shared folder.
+	 *
+	 * @param int|string $folder A folder ID, "unfiled", or 0 for all files.
+	 * @return array|null Tax query, or null to leave the files as they are.
+	 */
+	public static function tax_query( $folder ) {
+		if ( 'unfiled' === $folder ) {
+			$shared = get_terms(
+				array(
+					'taxonomy'    => self::TAXONOMY,
+					'hide_empty'  => false,
+					'fields'      => 'ids',
+					'galerio_all' => true,
+					'meta_key'    => self::OWNER, // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key -- Shared folders.
+					'meta_value'  => 0, // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value -- Shared folders.
+				)
+			);
+
+			return array(
+				array(
+					'taxonomy' => self::TAXONOMY,
+					'terms'    => is_wp_error( $shared ) || ! $shared ? array( 0 ) : $shared,
+					'operator' => 'NOT IN',
+				),
+			);
+		}
+
+		$folder = absint( $folder );
+		if ( ! $folder || ! current_user_can( 'assign_term', $folder ) ) {
+			return null;
+		}
+
+		return array(
+			array(
+				'taxonomy'         => self::TAXONOMY,
+				'terms'            => $folder,
+				'include_children' => false,
+			),
+		);
+	}
+
+	/**
+	 * A folder choice from a request: "unfiled", or a folder ID (0 for none).
+	 *
+	 * @param mixed $value Raw value.
+	 * @return int|string
+	 */
+	public static function parse_choice( $value ) {
+		$value = is_scalar( $value ) ? sanitize_key( (string) $value ) : '';
+
+		return 'unfiled' === $value ? 'unfiled' : absint( $value );
+	}
+
+	/**
 	 * The folders a person sees, as a flat list in tree order, each with its
 	 * depth, for dropdowns.
 	 *

@@ -13,10 +13,10 @@ use WP_Query;
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Until the folder tree arrives in the Media Library's grid, folders are used
- * from the list view (a filter and a column) and from each file's details,
- * where a dropdown files it in a shared folder and, when people have their
- * own, in one of theirs.
+ * The list view's folder filter (the folder tree replaces its dropdown when
+ * JavaScript runs) and Folders column, and the folder dropdowns in each file's
+ * details, which file it in a shared folder and, when people have their own,
+ * in one of theirs.
  */
 final class List_View {
 
@@ -91,23 +91,16 @@ final class List_View {
 	 * @param WP_Query $query Query.
 	 */
 	public static function apply_filter( $query ) {
-		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- A list filter.
-		$folder = isset( $_GET[ self::PARAM ] ) ? absint( $_GET[ self::PARAM ] ) : 0;
-
-		if ( ! $folder || ! is_admin() || ! $query->is_main_query() || 'attachment' !== $query->get( 'post_type' ) || ! current_user_can( 'assign_term', $folder ) ) {
+		if ( ! is_admin() || ! $query->is_main_query() || 'attachment' !== $query->get( 'post_type' ) ) {
 			return;
 		}
 
-		$query->set(
-			'tax_query', // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_tax_query -- Filtering by folder is the point.
-			array(
-				array(
-					'taxonomy'         => Folders::TAXONOMY,
-					'terms'            => $folder,
-					'include_children' => false,
-				),
-			)
-		);
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- A list filter; parse_choice() sanitises.
+		$tax_query = Folders::tax_query( Folders::parse_choice( isset( $_GET[ self::PARAM ] ) ? wp_unslash( $_GET[ self::PARAM ] ) : '' ) );
+
+		if ( $tax_query ) {
+			$query->set( 'tax_query', $tax_query ); // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_tax_query -- Filtering by folder is the point.
+		}
 	}
 
 	/**

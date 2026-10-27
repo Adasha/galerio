@@ -1,11 +1,16 @@
 /**
- * The folder tree in the Media Library grid and the media picker.
+ * The folder tree in the Media Library (grid and list views) and the media
+ * picker.
  *
- * WordPress builds both from the same "attachments browser" view, so the tree
- * is added to every browser as it renders: a column on the left listing the
- * shared folders and "My folders". Choosing a folder narrows the files shown
- * (sent as `query[galerio_folder]`), files dragged onto a folder are filed
- * there, and uploads made while a folder is open go into it.
+ * The grid and the picker are built from the same "attachments browser" view,
+ * so the tree is added to every browser as it renders: a column on the left
+ * listing the shared folders and "My folders". Choosing a folder narrows the
+ * files shown (sent as `query[galerio_folder]`), files dragged onto a folder
+ * are filed there, and uploads made while a folder is open go into it.
+ *
+ * The list view is a plain admin page, so there the tree sits beside the
+ * table: choosing a folder reloads the list filtered to it (`?galerio_folder=`),
+ * rows drag onto folders, and "Add New Media File" uploads into the open folder.
  */
 import { __, sprintf } from '@wordpress/i18n';
 import apiFetch from '@wordpress/api-fetch';
@@ -77,10 +82,8 @@ function library( browser ) {
 			}
 		},
 
-		// Files moved out of the folder being shown leave the view.
-		moved( ids, folder ) {
-			const chosen = collection.props.get( 'galerio_folder' );
-			if ( chosen && chosen !== folder ) {
+		moved( ids, leaves ) {
+			if ( leaves ) {
 				collection.remove( ids );
 			}
 			window.wp?.media?.model?.Query?.cleanQueries?.();
@@ -88,8 +91,46 @@ function library( browser ) {
 	};
 }
 
-function FolderTree( { browser } ) {
-	const lib = useRef( library( browser ) ).current;
+/**
+ * The list view's folder choice, which lives in the page's address.
+ *
+ * @return {Object} Helpers, as library() gives the grid.
+ */
+function listLibrary() {
+	const value = new URL( window.location.href ).searchParams.get(
+		'galerio_folder'
+	);
+	const chosen = value === 'unfiled' ? 'unfiled' : Number( value ) || 0;
+
+	return {
+		chosen: () => chosen,
+
+		choose( folder ) {
+			const next = new URL( window.location.href );
+			if ( folder ) {
+				next.searchParams.set( 'galerio_folder', folder );
+			} else {
+				next.searchParams.delete( 'galerio_folder' );
+			}
+			next.searchParams.delete( 'paged' );
+			window.location.assign( next.toString() );
+		},
+
+		// Rows that leave the folder shown go; otherwise the page reloads so
+		// the Folders column is right.
+		moved( ids, leaves ) {
+			if ( ! leaves ) {
+				window.location.reload();
+				return;
+			}
+			ids.forEach( ( id ) =>
+				document.getElementById( `post-${ id }` )?.remove()
+			);
+		},
+	};
+}
+
+function FolderTree( { lib } ) {
 	const [ data, setData ] = useState( null );
 	const [ chosen, setChosen ] = useState( lib.chosen() );
 	const [ expanded, setExpanded ] = useState( loadExpanded );
@@ -111,6 +152,26 @@ function FolderTree( { browser } ) {
 	useEffect( () => {
 		load();
 	}, [] );
+
+	// The folders around the chosen one open, so it shows, e.g. when the
+	// list view reloads with a folder inside a closed one.
+	useEffect( () => {
+		if ( ! data || typeof chosen !== 'number' ) {
+			return;
+		}
+		const parents = new Map(
+			data.folders.map( ( folder ) => [ folder.id, folder.parent ] )
+		);
+		const next = new Set( expanded );
+		for ( let id = parents.get( chosen ); id; id = parents.get( id ) ) {
+			next.add( id );
+		}
+		if ( next.size !== expanded.size ) {
+			setExpanded( next );
+			saveExpanded( next );
+		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps -- Only when the folders or the choice change.
+	}, [ data, chosen ] );
 
 	if ( ! data ) {
 		return (
@@ -151,16 +212,9 @@ function FolderTree( { browser } ) {
 			error?.message || __( 'That didn’t work.', 'galerio-media' )
 		);
 
-	// Add a folder inside the chosen one, or at the top of its space.
-	const startAdd = ( personal ) => {
-		const inside =
-			current &&
-			! current.root &&
-			( personal ? current.owner : ! current.owner )
-				? current.id
-				: 0;
-		setEditing( { mode: 'add', parent: inside, personal, value: '' } );
-	};
+	// Add a folder at the top of a space, or inside a folder.
+	const startAdd = ( personal, parent = 0 ) =>
+		setEditing( { mode: 'add', parent, personal, value: '' } );
 
 	const save = ( event ) => {
 		event.preventDefault();
@@ -246,13 +300,25 @@ function FolderTree( { browser } ) {
 			return;
 		}
 
+		// Filing only changes the files' folders in one space (the shared
+		// folders, or someone's own), so they leave the view only when it
+		// shows another folder of that space, or shows files in no shared
+		// folder and they went into one.
+		const space = folder ? find( folder )?.owner : owner;
+		let leaves = false;
+		if ( chosen === 'unfiled' ) {
+			leaves = !! folder && space === 0;
+		} else if ( chosen ) {
+			leaves = chosen !== folder && find( chosen )?.owner === space;
+		}
+
 		apiFetch( {
 			path: '/galerio-media/v1/file',
 			method: 'POST',
 			data: { folder, owner, attachments: ids },
 		} )
 			.then( ( response ) => {
-				lib.moved( ids, folder );
+				lib.moved( ids, leaves );
 				setMessage(
 					sprintf(
 						/* translators: %d: number of files. */
@@ -337,6 +403,14 @@ function FolderTree( { browser } ) {
 							}
 							onClick={ () => choose( folder.id ) }
 						>
+							<span
+								className={ `galerio-folders__icon dashicons dashicons-${
+									open && children
+										? 'open-folder'
+										: 'category'
+								}` }
+								aria-hidden="true"
+							/>
 							<span className="galerio-folders__name">
 								{ folder.name }
 							</span>
@@ -347,6 +421,14 @@ function FolderTree( { browser } ) {
 							) }
 						</Button>
 					</div>
+					{ addingInside === folder.id && (
+						<div
+							className="galerio-folders__inline"
+							style={ { '--depth': depth + 1 } }
+						>
+							{ editingForm }
+						</div>
+					) }
 					{ children && open && (
 						<ul>{ branch( folder.id, depth + 1 ) }</ul>
 					) }
@@ -356,9 +438,21 @@ function FolderTree( { browser } ) {
 
 	const canAdd = ( personal ) =>
 		personal ? data.personal : data.canAddShared;
+	// A new subfolder's name is typed under its folder; other names under the
+	// space's heading.
+	const inside = editing?.mode === 'add' && find( editing.parent );
+	const addingInside = inside && ! inside.root ? inside.id : 0;
 	const editingForm = editing && (
 		<form className="galerio-folders__form" onSubmit={ save }>
-			{  }
+			{ inside && ! inside.root && (
+				<p className="galerio-folders__hint">
+					{ sprintf(
+						/* translators: %s: folder name. */
+						__( 'New folder inside “%s”', 'galerio-media' ),
+						inside.name
+					) }
+				</p>
+			) }
 			<input
 				type="text"
 				ref={ field }
@@ -415,7 +509,7 @@ function FolderTree( { browser } ) {
 					</Button>
 				) }
 			</div>
-			{ editing && ! editing.personal && editingForm }
+			{ editing && ! addingInside && ! editing.personal && editingForm }
 			<ul className="galerio-folders__tree">{ branch( 0, 0 ) }</ul>
 
 			{ data.personal && (
@@ -436,7 +530,10 @@ function FolderTree( { browser } ) {
 							{ __( 'New', 'galerio-media' ) }
 						</Button>
 					</div>
-					{ editing && editing.personal && editingForm }
+					{ editing &&
+						! addingInside &&
+						editing.personal &&
+						editingForm }
 					<ul className="galerio-folders__tree">
 						{ root ? branch( root.id, 0 ) : null }
 					</ul>
@@ -445,6 +542,18 @@ function FolderTree( { browser } ) {
 
 			{ current && ( current.canEdit || current.canDelete ) && (
 				<div className="galerio-folders__actions">
+					{ canAdd( !! current.owner ) && (
+						<Button
+							size="small"
+							variant="secondary"
+							icon="plus-alt2"
+							onClick={ () =>
+								startAdd( !! current.owner, current.id )
+							}
+						>
+							{ __( 'New folder inside', 'galerio-media' ) }
+						</Button>
+					) }
 					{ current.canEdit && (
 						<Button
 							size="small"
@@ -515,6 +624,15 @@ function makeDraggable( browser ) {
 		event.dataTransfer.setData( DRAG_TYPE, JSON.stringify( ids ) );
 		event.dataTransfer.effectAllowed = 'move';
 	} );
+
+	// WordPress's uploader takes any drag over the library for files to upload
+	// and shows its "Drop files to upload" cover, which can stay up after the
+	// drop. Dragging files to folders isn't uploading, so it stops short of it.
+	browser.el.addEventListener( 'dragover', ( event ) => {
+		if ( event.dataTransfer?.types.includes( DRAG_TYPE ) ) {
+			event.stopPropagation();
+		}
+	} );
 }
 
 const media = window.wp?.media;
@@ -533,7 +651,9 @@ if ( Browser ) {
 			this.el.prepend( container );
 			this.el.classList.add( 'has-galerio-folders' );
 			this.galerioFolders = createRoot( container );
-			this.galerioFolders.render( <FolderTree browser={ this } /> );
+			this.galerioFolders.render(
+				<FolderTree lib={ library( this ) } />
+			);
 			makeDraggable( this );
 		}
 
@@ -544,4 +664,91 @@ if ( Browser ) {
 		this.galerioFolders?.unmount();
 		return remove.apply( this, arguments );
 	};
+}
+
+/**
+ * Let rows of the list view be dragged onto folders: one, or all of those
+ * ticked when the dragged one is among them.
+ *
+ * @param {HTMLElement} list The table's body.
+ */
+function makeRowsDraggable( list ) {
+	list.querySelectorAll( 'tr[id^="post-"]' ).forEach( ( row ) =>
+		row.setAttribute( 'draggable', 'true' )
+	);
+
+	list.addEventListener( 'dragstart', ( event ) => {
+		const row = event.target.closest?.( 'tr[id^="post-"]' );
+		if ( ! row ) {
+			return;
+		}
+
+		const id = Number( row.id.slice( 5 ) );
+		const ticked = Array.from(
+			list.querySelectorAll( 'input[name="media[]"]:checked' ),
+			( box ) => Number( box.value )
+		);
+		const ids =
+			ticked.length > 1 && ticked.includes( id ) ? ticked : [ id ];
+
+		event.dataTransfer.setData( DRAG_TYPE, JSON.stringify( ids ) );
+		event.dataTransfer.effectAllowed = 'move';
+	} );
+}
+
+/**
+ * The tree beside the Media Library's list view.
+ */
+function mountListView() {
+	const form = document.getElementById( 'posts-filter' );
+	if ( ! document.body.classList.contains( 'upload-php' ) || ! form ) {
+		return;
+	}
+
+	const lib = listLibrary();
+	const chosen = lib.chosen();
+
+	// The tree takes over from the folder dropdown; a hidden field keeps the
+	// folder when the list's other filters are applied.
+	const select = document.getElementById( 'galerio_folder' );
+	if ( select ) {
+		form.querySelector( 'label[for="galerio_folder"]' )?.remove();
+		const keep = document.createElement( 'input' );
+		keep.type = 'hidden';
+		keep.name = 'galerio_folder';
+		keep.value = chosen ? String( chosen ) : '';
+		select.replaceWith( keep );
+	}
+
+	// "Add New Media File" uploads into the open folder.
+	if ( typeof chosen === 'number' && chosen ) {
+		document
+			.querySelectorAll( '.wrap .page-title-action' )
+			.forEach( ( link ) => {
+				const url = new URL( link.href );
+				url.searchParams.set( 'galerio_folder', chosen );
+				link.href = url.toString();
+			} );
+	}
+
+	const layout = document.createElement( 'div' );
+	layout.className = 'galerio-folders-layout';
+	const column = document.createElement( 'div' );
+	column.className = 'galerio-folders-column';
+	form.before( layout );
+	layout.append( column, form );
+
+	createRoot( column ).render( <FolderTree lib={ lib } /> );
+
+	const list = document.getElementById( 'the-list' );
+	if ( list ) {
+		makeRowsDraggable( list );
+	}
+}
+
+// The grid view has no list form, so this only acts on the list view.
+if ( document.readyState === 'loading' ) {
+	document.addEventListener( 'DOMContentLoaded', mountListView );
+} else {
+	mountListView();
 }

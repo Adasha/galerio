@@ -243,4 +243,39 @@ class Test_Folders extends Galerio_TestCase {
 
 		$this->assertSame( array( $shared ), wp_get_object_terms( $file, Folders::TAXONOMY, array( 'fields' => 'ids' ) ) );
 	}
+
+	/**
+	 * A folder choice narrows files to that folder, or to files in no shared
+	 * folder; other people's folders are ignored.
+	 */
+	public function test_folder_choice() {
+		$shared = $this->add_folder( $this->editor, 'Exhibitions' );
+		$mine   = $this->add_folder( $this->student, 'Mine', Folders::user_root( $this->student, true ) );
+		$others = $this->add_folder( $this->other, 'Theirs', Folders::user_root( $this->other, true ) );
+		$filed  = self::factory()->attachment->create_object( 'filed.jpg', 0, array( 'post_mime_type' => 'image/jpeg' ) );
+		$loose  = self::factory()->attachment->create_object( 'loose.jpg', 0, array( 'post_mime_type' => 'image/jpeg' ) );
+		Folders::file( $filed, $shared );
+		Folders::file( $loose, $mine );
+
+		$this->assertSame( 'unfiled', Folders::parse_choice( 'unfiled' ) );
+		$this->assertSame( $shared, Folders::parse_choice( (string) $shared ) );
+		$this->assertSame( 0, Folders::parse_choice( array( 'x' ) ) );
+
+		wp_set_current_user( $this->student );
+		$files = function ( $choice ) {
+			return get_posts(
+				array(
+					'post_type'   => 'attachment',
+					'post_status' => 'inherit',
+					'fields'      => 'ids',
+					'tax_query'   => Folders::tax_query( $choice ), // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_tax_query -- Testing the folder filter.
+				)
+			);
+		};
+
+		$this->assertSame( array( $filed ), $files( $shared ) );
+		$this->assertSame( array( $loose ), $files( 'unfiled' ), 'A file only in a personal folder is in no shared folder.' );
+		$this->assertNull( Folders::tax_query( $others ), 'Someone else’s folder doesn’t filter.' );
+		$this->assertNull( Folders::tax_query( 0 ) );
+	}
 }

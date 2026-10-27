@@ -25,18 +25,37 @@ final class Library {
 	 */
 	public static function init() {
 		add_action( 'wp_enqueue_media', array( __CLASS__, 'enqueue' ) );
+		add_action( 'admin_enqueue_scripts', array( __CLASS__, 'enqueue_list_view' ) );
 		add_filter( 'ajax_query_attachments_args', array( __CLASS__, 'query' ) );
 		add_filter( 'plupload_default_params', array( __CLASS__, 'upload_params' ) );
+		add_filter( 'upload_post_params', array( __CLASS__, 'upload_page_params' ) );
 		add_action( 'add_attachment', array( __CLASS__, 'file_upload' ) );
 	}
 
 	/**
-	 * Load the tree's script and styles with the media views.
+	 * Load the tree on the Media Library's list view too, which WordPress
+	 * builds without the media views.
+	 *
+	 * @param string $hook Admin page.
 	 */
-	public static function enqueue() {
+	public static function enqueue_list_view( $hook ) {
+		if ( 'upload.php' === $hook && 'list' === get_user_option( 'media_library_mode' ) ) {
+			self::enqueue( array() );
+		}
+	}
+
+	/**
+	 * Load the tree's script and styles with the media views.
+	 *
+	 * @param array $deps Extra script dependencies; the media views by default.
+	 */
+	public static function enqueue( $deps = array( 'media-views' ) ) {
 		if ( ! current_user_can( 'upload_files' ) ) {
 			return;
 		}
+
+		// wp_enqueue_media passes no arguments, but don't rely on it.
+		$deps = is_array( $deps ) ? $deps : array( 'media-views' );
 
 		$asset_file = GALERIO_MEDIA_DIR . 'build/folders.asset.php';
 		if ( ! file_exists( $asset_file ) ) {
@@ -48,7 +67,7 @@ final class Library {
 		wp_enqueue_script(
 			'galerio-media-folders',
 			plugins_url( 'build/folders.js', GALERIO_MEDIA_FILE ),
-			array_merge( $asset['dependencies'], array( 'media-views' ) ),
+			array_merge( $asset['dependencies'], $deps ),
 			$asset['version'],
 			true
 		);
@@ -62,10 +81,8 @@ final class Library {
 	 * @return int|string A folder ID, "unfiled", or 0 for all files.
 	 */
 	private static function chosen() {
-		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- The Media Library's query, nonce-checked by WordPress.
-		$value = isset( $_REQUEST['query']['galerio_folder'] ) ? sanitize_key( wp_unslash( $_REQUEST['query']['galerio_folder'] ) ) : '';
-
-		return 'unfiled' === $value ? 'unfiled' : absint( $value );
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- The Media Library's query, nonce-checked by WordPress; parse_choice() sanitises.
+		return Folders::parse_choice( isset( $_REQUEST['query']['galerio_folder'] ) ? wp_unslash( $_REQUEST['query']['galerio_folder'] ) : '' );
 	}
 
 	/**
@@ -75,35 +92,10 @@ final class Library {
 	 * @return array
 	 */
 	public static function query( $args ) {
-		$folder = self::chosen();
+		$tax_query = Folders::tax_query( self::chosen() );
 
-		if ( 'unfiled' === $folder ) {
-			$shared = get_terms(
-				array(
-					'taxonomy'    => Folders::TAXONOMY,
-					'hide_empty'  => false,
-					'fields'      => 'ids',
-					'galerio_all' => true,
-					'meta_key'    => Folders::OWNER, // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key -- Shared folders.
-					'meta_value'  => 0, // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value -- Shared folders.
-				)
-			);
-
-			$args['tax_query'] = array( // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_tax_query -- Filtering by folder is the point.
-				array(
-					'taxonomy' => Folders::TAXONOMY,
-					'terms'    => is_wp_error( $shared ) || ! $shared ? array( 0 ) : $shared,
-					'operator' => 'NOT IN',
-				),
-			);
-		} elseif ( $folder && current_user_can( 'assign_term', $folder ) ) {
-			$args['tax_query'] = array( // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_tax_query -- Filtering by folder is the point.
-				array(
-					'taxonomy'         => Folders::TAXONOMY,
-					'terms'            => $folder,
-					'include_children' => false,
-				),
-			);
+		if ( $tax_query ) {
+			$args['tax_query'] = $tax_query; // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_tax_query -- Filtering by folder is the point.
 		}
 
 		return $args;
@@ -117,6 +109,24 @@ final class Library {
 	 */
 	public static function upload_params( $params ) {
 		$params['galerio_folder'] = 0;
+		return $params;
+	}
+
+	/**
+	 * On the Add New Media File page, opened from the list view with a folder
+	 * open, send that folder with the uploads.
+	 *
+	 * @param array $params Upload parameters.
+	 * @return array
+	 */
+	public static function upload_page_params( $params ) {
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Only preselects a folder; the upload checks it.
+		$folder = isset( $_GET['galerio_folder'] ) ? absint( $_GET['galerio_folder'] ) : 0;
+
+		if ( $folder && current_user_can( 'assign_term', $folder ) ) {
+			$params['galerio_folder'] = $folder;
+		}
+
 		return $params;
 	}
 
