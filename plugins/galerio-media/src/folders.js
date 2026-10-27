@@ -7,6 +7,8 @@
  * listing the shared folders and "My folders". Choosing a folder narrows the
  * files shown (sent as `query[galerio_folder]`), files dragged onto a folder
  * are filed there, and uploads made while a folder is open go into it.
+ * Folders drag onto other folders of their space, or onto its heading to go
+ * to the top, by the people who may change them.
  *
  * The list view is a plain admin page, so there the tree sits beside the
  * table: choosing a folder reloads the list filtered to it (`?galerio_folder=`),
@@ -20,6 +22,7 @@ import { createRoot, useEffect, useRef, useState } from '@wordpress/element';
 import './style.scss';
 
 const DRAG_TYPE = 'application/x-galerio-attachments';
+const FOLDER_TYPE = 'application/x-galerio-folder';
 const EXPANDED_KEY = 'galerio-media-expanded';
 
 /**
@@ -136,6 +139,7 @@ function FolderTree( { lib } ) {
 	const [ expanded, setExpanded ] = useState( loadExpanded );
 	const [ editing, setEditing ] = useState( null );
 	const [ target, setTarget ] = useState( null );
+	const [ dragging, setDragging ] = useState( null );
 	const [ message, setMessage ] = useState( '' );
 	const field = useRef();
 
@@ -331,16 +335,68 @@ function FolderTree( { lib } ) {
 			.catch( fail );
 	};
 
-	const dropProps = ( key, folder, owner ) => ( {
+	// A folder being dragged can go into another folder of its own space
+	// (shared, or the person's own), or to the top of it, but not into itself
+	// or a folder inside it.
+	const canMoveTo = ( folder, owner ) => {
+		const moving = find( dragging );
+		if (
+			! moving ||
+			moving.owner !== ( folder ? find( folder )?.owner : owner )
+		) {
+			return false;
+		}
+		for ( let id = folder; id; id = find( id )?.parent ) {
+			if ( id === moving.id ) {
+				return false;
+			}
+		}
+		return ! folder || ! ( find( folder )?.root && ! moving.owner );
+	};
+
+	const moveFolder = ( parent ) => {
+		const id = dragging;
+		setDragging( null );
+		apiFetch( {
+			path: `/galerio-media/v1/folders/${ id }/move`,
+			method: 'POST',
+			data: { parent },
+		} )
+			.then( () => {
+				if ( parent ) {
+					const next = new Set( expanded ).add( parent );
+					setExpanded( next );
+					saveExpanded( next );
+				}
+				setMessage( __( 'Folder moved.', 'galerio-media' ) );
+				load();
+			} )
+			.catch( fail );
+	};
+
+	// Where files, and folders, can be dropped. `files: false` takes folders only.
+	const dropProps = ( key, folder, owner, { files = true } = {} ) => ( {
 		onDragOver: ( event ) => {
-			if ( event.dataTransfer.types.includes( DRAG_TYPE ) ) {
+			const types = event.dataTransfer.types;
+			if (
+				( files && types.includes( DRAG_TYPE ) ) ||
+				( types.includes( FOLDER_TYPE ) && canMoveTo( folder, owner ) )
+			) {
 				event.preventDefault();
 				event.dataTransfer.dropEffect = 'move';
 				setTarget( key );
 			}
 		},
 		onDragLeave: () => setTarget( null ),
-		onDrop: ( event ) => drop( event, folder, owner ),
+		onDrop: ( event ) => {
+			if ( event.dataTransfer.types.includes( FOLDER_TYPE ) ) {
+				event.preventDefault();
+				setTarget( null );
+				moveFolder( folder );
+			} else {
+				drop( event, folder, owner );
+			}
+		},
 	} );
 
 	const item = ( key, label, value, extra = {} ) => (
@@ -375,6 +431,19 @@ function FolderTree( { lib } ) {
 						].join( ' ' ) }
 						style={ { '--depth': depth } }
 						{ ...dropProps( folder.id, folder.id, folder.owner ) }
+						draggable={ folder.canEdit }
+						onDragStart={ ( event ) => {
+							event.dataTransfer.setData(
+								FOLDER_TYPE,
+								String( folder.id )
+							);
+							event.dataTransfer.effectAllowed = 'move';
+							setDragging( folder.id );
+						} }
+						onDragEnd={ () => {
+							setDragging( null );
+							setTarget( null );
+						} }
 					>
 						{ children ? (
 							<Button
@@ -497,7 +566,13 @@ function FolderTree( { lib } ) {
 				) }
 			</ul>
 
-			<div className="galerio-folders__heading">
+			<div
+				className={ [
+					'galerio-folders__heading',
+					target === 'shared' ? 'is-drop-target' : '',
+				].join( ' ' ) }
+				{ ...dropProps( 'shared', 0, 0, { files: false } ) }
+			>
 				<h2>{ __( 'Folders', 'galerio-media' ) }</h2>
 				{ canAdd( false ) && (
 					<Button
@@ -627,9 +702,11 @@ function makeDraggable( browser ) {
 
 	// WordPress's uploader takes any drag over the library for files to upload
 	// and shows its "Drop files to upload" cover, which can stay up after the
-	// drop. Dragging files to folders isn't uploading, so it stops short of it.
+	// drop. Dragging files or folders to folders isn't uploading, so it stops
+	// short of it.
 	browser.el.addEventListener( 'dragover', ( event ) => {
-		if ( event.dataTransfer?.types.includes( DRAG_TYPE ) ) {
+		const types = event.dataTransfer?.types || [];
+		if ( types.includes( DRAG_TYPE ) || types.includes( FOLDER_TYPE ) ) {
 			event.stopPropagation();
 		}
 	} );

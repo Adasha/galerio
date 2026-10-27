@@ -18,6 +18,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * - `GET folders`: the folders a person sees, in tree order, with what they may do.
  * - `POST folders`: add a folder, shared or in "My folders".
+ * - `POST folders/{id}/move`: move a folder into another, or to the top of its space.
  * - `POST file`: put files in a folder, or take them out of one space's folders.
  *
  * Renaming and deleting go through WordPress's own `wp/v2/media-folders`.
@@ -71,6 +72,22 @@ final class Rest {
 							'type'    => 'boolean',
 							'default' => false,
 						),
+					),
+				),
+			)
+		);
+
+		register_rest_route(
+			self::NAMESPACE,
+			'/folders/(?P<id>\d+)/move',
+			array(
+				'methods'             => WP_REST_Server::CREATABLE,
+				'permission_callback' => $can_upload,
+				'callback'            => array( __CLASS__, 'move' ),
+				'args'                => array(
+					'parent' => array(
+						'type'    => 'integer',
+						'default' => 0,
 					),
 				),
 			)
@@ -161,6 +178,18 @@ final class Rest {
 		}
 
 		return array( 'id' => (int) $term['term_id'] );
+	}
+
+	/**
+	 * Move a folder into another, or to the top of its space.
+	 *
+	 * @param WP_REST_Request $request Request.
+	 * @return array|WP_Error
+	 */
+	public static function move( WP_REST_Request $request ) {
+		$result = Folders::move( (int) $request['id'], (int) $request['parent'] );
+
+		return is_wp_error( $result ) ? $result : array( 'moved' => true );
 	}
 
 	/**

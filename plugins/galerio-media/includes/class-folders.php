@@ -119,12 +119,14 @@ final class Folders {
 	 * @return bool
 	 */
 	public static function can_manage_shared( $user_id ) {
-		/**
-		 * Filters the capability needed to add, rename and delete shared folders.
-		 *
-		 * @param string $cap Capability. Defaults to edit_others_posts (editors and up).
-		 */
-		return user_can( $user_id, apply_filters( 'galerio_media_shared_folders_cap', 'edit_others_posts' ) );
+		$user = get_userdata( $user_id );
+
+		if ( ! $user ) {
+			return false;
+		}
+
+		// Administrators always can; otherwise the roles chosen on Settings → Media.
+		return in_array( 'administrator', $user->roles, true ) || (bool) array_intersect( $user->roles, Settings::folder_managers() );
 	}
 
 	/**
@@ -252,7 +254,8 @@ final class Folders {
 	}
 
 	/**
-	 * Per-folder permissions: shared folders are managed by editors, personal
+	 * Per-folder permissions: shared folders are managed by the roles chosen on
+	 * Settings → Media (editors by default), personal
 	 * ones by their owners only, and anyone who can upload can file into the
 	 * folders they can see.
 	 *
@@ -284,7 +287,7 @@ final class Folders {
 		}
 
 		if ( ! $owner && 'assign_term' !== $cap ) {
-			return array( apply_filters( 'galerio_media_shared_folders_cap', 'edit_others_posts' ) );
+			return self::can_manage_shared( $user_id ) ? array( 'upload_files' ) : array( 'do_not_allow' );
 		}
 
 		return array( 'upload_files' );
@@ -313,7 +316,7 @@ final class Folders {
 		}
 
 		if ( ! $owner && ! self::can_manage_shared( $user ) ) {
-			return new WP_Error( 'galerio_media_shared_folder', __( 'Only editors can add shared folders.', 'galerio-media' ) );
+			return new WP_Error( 'galerio_media_shared_folder', __( 'You can’t add shared folders.', 'galerio-media' ) );
 		}
 
 		return $term;
@@ -375,6 +378,53 @@ final class Folders {
 		}
 
 		return ! is_wp_error( wp_set_object_terms( $attachment_id, array_values( array_map( 'intval', $keep ) ), self::TAXONOMY ) );
+	}
+
+	/**
+	 * Move a folder, with the folders inside it, into another folder of the
+	 * same space, or to the top of its space with $parent_id 0.
+	 *
+	 * Shared folders move within the shared folders, by the people who manage
+	 * them; personal folders within their owner's, by their owner.
+	 *
+	 * @param int $term_id   Folder.
+	 * @param int $parent_id New parent folder, or 0 for the top of the folder's space.
+	 * @return true|WP_Error
+	 */
+	public static function move( $term_id, $parent_id ) {
+		$term = get_term( $term_id, self::TAXONOMY );
+
+		if ( ! $term instanceof WP_Term || ! current_user_can( 'edit_term', $term_id ) ) {
+			return new WP_Error( 'galerio_media_folder_forbidden', __( 'You can’t move that folder.', 'galerio-media' ), array( 'status' => 403 ) );
+		}
+
+		$owner = self::owner( $term_id );
+
+		if ( ! $parent_id ) {
+			$parent_id = $owner ? self::user_root( $owner, true ) : 0;
+		} elseif ( self::owner( $parent_id ) !== $owner || ! get_term( $parent_id, self::TAXONOMY ) instanceof WP_Term || ( ! $owner && get_term_meta( $parent_id, self::ROOT, true ) ) ) {
+			return new WP_Error( 'galerio_media_folder_space', __( 'A folder can only move among the folders it’s with: shared folders among the shared ones, your own among yours.', 'galerio-media' ), array( 'status' => 400 ) );
+		}
+
+		// Not into itself, nor into a folder inside it.
+		for ( $id = (int) $parent_id; $id; $id = (int) get_term_field( 'parent', $id, self::TAXONOMY ) ) {
+			if ( (int) $term_id === $id ) {
+				return new WP_Error( 'galerio_media_folder_loop', __( 'A folder can’t go inside itself.', 'galerio-media' ), array( 'status' => 400 ) );
+			}
+		}
+
+		if ( (int) $term->parent === (int) $parent_id ) {
+			return true;
+		}
+
+		$result = wp_update_term( $term_id, self::TAXONOMY, array( 'parent' => (int) $parent_id ) );
+
+		if ( is_wp_error( $result ) ) {
+			$result->add_data( array( 'status' => 400 ) );
+			return $result;
+		}
+
+		return true;
 	}
 
 	/**

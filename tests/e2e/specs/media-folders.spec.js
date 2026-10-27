@@ -100,4 +100,35 @@ test.describe( 'Media folders', () => {
 			page.locator( '.wrap .page-title-action' ).first()
 		).toHaveAttribute( 'href', /galerio_folder=\d+/ );
 	} );
+	test( 'moves a folder into another by dragging it', async ( {
+		page,
+		requestUtils,
+	} ) => {
+		const add = ( folderName ) =>
+			requestUtils.rest( {
+				method: 'POST',
+				path: '/galerio-media/v1/folders',
+				data: { name: folderName },
+			} );
+		const outer = await add( `${ name } C` );
+		const inner = await add( `${ name } D` );
+
+		await page.goto( '/wp-admin/upload.php?mode=grid' );
+		const tree = page.getByRole( 'navigation', { name: 'Folders' } );
+		const row = ( folderName ) =>
+			tree.locator( '.galerio-folders__row', {
+				has: page.getByRole( 'button', {
+					name: new RegExp( `^${ folderName }` ),
+				} ),
+			} );
+
+		await row( `${ name } D` ).dragTo( row( `${ name } C` ) );
+		await expect( tree.getByText( 'Folder moved.' ) ).toBeVisible();
+
+		const moved = await requestUtils.rest( {
+			path: `/wp/v2/media-folders/${ inner.id }`,
+		} );
+		expect( moved.parent ).toBe( outer.id );
+		await expect( row( `${ name } D` ) ).toHaveCSS( '--depth', '1' );
+	} );
 } );

@@ -194,9 +194,80 @@ class Test_Folders extends Galerio_TestCase {
 		$this->assertFalse( Own_Uploads::applies() );
 		$this->assertArrayNotHasKey( 'author', Own_Uploads::ajax_args( array() ) );
 
-		update_option( Settings::OWN_UPLOADS, false );
+		update_option( Settings::OWN_UPLOADS, '0' ); // As the old settings page saved it.
 		wp_set_current_user( $this->student );
-		$this->assertFalse( Own_Uploads::applies(), 'The switch on Settings → Media turns it off.' );
+		$this->assertFalse( Own_Uploads::applies(), 'The earlier switch, turned off, still turns it off.' );
+	}
+
+	/**
+	 * The role lists on Settings → Media decide who sees only their own
+	 * uploads and who manages the shared folders; administrators always see
+	 * and manage everything.
+	 */
+	public function test_role_lists() {
+		$admin = self::factory()->user->create( array( 'role' => 'administrator' ) );
+
+		$this->assertSame( array( 'editor' ), Settings::folder_managers(), 'By default, roles that edit others’ posts manage shared folders.' );
+		$this->assertContains( 'contributor', Settings::own_uploads_roles() );
+		$this->assertNotContains( 'editor', Settings::own_uploads_roles() );
+
+		update_option( Settings::FOLDER_MANAGERS, Settings::sanitize_roles( array( 'contributor', 'administrator', 'nobody' ) ) );
+		update_option( Settings::OWN_UPLOADS_ROLES, Settings::sanitize_roles( array( 'editor' ) ) );
+		$this->assertSame( array( 'contributor' ), Settings::folder_managers(), 'Only roles the list offers are kept.' );
+
+		$this->assertTrue( Folders::can_manage_shared( $this->student ) );
+		$this->assertFalse( Folders::can_manage_shared( $this->editor ) );
+		$this->assertTrue( Folders::can_manage_shared( $admin ) );
+		$this->assertIsInt( $this->add_folder( $this->student, 'Made by a student' ) );
+
+		wp_set_current_user( $this->editor );
+		$this->assertTrue( Own_Uploads::applies() );
+		wp_set_current_user( $this->student );
+		$this->assertFalse( Own_Uploads::applies() );
+
+		wp_get_current_user()->add_role( 'editor' );
+		update_option( Settings::OWN_UPLOADS_ROLES, array( 'contributor' ) );
+		$this->assertFalse( Own_Uploads::applies(), 'A role outside the list lets someone see everything.' );
+
+		update_option( Settings::OWN_UPLOADS_ROLES, array() );
+		wp_set_current_user( $this->other );
+		$this->assertFalse( Own_Uploads::applies(), 'An empty list turns it off.' );
+	}
+
+	/**
+	 * Folders move within their space, by the people who may change them, and
+	 * never into themselves.
+	 */
+	public function test_moving_folders() {
+		$a      = $this->add_folder( $this->editor, 'A' );
+		$b      = $this->add_folder( $this->editor, 'B' );
+		$b1     = $this->add_folder( $this->editor, 'B1', $b );
+		$root   = Folders::user_root( $this->student, true );
+		$mine   = $this->add_folder( $this->student, 'Mine', $root );
+		$inner  = $this->add_folder( $this->student, 'Inner', $mine );
+		$parent = function ( $id ) {
+			return (int) get_term_field( 'parent', $id, Folders::TAXONOMY );
+		};
+
+		wp_set_current_user( $this->editor );
+		$this->assertTrue( Folders::move( $b, $a ) );
+		$this->assertSame( $a, $parent( $b ) );
+		$this->assertSame( $b, $parent( $b1 ), 'Folders inside move with it.' );
+		$this->assertWPError( Folders::move( $a, $b1 ), 'Not into a folder inside itself.' );
+		$this->assertWPError( Folders::move( $a, $a ) );
+		$this->assertTrue( Folders::move( $b, 0 ) );
+		$this->assertSame( 0, $parent( $b ) );
+
+		wp_set_current_user( $this->student );
+		$this->assertWPError( Folders::move( $b, $a ), 'Students can’t move shared folders.' );
+		$this->assertWPError( Folders::move( $inner, $a ), 'Personal folders stay among their owner’s.' );
+		$this->assertTrue( Folders::move( $inner, 0 ) );
+		$this->assertSame( $root, $parent( $inner ), 'The top of “My folders” is the person’s root.' );
+		$this->assertTrue( Folders::move( $inner, $mine ) );
+
+		wp_set_current_user( $this->editor );
+		$this->assertWPError( Folders::move( $inner, $mine ), 'Nobody else moves someone’s own folders.' );
+		$this->assertWPError( Folders::move( $a, $root ), 'Shared folders don’t go into someone’s own.' );
 	}
 
 	/**
