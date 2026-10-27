@@ -12,10 +12,11 @@ use WP_Query;
 defined( 'ABSPATH' ) || exit;
 
 /**
- * People who can't edit others' posts, such as students with the contributor
- * role, see only their own uploads: in the Media Library's grid and list,
- * in the media picker, and in the block editor's media tab. Editors and
- * anyone else who can edit others' posts see everything.
+ * People whose roles are all among those chosen on Settings → Media (by
+ * default, roles that can upload but can't edit others' posts, such as
+ * students with the contributor role) see only their own uploads: in the
+ * Media Library's grid and list, in the media picker, and in the block
+ * editor's media tab. Everyone else, and administrators always, see everything.
  *
  * It only narrows what the admin lists show. Published files stay public on
  * the site, as WordPress has them.
@@ -37,16 +38,10 @@ final class Own_Uploads {
 	 * @return bool
 	 */
 	public static function applies() {
-		if ( ! Settings::own_uploads() || ! is_user_logged_in() ) {
-			return false;
-		}
+		$roles = is_user_logged_in() ? wp_get_current_user()->roles : array();
 
-		/**
-		 * Filters the capability that lets someone see everyone's uploads.
-		 *
-		 * @param string $cap Capability. Defaults to edit_others_posts (authors and up).
-		 */
-		return ! current_user_can( apply_filters( 'galerio_media_see_all_uploads_cap', 'edit_others_posts' ) );
+		// A role outside the list, such as administrator, lets someone see everything.
+		return $roles && ! array_diff( $roles, Settings::own_uploads_roles() );
 	}
 
 	/**

@@ -10,11 +10,18 @@ namespace Galerio\Media;
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Three switches in a Galerio section of Settings → Media:
+ * A Galerio section of Settings → Media:
  *
  * - whether each person can have their own folders as well as the shared ones;
- * - whether people who can't edit others' posts see only their own uploads;
+ * - which roles manage the shared folders (add, rename, move and delete them);
+ * - whether uploads into shared folders go into folder directories;
+ * - which roles see only their own uploads;
  * - whether attachments have their own pages (WordPress's own option).
+ *
+ * Administrators always manage the shared folders and see every upload. Until
+ * a role list is saved, it follows the roles' capabilities: roles that can
+ * edit others' posts manage the folders, and roles that can upload but can't
+ * edit others' posts see only their own uploads.
  */
 final class Settings {
 
@@ -24,9 +31,20 @@ final class Settings {
 	const PERSONAL_FOLDERS = 'galerio_media_personal_folders';
 
 	/**
-	 * Option: people who can't edit others' posts see only their own uploads.
+	 * Option, before role lists: people who can't edit others' posts see only
+	 * their own uploads. Read only as the default of OWN_UPLOADS_ROLES.
 	 */
 	const OWN_UPLOADS = 'galerio_media_own_uploads';
+
+	/**
+	 * Option: roles that see only their own uploads.
+	 */
+	const OWN_UPLOADS_ROLES = 'galerio_media_own_uploads_roles';
+
+	/**
+	 * Option: roles that manage the shared folders.
+	 */
+	const FOLDER_MANAGERS = 'galerio_media_folder_managers';
 
 	/**
 	 * Option: new uploads into shared folders are saved in the folder's directory.
@@ -60,15 +78,16 @@ final class Settings {
 				'show_in_rest'      => true,
 			)
 		);
-		register_setting(
-			'media',
-			self::OWN_UPLOADS,
-			array(
-				'type'              => 'boolean',
-				'default'           => true,
-				'sanitize_callback' => 'rest_sanitize_boolean',
-			)
-		);
+		foreach ( array( self::FOLDER_MANAGERS, self::OWN_UPLOADS_ROLES ) as $option ) {
+			register_setting(
+				'media',
+				$option,
+				array(
+					'type'              => 'array',
+					'sanitize_callback' => array( __CLASS__, 'sanitize_roles' ),
+				)
+			);
+		}
 		register_setting(
 			'media',
 			self::FOLDER_DIRECTORIES,
@@ -109,12 +128,75 @@ final class Settings {
 	}
 
 	/**
-	 * Whether uploads are private to the people who made them.
+	 * The roles that can upload, other than administrators: those the role
+	 * lists choose from.
 	 *
-	 * @return bool
+	 * @return string[] Role names, by slug.
 	 */
-	public static function own_uploads() {
-		return (bool) get_option( self::OWN_UPLOADS, true );
+	public static function upload_roles() {
+		$roles = array();
+
+		foreach ( wp_roles()->role_objects as $slug => $role ) {
+			if ( 'administrator' !== $slug && $role->has_cap( 'upload_files' ) ) {
+				$roles[ $slug ] = translate_user_role( wp_roles()->role_names[ $slug ] );
+			}
+		}
+
+		return $roles;
+	}
+
+	/**
+	 * Keep only roles the lists offer.
+	 *
+	 * @param mixed $value Submitted roles.
+	 * @return string[]
+	 */
+	public static function sanitize_roles( $value ) {
+		return array_values( array_intersect( array_map( 'sanitize_key', (array) $value ), array_keys( self::upload_roles() ) ) );
+	}
+
+	/**
+	 * Roles that can upload, split by whether they can edit others' posts.
+	 *
+	 * @param bool $editors True for those that can.
+	 * @return string[] Role slugs.
+	 */
+	private static function roles_by_editing( $editors ) {
+		return array_values(
+			array_filter(
+				array_keys( self::upload_roles() ),
+				function ( $slug ) use ( $editors ) {
+					return wp_roles()->get_role( $slug )->has_cap( 'edit_others_posts' ) === $editors;
+				}
+			)
+		);
+	}
+
+	/**
+	 * Roles that manage the shared folders, besides administrators.
+	 *
+	 * @return string[] Role slugs.
+	 */
+	public static function folder_managers() {
+		$roles = get_option( self::FOLDER_MANAGERS, null );
+
+		return is_array( $roles ) ? $roles : self::roles_by_editing( true );
+	}
+
+	/**
+	 * Roles that see only their own uploads.
+	 *
+	 * @return string[] Role slugs.
+	 */
+	public static function own_uploads_roles() {
+		$roles = get_option( self::OWN_UPLOADS_ROLES, null );
+
+		if ( is_array( $roles ) ) {
+			return $roles;
+		}
+
+		// The earlier on/off switch, when it was turned off.
+		return get_option( self::OWN_UPLOADS, true ) ? self::roles_by_editing( false ) : array();
 	}
 
 	/**
@@ -139,6 +221,16 @@ final class Settings {
 		);
 
 		add_settings_field(
+			self::FOLDER_MANAGERS,
+			__( 'Shared folders', 'galerio-media' ),
+			function () {
+				self::role_list( self::FOLDER_MANAGERS, self::folder_managers(), __( 'These roles add, rename, move and delete the shared folders. Everyone who can upload files puts files in them, and arranges their own folders as they like. Administrators always can.', 'galerio-media' ) );
+			},
+			'media',
+			'galerio-media'
+		);
+
+		add_settings_field(
 			self::FOLDER_DIRECTORIES,
 			__( 'Folder directories', 'galerio-media' ),
 			function () {
@@ -149,10 +241,10 @@ final class Settings {
 		);
 
 		add_settings_field(
-			self::OWN_UPLOADS,
-			__( 'Uploads', 'galerio-media' ),
+			self::OWN_UPLOADS_ROLES,
+			__( 'Own uploads only', 'galerio-media' ),
 			function () {
-				self::checkbox( self::OWN_UPLOADS, self::own_uploads(), __( 'People who can’t edit others’ posts, such as contributors, see only their own uploads', 'galerio-media' ) );
+				self::role_list( self::OWN_UPLOADS_ROLES, self::own_uploads_roles(), __( 'These roles see only the files they uploaded, in the Media Library and when choosing media. Someone with another role as well sees everything. Files on the site itself stay public. Administrators always see everything.', 'galerio-media' ) );
 			},
 			'media',
 			'galerio-media'
@@ -167,6 +259,27 @@ final class Settings {
 			'media',
 			'galerio-media'
 		);
+	}
+
+	/**
+	 * Checkboxes for a role list.
+	 *
+	 * @param string   $name     Option name.
+	 * @param string[] $selected Chosen roles.
+	 * @param string   $help     Description.
+	 */
+	private static function role_list( $name, $selected, $help ) {
+		echo '<fieldset>';
+		foreach ( self::upload_roles() as $slug => $label ) {
+			printf(
+				'<label><input type="checkbox" name="%1$s[]" value="%2$s"%3$s> %4$s</label><br>',
+				esc_attr( $name ),
+				esc_attr( $slug ),
+				checked( in_array( $slug, $selected, true ), true, false ),
+				esc_html( $label )
+			);
+		}
+		printf( '<p class="description">%s</p></fieldset>', esc_html( $help ) );
 	}
 
 	/**

@@ -14,9 +14,9 @@ Media Library folders, shared and per person, with a FileBird import, and upload
 
 = Folders =
 
-Files can be filed in folders, nested as deeply as needed. Shared folders are seen by everyone who can upload and managed by editors. When Settings → Media allows it, each person can also have their own folders, which only they see and manage; two people can use the same folder names. A file can be in one shared folder and in one of each person's own. Folders organise the Media Library only: files stay where they are on disk.
+Files can be filed in folders, nested as deeply as needed. Shared folders are seen by everyone who can upload and managed by the roles chosen on Settings → Media (editors, until changed) and administrators. When Settings → Media allows it, each person can also have their own folders, which only they see and manage; two people can use the same folder names. A file can be in one shared folder and in one of each person's own. Folders organise the Media Library only: files stay where they are on disk.
 
-The Media Library (grid and list views) and the media picker get a folder column: "All files", "Not in a folder", the shared folders and "My folders". Click a folder to see its files; drag files onto a folder to file them (in the list view, a row, or all the ticked rows); files uploaded while a folder is open go into it, including from the list view's "Add Media File". "New" adds a folder at the top, and "New folder inside" one inside the chosen folder; folders can also be renamed and deleted there, by the people allowed to. The list view also has a Folders column, and each file's details a folder dropdown.
+The Media Library (grid and list views) and the media picker get a folder column: "All files", "Not in a folder", the shared folders and "My folders". Click a folder to see its files; drag files onto a folder to file them (in the list view, a row, or all the ticked rows); files uploaded while a folder is open go into it, including from the list view's "Add Media File". "New" adds a folder at the top, and "New folder inside" one inside the chosen folder; folders can also be renamed and deleted there, and dragged onto another folder (or onto the "Folders" or "My folders" heading, to go to the top), by the people allowed to: shared folders move among the shared ones, each person's own among theirs. The list view also has a Folders column, and each file's details a folder dropdown.
 
 = Folder directories =
 
@@ -28,7 +28,7 @@ With "Folder directories" on in Settings → Media, a file uploaded into a share
 
 = Uploads private to their owners =
 
-People who can't edit others' posts, such as students with the contributor role, see only their own uploads in the Media Library, the media picker and the block editor's media tab. Editors and administrators see everything. Files on the site itself stay public, as WordPress has them. A switch on Settings → Media turns this off.
+The roles chosen on Settings → Media see only their own uploads in the Media Library, the media picker and the block editor's media tab. Until the list is saved, these are the roles that can upload but can't edit others' posts, such as students with the contributor role. Someone with another role as well, and administrators always, see everything. Files on the site itself stay public, as WordPress has them. Clear the list to turn this off.
 
 = Attachment pages =
 
@@ -43,4 +43,4 @@ Galerio is in alpha. Expect breaking changes.
 * `wp galerio media import-filebird`.
 * Uploads private to the people who made them.
 * New uploads into shared folders saved in the folder's directory, when switched on.
-* Switches on Settings → Media for personal folders, folder directories, private uploads and attachment pages.
+* Settings on Settings → Media for personal folders, who manages shared folders, folder directories, who sees only their own uploads, and attachment pages.
