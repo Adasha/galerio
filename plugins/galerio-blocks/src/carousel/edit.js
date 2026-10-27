@@ -467,12 +467,14 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 		titleLevel,
 		showExcerpt,
 		buttonText,
+		linkImage,
 		slidesPerView,
 		transition,
 		duration,
 		loop,
 		autoplay,
 		interval,
+		pauseOnHover,
 		showArrows,
 		arrowsPosition,
 		showDots,
@@ -675,6 +677,21 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 										setAttributes( { buttonText: value } )
 									}
 								/>
+								<ToggleControl
+									__nextHasNoMarginBottom
+									label={ __(
+										'Link the image to the item',
+										'galerio-blocks'
+									) }
+									help={ __(
+										'Clicking anywhere on the image opens the item, as the title or button does.',
+										'galerio-blocks'
+									) }
+									checked={ linkImage }
+									onChange={ ( value ) =>
+										setAttributes( { linkImage: value } )
+									}
+								/>
 							</>
 						) }
 					</PanelBody>
@@ -753,6 +770,41 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 							min={ 2 }
 							max={ 30 }
 							step={ 0.5 }
+						/>
+					) }
+					{ autoplay && (
+						<SelectControl
+							__next40pxDefaultSize
+							__nextHasNoMarginBottom
+							label={ __( 'Pause on hover', 'galerio-blocks' ) }
+							help={ __(
+								'Whether playing waits while the pointer is over the carousel. Keyboard focus and the pause button always stop it.',
+								'galerio-blocks'
+							) }
+							value={ pauseOnHover }
+							options={ [
+								{
+									label: __(
+										'Over a link or button',
+										'galerio-blocks'
+									),
+									value: 'controls',
+								},
+								{
+									label: __(
+										'Anywhere on the carousel',
+										'galerio-blocks'
+									),
+									value: 'anywhere',
+								},
+								{
+									label: __( 'Never', 'galerio-blocks' ),
+									value: 'never',
+								},
+							] }
+							onChange={ ( value ) =>
+								setAttributes( { pauseOnHover: value } )
+							}
 						/>
 					) }
 				</PanelBody>

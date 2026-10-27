@@ -106,6 +106,10 @@
 			"type": "string",
 			"default": ""
 		},
+		"linkImage": {
+			"type": "boolean",
+			"default": false
+		},
 		"slidesPerView": {
 			"type": "number",
 			"default": 1
@@ -129,6 +133,15 @@
 		"interval": {
 			"type": "number",
 			"default": 6000
+		},
+		"pauseOnHover": {
+			"type": "string",
+			"enum": [
+				"controls",
+				"anywhere",
+				"never"
+			],
+			"default": "controls"
 		},
 		"showArrows": {
 			"type": "boolean",
