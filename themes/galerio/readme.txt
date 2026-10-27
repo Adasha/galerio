@@ -18,6 +18,7 @@ Galerio presents creators, works, collections and articles: a page for each, lis
 * Style variations: Gallery White and Dark Room colours, and Editorial typography.
 * Each page's content is a pattern, so a child theme can change one page without copying its template. See the Galerio Child Starter theme.
 * A Collection card template part draws each collection on the collections page, and can draw the slides of a Galerio Carousel too, so one edit in the Site Editor changes both. Its height is set where it's used: `--galerio-collection-card-height` for a list, the carousel's own Height for slides.
+* Images open in a lightbox. On works, collections, articles and profiles, so do images linked to their own file (WordPress's old "Link to: Media file"); links to pages stay, and a profile's portrait keeps its link. The `galerio_lightbox_post_types` filter changes which content types this covers.
 * Translatable, and the wording follows the names a site gives its content types (e.g. Exhibitions for collections) under Settings → Galerio content types.
 
 == Changelog ==
