@@ -22,7 +22,7 @@ Shows items one after another as slides. Slides can come from:
 * **The current item's related items:** in a template or an item's content, such as a creator's works, as arranged on the item or in another order. The carousel is hidden when there are none.
 * **A Query Loop:** each item of the Query Loop inside becomes a slide, laid out by the loop's own template. Several slides can be in view at once.
 
-Slides move by sliding or fading, with arrows, dots and keyboard arrow keys. Autoplay pauses while the pointer or keyboard focus is on the carousel, and visitors get a pause button; it starts paused for visitors who prefer reduced motion. Slides out of view can't be tabbed into. Without JavaScript the slides scroll sideways instead.
+Slides move by sliding or fading, with arrows, dots and keyboard arrow keys. Autoplay pauses while the pointer is on a link or control in the carousel or keyboard focus is in it, and visitors get a pause button; it starts paused for visitors who prefer reduced motion. Slides out of view can't be tabbed into. Without JavaScript the slides scroll sideways instead.
 
 Themes can restyle the carousel with custom properties such as `--galerio-carousel-caption-background` (the full list is at the top of `src/carousel/style.scss`). Developers can change the query with the `galerio_carousel_query_args` filter, add transitions with `galerio_carousel_transitions`, and adjust the carousel engine ([Embla](https://www.embla-carousel.com/)) through the `galerio.carousel.options`, `galerio.carousel.plugins` and `galerio.carousel.init` JavaScript hooks.
 

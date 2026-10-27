@@ -175,9 +175,11 @@ function init( root ) {
 		} );
 	}
 
-	// Autoplay waits while the pointer or keyboard focus is on the carousel,
-	// while the tab is hidden, and for good once someone presses pause. It
-	// starts paused for people who prefer reduced motion.
+	// Autoplay waits while the pointer is on a link or control in the carousel,
+	// while keyboard focus is in it, while the tab is hidden, and for good once
+	// someone presses pause. It starts paused for people who prefer reduced
+	// motion. A pointer merely resting on a slide doesn't count: a carousel
+	// that fills the screen usually has the pointer on it from the start.
 	let timer = null;
 	let hovering = false;
 	let focused = false;
@@ -219,9 +221,13 @@ function init( root ) {
 	}
 
 	if ( settings.autoplay ) {
-		root.addEventListener( 'pointerenter', () => {
-			hovering = true;
-			schedule();
+		const interactive = 'a, button, input, select, textarea';
+		root.addEventListener( 'pointerover', ( event ) => {
+			const onControl = !! event.target.closest( interactive );
+			if ( onControl !== hovering ) {
+				hovering = onControl;
+				schedule();
+			}
 		} );
 		root.addEventListener( 'pointerleave', () => {
 			hovering = false;
