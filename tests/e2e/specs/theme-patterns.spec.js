@@ -31,9 +31,21 @@ test.describe( 'Theme patterns', () => {
 
 		try {
 			await page.goto( work.link );
-			const details = page.locator( '.galerio-details' );
-			await expect( details.getByText( 'Medium' ) ).toBeHidden();
-			await expect( details.getByText( 'Dimensions' ) ).toBeHidden();
+			// The details table, and the labels and mediums table below the work.
+			const details = page.locator( 'div.galerio-details' );
+			const terms = page.locator( 'aside.galerio-details' );
+			await expect(
+				details.getByText( 'Medium', { exact: true } )
+			).toBeHidden();
+			await expect(
+				details.getByText( 'Dimensions', { exact: true } )
+			).toBeHidden();
+			await expect(
+				terms.getByText( 'Labels:', { exact: true } )
+			).toBeHidden();
+			await expect(
+				terms.getByText( 'Mediums:', { exact: true } )
+			).toBeHidden();
 		} finally {
 			await requestUtils.rest( {
 				method: 'DELETE',
