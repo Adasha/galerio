@@ -91,7 +91,7 @@ final class Bindings {
 		$value = $field->empty_value() === $raw ? null : self::value_for( $attribute, $field, $raw, $post->ID );
 
 		if ( null === $value || '' === $value ) {
-			$value = self::fallback( $args, $attribute, $post );
+			$value = self::fallback( $args, $attribute, $post, $field );
 		}
 
 		if ( null === $value || '' === $value ) {
@@ -139,8 +139,12 @@ final class Bindings {
 	}
 
 	/**
-	 * The value to use when the field is empty: `"fallback": "title"` uses the
-	 * post title, e.g. for a work without a definitive title.
+	 * The value to use when the field is empty:
+	 *
+	 * - `"fallback": "title"` uses the post title, e.g. for a work without a
+	 *   definitive title.
+	 * - `"fallback": "featured_image"` uses an image field's post's featured
+	 *   image, e.g. for a work without a definitive image.
 	 *
 	 * There is deliberately no excerpt fallback: an excerpt summarises the
 	 * main text, so it can't stand in for a field such as a standfirst.
@@ -148,10 +152,24 @@ final class Bindings {
 	 * @param array    $args      Binding arguments.
 	 * @param string   $attribute Attribute being filled.
 	 * @param \WP_Post $post      Post.
-	 * @return string|null
+	 * @param Field    $field     Field.
+	 * @return mixed Null for none.
 	 */
-	private static function fallback( array $args, $attribute, $post ) {
-		if ( empty( $args['fallback'] ) || 'title' !== $args['fallback'] ) {
+	private static function fallback( array $args, $attribute, $post, Field $field ) {
+		$fallback = isset( $args['fallback'] ) ? $args['fallback'] : '';
+
+		if ( 'featured_image' === $fallback && 'image' === $field->type ) {
+			// The featured image itself, not Featured_Image's fallback to this field.
+			$image = (int) get_post_meta( $post->ID, '_thumbnail_id', true );
+
+			if ( ! $image || 'attachment' !== get_post_type( $image ) ) {
+				return null;
+			}
+
+			return self::value_for( $attribute, $field, $field->multiple ? array( $image ) : $image, $post->ID );
+		}
+
+		if ( 'title' !== $fallback ) {
 			return null;
 		}
 

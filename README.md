@@ -217,7 +217,7 @@ Bindings take optional arguments beside `key`:
 
 | Argument | Example | Effect |
 | --- | --- | --- |
-| `fallback` | `"title"` | Show the post title when the field is empty. |
+| `fallback` | `"title"`, `"featured_image"` | Show the post title, or for an image field the post's featured image, when the field is empty. |
 | `prefix`, `suffix` | `"b. "` | Plain text around the value, only when there is one. |
 | `if` | `"show_lifespan"` | Show the value only when that on/off field is on. |
 | `link` | `true` | Link the value to the post, e.g. a title in an archive card. |
