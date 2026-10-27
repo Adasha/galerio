@@ -22,10 +22,12 @@ defined( 'ABSPATH' ) || exit;
  * - Featured images: an item's own page leaves out its featured image (the
  *   banner at the top of profiles and articles, or a Post Featured Image
  *   block). Cards, archives and carousels still show them.
- * - Nationality, birth/death years and portraits: no profile shows them,
- *   whatever its own Show nationality, Show lifespan or Show portrait says.
- *   Everything that respects those (the profile template, the portrait as
- *   the featured image, Schema.org data) follows.
+ * - Nationality and birth/death years: no profile shows them, whatever its
+ *   own Show nationality or Show lifespan says. Everything that respects
+ *   those (the profile template, Schema.org data) follows.
+ * - Portraits: a profile's own page leaves out its portrait, whatever its
+ *   Show portrait says, including the portrait standing in for its featured
+ *   image. Cards elsewhere still show it.
  * - Collective fields: profile pages leave out Is a collective, Members and
  *   Member of, in Field blocks or bound blocks.
  *
@@ -59,7 +61,7 @@ final class Features {
 	 * Hook into WordPress.
 	 */
 	public static function init() {
-		add_filter( 'galerio_field_value', array( __CLASS__, 'field_value' ), 10, 2 );
+		add_filter( 'galerio_field_value', array( __CLASS__, 'field_value' ), 10, 3 );
 		add_filter( 'render_block', array( __CLASS__, 'profile_page_block' ), 10, 2 );
 		add_filter( 'render_block_core/cover', array( __CLASS__, 'cover' ), 10, 3 );
 		add_filter( 'render_block_core/post-featured-image', array( __CLASS__, 'featured_image' ), 10, 3 );
@@ -85,16 +87,30 @@ final class Features {
 	}
 
 	/**
+	 * Switches that apply only on the profile's own page.
+	 */
+	const OWN_PAGE_ONLY = array( 'show_portraits' );
+
+	/**
 	 * A profile's own display switch reads as off while the site's is off.
 	 *
-	 * @param mixed $value Value.
-	 * @param Field $field Field.
+	 * @param mixed $value     Value.
+	 * @param Field $field     Field.
+	 * @param int   $object_id Post ID.
 	 * @return mixed
 	 */
-	public static function field_value( $value, $field ) {
+	public static function field_value( $value, $field, $object_id = 0 ) {
 		$name = array_search( $field->key, self::PROFILE_SWITCHES, true );
 
-		return ( false !== $name && ! self::enabled( $name ) ) ? false : $value;
+		if ( false === $name || self::enabled( $name ) ) {
+			return $value;
+		}
+
+		if ( in_array( $name, self::OWN_PAGE_ONLY, true ) && ! ( is_singular( 'galerio_profile' ) && (int) get_queried_object_id() === (int) $object_id ) ) {
+			return $value;
+		}
+
+		return false;
 	}
 
 	/**

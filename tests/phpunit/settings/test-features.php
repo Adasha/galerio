@@ -78,7 +78,8 @@ class Test_Features extends Galerio_TestCase {
 	}
 
 	/**
-	 * Portraits: no profile uses its portrait as its image.
+	 * Portraits: a profile's own page leaves its portrait out; cards
+	 * elsewhere keep it.
 	 */
 	public function test_portraits() {
 		$profile = self::factory()->post->create( array( 'post_type' => 'galerio_profile' ) );
@@ -94,8 +95,17 @@ class Test_Features extends Galerio_TestCase {
 		$this->assertSame( $image, get_post_thumbnail_id( $profile ) );
 
 		$this->off( 'show_portraits' );
-		$this->assertFalse( has_post_thumbnail( $profile ) );
+		$this->assertSame( $image, get_post_thumbnail_id( $profile ), 'Cards elsewhere keep it.' );
+
+		$this->go_to( get_permalink( $profile ) );
+		$this->assertFalse( has_post_thumbnail( $profile ), 'Its own page leaves it out.' );
 		$this->assertSame( $image, galerio_get_field( 'profile.portrait', $profile ), 'The field can still be used directly.' );
+
+		$other = self::factory()->post->create( array( 'post_type' => 'galerio_profile' ) );
+		$this->save( $other, 'portrait', $image );
+		$this->save( $other, 'show_portrait', true );
+		update_post_meta( $other, Featured_Image::USE, true );
+		$this->assertSame( $image, get_post_thumbnail_id( $other ), 'Another profile’s card on this page keeps it.' );
 	}
 
 	/**

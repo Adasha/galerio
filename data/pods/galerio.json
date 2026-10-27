@@ -2016,7 +2016,7 @@
                             "boolean_no_label": "No",
                             "boolean_yes_label": "Yes",
                             "default_value": "1",
-                            "description": "When off, no profile shows its portrait, on its page or as its image in cards, whatever the profile’s own “Show portrait” says. The field stays in the editor and can still be used directly.",
+                            "description": "When off, profile pages leave out the portrait, whatever the profile’s own “Show portrait” says, including a portrait standing in for the featured image. Cards still show it. The field stays in the editor and can still be used directly.",
                             "repeatable": "0",
                             "repeatable_format": "default",
                             "required": "0",
