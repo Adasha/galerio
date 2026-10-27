@@ -20,6 +20,13 @@ class Test_Bindings extends Galerio_TestCase {
 	private $work;
 
 	/**
+	 * The work's creator.
+	 *
+	 * @var int
+	 */
+	private $profile;
+
+	/**
 	 * Create a work with some fields filled in.
 	 */
 	public function set_up() {
@@ -37,6 +44,7 @@ class Test_Bindings extends Galerio_TestCase {
 		$fields->save( $fields->get( 'work.year' ), $this->work, 2018 );
 		$fields->save( $fields->get( 'work.definitive_title' ), $this->work, 'Fish & Chips' );
 		$fields->save( $fields->get( 'work.creator' ), $this->work, $profile );
+		$this->profile = $profile;
 		$fields->save( $fields->get( 'work.website' ), $this->work, array( 'url' => 'https://example.org/copperworks' ) );
 	}
 
@@ -135,6 +143,23 @@ class Test_Bindings extends Galerio_TestCase {
 
 		$this->assertStringContainsString( 'Fish &amp; Chips', $title );
 		$this->assertMatchesRegularExpression( '#<p[^>]*><a href="[^"]+">Tomos Price</a></p>#', trim( $creator ) );
+	}
+
+	/**
+	 * `omitCurrent` leaves out the item the page is about, emptying the block
+	 * when nothing is left, and changes nothing elsewhere.
+	 */
+	public function test_omit_current() {
+		$markup = '<!-- wp:paragraph {"metadata":{"bindings":{"content":{"source":"galerio/field","args":{"key":"work.creator","omitCurrent":true}}}}} --><p>Saved</p><!-- /wp:paragraph -->';
+
+		$this->go_to( get_permalink( $this->profile ) );
+		$on_profile = $this->render( $markup );
+
+		$this->go_to( get_permalink( $this->work ) );
+		$on_work = $this->render( $markup );
+
+		$this->assertSame( '', trim( wp_strip_all_tags( $on_profile ) ) );
+		$this->assertSame( 'Tomos Price', trim( wp_strip_all_tags( $on_work ) ) );
 	}
 
 	/**
