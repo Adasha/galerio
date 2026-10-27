@@ -4,7 +4,7 @@ Tags: carousel, slider, gallery, exhibition, art
 Requires at least: 6.6
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 0.3.0-alpha.1
+Stable tag: 0.3.1-alpha.1
 License: GPL-2.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -47,6 +47,10 @@ Ready-made Query Loops in the inserter, named after the site's content types: Ga
 Galerio is in alpha. Expect breaking changes.
 
 == Changelog ==
+
+= 0.3.1-alpha.1 =
+* Carousel: autoplay no longer stops while the pointer merely rests on a slide, which kept a full-screen carousel on its first slide. A "Pause on hover" setting chooses over links and buttons (the default), anywhere on the carousel, or never.
+* Carousel: a "Link the image to the item" setting makes a built-in slide's whole image open its item.
 
 = 0.3.0-alpha.1 =
 * Breaking: the Galerio Related Items block is removed. A Query Loop's Related items setting replaces it; any copy left in content renders nothing.

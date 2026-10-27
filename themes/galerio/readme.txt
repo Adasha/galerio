@@ -3,7 +3,7 @@ Contributors: adasha
 Requires at least: 6.6
 Tested up to: 7.1
 Requires PHP: 7.4
-Version: 3.0.0-alpha.4
+Version: 3.0.0-alpha.5
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -22,6 +22,9 @@ Galerio presents creators, works, collections and articles: a page for each, lis
 * Translatable, and the wording follows the names a site gives its content types (e.g. Exhibitions for collections) under Settings → Galerio content types.
 
 == Changelog ==
+
+= 3.0.0-alpha.5 =
+* A work without a definitive image shows its featured image at the top of its page, instead of an empty box. Needs Galerio Core 0.5.1-alpha.1.
 
 = 3.0.0-alpha.4 =
 * A "Stays in view" style for Column blocks: the column stays in view as the page scrolls, and a column taller than the window first scrolls to its end. The Single-item collection (project) template's side panel uses it.

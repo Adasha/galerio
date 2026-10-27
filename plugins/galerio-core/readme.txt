@@ -4,7 +4,7 @@ Tags: gallery, art, artist, exhibition, portfolio
 Requires at least: 6.6
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 0.5.0-alpha.1
+Stable tag: 0.5.1-alpha.1
 License: GPL-2.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -23,6 +23,9 @@ The importer repairs bidirectional relationships, which Pods otherwise links to 
 Galerio is in alpha. Expect breaking changes.
 
 == Changelog ==
+
+= 0.5.1-alpha.1 =
+* Field bindings take `"fallback": "featured_image"`: an empty image field shows the post's featured image instead. The Galerio theme uses it for a work's main image.
 
 = 0.5.0-alpha.1 =
 * An item without a featured image falls back to its own image: a work's definitive image, a profile's portrait, or the first of a collection's or article's images. Each item has a switch for it; it starts off for profiles and on for the rest.
