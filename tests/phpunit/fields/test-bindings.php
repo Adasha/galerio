@@ -183,6 +183,24 @@ class Test_Bindings extends Galerio_TestCase {
 	}
 
 	/**
+	 * `"fallback": "featured_image"` shows the featured image when an image
+	 * field is empty, and the field's own image when it has one.
+	 */
+	public function test_featured_image_fallback() {
+		$featured = self::factory()->attachment->create_upload_object( DIR_TESTDATA . '/images/canola.jpg' );
+		set_post_thumbnail( $this->work, $featured );
+
+		$markup = '<!-- wp:image {"metadata":{"bindings":{"url":{"source":"galerio/field","args":{"key":"work.definitive_image","fallback":"featured_image"}}}}} --><figure class="wp-block-image"><img alt=""/></figure><!-- /wp:image -->';
+
+		$this->assertStringContainsString( 'src="' . wp_get_attachment_image_url( $featured, 'full' ) . '"', $this->render( $markup ) );
+
+		$own = self::factory()->attachment->create_upload_object( DIR_TESTDATA . '/images/test-image.jpg' );
+		galerio_fields()->save( galerio_fields()->get( 'work.definitive_image' ), $this->work, $own );
+
+		$this->assertStringContainsString( 'src="' . wp_get_attachment_image_url( $own, 'full' ) . '"', $this->render( $markup ) );
+	}
+
+	/**
 	 * An image gets its URL and alt text from an image field.
 	 */
 	public function test_image() {
