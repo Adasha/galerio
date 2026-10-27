@@ -45,28 +45,28 @@
 <!-- wp:galerio/field-display {"key":"work.images"} /-->
 <?php endif; ?>
 
-<!-- wp:group {"tagName":"aside","style":{"spacing":{"blockGap":"0"}},"layout":{"type":"flex","orientation":"vertical","flexWrap":"nowrap","justifyContent":"stretch"}} -->
-<aside class="wp-block-group"><!-- wp:columns {"verticalAlignment":"center","isStackedOnMobile":false,"style":{"spacing":{"padding":{"top":"var:preset|spacing|20","bottom":"var:preset|spacing|20"}}}} -->
-<div class="wp-block-columns are-vertically-aligned-center is-not-stacked-on-mobile" style="padding-top:var(--wp--preset--spacing--20);padding-bottom:var(--wp--preset--spacing--20)"><!-- wp:column {"verticalAlignment":"center","width":"15%"} -->
-<div class="wp-block-column is-vertically-aligned-center" style="flex-basis:15%"><!-- wp:paragraph -->
+<!-- wp:group {"tagName":"aside","className":"galerio-details","style":{"spacing":{"blockGap":"0"}},"layout":{"type":"flex","orientation":"vertical","flexWrap":"nowrap","justifyContent":"stretch"}} -->
+<aside class="wp-block-group galerio-details"><!-- wp:columns {"verticalAlignment":"center","isStackedOnMobile":false,"style":{"spacing":{"padding":{"top":"var:preset|spacing|20","bottom":"var:preset|spacing|20"}}}} -->
+<div class="wp-block-columns are-vertically-aligned-center is-not-stacked-on-mobile" style="padding-top:var(--wp--preset--spacing--20);padding-bottom:var(--wp--preset--spacing--20)"><!-- wp:column {"verticalAlignment":"center","width":"9rem"} -->
+<div class="wp-block-column is-vertically-aligned-center" style="flex-basis:9rem"><!-- wp:paragraph -->
 <p><?php echo esc_html( galerio_theme_text( /* translators: Keep {Labels} as it is: it becomes this site's name for its labels. */ __( '{Labels}:', 'galerio' ) ) ); ?></p>
 <!-- /wp:paragraph --></div>
 <!-- /wp:column -->
 
-<!-- wp:column {"verticalAlignment":"center","width":"85%"} -->
-<div class="wp-block-column is-vertically-aligned-center" style="flex-basis:85%"><!-- wp:post-terms {"term":"galerio_label","separator":"  ","className":"is-style-buttons"} /--></div>
+<!-- wp:column {"verticalAlignment":"center"} -->
+<div class="wp-block-column is-vertically-aligned-center"><!-- wp:post-terms {"term":"galerio_label","separator":"  ","className":"is-style-buttons"} /--></div>
 <!-- /wp:column --></div>
 <!-- /wp:columns -->
 
 <!-- wp:columns {"verticalAlignment":"center","isStackedOnMobile":false,"style":{"border":{"top":{"color":"var:preset|color|custom-lowlight","style":"dotted","width":"1px"}},"spacing":{"padding":{"top":"var:preset|spacing|20","bottom":"var:preset|spacing|20"}}}} -->
-<div class="wp-block-columns are-vertically-aligned-center is-not-stacked-on-mobile" style="border-top-color:var(--wp--preset--color--custom-lowlight);border-top-style:dotted;border-top-width:1px;padding-top:var(--wp--preset--spacing--20);padding-bottom:var(--wp--preset--spacing--20)"><!-- wp:column {"verticalAlignment":"center","width":"15%"} -->
-<div class="wp-block-column is-vertically-aligned-center" style="flex-basis:15%"><!-- wp:paragraph -->
+<div class="wp-block-columns are-vertically-aligned-center is-not-stacked-on-mobile" style="border-top-color:var(--wp--preset--color--custom-lowlight);border-top-style:dotted;border-top-width:1px;padding-top:var(--wp--preset--spacing--20);padding-bottom:var(--wp--preset--spacing--20)"><!-- wp:column {"verticalAlignment":"center","width":"9rem"} -->
+<div class="wp-block-column is-vertically-aligned-center" style="flex-basis:9rem"><!-- wp:paragraph -->
 <p><?php echo esc_html( galerio_theme_text( /* translators: Keep {Mediums} as it is: it becomes this site's name for its mediums. */ __( '{Mediums}:', 'galerio' ) ) ); ?></p>
 <!-- /wp:paragraph --></div>
 <!-- /wp:column -->
 
-<!-- wp:column {"verticalAlignment":"center","width":"85%"} -->
-<div class="wp-block-column is-vertically-aligned-center" style="flex-basis:85%"><!-- wp:post-terms {"term":"galerio_medium","separator":"  ","className":"is-style-buttons"} /--></div>
+<!-- wp:column {"verticalAlignment":"center"} -->
+<div class="wp-block-column is-vertically-aligned-center"><!-- wp:post-terms {"term":"galerio_medium","separator":"  ","className":"is-style-buttons"} /--></div>
 <!-- /wp:column --></div>
 <!-- /wp:columns --></aside>
 <!-- /wp:group --></article>
