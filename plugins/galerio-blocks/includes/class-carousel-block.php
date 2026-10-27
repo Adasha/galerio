@@ -322,6 +322,18 @@ final class Carousel_Block {
 		$caption = '';
 		$button  = '' !== trim( $attributes['buttonText'] );
 
+		if ( $image && $attributes['linkImage'] ) {
+			// With a title or button linking to the item, the image's link would be a second
+			// stop for the same place, so keyboards and screen readers skip it.
+			$linked = $button || ( $attributes['showTitle'] && '' !== $title );
+			$image  = sprintf(
+				'<a class="wp-block-galerio-carousel__image-link" href="%1$s"%2$s>%3$s</a>',
+				esc_url( $url ),
+				$linked ? ' tabindex="-1" aria-hidden="true"' : ' aria-label="' . esc_attr( wp_strip_all_tags( $title ) ) . '"',
+				$image
+			);
+		}
+
 		if ( $attributes['showTitle'] && '' !== $title ) {
 			$level    = max( 1, min( 6, (int) $attributes['titleLevel'] ) );
 			$text     = $button ? wp_kses_post( $title ) : sprintf( '<a href="%s">%s</a>', esc_url( $url ), wp_kses_post( $title ) );
@@ -428,6 +440,7 @@ final class Carousel_Block {
 			'loop'       => (bool) $attributes['loop'],
 			'autoplay'   => (bool) $attributes['autoplay'],
 			'interval'   => max( 2000, min( 30000, (int) $attributes['interval'] ) ),
+			'hoverPause' => in_array( $attributes['pauseOnHover'], array( 'controls', 'anywhere', 'never' ), true ) ? $attributes['pauseOnHover'] : 'controls',
 			'perView'    => self::per_view( $attributes ),
 			'labels'     => array(
 				'role'  => __( 'slide', 'galerio-blocks' ),

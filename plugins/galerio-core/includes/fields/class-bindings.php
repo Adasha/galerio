@@ -87,7 +87,16 @@ final class Bindings {
 			return null;
 		}
 
-		$raw   = galerio_fields()->value( $field, $post->ID );
+		$raw = galerio_fields()->value( $field, $post->ID );
+
+		// Leaving out the item the page is about can leave nothing, which empties the block.
+		if ( ! empty( $args['omitCurrent'] ) && $field->empty_value() !== $raw ) {
+			$raw = self::omit_current( $field, $raw, $post );
+			if ( $field->empty_value() === $raw ) {
+				return '';
+			}
+		}
+
 		$value = $field->empty_value() === $raw ? null : self::value_for( $attribute, $field, $raw, $post->ID );
 
 		if ( null === $value || '' === $value ) {
@@ -136,6 +145,39 @@ final class Bindings {
 		$field = galerio_fields()->resolve( $key, $post );
 
 		return $field && 'boolean' === $field->type && true === galerio_fields()->value( $field, $post->ID );
+	}
+
+	/**
+	 * A relation's value without the item the page is about, for
+	 * `"omitCurrent": true`: a work card in a list on its creator's profile
+	 * needn't name that creator again.
+	 *
+	 * Only applies in a list, where the block shows another post than the page's.
+	 *
+	 * @param Field    $field Field.
+	 * @param mixed    $raw   Raw, non-empty value.
+	 * @param \WP_Post $post  Post the block shows.
+	 * @return mixed The value, possibly empty.
+	 */
+	private static function omit_current( Field $field, $raw, $post ) {
+		$current = is_singular() ? get_queried_object_id() : 0;
+
+		if ( 'relation' !== $field->type || ! $current || $current === $post->ID ) {
+			return $raw;
+		}
+
+		if ( ! $field->multiple ) {
+			return (int) $raw === $current ? $field->empty_value() : $raw;
+		}
+
+		return array_values(
+			array_filter(
+				$raw,
+				function ( $id ) use ( $current ) {
+					return (int) $id !== $current;
+				}
+			)
+		);
 	}
 
 	/**

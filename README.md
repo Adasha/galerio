@@ -221,6 +221,7 @@ Bindings take optional arguments beside `key`:
 | `prefix`, `suffix` | `"b. "` | Plain text around the value, only when there is one. |
 | `if` | `"show_lifespan"` | Show the value only when that on/off field is on. |
 | `link` | `true` | Link the value to the post, e.g. a title in an archive card. |
+| `omitCurrent` | `true` | In a list, leave out the item the page is about, e.g. a work card's creator on that creator's profile. With nothing left, the block is empty. |
 
 The value fits the attribute it fills: an image field gives an Image block its URL, alt text and caption, a relation gives a Button its link, and text attributes get the display value. When a field is empty, private, or belongs to another content type, the block keeps the content saved in it, so that content works as a fallback.
 
