@@ -37,17 +37,26 @@ $width: 240px;
 }
 
 // The Media Library page lays the browser out in flow: the tree becomes a
-// sticky first column beside everything else.
+// sticky first column beside everything else. The frame around it clips or
+// scrolls its overflow, which would pin the tree to the frame instead of the
+// window.
+#wp-media-grid .media-frame,
+#wp-media-grid .media-frame-content {
+	overflow: visible;
+}
+
 #wp-media-grid .attachments-browser.has-galerio-folders {
 	display: grid;
 	grid-template-columns: $width minmax(0, 1fr);
 	column-gap: 16px;
 	align-items: start;
+	overflow: visible;
 
 	> * {
 		grid-column: 2;
 	}
 
+	// Level with the toolbar, which has the same top margin.
 	> .galerio-folders-column {
 		position: sticky;
 		top: 46px;
@@ -55,6 +64,7 @@ $width: 240px;
 		grid-row: 1 / span 20;
 		grid-column: 1;
 		max-height: calc(100vh - 60px);
+		margin-top: 12px;
 		border: 1px solid #dcdcde;
 	}
 }
@@ -87,12 +97,26 @@ $width: 240px;
 	}
 }
 
+// The tree narrows the table, and a narrow File column wraps its hidden row
+// actions onto several lines, which makes every row tall. The Folders column
+// holds a short name, so it gives up some width to the File column.
+.galerio-folders-layout .wp-list-table {
+
+	.column-title {
+		width: 30%;
+	}
+
+	.column-galerio_folders {
+		width: 12%;
+	}
+}
+
 #the-list tr[draggable="true"] {
 	cursor: grab;
 }
 
 .galerio-folders {
-	padding: 8px 0 16px;
+	padding: 8px 0;
 	font-size: 13px;
 
 	&.is-loading {
@@ -137,6 +161,7 @@ $width: 240px;
 	width: 24px;
 	height: 24px;
 	padding: 0;
+	color: #50575e;
 }
 
 .galerio-folders__spacer {
@@ -208,6 +233,12 @@ $width: 240px;
 	background: #f6f7f7;
 }
 
+// A clicked folder shows as chosen; the focus ring is kept for the keyboard.
+.galerio-folders__row .galerio-folders__item.components-button:focus:not(:focus-visible) {
+	outline: none;
+	box-shadow: none;
+}
+
 .galerio-folders .is-drop-target {
 	outline: 2px dashed var(--wp-admin-theme-color, #3858e9);
 	outline-offset: -2px;
@@ -233,12 +264,21 @@ $width: 240px;
 	margin-top: 16px;
 	padding: 8px 16px 0;
 	border-top: 1px solid #f0f0f1;
+
+	// Set apart from the safe actions.
+	.is-destructive {
+		margin-left: auto;
+	}
 }
 
 .galerio-folders__message {
-	min-height: 1em;
 	margin: 8px 16px 0;
 	color: #646970;
+
+	// Stays in the page for screen readers, but takes no room until it speaks.
+	&:empty {
+		margin: 0;
+	}
 }
 
 li.attachment[draggable="true"] {

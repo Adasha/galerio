@@ -467,6 +467,7 @@ function FolderTree( { lib } ) {
 						) }
 						<Button
 							className="galerio-folders__item"
+							title={ folder.name }
 							aria-current={
 								chosen === folder.id ? 'true' : undefined
 							}
@@ -621,7 +622,6 @@ function FolderTree( { lib } ) {
 						<Button
 							size="small"
 							variant="secondary"
-							icon="plus-alt2"
 							onClick={ () =>
 								startAdd( !! current.owner, current.id )
 							}
