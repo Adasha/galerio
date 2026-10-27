@@ -1957,8 +1957,8 @@
                             "boolean_format_type": "checkbox",
                             "boolean_no_label": "No",
                             "boolean_yes_label": "Yes",
-                            "default_value": "Yes",
-                            "description": "",
+                            "default_value": "1",
+                            "description": "When off, an item’s own page leaves out its featured image, such as the banner at the top of profiles and articles. Cards, archives and carousels still show featured images.",
                             "repeatable": "0",
                             "repeatable_format": "default",
                             "required": "0",
@@ -1970,11 +1970,27 @@
                 {
                     "name": "profile_settings",
                     "id": 70,
-                    "label": "Profile Settings",
+                    "label": "Profile settings",
                     "description": "",
                     "roles_allowed": "administrator",
                     "weight": 1,
                     "fields": [
+                        {
+                            "name": "show_nationality",
+                            "id": 109,
+                            "label": "Show nationality",
+                            "type": "boolean",
+                            "boolean_format_type": "checkbox",
+                            "boolean_no_label": "No",
+                            "boolean_yes_label": "Yes",
+                            "default_value": "1",
+                            "description": "When off, no profile page shows a nationality, whatever the profile’s own “Show nationality” says. The field stays in the editor and can still be used directly.",
+                            "repeatable": "0",
+                            "repeatable_format": "default",
+                            "required": "0",
+                            "roles_allowed": "administrator",
+                            "weight": 0
+                        },
                         {
                             "name": "show_birth_death_fields",
                             "id": 71,
@@ -1983,12 +1999,29 @@
                             "boolean_format_type": "checkbox",
                             "boolean_no_label": "No",
                             "boolean_yes_label": "Yes",
-                            "description": "",
+                            "default_value": "1",
+                            "description": "When off, no profile page shows years of birth or death, whatever the profile’s own “Show lifespan” says. The fields stay in the editor and can still be used directly.",
                             "repeatable": "0",
                             "repeatable_format": "default",
                             "required": "0",
                             "roles_allowed": "administrator",
-                            "weight": 0
+                            "weight": 1
+                        },
+                        {
+                            "name": "show_portraits",
+                            "id": 110,
+                            "label": "Show portraits",
+                            "type": "boolean",
+                            "boolean_format_type": "checkbox",
+                            "boolean_no_label": "No",
+                            "boolean_yes_label": "Yes",
+                            "default_value": "1",
+                            "description": "When off, profile pages leave out the portrait, whatever the profile’s own “Show portrait” says, including a portrait standing in for the featured image. Cards still show it. The field stays in the editor and can still be used directly.",
+                            "repeatable": "0",
+                            "repeatable_format": "default",
+                            "required": "0",
+                            "roles_allowed": "administrator",
+                            "weight": 2
                         },
                         {
                             "name": "show_collective_fields",
@@ -1998,12 +2031,13 @@
                             "boolean_format_type": "checkbox",
                             "boolean_no_label": "No",
                             "boolean_yes_label": "Yes",
-                            "description": "",
+                            "default_value": "1",
+                            "description": "When off, profile pages leave out “Is a collective”, “Members” and “Member of”. The fields stay in the editor and can still be used directly.",
                             "repeatable": "0",
                             "repeatable_format": "default",
                             "required": "0",
                             "roles_allowed": "administrator",
-                            "weight": 1
+                            "weight": 3
                         }
                     ]
                 }
