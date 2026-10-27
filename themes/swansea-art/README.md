@@ -9,4 +9,6 @@ It keeps the look of the site's older Eclecticon child theme:
 - **Header** (`patterns/site-header.php`, used by `parts/site-header.html`): the wordmark (Site Logo), the tagline, the main menu, then a Log in link, search and the social links.
 - **CSS** (`style.css`): tall exhibition cards on the collections archive, and the helper classes that page content uses (`add-padding`, `remove-padding`, `pull-up`, `no-para-spacing`, `no-bullet`, `section-spacer`, `bottom-text`, `standfirst`), moved from the old site's Additional CSS.
 
+- **Galleries** (`functions.php`): Kadence Advanced Galleries on works, exhibitions, articles and profiles open in Kadence's lightbox unless another was chosen, like Galerio's own galleries. Images linked to pages keep their links. Jetpack Tiled Galleries use Jetpack's own lightbox, its Carousel setting (Jetpack → Settings → Writing → Media).
+
 The front page is the Home page's own content (a Galerio Carousel of the latest exhibitions), shown by Galerio's front page template.

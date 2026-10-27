@@ -14,6 +14,7 @@ add_filter( 'render_block_core/column', 'galerio_stays_in_view_script', 10, 2 );
 add_filter( 'render_block_galerio/gallery', 'galerio_skip_template_gallery', 10, 3 );
 add_filter( 'default_wp_template_part_areas', 'galerio_template_part_areas' );
 add_filter( 'render_block_data', 'galerio_card_for_item' );
+add_filter( 'render_block_data', 'galerio_lightbox_linked_image' );
 add_filter( 'default_template_types', 'galerio_template_types' );
 add_filter( 'get_block_templates', 'galerio_name_saved_templates' );
 add_filter( 'pre_get_block_template', 'galerio_name_saved_template_early', 10, 3 );
@@ -456,4 +457,60 @@ function galerio_card_slug( $post_type ) {
 	}
 
 	return $slugs[ $post_type ];
+}
+
+/**
+ * The content types whose images open in the lightbox by default.
+ *
+ * @return string[] Post types.
+ */
+function galerio_lightbox_post_types() {
+	/**
+	 * Filters the content types whose images open in the lightbox by default.
+	 *
+	 * @param string[] $post_types Post types. Works, collections, articles and profiles.
+	 */
+	return apply_filters( 'galerio_lightbox_post_types', array( 'galerio_work', 'galerio_collection', 'galerio_article', 'galerio_profile' ) );
+}
+
+/**
+ * On works, collections, articles and profiles, an image linked to its own
+ * file (WordPress's old "Link to: Media file" for galleries) opens in the
+ * lightbox instead, as unlinked images already do. Links to pages stay.
+ *
+ * A profile's own portrait, its featured image, keeps its link and stays out
+ * of the lightbox. Images whose lightbox was switched off are left alone.
+ *
+ * @param array $block Parsed block.
+ * @return array
+ */
+function galerio_lightbox_linked_image( $block ) {
+	if ( 'core/image' !== $block['blockName'] || ! in_array( get_post_type(), galerio_lightbox_post_types(), true ) ) {
+		return $block;
+	}
+
+	$attrs = $block['attrs'];
+	$link  = isset( $attrs['linkDestination'] ) ? $attrs['linkDestination'] : 'none';
+
+	// Without attachment pages, a link to one ends at the file too.
+	$to_file = 'media' === $link || ( 'attachment' === $link && ! get_option( 'wp_attachment_pages_enabled' ) );
+
+	if ( ! $to_file || ( isset( $attrs['lightbox']['enabled'] ) && ! $attrs['lightbox']['enabled'] ) ) {
+		return $block;
+	}
+
+	if ( 'galerio_profile' === get_post_type() && isset( $attrs['id'] ) && (int) get_post_thumbnail_id() === (int) $attrs['id'] ) {
+		return $block;
+	}
+
+	$unlink = function ( $html ) {
+		return is_string( $html ) ? preg_replace( '#<a\b[^>]*>\s*(<img\b[^>]*>)\s*</a>#i', '$1', $html ) : $html;
+	};
+
+	$block['attrs']['linkDestination'] = 'none';
+	$block['attrs']['lightbox']        = array( 'enabled' => true );
+	$block['innerHTML']                = $unlink( $block['innerHTML'] );
+	$block['innerContent']             = array_map( $unlink, $block['innerContent'] );
+
+	return $block;
 }
