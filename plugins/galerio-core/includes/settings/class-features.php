@@ -1,6 +1,6 @@
 <?php
 /**
- * Site-wide feature switches.
+ * Site-wide display switches.
  *
  * @package Galerio\Core
  */
@@ -8,24 +8,26 @@
 namespace Galerio\Core\Settings;
 
 use Galerio\Core\Fields\Field;
-use Galerio\Core\Fields\Registry;
 use WP_Block;
 use WP_HTML_Tag_Processor;
 
 defined( 'ABSPATH' ) || exit;
 
 /**
- * The switches on Settings → Galerio, each turning a feature off for the whole
- * site. A switch that was never saved counts as on, so a site only loses a
- * feature when someone turns it off.
+ * The switches on Settings → Galerio, each keeping something off the site's
+ * pages. They change what is shown, not the fields: every field stays in the
+ * editor, keeps its value and can still be used directly, e.g. in a Field
+ * block or a query. A switch that was never saved counts as on.
  *
  * - Featured images: an item's own page leaves out its featured image (the
  *   banner at the top of profiles and articles, or a Post Featured Image
  *   block). Cards, archives and carousels still show them.
- * - Birth/death fields and collective fields: those profile fields leave the
- *   editor and read as empty everywhere else (templates, Field blocks, block
- *   bindings, Schema.org data). Saved values are kept, and come back when the
- *   switch is turned on again.
+ * - Nationality, birth/death years and portraits: no profile shows them,
+ *   whatever its own Show nationality, Show lifespan or Show portrait says.
+ *   Everything that respects those (the profile template, the portrait as
+ *   the featured image, Schema.org data) follows.
+ * - Collective fields: profile pages leave out Is a collective, Members and
+ *   Member of, in Field blocks or bound blocks.
  *
  * The switches are stored by the Pods settings page galerio_settings, as
  * galerio_settings_{name} options.
@@ -38,11 +40,19 @@ final class Features {
 	const PREFIX = 'galerio_settings_';
 
 	/**
-	 * Fields each switch turns off: switch => field keys.
+	 * Switches that turn off a profile's own display switch: switch => field.
 	 */
-	const FIELDS = array(
-		'show_birth_death_fields' => array( 'profile.year_of_birth', 'profile.year_of_death', 'profile.show_lifespan' ),
-		'show_collective_fields'  => array( 'profile.is_collective', 'profile.members', 'profile.member_of' ),
+	const PROFILE_SWITCHES = array(
+		'show_nationality'        => 'profile.show_nationality',
+		'show_birth_death_fields' => 'profile.show_lifespan',
+		'show_portraits'          => 'profile.show_portrait',
+	);
+
+	/**
+	 * Fields profile pages leave out while a switch is off: switch => fields.
+	 */
+	const PROFILE_PAGE_FIELDS = array(
+		'show_collective_fields' => array( 'profile.is_collective', 'profile.members', 'profile.member_of' ),
 	);
 
 	/**
@@ -50,7 +60,7 @@ final class Features {
 	 */
 	public static function init() {
 		add_filter( 'galerio_field_value', array( __CLASS__, 'field_value' ), 10, 2 );
-		add_filter( 'pods_meta_groups_get', array( __CLASS__, 'editor_groups' ), 10, 3 );
+		add_filter( 'render_block', array( __CLASS__, 'profile_page_block' ), 10, 2 );
 		add_filter( 'render_block_core/cover', array( __CLASS__, 'cover' ), 10, 3 );
 		add_filter( 'render_block_core/post-featured-image', array( __CLASS__, 'featured_image' ), 10, 3 );
 	}
@@ -66,23 +76,36 @@ final class Features {
 		$on    = null === $value || '' === $value || (bool) (int) $value;
 
 		/**
-		 * Filters whether a Galerio feature is on.
+		 * Filters whether a Galerio display switch is on.
 		 *
-		 * @param bool   $on   Whether the feature is on.
+		 * @param bool   $on   Whether the switch is on.
 		 * @param string $name Switch, e.g. show_featured_images.
 		 */
 		return (bool) apply_filters( 'galerio_feature_enabled', $on, $name );
 	}
 
 	/**
-	 * Field keys turned off by switches that are off.
+	 * A profile's own display switch reads as off while the site's is off.
+	 *
+	 * @param mixed $value Value.
+	 * @param Field $field Field.
+	 * @return mixed
+	 */
+	public static function field_value( $value, $field ) {
+		$name = array_search( $field->key, self::PROFILE_SWITCHES, true );
+
+		return ( false !== $name && ! self::enabled( $name ) ) ? false : $value;
+	}
+
+	/**
+	 * Field keys profile pages leave out.
 	 *
 	 * @return string[]
 	 */
-	public static function disabled_fields() {
+	public static function hidden_on_profile_pages() {
 		$keys = array();
 
-		foreach ( self::FIELDS as $name => $fields ) {
+		foreach ( self::PROFILE_PAGE_FIELDS as $name => $fields ) {
 			if ( ! self::enabled( $name ) ) {
 				$keys = array_merge( $keys, $fields );
 			}
@@ -92,67 +115,45 @@ final class Features {
 	}
 
 	/**
-	 * A turned-off field reads as empty.
+	 * On a profile's page, leave out Field blocks and bound blocks that show
+	 * a field the switches hide there.
 	 *
-	 * @param mixed $value Value.
-	 * @param Field $field Field.
-	 * @return mixed
+	 * @param string $content Rendered block.
+	 * @param array  $block   Parsed block.
+	 * @return string
 	 */
-	public static function field_value( $value, $field ) {
-		return in_array( $field->key, self::disabled_fields(), true ) ? $field->empty_value() : $value;
-	}
-
-	/**
-	 * Leave turned-off fields out of the editor's Pods panels. Values not
-	 * shown are not saved, so they stay as they were.
-	 *
-	 * @param array  $groups Field groups.
-	 * @param string $type   Pod type.
-	 * @param string $name   Pod name.
-	 * @return array
-	 */
-	public static function editor_groups( $groups, $type, $name ) {
-		if ( 'post_type' !== $type || ! is_array( $groups ) ) {
-			return $groups;
+	public static function profile_page_block( $content, $block ) {
+		if ( ! is_singular( 'galerio_profile' ) ) {
+			return $content;
 		}
 
-		$object = array_search( $name, Registry::OBJECTS, true );
-		$hidden = array();
-
-		foreach ( self::disabled_fields() as $key ) {
-			list( $field_object, $field_name ) = explode( '.', $key, 2 );
-			if ( $field_object === $object ) {
-				$hidden[] = $field_name;
-			}
-		}
+		$hidden = self::hidden_on_profile_pages();
 
 		if ( ! $hidden ) {
-			return $groups;
+			return $content;
 		}
 
-		foreach ( $groups as $index => $group ) {
-			if ( empty( $group['fields'] ) || ! is_array( $group['fields'] ) ) {
-				continue;
-			}
+		$keys = array();
 
-			$fields = $group['fields'];
-
-			foreach ( $fields as $field_index => $field ) {
-				if ( in_array( (string) $field['name'], $hidden, true ) ) {
-					unset( $fields[ $field_index ] );
-				}
-			}
-
-			if ( ! $fields ) {
-				unset( $groups[ $index ] );
-				continue;
-			}
-
-			$group['fields']  = $fields;
-			$groups[ $index ] = $group;
+		if ( 'galerio/field-display' === $block['blockName'] && ! empty( $block['attrs']['key'] ) ) {
+			$keys[] = $block['attrs']['key'];
 		}
 
-		return $groups;
+		foreach ( (array) ( $block['attrs']['metadata']['bindings'] ?? array() ) as $binding ) {
+			if ( 'galerio/field' === ( $binding['source'] ?? '' ) && ! empty( $binding['args']['key'] ) ) {
+				$keys[] = $binding['args']['key'];
+			}
+		}
+
+		foreach ( $keys as $key ) {
+			$key = false === strpos( $key, '.' ) ? 'profile.' . $key : $key;
+
+			if ( in_array( $key, $hidden, true ) ) {
+				return '';
+			}
+		}
+
+		return $content;
 	}
 
 	/**

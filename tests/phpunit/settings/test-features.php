@@ -1,15 +1,17 @@
 <?php
 /**
- * Feature switch tests.
+ * Display switch tests.
  *
  * @package Galerio\Tests
  */
 
+use Galerio\Core\Fields\Featured_Image;
 use Galerio\Core\Schema\Schema_Org;
 use Galerio\Core\Settings\Features;
 
 /**
- * The switches on Settings → Galerio turn features off site-wide.
+ * The switches on Settings → Galerio keep things off the site's pages, while
+ * the fields themselves stay usable.
  *
  * @covers \Galerio\Core\Settings\Features
  */
@@ -22,6 +24,17 @@ class Test_Features extends Galerio_TestCase {
 	 */
 	private function off( $name ) {
 		update_option( Features::PREFIX . $name, '0' );
+	}
+
+	/**
+	 * Save a profile field.
+	 *
+	 * @param int    $profile Profile.
+	 * @param string $name    Field name.
+	 * @param mixed  $value   Value.
+	 */
+	private function save( $profile, $name, $value ) {
+		galerio_fields()->save( galerio_fields()->get( 'profile.' . $name ), $profile, $value );
 	}
 
 	/**
@@ -38,70 +51,92 @@ class Test_Features extends Galerio_TestCase {
 	}
 
 	/**
-	 * Birth/death fields read as empty while off, and keep their values.
+	 * Nationality and lifespan: each profile's own switch reads as off, and
+	 * the values themselves stay readable.
 	 */
-	public function test_birth_death_fields() {
+	public function test_profile_switches() {
 		$profile = self::factory()->post->create( array( 'post_type' => 'galerio_profile' ) );
-		galerio_fields()->save( galerio_fields()->get( 'profile.year_of_birth' ), $profile, 1980 );
-		galerio_fields()->save( galerio_fields()->get( 'profile.show_lifespan' ), $profile, true );
+		$this->save( $profile, 'nationality', 'Welsh' );
+		$this->save( $profile, 'show_nationality', true );
+		$this->save( $profile, 'year_of_birth', 1980 );
+		$this->save( $profile, 'show_lifespan', true );
 
+		$this->off( 'show_nationality' );
 		$this->off( 'show_birth_death_fields' );
-		$this->assertEmpty( galerio_get_field( 'profile.year_of_birth', $profile ) );
-		$this->assertEmpty( galerio_get_field( 'profile.show_lifespan', $profile ) );
-		$this->assertArrayNotHasKey( 'birthDate', Schema_Org::data( get_post( $profile ) ) );
 
-		delete_option( Features::PREFIX . 'show_birth_death_fields' );
+		$this->assertFalse( galerio_get_field( 'profile.show_nationality', $profile ) );
+		$this->assertFalse( galerio_get_field( 'profile.show_lifespan', $profile ) );
+		$this->assertSame( 'Welsh', galerio_get_field( 'profile.nationality', $profile ), 'The field can still be used directly.' );
 		$this->assertEquals( 1980, galerio_get_field( 'profile.year_of_birth', $profile ) );
+
+		$data = Schema_Org::data( get_post( $profile ) );
+		$this->assertArrayNotHasKey( 'nationality', $data );
+		$this->assertArrayNotHasKey( 'birthDate', $data );
+
+		delete_option( Features::PREFIX . 'show_nationality' );
+		$this->assertTrue( (bool) galerio_get_field( 'profile.show_nationality', $profile ), 'The profile’s own choice comes back.' );
 	}
 
 	/**
-	 * Collective fields read as empty while off; other fields are unaffected.
+	 * Portraits: no profile uses its portrait as its image.
 	 */
-	public function test_collective_fields() {
-		$member  = self::factory()->post->create( array( 'post_type' => 'galerio_profile' ) );
+	public function test_portraits() {
 		$profile = self::factory()->post->create( array( 'post_type' => 'galerio_profile' ) );
-		galerio_fields()->save( galerio_fields()->get( 'profile.is_collective' ), $profile, true );
-		galerio_fields()->save( galerio_fields()->get( 'profile.members' ), $profile, array( $member ) );
-		galerio_fields()->save( galerio_fields()->get( 'profile.nationality' ), $profile, 'Welsh' );
+		$image   = self::factory()->attachment->create_object(
+			array(
+				'file'           => 'portrait.jpg',
+				'post_mime_type' => 'image/jpeg',
+			)
+		);
+		$this->save( $profile, 'portrait', $image );
+		$this->save( $profile, 'show_portrait', true );
+		update_post_meta( $profile, Featured_Image::USE, true );
+		$this->assertSame( $image, get_post_thumbnail_id( $profile ) );
 
-		$this->off( 'show_collective_fields' );
-		$this->assertEmpty( galerio_get_field( 'profile.is_collective', $profile ) );
-		$this->assertEmpty( galerio_get_field( 'profile.members', $profile ) );
-		$this->assertSame( 'Welsh', galerio_get_field( 'profile.nationality', $profile ) );
-		$this->assertSame( 'Person', Schema_Org::data( get_post( $profile ) )['@type'] );
+		$this->off( 'show_portraits' );
+		$this->assertFalse( has_post_thumbnail( $profile ) );
+		$this->assertSame( $image, galerio_get_field( 'profile.portrait', $profile ), 'The field can still be used directly.' );
 	}
 
 	/**
-	 * The editor's Pods panels leave out turned-off fields, and drop a panel
-	 * left empty.
+	 * Collective fields: profile pages leave out blocks showing them; other
+	 * pages and other fields are unaffected.
 	 */
-	public function test_editor_groups() {
-		$groups = array(
-			array(
-				'name'   => 'details',
-				'fields' => array(
-					'year_of_birth' => array( 'name' => 'year_of_birth' ),
-					'nationality'   => array( 'name' => 'nationality' ),
-				),
-			),
-			array(
-				'name'   => 'relationships',
-				'fields' => array(
-					'members'   => array( 'name' => 'members' ),
-					'member_of' => array( 'name' => 'member_of' ),
+	public function test_collective_fields_on_profile_pages() {
+		$profile = self::factory()->post->create( array( 'post_type' => 'galerio_profile' ) );
+		$members = array(
+			'blockName' => 'galerio/field-display',
+			'attrs'     => array( 'key' => 'profile.members' ),
+		);
+		$bound   = array(
+			'blockName' => 'core/paragraph',
+			'attrs'     => array(
+				'metadata' => array(
+					'bindings' => array(
+						'content' => array(
+							'source' => 'galerio/field',
+							'args'   => array( 'key' => 'member_of' ),
+						),
+					),
 				),
 			),
 		);
+		$bio     = array(
+			'blockName' => 'galerio/field-display',
+			'attrs'     => array( 'key' => 'profile.bio' ),
+		);
 
-		$this->assertSame( $groups, Features::editor_groups( $groups, 'post_type', 'galerio_profile' ), 'Nothing hidden while on.' );
+		$this->go_to( get_permalink( $profile ) );
+		$this->assertSame( 'x', Features::profile_page_block( 'x', $members ), 'Shown while on.' );
 
-		$this->off( 'show_birth_death_fields' );
 		$this->off( 'show_collective_fields' );
-		$this->assertSame( $groups, Features::editor_groups( $groups, 'post_type', 'galerio_work' ), 'Other types are unaffected.' );
+		$this->assertSame( '', Features::profile_page_block( 'x', $members ) );
+		$this->assertSame( '', Features::profile_page_block( 'x', $bound ), 'A bare field name counts too.' );
+		$this->assertSame( 'x', Features::profile_page_block( 'x', $bio ) );
 
-		$result = Features::editor_groups( $groups, 'post_type', 'galerio_profile' );
-		$this->assertCount( 1, $result );
-		$this->assertSame( array( 'nationality' ), array_keys( $result[0]['fields'] ) );
+		$page = self::factory()->post->create( array( 'post_type' => 'page' ) );
+		$this->go_to( get_permalink( $page ) );
+		$this->assertSame( 'x', Features::profile_page_block( 'x', $members ), 'Other pages can still show them.' );
 	}
 
 	/**
