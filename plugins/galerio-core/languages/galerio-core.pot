@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-10-30T20:02:38+00:00\n"
+"POT-Creation-Date: 2026-10-30T21:03:39+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: galerio-core\n"
@@ -78,6 +78,7 @@ msgstr ""
 #: includes/aliases/class-names.php:59
 #: includes/aliases/class-settings-page.php:168
 #: includes/fields/default-fields.php:42
+#: blocks/archive-filters/index.js:143
 msgid "Medium"
 msgstr ""
 
@@ -455,6 +456,86 @@ msgstr ""
 #: includes/aliases/presets.php:143
 msgctxt "URL slug"
 msgid "series-type"
+msgstr ""
+
+#: includes/archives/class-archives.php:178
+msgid "Best match"
+msgstr ""
+
+#: includes/archives/class-archives.php:181
+#: blocks/archive-filters/index.js:149
+msgid "Newest first"
+msgstr ""
+
+#: includes/archives/class-archives.php:182
+msgid "Oldest first"
+msgstr ""
+
+#: includes/archives/class-archives.php:183
+msgid "Title, A to Z"
+msgstr ""
+
+#: includes/archives/class-archives.php:187
+msgid "Year made, latest first"
+msgstr ""
+
+#: includes/archives/class-archives.php:461
+msgid "Nothing matches your search."
+msgstr ""
+
+#: includes/archives/class-archives.php:462
+msgid "Nothing matches these filters."
+msgstr ""
+
+#: includes/archives/class-archives.php:464
+msgid "Show everything"
+msgstr ""
+
+#: includes/archives/class-archives.php:497
+#: blocks/archive-filters/index.js:57
+#: blocks/archive-filters/index.js:138
+msgid "Search"
+msgstr ""
+
+#: includes/archives/class-archives.php:528
+#: blocks/archive-filters/index.js:79
+#: blocks/archive-filters/index.js:148
+msgid "Sort"
+msgstr ""
+
+#: includes/archives/class-archives.php:536
+msgid "Clear"
+msgstr ""
+
+#: includes/archives/class-archives.php:544
+msgid "Filter and sort"
+msgstr ""
+
+#: includes/archives/class-archives.php:546
+msgid "Apply"
+msgstr ""
+
+#: includes/archives/class-archives.php:552
+#: blocks/archive-filters/index.js:68
+#: blocks/archive-filters/index.js:100
+#: blocks/archive-filters/index.js:119
+msgid "Filters"
+msgstr ""
+
+#. translators: %s: how many filters, searches and sorts are in use.
+#: includes/archives/class-archives.php:557
+#, php-format
+msgid "(%s in use)"
+msgid_plural "(%s in use)"
+msgstr[0] ""
+msgstr[1] ""
+
+#: includes/archives/class-archives.php:721
+msgid "Galerio archives show at most"
+msgstr ""
+
+#: includes/archives/class-archives.php:773
+msgid "Items per page on each archive. Leave empty to use “Blog pages show at most”. A grid fills its rows with a number its columns divide, such as 12."
 msgstr ""
 
 #: includes/catalogue/class-catalogue.php:111
@@ -1256,8 +1337,34 @@ msgstr ""
 msgid "Done"
 msgstr ""
 
+#: blocks/archive-filters/index.js:54
 #: blocks/enquiry/index.js:38
 msgid "Settings"
+msgstr ""
+
+#: blocks/archive-filters/index.js:58
+msgid "Words to find in titles, text fields, terms and creators’ names."
+msgstr ""
+
+#: blocks/archive-filters/index.js:69
+msgid "A dropdown for each of the type’s taxonomies, such as mediums, with two or more terms in use."
+msgstr ""
+
+#: blocks/archive-filters/index.js:86
+msgid "Collapsible"
+msgstr ""
+
+#: blocks/archive-filters/index.js:87
+msgid "Hidden behind a heading that opens them. Open while any are in use."
+msgstr ""
+
+#: blocks/archive-filters/index.js:99
+#: blocks/field-display/index.js:95
+msgid "Heading"
+msgstr ""
+
+#: blocks/archive-filters/index.js:144
+msgid "All Mediums"
 msgstr ""
 
 #: blocks/enquiry/index.js:42
@@ -1284,10 +1391,6 @@ msgstr ""
 
 #: blocks/field-display/index.js:80
 msgid "Choose a field"
-msgstr ""
-
-#: blocks/field-display/index.js:95
-msgid "Heading"
 msgstr ""
 
 #: blocks/field-display/index.js:96
@@ -1330,6 +1433,38 @@ msgstr ""
 msgid "%s is empty, so this block is hidden."
 msgstr ""
 
+#: blocks/archive-filters/block.json
+msgctxt "block title"
+msgid "Galerio Archive Filters"
+msgstr ""
+
+#: blocks/archive-filters/block.json
+msgctxt "block description"
+msgid "A search box and dropdowns that narrow and sort a Galerio archive, such as works by medium, applied as soon as they change. Place it above the archive's Query Loop, which must inherit the page's query. Hidden on other pages."
+msgstr ""
+
+#: blocks/archive-filters/block.json
+#: blocks/enquiry/block.json
+#: blocks/field-display/block.json
+msgctxt "block keyword"
+msgid "galerio"
+msgstr ""
+
+#: blocks/archive-filters/block.json
+msgctxt "block keyword"
+msgid "filter"
+msgstr ""
+
+#: blocks/archive-filters/block.json
+msgctxt "block keyword"
+msgid "sort"
+msgstr ""
+
+#: blocks/archive-filters/block.json
+msgctxt "block keyword"
+msgid "archive"
+msgstr ""
+
 #: blocks/enquiry/block.json
 msgctxt "block title"
 msgid "Galerio Enquiry"
@@ -1338,12 +1473,6 @@ msgstr ""
 #: blocks/enquiry/block.json
 msgctxt "block description"
 msgid "A form for asking about the current work, sent by email. Shown only while the catalogue is on and the work is available or reserved with no dealer."
-msgstr ""
-
-#: blocks/enquiry/block.json
-#: blocks/field-display/block.json
-msgctxt "block keyword"
-msgid "galerio"
 msgstr ""
 
 #: blocks/enquiry/block.json

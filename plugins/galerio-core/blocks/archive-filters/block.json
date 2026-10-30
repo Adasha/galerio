@@ -1,0 +1,52 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "galerio/archive-filters",
+	"version": "0.1.0",
+	"title": "Galerio Archive Filters",
+	"category": "theme",
+	"icon": "filter",
+	"description": "A search box and dropdowns that narrow and sort a Galerio archive, such as works by medium, applied as soon as they change. Place it above the archive's Query Loop, which must inherit the page's query. Hidden on other pages.",
+	"keywords": [ "galerio", "filter", "sort", "archive" ],
+	"textdomain": "galerio-core",
+	"attributes": {
+		"showSearch": {
+			"type": "boolean",
+			"default": true
+		},
+		"showFilters": {
+			"type": "boolean",
+			"default": true
+		},
+		"showSort": {
+			"type": "boolean",
+			"default": true
+		},
+		"collapsible": {
+			"type": "boolean",
+			"default": true
+		},
+		"label": {
+			"type": "string",
+			"default": ""
+		}
+	},
+	"supports": {
+		"html": false,
+		"multiple": false,
+		"align": [ "wide", "full" ],
+		"color": {
+			"background": true,
+			"text": true,
+			"link": true
+		},
+		"spacing": {
+			"margin": true,
+			"padding": true
+		},
+		"typography": {
+			"fontSize": true
+		}
+	},
+	"editorScript": "file:./index.js"
+}
