@@ -254,6 +254,61 @@ class Test_Archives extends Galerio_TestCase {
 	}
 
 	/**
+	 * A theme can add a sort of its own and apply it.
+	 */
+	public function test_sort_hooks() {
+		$add   = function ( $sorts ) {
+			$sorts['title_desc'] = 'Title, Z to A';
+			return $sorts;
+		};
+		$apply = function ( $query, $sort ) {
+			if ( 'title_desc' === $sort ) {
+				$query->set( 'orderby', 'title' );
+				$query->set( 'order', 'DESC' );
+			}
+		};
+		add_filter( 'galerio_archive_sorts', $add );
+		add_action( 'galerio_archive_sort', $apply, 10, 2 );
+
+		$this->assertSame( array( 'Clay', 'Brass', 'Ash' ), $this->visit( array( 'sort' => 'title_desc' ) ) );
+		$this->assertStringContainsString( '>Title, Z to A</option>', do_blocks( '<!-- wp:galerio/archive-filters /-->' ) );
+
+		remove_filter( 'galerio_archive_sorts', $add );
+		remove_action( 'galerio_archive_sort', $apply );
+		$this->assertSame( array( 'Ash', 'Brass', 'Clay' ), $this->visit( array( 'sort' => 'title_desc' ) ), 'Unknown sorts are ignored.' );
+	}
+
+	/**
+	 * A theme can choose the fields the search looks in, but never private
+	 * ones.
+	 */
+	public function test_search_fields_hook() {
+		$creator = self::factory()->post->create(
+			array(
+				'post_type'   => 'galerio_profile',
+				'post_status' => 'publish',
+				'post_title'  => 'Mei Chen',
+			)
+		);
+		galerio_fields()->save( galerio_fields()->get( 'work.creator' ), $this->works['brass'], $creator );
+		galerio_fields()->save( galerio_fields()->get( 'work.owner' ), $this->works['ash'], 'Private Collector' );
+
+		$this->assertContains( 'work.creator', Archives::search_fields( 'galerio_work' ) );
+		$this->assertNotContains( 'work.owner', Archives::search_fields( 'galerio_work' ) );
+
+		$hook = function ( $keys ) {
+			return array_merge( array_diff( $keys, array( 'work.creator' ) ), array( 'work.owner', 'profile.bio', 'no.such' ) );
+		};
+		add_filter( 'galerio_archive_search_fields', $hook );
+
+		$this->assertSame( array(), $this->visit( array( 'q' => 'Mei Chen' ) ), 'Creator left out.' );
+		$this->assertSame( array(), $this->visit( array( 'q' => 'collector' ) ), 'Private fields stay out.' );
+		$this->assertNotContains( 'profile.bio', Archives::search_fields( 'galerio_work' ), "Another type's fields stay out." );
+
+		remove_filter( 'galerio_archive_search_fields', $hook );
+	}
+
+	/**
 	 * When filters leave nothing, the No results block says so.
 	 */
 	public function test_no_results() {

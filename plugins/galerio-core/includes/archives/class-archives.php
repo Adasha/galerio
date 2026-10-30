@@ -29,7 +29,13 @@ defined( 'ABSPATH' ) || exit;
  * The search is WordPress's own (title, excerpt and content, best matches
  * first), widened through its posts_search hook to the type's public text
  * fields, its terms' names and the names of profiles it relates to, such as
- * a work's creator. Each word must match somewhere; a word starting with "-"
+ * a work's creator (see search_fields()).
+ *
+ * Themes and plugins can change what's offered: galerio_archive_filters (the
+ * taxonomies), galerio_archive_sorts with the galerio_archive_sort action
+ * (the orders), and galerio_archive_search_fields (what the search looks in).
+ * The address works without the block too, e.g. a row of links to
+ * ?medium=oil. Each word must match somewhere; a word starting with "-"
  * must not. It reads the stored values directly, with no index, which suits
  * archives of up to a few thousand items. WordPress's "s" isn't used, as it
  * would turn the archive into the search results page.
@@ -187,7 +193,16 @@ final class Archives {
 			$sorts['year'] = __( 'Year made, latest first', 'galerio-core' );
 		}
 
-		return $sorts;
+		/**
+		 * Filters the orders a Galerio archive can be sorted in. The first is
+		 * the default, applied by WordPress's own order. Apply a sort of your
+		 * own with the galerio_archive_sort action.
+		 *
+		 * @param array<string, string> $sorts     Key in the address => label.
+		 * @param string                $post_type Post type, or empty for a term page.
+		 * @param bool                  $searching Whether the archive is being searched.
+		 */
+		return (array) apply_filters( 'galerio_archive_sorts', $sorts, $post_type, $searching );
 	}
 
 	/**
@@ -327,13 +342,73 @@ final class Archives {
 					)
 				);
 				break;
+
+			default:
+				if ( '' !== $current['sort'] ) {
+					/**
+					 * Apply a sort added with the galerio_archive_sorts filter,
+					 * e.g. by setting the query's orderby.
+					 *
+					 * @param WP_Query $query     The archive's main query.
+					 * @param string   $sort      Sort key.
+					 * @param string   $post_type Post type, or empty for a term page.
+					 */
+					do_action( 'galerio_archive_sort', $query, $current['sort'], $post_type );
+				}
 		}
 	}
 
 	/**
+	 * The fields an archive's search looks in, besides the title, excerpt
+	 * and content: by default the type's public text fields and its
+	 * relationships to profiles, whose names it matches. Catalogue fields
+	 * count only while the catalogue is on.
+	 *
+	 * @param string $post_type Post type.
+	 * @return string[] Field keys, such as "work.description".
+	 */
+	public static function search_fields( $post_type ) {
+		$object = array_search( $post_type, Registry::OBJECTS, true );
+		$keys   = array();
+
+		foreach ( $object ? galerio_fields()->all( $object ) : array() as $field ) {
+			if ( in_array( $field->type, array( 'text', 'textarea', 'html' ), true ) || ( 'relation' === $field->type && 'profile' === $field->target ) ) {
+				$keys[] = $field->key;
+			}
+		}
+
+		/**
+		 * Filters the fields a Galerio archive's search looks in. Text fields
+		 * match their words, relationships the titles of the items they point
+		 * to. Private fields, fields worked out from others, and catalogue
+		 * fields while the catalogue is off are left out whatever this says.
+		 *
+		 * @param string[] $keys      Field keys, such as "work.description".
+		 * @param string   $post_type Post type.
+		 */
+		$keys = (array) apply_filters( 'galerio_archive_search_fields', $keys, $post_type );
+
+		return array_values(
+			array_filter(
+				$keys,
+				function ( $key ) use ( $object ) {
+					$field = galerio_fields()->get( (string) $key );
+
+					return $field
+						&& $field->object === $object
+						&& $field->public
+						&& ! $field->value_callback
+						&& in_array( $field->type, array( 'text', 'textarea', 'html', 'relation' ), true )
+						&& ( Catalogue::enabled() || ! in_array( $field->key, Catalogue::FIELDS, true ) );
+				}
+			)
+		);
+	}
+
+	/**
 	 * Widen an archive's search: each word may match the title, excerpt or
-	 * content, as WordPress searches, or a public text field, a term's name
-	 * or a related profile's name.
+	 * content, as WordPress searches, or one of search_fields(), or a term's
+	 * name.
 	 *
 	 * @param string   $search The search's SQL, from WordPress.
 	 * @param WP_Query $query  Query.
@@ -349,26 +424,17 @@ final class Archives {
 			return $search;
 		}
 
-		$object     = array_search( $post_type, Registry::OBJECTS, true );
 		$keys       = array();
 		$relations  = array();
-		$catalogue  = Catalogue::enabled();
 		$taxonomies = array_values( self::filters( $post_type ) );
 
-		foreach ( galerio_fields()->all( $object ) as $field ) {
-			if ( ! $field->public || $field->value_callback ) {
-				continue;
-			}
+		foreach ( self::search_fields( $post_type ) as $key ) {
+			$field = galerio_fields()->get( $key );
 
-			// While the catalogue is off its fields are hidden, so not searched.
-			if ( ! $catalogue && in_array( $field->key, Catalogue::FIELDS, true ) ) {
-				continue;
-			}
-
-			if ( in_array( $field->type, array( 'text', 'textarea', 'html' ), true ) ) {
-				$keys[] = $field->source;
-			} elseif ( 'relation' === $field->type && 'profile' === $field->target ) {
+			if ( 'relation' === $field->type ) {
 				$relations[] = $field->source;
+			} else {
+				$keys[] = $field->source;
 			}
 		}
 
