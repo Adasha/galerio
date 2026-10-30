@@ -59,6 +59,9 @@ require_once GALERIO_CORE_DIR . 'includes/styles/class-page-style.php';
 require_once GALERIO_CORE_DIR . 'includes/schema/class-schema-org.php';
 require_once GALERIO_CORE_DIR . 'includes/roles/class-type-capabilities.php';
 require_once GALERIO_CORE_DIR . 'includes/settings/class-features.php';
+require_once GALERIO_CORE_DIR . 'includes/feeds/class-feeds.php';
+require_once GALERIO_CORE_DIR . 'includes/feeds/class-sitemaps.php';
+require_once GALERIO_CORE_DIR . 'includes/feeds/class-reading-settings.php';
 
 // Galerio isn't hosted on WordPress.org, so its bundled translations in languages/ are loaded here.
 add_action(
@@ -81,6 +84,9 @@ Galerio\Core\Styles\Page_Style::init();
 Galerio\Core\Schema\Schema_Org::init();
 Galerio\Core\Roles\Type_Capabilities::init();
 Galerio\Core\Settings\Features::init();
+Galerio\Core\Feeds\Feeds::init();
+Galerio\Core\Feeds\Sitemaps::init();
+Galerio\Core\Feeds\Reading_Settings::init();
 
 if ( defined( 'WP_CLI' ) && WP_CLI ) {
 	require_once GALERIO_CORE_DIR . 'includes/cli/class-pods-command.php';
