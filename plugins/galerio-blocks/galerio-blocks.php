@@ -3,7 +3,7 @@
  * Plugin Name:       Galerio Blocks
  * Plugin URI:        https://galerio.net
  * Description:       Blocks for galleries, artists and publishers: a carousel, a gallery, exhibition dates and related items, for exhibitions, works and creators.
- * Version:           0.3.1-alpha.1
+ * Version:           0.3.3-alpha.1
  * Requires at least: 6.6
  * Requires PHP:      7.4
  * Author:            Adam Shailer
@@ -18,7 +18,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'GALERIO_BLOCKS_VERSION', '0.3.1-alpha.1' );
+define( 'GALERIO_BLOCKS_VERSION', '0.3.3-alpha.1' );
 define( 'GALERIO_BLOCKS_FILE', __FILE__ );
 define( 'GALERIO_BLOCKS_DIR', plugin_dir_path( __FILE__ ) );
 
@@ -35,6 +35,7 @@ require_once GALERIO_BLOCKS_DIR . 'includes/class-exhibition-dates-block.php';
 require_once GALERIO_BLOCKS_DIR . 'includes/class-query-variations.php';
 require_once GALERIO_BLOCKS_DIR . 'includes/class-related-query.php';
 require_once GALERIO_BLOCKS_DIR . 'includes/class-query-rows.php';
+require_once GALERIO_BLOCKS_DIR . 'includes/class-loop-covers.php';
 
 // Galerio isn't hosted on WordPress.org, so its bundled translations in languages/ are loaded here.
 add_action(
@@ -51,3 +52,4 @@ Galerio\Blocks\Exhibition_Dates_Block::init();
 Galerio\Blocks\Query_Variations::init();
 Galerio\Blocks\Related_Query::init();
 Galerio\Blocks\Query_Rows::init();
+Galerio\Blocks\Loop_Covers::init();

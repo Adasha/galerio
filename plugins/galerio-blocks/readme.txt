@@ -4,7 +4,7 @@ Tags: carousel, slider, gallery, exhibition, art
 Requires at least: 6.6
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 0.3.1-alpha.1
+Stable tag: 0.3.3-alpha.1
 License: GPL-2.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -47,6 +47,12 @@ Ready-made Query Loops in the inserter, named after the site's content types: Ga
 Galerio is in alpha. Expect breaking changes.
 
 == Changelog ==
+
+= 0.3.3-alpha.1 =
+* Query Loops: a Cover that uses the featured image, as in the collection card, no longer redraws the loop without end when its items' images mix dark and light. In the editor it keeps the light or dark setting it was saved with.
+
+= 0.3.2-alpha.1 =
+* Exhibition Dates: the editor previews the dates from the collection it already has, with no request to the server per card. A Query Loop of exhibitions sent one per card on every redraw, enough to trip a host's firewall.
 
 = 0.3.1-alpha.1 =
 * Carousel: autoplay no longer stops while the pointer merely rests on a slide, which kept a full-screen carousel on its first slide. A "Pause on hover" setting chooses over links and buttons (the default), anywhere on the carousel, or never.
