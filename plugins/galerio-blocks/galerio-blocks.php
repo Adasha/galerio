@@ -35,6 +35,7 @@ require_once GALERIO_BLOCKS_DIR . 'includes/class-exhibition-dates-block.php';
 require_once GALERIO_BLOCKS_DIR . 'includes/class-query-variations.php';
 require_once GALERIO_BLOCKS_DIR . 'includes/class-related-query.php';
 require_once GALERIO_BLOCKS_DIR . 'includes/class-query-rows.php';
+require_once GALERIO_BLOCKS_DIR . 'includes/class-loop-covers.php';
 
 // Galerio isn't hosted on WordPress.org, so its bundled translations in languages/ are loaded here.
 add_action(
@@ -51,3 +52,4 @@ Galerio\Blocks\Exhibition_Dates_Block::init();
 Galerio\Blocks\Query_Variations::init();
 Galerio\Blocks\Related_Query::init();
 Galerio\Blocks\Query_Rows::init();
+Galerio\Blocks\Loop_Covers::init();
