@@ -16,7 +16,8 @@ defined( 'ABSPATH' ) || exit;
  * `galerioRows` attribute, set in the Rows panel.
  *
  * Rows are counted on the page by query-rows-view.js, as laid out, so the
- * limit holds when a grid has fewer columns on a phone.
+ * limit holds when a grid has fewer columns on a phone. The editor's canvas
+ * loads the script too, so it shows the same rows.
  */
 final class Query_Rows {
 
@@ -30,6 +31,7 @@ final class Query_Rows {
 	 */
 	public static function init() {
 		add_action( 'enqueue_block_editor_assets', array( __CLASS__, 'editor_assets' ) );
+		add_action( 'enqueue_block_assets', array( __CLASS__, 'canvas_assets' ) );
 		add_filter( 'register_block_type_args', array( __CLASS__, 'attributes' ), 10, 2 );
 		add_filter( 'render_block_core/query', array( __CLASS__, 'render' ), 10, 2 );
 	}
@@ -46,6 +48,16 @@ final class Query_Rows {
 			true
 		);
 		wp_set_script_translations( 'galerio-query-rows', 'galerio-blocks', GALERIO_BLOCKS_DIR . 'languages' );
+	}
+
+	/**
+	 * The script that counts the rows, in the editor's canvas.
+	 */
+	public static function canvas_assets() {
+		if ( is_admin() ) {
+			self::view_assets();
+			wp_add_inline_script( 'galerio-query-rows-view', 'window.galerioQueryRowsEditor = true;', 'before' );
+		}
 	}
 
 	/**

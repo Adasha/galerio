@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-10-30T18:01:24+00:00\n"
+"POT-Creation-Date: 2026-10-30T18:19:52+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: galerio-blocks\n"
@@ -202,19 +202,19 @@ msgstr ""
 msgid "Galerio current and upcoming %s"
 msgstr ""
 
-#: assets/js/query-rows.js:57
+#: assets/js/query-rows.js:88
 msgid "Rows"
 msgstr ""
 
-#: assets/js/query-rows.js:63
+#: assets/js/query-rows.js:94
 msgid "Rows to show"
 msgstr ""
 
-#: assets/js/query-rows.js:65
-msgid "Counted as laid out on the screen, so a phone shows fewer items. The editor shows them all. To load fewer, lower “Items per page” instead."
+#: assets/js/query-rows.js:96
+msgid "Counted as laid out on the screen, so a phone shows fewer items. To load fewer, lower “Items per page” instead."
 msgstr ""
 
-#: assets/js/query-rows.js:69
+#: assets/js/query-rows.js:100
 msgid "All the items on the page are shown."
 msgstr ""
 
