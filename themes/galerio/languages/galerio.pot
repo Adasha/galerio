@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-10-30T20:02:37+00:00\n"
+"POT-Creation-Date: 2026-10-30T20:28:21+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: galerio\n"
@@ -279,8 +279,26 @@ msgctxt "Pattern description"
 msgid "The list of articles. Used by the archive-galerio_article template; a child theme can override this pattern alone."
 msgstr ""
 
+#. translators: Link to the previous page of the list.
+#: patterns/template-archive-articles.php:23
+#: patterns/template-archive-collections.php:26
+#: patterns/template-archive-profiles.php:23
+#: patterns/template-archive-works.php:23
+#: patterns/template-taxonomy.php:25
+msgid "Previous"
+msgstr ""
+
+#. translators: Link to the next page of the list.
+#: patterns/template-archive-articles.php:27
+#: patterns/template-archive-collections.php:30
+#: patterns/template-archive-profiles.php:27
+#: patterns/template-archive-works.php:27
+#: patterns/template-taxonomy.php:29
+msgid "Next"
+msgstr ""
+
 #. translators: Keep {articles} as it is: it becomes this site's name for articles.
-#: patterns/template-archive-articles.php:28
+#: patterns/template-archive-articles.php:32
 msgid "No {articles} yet."
 msgstr ""
 
@@ -294,16 +312,6 @@ msgctxt "Pattern description"
 msgid "The list of collections. Used by the archive-galerio_collection template; a child theme can override this pattern alone."
 msgstr ""
 
-#. translators: Link to the previous page of the list.
-#: patterns/template-archive-collections.php:24
-msgid "Previous"
-msgstr ""
-
-#. translators: Link to the next page of the list.
-#: patterns/template-archive-collections.php:26
-msgid "Next"
-msgstr ""
-
 #: patterns/template-archive-profiles.php
 msgctxt "Pattern title"
 msgid "Profiles archive"
@@ -315,7 +323,7 @@ msgid "The list of creator profiles. Used by the archive-galerio_profile templat
 msgstr ""
 
 #. translators: Keep {profiles} as it is: it becomes this site's name for profiles.
-#: patterns/template-archive-profiles.php:28
+#: patterns/template-archive-profiles.php:32
 msgid "No {profiles} yet."
 msgstr ""
 
@@ -330,7 +338,7 @@ msgid "The list of works. Used by the archive-galerio_work template; a child the
 msgstr ""
 
 #. translators: Keep {works} as it is: it becomes this site's name for works.
-#: patterns/template-archive-works.php:28
+#: patterns/template-archive-works.php:32
 msgid "No {works} yet."
 msgstr ""
 
@@ -506,7 +514,7 @@ msgid "Everything with one term, such as a medium, label, role or category, what
 msgstr ""
 
 #. translators: Shown on a medium, label, role or category page with no items.
-#: patterns/template-taxonomy.php:30
+#: patterns/template-taxonomy.php:34
 msgid "Nothing here yet."
 msgstr ""
 
