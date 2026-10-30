@@ -3,7 +3,6 @@
  * Title: Work details
  * Slug: galerio/work-details
  * Categories: galerio
- * Block Types: core/post-content
  * Description: A work's details as a table: medium, style or genre, dimensions and the rest, from the work's fields. Rows with nothing in them are hidden. Used by the work template; place it anywhere a work's details are wanted, or override it in a child theme.
  *
  * @package Galerio
