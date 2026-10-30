@@ -32,7 +32,9 @@
 
 <!-- wp:columns -->
 <div class="wp-block-columns"><!-- wp:column {"width":"33%"} -->
-<div class="wp-block-column" style="flex-basis:33%"><!-- wp:pattern {"slug":"galerio/work-details"} /--></div>
+<div class="wp-block-column" style="flex-basis:33%"><!-- wp:pattern {"slug":"galerio/work-details"} /-->
+
+<!-- wp:galerio/enquiry {"style":{"spacing":{"margin":{"top":"var:preset|spacing|30"}}}} /--></div>
 <!-- /wp:column -->
 
 <!-- wp:column {"width":"67%","style":{"spacing":{"blockGap":"var:preset|spacing|60"}}} -->

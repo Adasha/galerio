@@ -2115,6 +2115,20 @@
                             "rest_pick_response": "array",
                             "roles_allowed": "administrator",
                             "weight": 1
+                        },
+                        {
+                            "name": "enquiry_email",
+                            "id": 126,
+                            "label": "Enquiries email",
+                            "type": "email",
+                            "description": "Where enquiries about available works are sent. Leave empty for the site’s administration email. A work sold through a dealer links to them instead, and nothing is kept on the site.",
+                            "email_html5": "1",
+                            "email_max_length": "255",
+                            "repeatable": "0",
+                            "repeatable_format": "default",
+                            "required": "0",
+                            "roles_allowed": "administrator",
+                            "weight": 2
                         }
                     ]
                 }
