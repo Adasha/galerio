@@ -14,38 +14,48 @@ use WP_REST_Response;
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Makes an item without a featured image use one of its own images instead:
- * a work's definitive image, a profile's portrait (when the profile shows
- * it), a collection's first image, and an article's first image once
- * articles have images.
+ * Decides which image stands for an item wherever the site shows a featured
+ * image: cards, archives, carousels, feeds, links shared on social media and
+ * Schema.org data. An item can have two: its featured image, which may
+ * interpret it, and its own image, which records it (a work's definitive
+ * image, a collection's first image, a profile's portrait).
  *
- * The featured image may interpret the work while the definitive image is
- * its single true representation, so they are separate fields; most items
- * only need one, so the featured image falls back to the other. Each item
- * can turn the fallback on or off; the theme shows a plain colour without
- * an image. Profiles start with it off, so a portrait is never shown large
- * unless someone chooses it; works, collections and articles start with it on.
+ * - Works, collections and articles: with one of the two, that one is used.
+ *   With both, the item's "Use the … instead" setting chooses, and the
+ *   featured image is used until it's turned on, as WordPress does.
+ * - Profiles: the portrait is used only when the profile turns the setting
+ *   on, even when it's the only image, and only while the profile shows its
+ *   portrait (Show portrait, and the site's Show portraits).
  *
- * The fallback applies wherever the site reads a featured image, but not in
- * the REST API's `featured_media`, so the editor shows only an image that
- * was actually set.
+ * The work's own page shows its definitive image as the artwork either way,
+ * through its template's binding. The REST API's `featured_media` reports
+ * only a featured image that was actually set, so the editor tells the truth.
  */
 final class Featured_Image {
 
 	/**
-	 * Post meta: whether the item uses its own image when it has no featured image.
+	 * Post meta: whether the item uses its own image rather than its
+	 * featured image.
 	 */
-	const USE = 'galerio_image_fallback';
+	const USE = 'galerio_use_own_image';
 
 	/**
-	 * Post types whose fallback starts off.
+	 * Post meta of Galerio Core 0.5 and earlier: whether the item used its own
+	 * image while it had no featured image. Read only for profiles that turned
+	 * their portrait on, so they keep showing it.
 	 */
-	const OFF_BY_DEFAULT = array( 'galerio_profile' );
+	const LEGACY = 'galerio_image_fallback';
+
+	/**
+	 * Post types whose own image is used only when chosen.
+	 */
+	const OPT_IN = array( 'galerio_profile' );
 
 	/**
 	 * Hook into WordPress.
 	 */
 	public static function init() {
+		add_filter( 'post_thumbnail_id', array( __CLASS__, 'thumbnail_id' ), 10, 2 );
 		add_filter( 'default_post_metadata', array( __CLASS__, 'fallback' ), 10, 4 );
 		add_action( 'init', array( __CLASS__, 'register_meta' ), 20 );
 		add_action( 'enqueue_block_editor_assets', array( __CLASS__, 'editor_assets' ) );
@@ -56,14 +66,15 @@ final class Featured_Image {
 	}
 
 	/**
-	 * The image field each post type falls back to.
+	 * The image field each post type has as its own image.
 	 *
 	 * @return array<string, string> Post type => field key.
 	 */
 	public static function fallbacks() {
 		/**
-		 * Filters the image field each post type uses when it has no featured
-		 * image. List fields use their first image.
+		 * Filters the image field each post type has as its own image, used
+		 * in place of the featured image as the item's settings choose. List
+		 * fields use their first image.
 		 *
 		 * @param array<string, string> $fallbacks Post type => field key.
 		 */
@@ -79,20 +90,25 @@ final class Featured_Image {
 	}
 
 	/**
-	 * The image an item falls back to, if any.
+	 * The featured image as stored, without the choice applied.
 	 *
 	 * @param int $post_id Item.
 	 * @return int Attachment ID, or 0.
 	 */
-	public static function image( $post_id ) {
+	public static function stored( $post_id ) {
+		return (int) get_metadata_raw( 'post', $post_id, '_thumbnail_id', true );
+	}
+
+	/**
+	 * The item's own image, when it has one it may show.
+	 *
+	 * @param int $post_id Item.
+	 * @return int Attachment ID, or 0.
+	 */
+	public static function own( $post_id ) {
 		$post_type = get_post_type( $post_id );
 		$fallbacks = self::fallbacks();
-
-		if ( ! isset( $fallbacks[ $post_type ] ) || ! self::used( $post_id ) ) {
-			return 0;
-		}
-
-		$field = galerio_fields()->get( $fallbacks[ $post_type ] );
+		$field     = isset( $fallbacks[ $post_type ] ) ? galerio_fields()->get( $fallbacks[ $post_type ] ) : null;
 
 		if ( ! $field ) {
 			return 0;
@@ -110,26 +126,67 @@ final class Featured_Image {
 	}
 
 	/**
-	 * Whether an item uses the fallback: its own choice, or its type's default.
+	 * Whether the item chose its own image over its featured image.
 	 *
 	 * @param int $post_id Item.
 	 * @return bool
 	 */
-	public static function used( $post_id ) {
+	public static function prefers_own( $post_id ) {
 		$saved = get_metadata_raw( 'post', $post_id, self::USE, true );
 
-		if ( null === $saved ) {
-			return ! in_array( get_post_type( $post_id ), self::OFF_BY_DEFAULT, true );
+		if ( null !== $saved ) {
+			return (bool) $saved;
 		}
 
-		return (bool) $saved;
+		// A profile that turned its portrait on under the old setting, which
+		// applied while it had no featured image, keeps it in that case.
+		return in_array( get_post_type( $post_id ), self::OPT_IN, true )
+			&& (bool) get_metadata_raw( 'post', $post_id, self::LEGACY, true )
+			&& ! self::stored( $post_id );
 	}
 
 	/**
-	 * Supply the fallback image when an item has no featured image.
+	 * The image that stands for the item, by the rules above.
 	 *
-	 * Runs only when no _thumbnail_id is stored, so a featured image set by
-	 * hand always wins.
+	 * @param int $post_id Item.
+	 * @return int Attachment ID, or 0 for none.
+	 */
+	public static function image( $post_id ) {
+		$featured = self::stored( $post_id );
+		$own      = self::own( $post_id );
+
+		if ( $own && ( self::prefers_own( $post_id ) || ( ! $featured && ! in_array( get_post_type( $post_id ), self::OPT_IN, true ) ) ) ) {
+			return $own;
+		}
+
+		return $featured;
+	}
+
+	/**
+	 * The featured image, as the item's choice has it, wherever WordPress
+	 * reads it (get_post_thumbnail_id(), has_post_thumbnail() and the
+	 * blocks and templates that use them).
+	 *
+	 * Stored values aren't touched, so saving a featured image works as
+	 * usual, and the editor reads what was set.
+	 *
+	 * @param int|false    $thumbnail_id The stored featured image.
+	 * @param WP_Post|null $post         Item.
+	 * @return int|false
+	 */
+	public static function thumbnail_id( $thumbnail_id, $post ) {
+		if ( ! $post || ! isset( self::fallbacks()[ $post->post_type ] ) ) {
+			return $thumbnail_id;
+		}
+
+		$image = self::image( $post->ID );
+
+		return $image ? $image : $thumbnail_id;
+	}
+
+	/**
+	 * For code that reads `_thumbnail_id` itself: the item's image while no
+	 * featured image is stored.
 	 *
 	 * @param mixed  $value     Default value.
 	 * @param int    $object_id Post ID.
@@ -161,14 +218,14 @@ final class Featured_Image {
 	 */
 	public static function rest_featured_media( $response, $post ) {
 		if ( isset( $response->data['featured_media'] ) ) {
-			$response->data['featured_media'] = (int) get_metadata_raw( 'post', $post->ID, '_thumbnail_id', true );
+			$response->data['featured_media'] = self::stored( $post->ID );
 		}
 
 		return $response;
 	}
 
 	/**
-	 * Register the per-item switch, editable in the editor.
+	 * Register the per-item setting, editable in the editor.
 	 */
 	public static function register_meta() {
 		foreach ( array_keys( self::fallbacks() ) as $post_type ) {
@@ -185,7 +242,7 @@ final class Featured_Image {
 				array(
 					'type'          => 'boolean',
 					'single'        => true,
-					'default'       => ! in_array( $post_type, self::OFF_BY_DEFAULT, true ),
+					'default'       => false,
 					'show_in_rest'  => true,
 					'auth_callback' => function ( $allowed, $meta_key, $post_id ) {
 						return current_user_can( 'edit_post', $post_id );
@@ -225,8 +282,11 @@ final class Featured_Image {
 			'window.galerioFeaturedImage = ' . wp_json_encode(
 				array(
 					'meta'     => self::USE,
+					'name'     => $field->name,
 					'field'    => Names::expand( $field->label ),
 					'multiple' => (bool) $field->multiple,
+					'optIn'    => in_array( $screen->post_type, self::OPT_IN, true ),
+					'isWork'   => 'galerio_work' === $screen->post_type,
 				)
 			) . ';',
 			'before'

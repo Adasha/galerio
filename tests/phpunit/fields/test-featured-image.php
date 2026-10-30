@@ -1,12 +1,14 @@
 <?php
 /**
- * Featured image fallback tests.
+ * Featured image tests.
  *
  * @package Galerio\Tests
  */
 
+use Galerio\Core\Fields\Featured_Image;
+
 /**
- * An item without a featured image uses one of its own images.
+ * Which image stands for an item: its featured image or its own.
  *
  * @covers \Galerio\Core\Fields\Featured_Image
  */
@@ -39,15 +41,45 @@ class Test_Featured_Image extends Galerio_TestCase {
 	}
 
 	/**
-	 * A featured image set by hand wins.
+	 * With both, the featured image is used until the work chooses its
+	 * definitive image instead.
 	 */
-	public function test_featured_image_wins() {
-		$work     = self::factory()->post->create( array( 'post_type' => 'galerio_work' ) );
-		$featured = $this->image();
-		galerio_fields()->save( galerio_fields()->get( 'work.definitive_image' ), $work, $this->image() );
+	public function test_both_featured_by_default_then_chosen() {
+		$work       = self::factory()->post->create( array( 'post_type' => 'galerio_work' ) );
+		$featured   = $this->image();
+		$definitive = $this->image();
+		galerio_fields()->save( galerio_fields()->get( 'work.definitive_image' ), $work, $definitive );
 		set_post_thumbnail( $work, $featured );
 
 		$this->assertSame( $featured, get_post_thumbnail_id( $work ) );
+
+		update_post_meta( $work, Featured_Image::USE, true );
+		$this->assertSame( $definitive, get_post_thumbnail_id( $work ) );
+		$this->assertSame( $featured, Featured_Image::stored( $work ), 'The stored featured image is kept.' );
+	}
+
+	/**
+	 * With only a featured image, it's used, whatever the setting says.
+	 */
+	public function test_only_featured() {
+		$work     = self::factory()->post->create( array( 'post_type' => 'galerio_work' ) );
+		$featured = $this->image();
+		set_post_thumbnail( $work, $featured );
+		update_post_meta( $work, Featured_Image::USE, true );
+
+		$this->assertSame( $featured, get_post_thumbnail_id( $work ) );
+	}
+
+	/**
+	 * A featured image the same as the definitive image is saved as usual.
+	 */
+	public function test_saving_the_same_image() {
+		$work  = self::factory()->post->create( array( 'post_type' => 'galerio_work' ) );
+		$image = $this->image();
+		galerio_fields()->save( galerio_fields()->get( 'work.definitive_image' ), $work, $image );
+
+		$this->assertTrue( (bool) set_post_thumbnail( $work, $image ) );
+		$this->assertSame( $image, Featured_Image::stored( $work ) );
 	}
 
 	/**
@@ -73,7 +105,7 @@ class Test_Featured_Image extends Galerio_TestCase {
 
 		$this->assertFalse( has_post_thumbnail( $profile ), 'Off by default for profiles.' );
 
-		update_post_meta( $profile, Galerio\Core\Fields\Featured_Image::USE, true );
+		update_post_meta( $profile, Featured_Image::USE, true );
 		$this->assertSame( $image, get_post_thumbnail_id( $profile ) );
 
 		galerio_fields()->save( galerio_fields()->get( 'profile.show_portrait' ), $profile, false );
@@ -92,14 +124,45 @@ class Test_Featured_Image extends Galerio_TestCase {
 	}
 
 	/**
-	 * Each item can turn the fallback off.
+	 * A profile with both images uses its portrait only when it chooses to.
 	 */
-	public function test_turned_off() {
-		$work = self::factory()->post->create( array( 'post_type' => 'galerio_work' ) );
-		galerio_fields()->save( galerio_fields()->get( 'work.definitive_image' ), $work, $this->image() );
-		update_post_meta( $work, Galerio\Core\Fields\Featured_Image::USE, false );
+	public function test_profile_with_both() {
+		$profile  = self::factory()->post->create( array( 'post_type' => 'galerio_profile' ) );
+		$featured = $this->image();
+		$portrait = $this->image();
+		galerio_fields()->save( galerio_fields()->get( 'profile.portrait' ), $profile, $portrait );
+		galerio_fields()->save( galerio_fields()->get( 'profile.show_portrait' ), $profile, true );
+		set_post_thumbnail( $profile, $featured );
 
-		$this->assertFalse( has_post_thumbnail( $work ) );
+		$this->assertSame( $featured, get_post_thumbnail_id( $profile ) );
+
+		update_post_meta( $profile, Featured_Image::USE, true );
+		$this->assertSame( $portrait, get_post_thumbnail_id( $profile ) );
+	}
+
+	/**
+	 * A profile that turned its portrait on under the old setting keeps it
+	 * while it has no featured image. The old setting's "off" for works no
+	 * longer hides their definitive image.
+	 */
+	public function test_old_setting() {
+		$profile  = self::factory()->post->create( array( 'post_type' => 'galerio_profile' ) );
+		$portrait = $this->image();
+		galerio_fields()->save( galerio_fields()->get( 'profile.portrait' ), $profile, $portrait );
+		galerio_fields()->save( galerio_fields()->get( 'profile.show_portrait' ), $profile, true );
+		update_post_meta( $profile, Featured_Image::LEGACY, true );
+
+		$this->assertSame( $portrait, get_post_thumbnail_id( $profile ) );
+
+		$featured = $this->image();
+		set_post_thumbnail( $profile, $featured );
+		$this->assertSame( $featured, get_post_thumbnail_id( $profile ), 'The old setting applied only without a featured image.' );
+
+		$work  = self::factory()->post->create( array( 'post_type' => 'galerio_work' ) );
+		$image = $this->image();
+		galerio_fields()->save( galerio_fields()->get( 'work.definitive_image' ), $work, $image );
+		update_post_meta( $work, Featured_Image::LEGACY, false );
+		$this->assertSame( $image, get_post_thumbnail_id( $work ) );
 	}
 
 	/**
