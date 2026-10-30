@@ -6,10 +6,14 @@
 	"title": "Galerio Archive Filters",
 	"category": "theme",
 	"icon": "filter",
-	"description": "Dropdowns that narrow and sort a Galerio archive, such as works by medium, applied as soon as they change. Place it above the archive's Query Loop, which must inherit the page's query. Hidden on other pages.",
+	"description": "A search box and dropdowns that narrow and sort a Galerio archive, such as works by medium, applied as soon as they change. Place it above the archive's Query Loop, which must inherit the page's query. Hidden on other pages.",
 	"keywords": [ "galerio", "filter", "sort", "archive" ],
 	"textdomain": "galerio-core",
 	"attributes": {
+		"showSearch": {
+			"type": "boolean",
+			"default": true
+		},
 		"showFilters": {
 			"type": "boolean",
 			"default": true

@@ -54,6 +54,17 @@
 					{ title: __( 'Settings', 'galerio-core' ) },
 					el( ToggleControl, {
 						__nextHasNoMarginBottom: true,
+						label: __( 'Search', 'galerio-core' ),
+						help: __(
+							'Words to find in titles, text fields, terms and creators’ names.',
+							'galerio-core'
+						),
+						checked: attributes.showSearch,
+						onChange: ( value ) =>
+							setAttributes( { showSearch: value } ),
+					} ),
+					el( ToggleControl, {
+						__nextHasNoMarginBottom: true,
 						label: __( 'Filters', 'galerio-core' ),
 						help: __(
 							'A dropdown for each of the type’s taxonomies, such as mediums, with two or more terms in use.',
@@ -117,6 +128,16 @@
 							gap: '0.75em 1.5em',
 						},
 					},
+					attributes.showSearch &&
+						el(
+							'p',
+							{
+								className:
+									'wp-block-galerio-archive-filters__field',
+							},
+							el( 'label', null, __( 'Search', 'galerio-core' ) ),
+							el( 'input', { type: 'search', disabled: true } )
+						),
 					attributes.showFilters &&
 						preview(
 							__( 'Medium', 'galerio-core' ),

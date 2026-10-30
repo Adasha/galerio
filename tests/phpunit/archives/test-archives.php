@@ -184,6 +184,76 @@ class Test_Archives extends Galerio_TestCase {
 	}
 
 	/**
+	 * A search finds words in titles, public text fields, term names and
+	 * creators' names, never in private fields, and keeps the archive an
+	 * archive.
+	 */
+	public function test_search() {
+		$creator = self::factory()->post->create(
+			array(
+				'post_type'   => 'galerio_profile',
+				'post_status' => 'publish',
+				'post_title'  => 'Mei Chen',
+			)
+		);
+		galerio_fields()->save( galerio_fields()->get( 'work.creator' ), $this->works['brass'], $creator );
+		galerio_fields()->save( galerio_fields()->get( 'work.medium' ), $this->works['clay'], 'Stoneware with ash glaze' );
+		galerio_fields()->save( galerio_fields()->get( 'work.owner' ), $this->works['ash'], 'Private Collector' );
+
+		$this->assertSame( array( 'Clay' ), $this->visit( array( 'q' => 'clay' ) ), 'Title' );
+		$this->assertTrue( is_post_type_archive( 'galerio_work' ) );
+		$this->assertFalse( is_search(), 'Still the archive, not the search results page.' );
+
+		$this->assertSame( array( 'Clay' ), $this->visit( array( 'q' => 'stoneware' ) ), 'Text field' );
+		$this->assertSame( array( 'Brass' ), $this->visit( array( 'q' => 'sculpture' ) ), 'Term name' );
+		$this->assertSame( array( 'Brass' ), $this->visit( array( 'q' => 'Mei Chen' ) ), 'Creator name' );
+		$this->assertSame( array(), $this->visit( array( 'q' => 'collector' ) ), 'Private fields are not searched.' );
+		$this->assertSame( array( 'Ash' ), $this->visit( array( 'q' => 'ceramics -stoneware' ) ), 'A word with "-" must not match.' );
+		$this->assertSame(
+			array( 'Ash', 'Clay' ),
+			$this->visit(
+				array(
+					'q'    => 'ceramics',
+					'sort' => 'title',
+				)
+			),
+			'Sorts as asked.'
+		);
+		$this->assertSame(
+			array( 'Clay' ),
+			$this->visit(
+				array(
+					'q'      => 'stoneware',
+					'medium' => 'ceramics',
+				)
+			),
+			'Combines with filters.'
+		);
+
+		$this->visit( array( 'q' => 'clay' ) );
+		$this->assertTrue( Archives::robots( array() )['noindex'] );
+		$this->assertArrayHasKey( 'relevance', Archives::sorts( 'galerio_work', true ) );
+		$this->assertArrayNotHasKey( 'relevance', Archives::sorts( 'galerio_work' ) );
+
+		$html = do_blocks( '<!-- wp:galerio/archive-filters /-->' );
+		$this->assertStringContainsString( 'name="q" value="clay"', $html );
+		$this->assertStringContainsString( '>Best match</option>', $html );
+	}
+
+	/**
+	 * Catalogue fields are searched only while the catalogue is on.
+	 */
+	public function test_search_catalogue() {
+		galerio_fields()->save( galerio_fields()->get( 'work.inventory_number' ), $this->works['clay'], 'GD-0042' );
+
+		$this->assertSame( array(), $this->visit( array( 'q' => 'GD-0042' ) ) );
+
+		update_option( 'galerio_settings_catalogue', '1' );
+		$this->assertSame( array( 'Clay' ), $this->visit( array( 'q' => 'GD-0042' ) ) );
+		delete_option( 'galerio_settings_catalogue' );
+	}
+
+	/**
 	 * When filters leave nothing, the No results block says so.
 	 */
 	public function test_no_results() {

@@ -7,6 +7,7 @@
 
 namespace Galerio\Core\Archives;
 
+use Galerio\Core\Catalogue\Catalogue;
 use Galerio\Core\Fields\Registry;
 use WP_Block;
 use WP_Query;
@@ -20,9 +21,18 @@ defined( 'ABSPATH' ) || exit;
  * Filters are in the page's address, e.g. /works/?medium=oil&sort=title, so
  * a filtered list can be shared and works without JavaScript. The keys are
  * the taxonomies' names without "galerio_" (medium, label, group, role,
- * collection_category, article_category) and "sort". They're applied to the
- * page's main query, so a Query Loop that inherits it follows, pages
- * included. Filtered and sorted pages ask search engines not to index them.
+ * collection_category, article_category), "q" for words to search for and
+ * "sort". They're applied to the page's main query, so a Query Loop that
+ * inherits it follows, pages included. Filtered, searched and sorted pages
+ * ask search engines not to index them.
+ *
+ * The search is WordPress's own (title, excerpt and content, best matches
+ * first), widened through its posts_search hook to the type's public text
+ * fields, its terms' names and the names of profiles it relates to, such as
+ * a work's creator. Each word must match somewhere; a word starting with "-"
+ * must not. It reads the stored values directly, with no index, which suits
+ * archives of up to a few thousand items. WordPress's "s" isn't used, as it
+ * would turn the archive into the search results page.
  *
  * Term pages, such as a medium's, can be sorted but not filtered.
  *
@@ -43,11 +53,22 @@ final class Archives {
 	const SORT = 'sort';
 
 	/**
+	 * The search key in the address.
+	 */
+	const SEARCH = 'q';
+
+	/**
+	 * Longest search, in characters.
+	 */
+	const MAX_SEARCH = 100;
+
+	/**
 	 * Hook into WordPress.
 	 */
 	public static function init() {
 		add_action( 'init', array( __CLASS__, 'register' ) );
 		add_action( 'pre_get_posts', array( __CLASS__, 'query' ) );
+		add_filter( 'posts_search', array( __CLASS__, 'search_sql' ), 10, 2 );
 		add_filter( 'wp_robots', array( __CLASS__, 'robots' ) );
 		add_filter( 'render_block_core/query-no-results', array( __CLASS__, 'no_results' ), 10, 3 );
 		add_action( 'admin_init', array( __CLASS__, 'register_settings' ) );
@@ -147,13 +168,16 @@ final class Archives {
 
 	/**
 	 * The orders an archive can be sorted in: key => label. The first is the
-	 * default.
+	 * default: best match while searching, else newest.
 	 *
 	 * @param string $post_type Post type, or empty for a term page.
+	 * @param bool   $searching Whether the archive is being searched.
 	 * @return array<string, string>
 	 */
-	public static function sorts( $post_type ) {
-		$sorts = array(
+	public static function sorts( $post_type, $searching = false ) {
+		$sorts = $searching ? array( 'relevance' => __( 'Best match', 'galerio-core' ) ) : array();
+
+		$sorts += array(
 			'newest' => __( 'Newest first', 'galerio-core' ),
 			'oldest' => __( 'Oldest first', 'galerio-core' ),
 			'title'  => __( 'Title, A to Z', 'galerio-core' ),
@@ -167,11 +191,11 @@ final class Archives {
 	}
 
 	/**
-	 * The filters and sort the address asks for, checked: only known keys,
-	 * and terms that exist.
+	 * The filters, search and sort the address asks for, checked: only
+	 * known keys, and terms that exist.
 	 *
 	 * @param string $post_type Post type, or empty for a term page.
-	 * @return array{terms: array<string, \WP_Term>, sort: string}
+	 * @return array{terms: array<string, \WP_Term>, search: string, sort: string}
 	 */
 	public static function current( $post_type ) {
 		$terms = array();
@@ -186,13 +210,26 @@ final class Archives {
 			}
 		}
 
-		$sort = isset( $_GET[ self::SORT ] ) && is_string( $_GET[ self::SORT ] ) ? sanitize_key( wp_unslash( $_GET[ self::SORT ] ) ) : '';
+		$search = $post_type && isset( $_GET[ self::SEARCH ] ) && is_string( $_GET[ self::SEARCH ] ) ? trim( sanitize_text_field( wp_unslash( $_GET[ self::SEARCH ] ) ) ) : '';
+		$search = mb_substr( $search, 0, self::MAX_SEARCH );
+		$sort   = isset( $_GET[ self::SORT ] ) && is_string( $_GET[ self::SORT ] ) ? sanitize_key( wp_unslash( $_GET[ self::SORT ] ) ) : '';
 		// phpcs:enable WordPress.Security.NonceVerification.Recommended
 
 		return array(
-			'terms' => $terms,
-			'sort'  => isset( self::sorts( $post_type )[ $sort ] ) ? $sort : '',
+			'terms'  => $terms,
+			'search' => $search,
+			'sort'   => isset( self::sorts( $post_type, '' !== $search )[ $sort ] ) ? $sort : '',
 		);
+	}
+
+	/**
+	 * How many filters, searches and sorts are in use.
+	 *
+	 * @param array $current As from current().
+	 * @return int
+	 */
+	private static function active( array $current ) {
+		return count( $current['terms'] ) + ( '' !== $current['search'] ? 1 : 0 ) + ( '' !== $current['sort'] ? 1 : 0 );
 	}
 
 	/**
@@ -242,7 +279,19 @@ final class Archives {
 			$query->set( 'tax_query', array_merge( array( 'relation' => 'AND' ), $tax_query ) );
 		}
 
+		if ( '' !== $current['search'] ) {
+			// Set now, the archive stays an archive rather than becoming the
+			// search results page; search_sql() widens what's searched.
+			$query->set( 's', $current['search'] );
+			$query->set( 'galerio_search', $post_type );
+		}
+
 		switch ( $current['sort'] ) {
+			case 'newest':
+				$query->set( 'orderby', 'date' );
+				$query->set( 'order', 'DESC' );
+				break;
+
 			case 'oldest':
 				$query->set( 'orderby', 'date' );
 				$query->set( 'order', 'ASC' );
@@ -282,8 +331,87 @@ final class Archives {
 	}
 
 	/**
-	 * Filtered and sorted archives ask search engines not to index them, as
-	 * they repeat the archive's items.
+	 * Widen an archive's search: each word may match the title, excerpt or
+	 * content, as WordPress searches, or a public text field, a term's name
+	 * or a related profile's name.
+	 *
+	 * @param string   $search The search's SQL, from WordPress.
+	 * @param WP_Query $query  Query.
+	 * @return string
+	 */
+	public static function search_sql( $search, $query ) {
+		global $wpdb;
+
+		$post_type = (string) $query->get( 'galerio_search' );
+		$words     = array_filter( (array) $query->get( 'search_terms' ), 'strlen' );
+
+		if ( '' === $post_type || '' === $search || ! $words ) {
+			return $search;
+		}
+
+		$object     = array_search( $post_type, Registry::OBJECTS, true );
+		$keys       = array();
+		$relations  = array();
+		$catalogue  = Catalogue::enabled();
+		$taxonomies = array_values( self::filters( $post_type ) );
+
+		foreach ( galerio_fields()->all( $object ) as $field ) {
+			if ( ! $field->public || $field->value_callback ) {
+				continue;
+			}
+
+			// While the catalogue is off its fields are hidden, so not searched.
+			if ( ! $catalogue && in_array( $field->key, Catalogue::FIELDS, true ) ) {
+				continue;
+			}
+
+			if ( in_array( $field->type, array( 'text', 'textarea', 'html' ), true ) ) {
+				$keys[] = $field->source;
+			} elseif ( 'relation' === $field->type && 'profile' === $field->target ) {
+				$relations[] = $field->source;
+			}
+		}
+
+		$clauses = array();
+
+		foreach ( $words as $word ) {
+			$exclude = 1 < strlen( $word ) && '-' === $word[0];
+			$like    = '%' . $wpdb->esc_like( $exclude ? substr( $word, 1 ) : $word ) . '%';
+			$sql     = array( "{$wpdb->posts}.post_title LIKE %s", "{$wpdb->posts}.post_excerpt LIKE %s", "{$wpdb->posts}.post_content LIKE %s" );
+			$values  = array( $like, $like, $like );
+
+			if ( $keys ) {
+				$sql[]  = "EXISTS (SELECT 1 FROM {$wpdb->postmeta} galerio_m WHERE galerio_m.post_id = {$wpdb->posts}.ID AND galerio_m.meta_key IN (" . implode( ',', array_fill( 0, count( $keys ), '%s' ) ) . ') AND galerio_m.meta_value LIKE %s)';
+				$values = array_merge( $values, $keys, array( $like ) );
+			}
+
+			if ( $taxonomies ) {
+				$sql[]  = "EXISTS (SELECT 1 FROM {$wpdb->term_relationships} galerio_tr INNER JOIN {$wpdb->term_taxonomy} galerio_tt ON galerio_tt.term_taxonomy_id = galerio_tr.term_taxonomy_id INNER JOIN {$wpdb->terms} galerio_t ON galerio_t.term_id = galerio_tt.term_id WHERE galerio_tr.object_id = {$wpdb->posts}.ID AND galerio_tt.taxonomy IN (" . implode( ',', array_fill( 0, count( $taxonomies ), '%s' ) ) . ') AND galerio_t.name LIKE %s)';
+				$values = array_merge( $values, $taxonomies, array( $like ) );
+			}
+
+			if ( $relations ) {
+				$sql[]  = "EXISTS (SELECT 1 FROM {$wpdb->postmeta} galerio_r INNER JOIN {$wpdb->posts} galerio_p ON galerio_p.ID = galerio_r.meta_value WHERE galerio_r.post_id = {$wpdb->posts}.ID AND galerio_r.meta_key IN (" . implode( ',', array_fill( 0, count( $relations ), '%s' ) ) . ") AND galerio_p.post_status = 'publish' AND galerio_p.post_title LIKE %s)";
+				$values = array_merge( $values, $relations, array( $like ) );
+			}
+
+			// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare -- Built above from table names and placeholders.
+			$clause    = $wpdb->prepare( '(' . implode( ' OR ', $sql ) . ')', $values );
+			$clauses[] = $exclude ? "NOT {$clause}" : $clause;
+		}
+
+		$sql = ' AND (' . implode( ' AND ', $clauses ) . ')';
+
+		if ( ! is_user_logged_in() ) {
+			$sql .= " AND ({$wpdb->posts}.post_password = '')";
+		}
+
+		return $sql;
+	}
+
+	/**
+	 * Filtered, searched and sorted archives ask search engines not to index
+	 * them, as they repeat the archive's items.
 	 *
 	 * @param array $robots Robots directives.
 	 * @return array
@@ -295,9 +423,7 @@ final class Archives {
 			return $robots;
 		}
 
-		$current = self::current( self::archive_type( $wp_query ) );
-
-		if ( $current['terms'] || '' !== $current['sort'] ) {
+		if ( self::active( self::current( self::archive_type( $wp_query ) ) ) ) {
 			$robots['noindex'] = true;
 			$robots['follow']  = true;
 		}
@@ -323,13 +449,17 @@ final class Archives {
 
 		$post_type = self::archive_type( $wp_query );
 
-		if ( ! $post_type || ! self::current( $post_type )['terms'] ) {
+		$current = $post_type ? self::current( $post_type ) : null;
+
+		if ( ! $current || ( ! $current['terms'] && '' === $current['search'] ) ) {
 			return $content;
 		}
 
 		return sprintf(
 			'<div class="wp-block-query-no-results"><p>%1$s <a href="%2$s">%3$s</a></p></div>',
-			esc_html__( 'Nothing matches these filters.', 'galerio-core' ),
+			'' !== $current['search'] && ! $current['terms']
+				? esc_html__( 'Nothing matches your search.', 'galerio-core' )
+				: esc_html__( 'Nothing matches these filters.', 'galerio-core' ),
 			esc_url( get_post_type_archive_link( $post_type ) ),
 			esc_html__( 'Show everything', 'galerio-core' )
 		);
@@ -361,6 +491,17 @@ final class Archives {
 		$current  = self::current( $post_type );
 		$controls = array();
 
+		if ( $post_type && ! empty( $attributes['showSearch'] ) ) {
+			$controls[] = sprintf(
+				'<p class="wp-block-galerio-archive-filters__field wp-block-galerio-archive-filters__field--search"><label for="galerio-archive-q">%1$s</label><span class="wp-block-galerio-archive-filters__search"><input type="search" id="galerio-archive-q" name="%2$s" value="%3$s" maxlength="%4$d" placeholder="%5$s"><button type="submit" class="wp-element-button">%1$s</button></span></p>',
+				esc_html__( 'Search', 'galerio-core' ),
+				esc_attr( self::SEARCH ),
+				esc_attr( $current['search'] ),
+				self::MAX_SEARCH,
+				esc_attr( get_post_type_object( $post_type )->labels->search_items )
+			);
+		}
+
 		if ( ! empty( $attributes['showFilters'] ) ) {
 			foreach ( ( $post_type ? self::filters( $post_type ) : array() ) as $key => $taxonomy ) {
 				$terms = self::terms_in_use( $taxonomy, $post_type );
@@ -381,7 +522,7 @@ final class Archives {
 		}
 
 		if ( ! empty( $attributes['showSort'] ) ) {
-			$sorts      = self::sorts( $post_type );
+			$sorts      = self::sorts( $post_type, '' !== $current['search'] );
 			$default    = array_key_first( $sorts );
 			$options    = array( '' => $sorts[ $default ] ) + array_diff_key( $sorts, array( $default => true ) );
 			$controls[] = self::select( self::SORT, __( 'Sort', 'galerio-core' ), $options, $current['sort'] );
@@ -391,7 +532,7 @@ final class Archives {
 			return '';
 		}
 
-		$clear = $current['terms'] || '' !== $current['sort']
+		$clear = self::active( $current )
 			? sprintf( '<a class="wp-block-galerio-archive-filters__clear" href="%1$s">%2$s</a>', esc_url( $action ), esc_html__( 'Clear', 'galerio-core' ) )
 			: '';
 
@@ -407,12 +548,12 @@ final class Archives {
 		);
 
 		if ( ! empty( $attributes['collapsible'] ) ) {
-			$active = count( $current['terms'] ) + ( '' !== $current['sort'] ? 1 : 0 );
+			$active = self::active( $current );
 			$label  = '' !== trim( (string) $attributes['label'] ) ? $attributes['label'] : __( 'Filters', 'galerio-core' );
 			$count  = $active
 				? sprintf(
 					' <span class="wp-block-galerio-archive-filters__count">%s</span>',
-					/* translators: %s: how many filters and sorts are in use. */
+					/* translators: %s: how many filters, searches and sorts are in use. */
 					esc_html( sprintf( _n( '(%s in use)', '(%s in use)', $active, 'galerio-core' ), number_format_i18n( $active ) ) )
 				)
 				: '';
@@ -508,9 +649,10 @@ final class Archives {
 	}
 
 	/**
-	 * The block's script and styles. The script applies a choice as soon as
-	 * it's made and leaves defaults out of the address; without it, the
-	 * Apply button does.
+	 * The block's script and styles. The script applies a dropdown's choice
+	 * as soon as it's made and leaves defaults out of the address; without
+	 * it, the Apply button does. A search is sent with its own button or
+	 * Enter.
 	 */
 	private static function assets() {
 		if ( wp_script_is( 'galerio-archive-filters' ) ) {
@@ -524,14 +666,16 @@ final class Archives {
 			'document.querySelectorAll( ".wp-block-galerio-archive-filters__form" ).forEach( function ( form ) {
 				form.classList.add( "is-live" );
 				var send = function () {
-					form.querySelectorAll( "select" ).forEach( function ( select ) {
-						select.disabled = "" === select.value;
+					form.querySelectorAll( "select, input[type=search]" ).forEach( function ( field ) {
+						field.disabled = "" === field.value.trim();
 					} );
 				};
 				form.addEventListener( "submit", send );
-				form.addEventListener( "change", function () {
-					send();
-					form.submit();
+				form.addEventListener( "change", function ( event ) {
+					if ( "SELECT" === event.target.tagName ) {
+						send();
+						form.submit();
+					}
 				} );
 			} );'
 		);
@@ -548,6 +692,8 @@ final class Archives {
 			:where(.wp-block-galerio-archive-filters__field select){font:inherit;max-width:100%;}
 			.wp-block-galerio-archive-filters__form.is-live .wp-block-galerio-archive-filters__apply{display:none;}
 			:where(.wp-block-galerio-archive-filters__clear){align-self:center;}
+			:where(.wp-block-galerio-archive-filters__search){display:flex;gap:0.5em;}
+			:where(.wp-block-galerio-archive-filters__search input){font:inherit;min-width:0;flex:1 1 12em;}
 			:where(.wp-block-galerio-archive-filters__summary){display:inline-flex;align-items:center;gap:0.5em;cursor:pointer;list-style:none;}
 			.wp-block-galerio-archive-filters__summary::-webkit-details-marker{display:none;}
 			:where(.wp-block-galerio-archive-filters__summary)::before{content:"";flex:none;width:0.4em;height:0.4em;border-right:2px solid currentColor;border-bottom:2px solid currentColor;transform:rotate(-45deg);transition:transform 0.15s ease;}
