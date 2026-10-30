@@ -30,8 +30,15 @@ test.describe( 'Link field', () => {
 	} ) => {
 		await admin.editPost( profileId );
 
-		// Pods fields live in the meta box pane under the editor, collapsed at first.
-		const pane = page.getByRole( 'button', { name: 'Meta Boxes' } );
+		// Pods fields live in the meta box pane under the editor, collapsed at
+		// first. Galerio names it after the type: "Profile settings".
+		const type = await requestUtils.rest( {
+			path: '/wp/v2/types/galerio_profile',
+			params: { context: 'edit' },
+		} );
+		const pane = page.getByRole( 'button', {
+			name: `${ type.labels.singular_name } settings`,
+		} );
 		if ( ( await pane.getAttribute( 'aria-expanded' ) ) === 'false' ) {
 			// The pane's resize handle covers the middle of the toggle.
 			await pane.focus();

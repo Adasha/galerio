@@ -17,12 +17,18 @@ test.describe( 'Edit screen', () => {
 
 		await admin.createNewPost( { postType: 'galerio_profile' } );
 
+		const pane = page.getByRole( 'button', { name: `${ name } settings` } );
+		await expect( pane ).toBeVisible();
 		await expect(
-			page
-				.getByRole( 'button', { name: `${ name } settings` } )
-				.or( page.getByText( `${ name } settings`, { exact: true } ) )
-		).toBeVisible();
-		await expect( page.getByText( 'Meta Boxes' ) ).toHaveCount( 0 );
+			page.getByRole( 'button', { name: 'Meta Boxes' } )
+		).toHaveCount( 0 );
+
+		// The pane starts collapsed. Its resize handle covers the middle of
+		// the toggle, so it's opened from the keyboard.
+		if ( ( await pane.getAttribute( 'aria-expanded' ) ) === 'false' ) {
+			await pane.focus();
+			await page.keyboard.press( 'Enter' );
+		}
 
 		const accolade = page
 			.locator( 'textarea[name^="pods_meta_accolades"]' )
