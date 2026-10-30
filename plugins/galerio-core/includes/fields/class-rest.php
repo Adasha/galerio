@@ -90,6 +90,10 @@ final class Rest {
 				$type = 'string';
 		}
 
+		if ( 'choice' === $field->type ) {
+			$type = array( 'string', 'null' );
+		}
+
 		$item = 'link' === $field->type
 			? array(
 				'type'       => array( 'object', 'null' ),
@@ -103,6 +107,10 @@ final class Rest {
 				),
 			)
 			: array( 'type' => $type );
+
+		if ( 'choice' === $field->type ) {
+			$item['enum'] = array_merge( array_map( 'strval', array_keys( $field->options ) ), array( null ) );
+		}
 
 		$schema = $field->multiple
 			? array(

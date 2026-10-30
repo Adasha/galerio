@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 #
 # Regenerate the field reference in README.md from the field registry, using
-# the development site. A PHPUnit test checks that the two agree.
+# the test site, which keeps the default type names (the development site may
+# rename them). A PHPUnit test checks that the two agree.
 #
 # Usage: tools/update-field-reference.sh
 
@@ -9,7 +10,7 @@ set -euo pipefail
 
 cd "$(dirname "$0")/.."
 
-REFERENCE=$( npx wp-env run cli wp galerio fields list --format=markdown 2>/dev/null ) \
+REFERENCE=$( npx wp-env --config=.wp-env.test.json run cli wp galerio fields list --format=markdown 2>/dev/null ) \
 node -e '
 	const fs = require( "fs" );
 	const start = "<!-- field-reference:start -->";

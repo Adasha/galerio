@@ -51,6 +51,8 @@
 
 <!-- wp:galerio/field-display {"key":"profile.accolades","label":"{field}:","layout":"list"} /-->
 
+<!-- wp:galerio/field-display {"key":"profile.represented_by","label":"{field}:"} /-->
+
 <?php if ( ! galerio_theme_has_related() ) : ?>
 <!-- wp:galerio/field-display {"key":"profile.collections","label":<?php galerio_theme_attr( /* translators: Heading above the collections a profile is in. */ __( 'Featured in:', 'galerio' ) ); ?>,"layout":"list"} /-->
 

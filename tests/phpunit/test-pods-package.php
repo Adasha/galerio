@@ -28,7 +28,7 @@ class Test_Pods_Package extends WP_UnitTestCase {
 		'number'       => array( 'number' ),
 		'boolean'      => array( 'boolean' ),
 		'file'         => array( 'image' ),
-		'pick'         => array( 'relation' ),
+		'pick'         => array( 'relation', 'choice' ),
 		'galerio_link' => array( 'link' ),
 	);
 
@@ -148,6 +148,11 @@ class Test_Pods_Package extends WP_UnitTestCase {
 		$fields = $this->fields();
 
 		foreach ( galerio_fields()->all() as $field ) {
+			// Fields worked out from others aren't stored.
+			if ( $field->value_callback ) {
+				continue;
+			}
+
 			$pod = 'attachment' === $field->object ? 'media' : Galerio\Core\Fields\Registry::OBJECTS[ $field->object ];
 			$key = $pod . '.' . $field->source;
 
@@ -161,7 +166,39 @@ class Test_Pods_Package extends WP_UnitTestCase {
 			if ( 'relation' === $field->type ) {
 				$this->assertSame( Galerio\Core\Fields\Registry::OBJECTS[ $field->target ], $pods_field['pick_val'], "{$field->key} relates to a different type from $key." );
 			}
+
+			if ( 'choice' === $field->type ) {
+				$this->assertSame( 'custom-simple', $pods_field['pick_object'], "$key is not a list of choices." );
+				$this->assertSame( array_map( 'strval', array_keys( $field->options ) ), $this->pick_values( $pods_field ), "{$field->key} and $key offer different choices." );
+			}
 		}
+	}
+
+	/**
+	 * The values a Pods list of choices offers, in order.
+	 *
+	 * @param array $field Pods field definition.
+	 * @return string[]
+	 */
+	private function pick_values( array $field ) {
+		$values = array();
+
+		foreach ( preg_split( '/\R/', $field['pick_custom'] ) as $line ) {
+			if ( '' !== trim( $line ) ) {
+				$values[] = trim( explode( '|', $line )[0] );
+			}
+		}
+
+		return $values;
+	}
+
+	/**
+	 * The site currency setting offers the same currencies as works.
+	 */
+	public function test_currency_setting_matches() {
+		$settings = $this->fields()['galerio_settings.currency'];
+
+		$this->assertSame( array_keys( Galerio\Core\Catalogue\Catalogue::currencies() ), $this->pick_values( $settings ) );
 	}
 
 	/**

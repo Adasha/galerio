@@ -17,7 +17,9 @@ defined( 'ABSPATH' ) || exit;
  *
  * The variations are plain Query Loops with a starting layout, so everything
  * core offers still works. The date filter is a `galerioStatus` key in the
- * block's query, applied here when the page is built.
+ * block's query, and the works' availability filter (while Galerio Core's
+ * catalogue is on) a `galerioAvailability` key. Both are applied here when
+ * the page is built.
  */
 final class Query_Variations {
 
@@ -55,7 +57,7 @@ final class Query_Variations {
 			'galerio-query-variations',
 			'window.galerioQueryVariations = ' . wp_json_encode(
 				array(
-					'names' => array(
+					'names'        => array(
 						/* translators: %s: the site's name for a content type, such as "Works". */
 						'works'       => sprintf( __( 'Galerio %s', 'galerio-blocks' ), galerio_expand_names( '{Works}' ) ),
 						/* translators: %s: the site's name for a content type, such as "Works". */
@@ -65,7 +67,9 @@ final class Query_Variations {
 						/* translators: %s: the site's name for collections, in lower case, e.g. "exhibitions". */
 						'exhibitions' => sprintf( __( 'Galerio current and upcoming %s', 'galerio-blocks' ), galerio_expand_names( '{collections}' ) ),
 					),
-					'cards' => self::cards(),
+					'cards'        => self::cards(),
+					// The works' availability filter, while the catalogue is on.
+					'availability' => self::has_catalogue() ? \Galerio\Core\Catalogue\Catalogue::filters() : (object) array(),
 				)
 			) . ';',
 			'before'
@@ -94,20 +98,50 @@ final class Query_Variations {
 	}
 
 	/**
-	 * Apply an exhibitions Query Loop's date filter.
+	 * Apply an exhibitions Query Loop's date filter, and a works Query
+	 * Loop's availability filter.
 	 *
 	 * @param array    $query Query arguments.
 	 * @param WP_Block $block The Post Template block inside the Query Loop.
 	 * @return array
 	 */
 	public static function query_vars( $query, $block ) {
-		$status = isset( $block->context['query']['galerioStatus'] ) ? $block->context['query']['galerioStatus'] : '';
-
-		if ( ! in_array( $status, self::STATUSES, true ) || ! function_exists( 'galerio_fields' ) ) {
+		if ( ! function_exists( 'galerio_fields' ) ) {
 			return $query;
 		}
 
-		return array_merge( $query, self::status_args( $status ) );
+		$status       = isset( $block->context['query']['galerioStatus'] ) ? $block->context['query']['galerioStatus'] : '';
+		$availability = isset( $block->context['query']['galerioAvailability'] ) ? $block->context['query']['galerioAvailability'] : '';
+
+		if ( in_array( $status, self::STATUSES, true ) ) {
+			$query = array_merge( $query, self::status_args( $status ) );
+		}
+
+		if ( $availability && self::has_catalogue() ) {
+			$args = \Galerio\Core\Catalogue\Catalogue::query_args( $availability );
+
+			if ( $args ) {
+				// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query -- Filtering by availability is the point.
+				$query['meta_query'] = empty( $query['meta_query'] )
+					? $args['meta_query']
+					: array(
+						'relation' => 'AND',
+						$query['meta_query'],
+						$args['meta_query'],
+					);
+			}
+		}
+
+		return $query;
+	}
+
+	/**
+	 * Whether Galerio Core has a catalogue that is on.
+	 *
+	 * @return bool
+	 */
+	private static function has_catalogue() {
+		return class_exists( '\\Galerio\\Core\\Catalogue\\Catalogue' ) && \Galerio\Core\Catalogue\Catalogue::enabled();
 	}
 
 	/**

@@ -37,6 +37,7 @@ final class Field {
 		'number'   => false,
 		'boolean'  => false,
 		'link'     => false,
+		'choice'   => false,
 		'image'    => true,
 		'relation' => true,
 	);
@@ -99,6 +100,13 @@ final class Field {
 	public $target;
 
 	/**
+	 * For choices, the values allowed: value => label.
+	 *
+	 * @var array<string, string>
+	 */
+	public $options;
+
+	/**
 	 * Whether the field is readable through the REST API and block bindings.
 	 *
 	 * @var bool
@@ -118,6 +126,15 @@ final class Field {
 	 * @var callable|null
 	 */
 	public $display_callback;
+
+	/**
+	 * For a field worked out from others rather than stored, the callback
+	 * that works it out: fn( int $object_id, Field $field ): mixed. Such a
+	 * field is read-only.
+	 *
+	 * @var callable|null
+	 */
+	public $value_callback;
 
 	/**
 	 * Optional callback to sanitise a value before it is saved: fn( $value, Field $field ): mixed.
@@ -146,9 +163,11 @@ final class Field {
 				'source'            => $parts[2],
 				'multiple'          => false,
 				'target'            => '',
+				'options'           => array(),
 				'public'            => true,
 				'deprecated'        => '',
 				'display_callback'  => null,
+				'value_callback'    => null,
 				'sanitize_callback' => null,
 			)
 		);
@@ -161,6 +180,10 @@ final class Field {
 			throw new InvalidArgumentException( esc_html( sprintf( 'Relation field "%s" needs a target.', $key ) ) );
 		}
 
+		if ( 'choice' === $args['type'] && ! $args['options'] ) {
+			throw new InvalidArgumentException( esc_html( sprintf( 'Choice field "%s" needs options.', $key ) ) );
+		}
+
 		$this->key               = $key;
 		$this->object            = $parts[1];
 		$this->name              = $parts[2];
@@ -169,9 +192,11 @@ final class Field {
 		$this->source            = $args['source'];
 		$this->multiple          = (bool) $args['multiple'];
 		$this->target            = $args['target'];
+		$this->options           = (array) $args['options'];
 		$this->public            = (bool) $args['public'];
 		$this->deprecated        = $args['deprecated'];
 		$this->display_callback  = $args['display_callback'];
+		$this->value_callback    = $args['value_callback'];
 		$this->sanitize_callback = $args['sanitize_callback'];
 	}
 
@@ -214,7 +239,8 @@ final class Field {
 	 *
 	 * Text types become strings, dates "Y-m-d", years integers, numbers floats, booleans
 	 * booleans, IDs positive integers and links arrays of url, label and
-	 * offline. Multiple fields become lists.
+	 * offline. Choices must be one of the field's options. Multiple fields
+	 * become lists.
 	 *
 	 * @param mixed $value Value to normalise.
 	 * @return mixed
@@ -290,6 +316,12 @@ final class Field {
 					'label'   => isset( $value['label'] ) && is_scalar( $value['label'] ) ? (string) $value['label'] : '',
 					'offline' => ! empty( $value['offline'] ),
 				);
+
+			case 'choice':
+				if ( ! is_scalar( $value ) || ! isset( $this->options[ (string) $value ] ) ) {
+					return null;
+				}
+				return (string) $value;
 
 			case 'date':
 				if ( ! is_string( $value ) || ! preg_match( '/^\d{4}-\d{2}-\d{2}/', $value ) || 0 === strpos( $value, '0000' ) ) {

@@ -191,6 +191,10 @@ final class Registry {
 			return $field->empty_value();
 		}
 
+		$value = $field->value_callback
+			? call_user_func( $field->value_callback, (int) $object_id, $field )
+			: $this->adapter->get( $field, $object_id );
+
 		/**
 		 * Filters a field's raw value.
 		 *
@@ -198,11 +202,12 @@ final class Registry {
 		 * @param Field $field     Field.
 		 * @param int   $object_id Post ID.
 		 */
-		return apply_filters( 'galerio_field_value', $field->normalise( $this->adapter->get( $field, $object_id ) ), $field, $object_id );
+		return apply_filters( 'galerio_field_value', $field->normalise( $value ), $field, $object_id );
 	}
 
 	/**
-	 * Sanitise and save a field's value.
+	 * Sanitise and save a field's value. Fields worked out from others can't
+	 * be saved.
 	 *
 	 * @param Field $field     Field.
 	 * @param int   $object_id Post ID.
@@ -210,6 +215,10 @@ final class Registry {
 	 * @return bool
 	 */
 	public function save( Field $field, $object_id, $value ) {
+		if ( $field->value_callback ) {
+			return false;
+		}
+
 		if ( $field->sanitize_callback ) {
 			$value = call_user_func( $field->sanitize_callback, $value, $field );
 		}

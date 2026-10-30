@@ -44,6 +44,7 @@ final class Reference {
 		'number'   => 'Number',
 		'boolean'  => 'On/off',
 		'link'     => 'Link',
+		'choice'   => 'Choice',
 		'image'    => 'Image',
 		'relation' => 'Relationship',
 	);
@@ -136,6 +137,18 @@ final class Reference {
 
 		if ( ! $field->public ) {
 			$notes[] = 'Private: not shown on the site, in REST or in block bindings.';
+		}
+
+		if ( $field->value_callback ) {
+			$notes[] = 'Read-only: worked out from other fields.';
+		}
+
+		if ( 'choice' === $field->type ) {
+			$notes[] = 'One of: ' . implode( ', ', array_map( 'strval', array_keys( $field->options ) ) ) . '.';
+		}
+
+		if ( in_array( $field->key, \Galerio\Core\Catalogue\Catalogue::FIELDS, true ) ) {
+			$notes[] = 'Catalogue: empty while the catalogue is off.';
 		}
 
 		if ( $field->deprecated ) {
