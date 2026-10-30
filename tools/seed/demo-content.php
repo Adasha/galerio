@@ -53,6 +53,7 @@ function galerio_demo_reset() {
 	}
 
 	delete_option( 'galerio_demo_seeded' );
+	delete_option( 'galerio_demo_more_seeded' );
 	WP_CLI::log( sprintf( 'Removed %d demo items.', count( $ids ) + count( $attachments ) ) );
 }
 
@@ -64,9 +65,10 @@ function galerio_demo_reset() {
  * @param int    $width   Image width in pixels.
  * @param int    $height  Image height in pixels.
  * @param string $credit  Free-text credit for the image's creator.
+ * @param bool   $dark    A dark background, for testing light text and covers over dark images.
  * @return int Attachment ID, or 0 if GD is unavailable.
  */
-function galerio_demo_image( $title, $seed, $width = 1600, $height = 1200, $credit = '' ) {
+function galerio_demo_image( $title, $seed, $width = 1600, $height = 1200, $credit = '', $dark = false ) {
 	if ( ! function_exists( 'imagecreatetruecolor' ) ) {
 		WP_CLI::warning( 'GD is not available; skipping demo images.' );
 		return 0;
@@ -75,7 +77,9 @@ function galerio_demo_image( $title, $seed, $width = 1600, $height = 1200, $cred
 	mt_srand( $seed ); // phpcs:ignore WordPress.WP.AlternativeFunctions.rand_seeding_mt_srand -- Deterministic demo images.
 
 	$image = imagecreatetruecolor( $width, $height );
-	$bg    = imagecolorallocate( $image, mt_rand( 200, 245 ), mt_rand( 195, 240 ), mt_rand( 185, 235 ) );
+	$bg    = $dark
+		? imagecolorallocate( $image, mt_rand( 10, 45 ), mt_rand( 10, 40 ), mt_rand( 20, 55 ) )
+		: imagecolorallocate( $image, mt_rand( 200, 245 ), mt_rand( 195, 240 ), mt_rand( 185, 235 ) );
 	imagefill( $image, 0, 0, $bg );
 
 	for ( $i = 0; $i < 14; $i++ ) {
@@ -410,4 +414,257 @@ function galerio_demo_seed( array $args ) {
 	WP_CLI::success( sprintf( 'Created %d creators, %d works, 2 collections and 1 article.', count( $profiles ), count( $works ) ) );
 }
 
+/**
+ * More demo content, for trying blocks that need many items: Query Loops of
+ * several rows, row limits and scrolling, carousels, and the exhibitions
+ * lists. Four more creators, twelve works, twelve exhibitions (four on now,
+ * four upcoming, four past, by today's date) and three articles. About half
+ * the images are dark.
+ *
+ * Added with `tools/seed-demo.sh --more`, after the main demo content. The
+ * test environment doesn't get it, as its tests count the demo items.
+ */
+function galerio_demo_more() {
+	if ( get_option( 'galerio_demo_more_seeded' ) ) {
+		WP_CLI::success( 'The extra demo content already exists. Run tools/seed-demo.sh --reset --more to recreate it.' );
+		return;
+	}
+
+	$people = array(
+		'rhian'  => array( 'Rhian Evans', 'Printmaker cutting large woodblocks of hill farms.', 'Printmaking', 'Printmaker', 1969 ),
+		'owen'   => array( 'Owen Hughes', 'Sculptor working in reclaimed steel and slate.', 'Sculpture', 'Sculptor', 1990 ),
+		'mei'    => array( 'Mei Chen', 'Textile artist weaving with dyes from the Tawe valley.', 'Textiles', 'Textile artist', 1987 ),
+		'dafydd' => array( 'Dafydd Jones', 'Video artist filming tides and estuaries.', 'Video', 'Video artist', 1995 ),
+	);
+
+	$profiles = array();
+	$seed     = 500;
+	foreach ( $people as $key => list( $name, $excerpt, $medium, $role, $born ) ) {
+		$profiles[ $key ] = galerio_demo_add(
+			'galerio_profile',
+			array(
+				'post_title'       => $name,
+				'post_excerpt'     => $excerpt,
+				'nationality'      => 'Welsh',
+				'show_nationality' => 1,
+				'year_of_birth'    => $born . '-01-01',
+				'show_lifespan'    => 1,
+				'show_portrait'    => 1,
+				'portrait'         => galerio_demo_image( $name . ' portrait', ++$seed, 800, 1000, '', 0 === $seed % 2 ),
+				'bio'              => '<p>' . esc_html( $excerpt ) . '</p>',
+			),
+			array(
+				'galerio_medium' => array( $medium ),
+				'galerio_role'   => array( $role ),
+				'galerio_group'  => array( 'Graduate Show 2026' ),
+			)
+		);
+	}
+
+	$titles  = array(
+		'rhian'  => array( 'Hafod in Winter', 'Sheepfold, Mynydd Du', 'Bracken Line' ),
+		'owen'   => array( 'Slate Column', 'Rivet', 'Weighbridge' ),
+		'mei'    => array( 'Tawe Blue', 'Weir', 'Undercurrent' ),
+		'dafydd' => array( 'Estuary, Twelve Hours', 'Low Water', 'Spring Tide' ),
+	);
+	$mediums = array(
+		'rhian'  => array( 'Woodcut', 'Printmaking' ),
+		'owen'   => array( 'Steel and slate', 'Sculpture' ),
+		'mei'    => array( 'Hand-dyed wool', 'Textiles' ),
+		'dafydd' => array( 'Single-channel video', 'Video' ),
+	);
+
+	$works  = array();
+	$images = array();
+	foreach ( $titles as $key => $list ) {
+		foreach ( $list as $i => $title ) {
+			$dark     = 0 === count( $images ) % 2;
+			$credit   = $people[ $key ][0];
+			$image    = galerio_demo_image( $title, 600 + count( $images ), 1600, 1200, $credit, $dark );
+			$images[] = $image;
+			$works[]  = galerio_demo_add(
+				'galerio_work',
+				array(
+					'post_title'       => $title,
+					'post_content'     => galerio_demo_paragraph( 'A demo work by ' . $credit . '.' ),
+					'definitive_title' => $title,
+					'creator'          => $profiles[ $key ],
+					'year'             => ( 2020 + $i ) . '-01-01',
+					'definitive_image' => $image,
+					'medium'           => $mediums[ $key ][0],
+					'dimensions'       => 'video' === strtolower( $mediums[ $key ][1] ) ? '' : ( 40 + 20 * $i ) . ' × ' . ( 30 + 15 * $i ) . ' cm',
+				),
+				array(
+					'galerio_medium' => array( $mediums[ $key ][1] ),
+					'galerio_label'  => array( 'Demo' ),
+				)
+			);
+		}
+	}
+
+	foreach ( $profiles as $key => $id ) {
+		$index = array_search( $key, array_keys( $profiles ), true ) * 3;
+		if ( $images[ $index ] ) {
+			set_post_thumbnail( $id, $images[ $index ] );
+		}
+	}
+
+	// Exhibitions, by today's date: four on now, four upcoming, four past.
+	// Each is [ title, start, end or '', category, location ].
+	$exhibitions = array(
+		array( 'Hill Farms', '-10 days', '+3 weeks', 'Exhibitions', 'Main Gallery' ),
+		array( 'Steel and Slate', '-5 weeks', '+10 days', 'Exhibitions', 'Gallery 2' ),
+		array( 'Graduate Show 2026', '-3 days', '+5 weeks', 'Graduate exhibition', 'Whole building' ),
+		array( 'The Tawe in Thread', '-2 months', '', 'Exhibitions', 'Project Space' ),
+		array( 'Tide Tables', '+2 weeks', '+8 weeks', 'Exhibitions', 'Main Gallery' ),
+		array( 'Open Studios', '+5 weeks', '+6 weeks', 'Events', 'Studios' ),
+		array( 'Print Fair', '+3 months', '+3 months +2 days', 'Events', 'Main Gallery' ),
+		array( 'New Work: Owen Hughes', '+6 weeks', '+12 weeks', 'Exhibitions', 'Gallery 2' ),
+		array( 'Weavers of the Valley', '-8 months', '-6 months', 'Exhibitions', 'Main Gallery' ),
+		array( 'Graduate Show 2025', '-16 months', '-15 months', 'Graduate exhibition', 'Whole building' ),
+		array( 'Moving Water', '-3 months', '-6 weeks', 'Exhibitions', 'Project Space' ),
+		array( 'Small Works', '-13 months', '-12 months', 'Exhibitions', 'Gallery 2' ),
+	);
+
+	$keys = array_keys( $profiles );
+	foreach ( $exhibitions as $i => list( $title, $start, $end, $category, $location ) ) {
+		$shown  = array( $works[ $i ], $works[ ( $i + 5 ) % count( $works ) ], $works[ ( $i + 7 ) % count( $works ) ] );
+		$artist = $profiles[ $keys[ $i % count( $keys ) ] ];
+		$id     = galerio_demo_add(
+			'galerio_collection',
+			array(
+				'post_title'   => $title,
+				'post_content' => galerio_demo_paragraph( 'A demo exhibition.' )
+					. galerio_demo_gallery_block( array( $images[ $i ], $images[ ( $i + 5 ) % count( $images ) ] ) ),
+				'post_excerpt' => 'A demo exhibition in the ' . $location . '.',
+				'standfirst'   => $title . ': new and recent work.',
+				'location'     => $location,
+				'start_date'   => gmdate( 'Y-m-d', strtotime( $start ) ),
+				'end_date'     => '' === $end ? '' : gmdate( 'Y-m-d', strtotime( $end ) ),
+				'profiles'     => array( $artist ),
+				'works'        => $shown,
+			),
+			array( 'galerio_collection_category' => array( $category ) )
+		);
+		if ( $images[ $i ] ) {
+			set_post_thumbnail( $id, $images[ $i ] );
+		}
+	}
+
+	// Articles.
+	foreach ( array(
+		array( 'Studio visit: Rhian Evans', 'rhian', 'Interview' ),
+		array( 'Making Steel and Slate', 'owen', 'Behind the scenes' ),
+		array( 'Graduate Show 2026 opens', 'dafydd', 'News' ),
+	) as $i => list( $title, $key, $category ) ) {
+		$id = galerio_demo_add(
+			'galerio_article',
+			array(
+				'post_title'   => $title,
+				'post_content' => galerio_demo_paragraph( 'A demo article.' ),
+				'standfirst'   => 'A demo article about ' . $people[ $key ][0] . '.',
+				'authors'      => array( $profiles[ $key ] ),
+				'profiles'     => array( $profiles[ $key ] ),
+				'post_date'    => gmdate( 'Y-m-d H:i:s', strtotime( '-' . ( $i + 1 ) . ' days' ) ),
+			),
+			array( 'galerio_article_category' => array( $category ) )
+		);
+		if ( $images[ $i * 4 ] ) {
+			set_post_thumbnail( $id, $images[ $i * 4 ] );
+		}
+	}
+
+	update_option( 'galerio_demo_more_seeded', time() );
+
+	WP_CLI::success( sprintf( 'Added %d creators, %d works, %d exhibitions and 3 articles.', count( $profiles ), count( $works ), count( $exhibitions ) ) );
+}
+
+/**
+ * A draft page of Galerio's Query Loops and carousel set up to try their
+ * settings: current and upcoming exhibitions in two rows that scroll, works
+ * in one row with the rest hidden, and a carousel of exhibitions. Made once;
+ * delete the page to have it made again.
+ */
+function galerio_demo_playground() {
+	if ( get_page_by_path( 'block-playground', OBJECT, 'page' ) ) {
+		return;
+	}
+
+	$loop    = function ( $variation, array $query, $card, array $extra ) {
+		$attributes = array_merge(
+			array(
+				'queryId'   => wp_rand( 1, 9999 ),
+				'namespace' => $variation,
+				'query'     => array_merge(
+					array(
+						'perPage' => 12,
+						'pages'   => 0,
+						'offset'  => 0,
+						'order'   => 'desc',
+						'orderBy' => 'date',
+						'inherit' => false,
+					),
+					$query
+				),
+			),
+			$extra
+		);
+
+		return '<!-- wp:query ' . wp_json_encode( $attributes ) . ' --><div class="wp-block-query">'
+			. '<!-- wp:post-template {"layout":{"type":"grid","columnCount":3}} -->'
+			. '<!-- wp:template-part {"slug":"' . $card . '","tagName":"div"} /-->'
+			. '<!-- /wp:post-template --></div><!-- /wp:query -->';
+	};
+	$heading = function ( $text ) {
+		return '<!-- wp:heading --><h2 class="wp-block-heading">' . esc_html( $text ) . '</h2><!-- /wp:heading -->';
+	};
+
+	$content = galerio_demo_paragraph( 'Galerio blocks set up to try their settings. Change them in the editor to see the effect.' )
+		. $heading( 'On now and upcoming: two rows, scrolling' )
+		. $loop(
+			'galerio/exhibitions',
+			array(
+				'postType'      => 'galerio_collection',
+				'galerioStatus' => 'current-upcoming',
+			),
+			'card-collection',
+			array(
+				'galerioRows'   => 2,
+				'galerioScroll' => true,
+			)
+		)
+		. $heading( 'Works: one row, the rest hidden' )
+		. $loop( 'galerio/works', array( 'postType' => 'galerio_work' ), 'card-work', array( 'galerioRows' => 1 ) )
+		. $heading( 'Past exhibitions' )
+		. $loop(
+			'galerio/exhibitions',
+			array(
+				'postType'      => 'galerio_collection',
+				'galerioStatus' => 'past',
+			),
+			'card-collection',
+			array()
+		)
+		. $heading( 'Carousel' )
+		. '<!-- wp:galerio/carousel {"postType":"galerio_collection","perPage":8,"slidesPerView":2,"height":"60vh"} /-->';
+
+	$id = wp_insert_post(
+		array(
+			'post_type'    => 'page',
+			'post_status'  => 'draft',
+			'post_title'   => 'Block playground',
+			'post_name'    => 'block-playground',
+			'post_content' => $content,
+		)
+	);
+	update_post_meta( $id, GALERIO_DEMO_META, 1 );
+
+	WP_CLI::success( sprintf( 'Made the draft page "Block playground": %s', admin_url( 'post.php?post=' . $id . '&action=edit' ) ) );
+}
+
 galerio_demo_seed( $args );
+
+if ( in_array( 'more', $args, true ) ) {
+	galerio_demo_more();
+	galerio_demo_playground();
+}
