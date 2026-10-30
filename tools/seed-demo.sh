@@ -7,6 +7,8 @@
 #   tools/seed-demo.sh            seed the development environment (port 8888)
 #   tools/seed-demo.sh --test     seed the test environment (port 8889)
 #   tools/seed-demo.sh --reset    delete demo content, then seed again
+#   tools/seed-demo.sh --more     also add more demo content, for blocks that
+#                                 need many items (not for the test environment)
 
 set -euo pipefail
 
@@ -18,6 +20,7 @@ for arg in "$@"; do
 	case "$arg" in
 		--test) CONFIG_ARGS=( --config=.wp-env.test.json ) ;;
 		--reset) SEED_ARGS+=( reset ) ;;
+		--more) SEED_ARGS+=( more ) ;;
 		*) echo "Unknown option: $arg" >&2; exit 1 ;;
 	esac
 done
