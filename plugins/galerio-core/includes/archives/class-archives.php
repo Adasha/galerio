@@ -397,15 +397,37 @@ final class Archives {
 
 		self::assets();
 
-		return sprintf(
-			'<div %1$s><form class="wp-block-galerio-archive-filters__form" method="get" action="%2$s" role="search" aria-label="%3$s">%4$s<button type="submit" class="wp-block-galerio-archive-filters__apply wp-element-button">%5$s</button>%6$s</form></div>',
-			get_block_wrapper_attributes(),
+		$form = sprintf(
+			'<form class="wp-block-galerio-archive-filters__form" method="get" action="%1$s" role="search" aria-label="%2$s">%3$s<button type="submit" class="wp-block-galerio-archive-filters__apply wp-element-button">%4$s</button>%5$s</form>',
 			esc_url( $action ),
 			esc_attr__( 'Filter and sort', 'galerio-core' ),
 			implode( '', $controls ),
 			esc_html__( 'Apply', 'galerio-core' ),
 			$clear
 		);
+
+		if ( ! empty( $attributes['collapsible'] ) ) {
+			$active = count( $current['terms'] ) + ( '' !== $current['sort'] ? 1 : 0 );
+			$label  = '' !== trim( (string) $attributes['label'] ) ? $attributes['label'] : __( 'Filters', 'galerio-core' );
+			$count  = $active
+				? sprintf(
+					' <span class="wp-block-galerio-archive-filters__count">%s</span>',
+					/* translators: %s: how many filters and sorts are in use. */
+					esc_html( sprintf( _n( '(%s in use)', '(%s in use)', $active, 'galerio-core' ), number_format_i18n( $active ) ) )
+				)
+				: '';
+
+			// Open while something is chosen, so the visitor sees what.
+			$form = sprintf(
+				'<details class="wp-block-galerio-archive-filters__toggle"%1$s><summary class="wp-block-galerio-archive-filters__summary">%2$s%3$s</summary>%4$s</details>',
+				$active ? ' open' : '',
+				esc_html( $label ),
+				$count,
+				$form
+			);
+		}
+
+		return sprintf( '<div %1$s>%2$s</div>', get_block_wrapper_attributes(), $form );
 	}
 
 	/**
@@ -518,12 +540,19 @@ final class Archives {
 		wp_enqueue_style( 'galerio-archive-filters' );
 		wp_add_inline_style(
 			'galerio-archive-filters',
-			'.wp-block-galerio-archive-filters__form{display:flex;flex-wrap:wrap;align-items:flex-end;gap:0.75em 1.5em;}
-			.wp-block-galerio-archive-filters__field{margin:0;}
-			.wp-block-galerio-archive-filters__field label{display:block;margin-bottom:0.25em;font-size:0.875em;font-weight:600;}
-			.wp-block-galerio-archive-filters__field select{font:inherit;padding:0.4em 0.5em;max-width:100%;}
+			// Layout only, at no specificity, so a theme's styles win.
+			':where(.wp-block-galerio-archive-filters__form){display:flex;flex-wrap:wrap;align-items:flex-end;gap:0.75em 1.5em;}
+			:where(.wp-block-galerio-archive-filters__toggle) > :where(.wp-block-galerio-archive-filters__form){margin-top:0.75em;}
+			:where(.wp-block-galerio-archive-filters__field){margin:0;}
+			:where(.wp-block-galerio-archive-filters__field label){display:block;margin-bottom:0.25em;}
+			:where(.wp-block-galerio-archive-filters__field select){font:inherit;max-width:100%;}
 			.wp-block-galerio-archive-filters__form.is-live .wp-block-galerio-archive-filters__apply{display:none;}
-			.wp-block-galerio-archive-filters__clear{align-self:center;}'
+			:where(.wp-block-galerio-archive-filters__clear){align-self:center;}
+			:where(.wp-block-galerio-archive-filters__summary){display:inline-flex;align-items:center;gap:0.5em;cursor:pointer;list-style:none;}
+			.wp-block-galerio-archive-filters__summary::-webkit-details-marker{display:none;}
+			:where(.wp-block-galerio-archive-filters__summary)::before{content:"";flex:none;width:0.4em;height:0.4em;border-right:2px solid currentColor;border-bottom:2px solid currentColor;transform:rotate(-45deg);transition:transform 0.15s ease;}
+			:where(.wp-block-galerio-archive-filters__toggle[open]) > :where(.wp-block-galerio-archive-filters__summary)::before{transform:rotate(45deg);}
+			@media (prefers-reduced-motion: reduce){:where(.wp-block-galerio-archive-filters__summary)::before{transition:none;}}'
 		);
 	}
 

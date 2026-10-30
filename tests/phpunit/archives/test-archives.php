@@ -168,6 +168,15 @@ class Test_Archives extends Galerio_TestCase {
 		$this->assertStringContainsString( 'name="sort"', $html );
 		$this->assertStringContainsString( 'value="year"', $html );
 		$this->assertStringContainsString( 'wp-block-galerio-archive-filters__clear', $html );
+		$this->assertStringContainsString( '<details class="wp-block-galerio-archive-filters__toggle" open>', $html, 'Open while a filter is in use.' );
+		$this->assertStringContainsString( '(1 in use)', $html );
+
+		$this->visit();
+		$html = do_blocks( '<!-- wp:galerio/archive-filters /-->' );
+		$this->assertStringContainsString( '<details class="wp-block-galerio-archive-filters__toggle">', $html, 'Closed with nothing in use.' );
+		$this->assertStringContainsString( '>Filters</summary>', $html );
+		$this->assertStringNotContainsString( '<details', do_blocks( '<!-- wp:galerio/archive-filters {"collapsible":false} /-->' ) );
+		$this->assertStringContainsString( '>Narrow</summary>', do_blocks( '<!-- wp:galerio/archive-filters {"label":"Narrow"} /-->' ) );
 		$this->assertTrue( wp_script_is( 'galerio-archive-filters' ) );
 
 		$this->go_to( get_permalink( $this->works['clay'] ) );

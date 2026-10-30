@@ -12,7 +12,7 @@
 
 	const { registerBlockType } = wp.blocks;
 	const { useBlockProps, InspectorControls } = wp.blockEditor;
-	const { PanelBody, ToggleControl } = wp.components;
+	const { PanelBody, TextControl, ToggleControl } = wp.components;
 	const { createElement: el, Fragment } = wp.element;
 	const { __ } = wp.i18n;
 
@@ -69,12 +69,44 @@
 						checked: attributes.showSort,
 						onChange: ( value ) =>
 							setAttributes( { showSort: value } ),
-					} )
+					} ),
+					el( ToggleControl, {
+						__nextHasNoMarginBottom: true,
+						label: __( 'Collapsible', 'galerio-core' ),
+						help: __(
+							'Hidden behind a heading that opens them. Open while any are in use.',
+							'galerio-core'
+						),
+						checked: attributes.collapsible,
+						onChange: ( value ) =>
+							setAttributes( { collapsible: value } ),
+					} ),
+					attributes.collapsible &&
+						el( TextControl, {
+							__next40pxDefaultSize: true,
+							__nextHasNoMarginBottom: true,
+							label: __( 'Heading', 'galerio-core' ),
+							placeholder: __( 'Filters', 'galerio-core' ),
+							value: attributes.label,
+							onChange: ( value ) =>
+								setAttributes( { label: value } ),
+						} )
 				)
 			),
 			el(
 				'div',
 				blockProps,
+				attributes.collapsible &&
+					el(
+						'p',
+						{
+							className:
+								'wp-block-galerio-archive-filters__summary',
+						},
+						'› ' +
+							( attributes.label ||
+								__( 'Filters', 'galerio-core' ) )
+					),
 				el(
 					'div',
 					{
