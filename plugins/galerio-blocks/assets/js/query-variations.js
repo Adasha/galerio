@@ -258,4 +258,75 @@
 			'withGalerioExhibitionsStatus'
 		)
 	);
+
+	// The works variation's availability filter, while the catalogue is on.
+	const AVAILABILITY = Object.keys( data.availability || {} ).map(
+		( value ) => ( { label: data.availability[ value ], value } )
+	);
+
+	if ( AVAILABILITY.length ) {
+		addFilter(
+			'editor.BlockEdit',
+			'galerio/works-availability',
+			createHigherOrderComponent(
+				( BlockEdit ) => ( props ) => {
+					if (
+						props.name !== 'core/query' ||
+						props.attributes.namespace !== 'galerio/works'
+					) {
+						return el( BlockEdit, props );
+					}
+
+					const current = props.attributes.query || {};
+
+					return el(
+						Fragment,
+						null,
+						el( BlockEdit, props ),
+						el(
+							InspectorControls,
+							null,
+							el(
+								PanelBody,
+								{
+									title: __(
+										'Availability',
+										'galerio-blocks'
+									),
+									initialOpen: !! current.galerioAvailability,
+								},
+								el( SelectControl, {
+									__next40pxDefaultSize: true,
+									__nextHasNoMarginBottom: true,
+									label: __( 'Show', 'galerio-blocks' ),
+									value: current.galerioAvailability || '',
+									options: [
+										{
+											label: __(
+												'All',
+												'galerio-blocks'
+											),
+											value: '',
+										},
+									].concat( AVAILABILITY ),
+									help: __(
+										'The editor shows them all; the site shows only those that match.',
+										'galerio-blocks'
+									),
+									onChange: ( value ) =>
+										props.setAttributes( {
+											query: Object.assign( {}, current, {
+												galerioAvailability:
+													value || undefined,
+											} ),
+										} ),
+								} )
+							)
+						)
+					);
+				},
+				'withGalerioWorksAvailability'
+			)
+		);
+	}
 } )( window.wp, window.galerioQueryVariations );

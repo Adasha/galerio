@@ -103,6 +103,9 @@ final class Display {
 			case 'boolean':
 				return $value ? esc_html__( 'Yes', 'galerio-core' ) : esc_html__( 'No', 'galerio-core' );
 
+			case 'choice':
+				return esc_html( isset( $field->options[ $value ] ) ? $field->options[ $value ] : $value );
+
 			case 'image':
 				return wp_get_attachment_image( $value, 'large' );
 

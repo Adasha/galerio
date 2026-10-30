@@ -31,6 +31,9 @@ defined( 'ABSPATH' ) || exit;
  * - Collective fields: profile pages leave out Is a collective, Members and
  *   Member of, in Field blocks or bound blocks.
  *
+ * The catalogue's switch is on the same page, but works the other way
+ * round: it's off until a site turns it on (Galerio\Core\Catalogue).
+ *
  * The switches are stored by the Pods settings page galerio_settings, as
  * galerio_settings_{name} options.
  */

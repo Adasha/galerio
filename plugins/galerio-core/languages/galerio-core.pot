@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-10-27T20:09:02+00:00\n"
+"POT-Creation-Date: 2026-10-30T19:25:29+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: galerio-core\n"
@@ -423,7 +423,7 @@ msgid "Author"
 msgstr ""
 
 #: includes/aliases/presets.php:118
-#: includes/fields/default-fields.php:285
+#: includes/fields/default-fields.php:336
 msgid "Authors"
 msgstr ""
 
@@ -457,6 +457,179 @@ msgctxt "URL slug"
 msgid "series-type"
 msgstr ""
 
+#: includes/catalogue/class-catalogue.php:111
+msgid "Pound sterling (GBP)"
+msgstr ""
+
+#: includes/catalogue/class-catalogue.php:112
+msgid "Euro (EUR)"
+msgstr ""
+
+#: includes/catalogue/class-catalogue.php:113
+msgid "US dollar (USD)"
+msgstr ""
+
+#: includes/catalogue/class-catalogue.php:114
+msgid "Canadian dollar (CAD)"
+msgstr ""
+
+#: includes/catalogue/class-catalogue.php:115
+msgid "Australian dollar (AUD)"
+msgstr ""
+
+#: includes/catalogue/class-catalogue.php:116
+msgid "New Zealand dollar (NZD)"
+msgstr ""
+
+#: includes/catalogue/class-catalogue.php:117
+msgid "Swiss franc (CHF)"
+msgstr ""
+
+#: includes/catalogue/class-catalogue.php:118
+msgid "Swedish krona (SEK)"
+msgstr ""
+
+#: includes/catalogue/class-catalogue.php:119
+msgid "Norwegian krone (NOK)"
+msgstr ""
+
+#: includes/catalogue/class-catalogue.php:120
+msgid "Danish krone (DKK)"
+msgstr ""
+
+#: includes/catalogue/class-catalogue.php:121
+msgid "Polish złoty (PLN)"
+msgstr ""
+
+#: includes/catalogue/class-catalogue.php:122
+msgid "Japanese yen (JPY)"
+msgstr ""
+
+#: includes/catalogue/class-catalogue.php:123
+msgid "Chinese yuan (CNY)"
+msgstr ""
+
+#: includes/catalogue/class-catalogue.php:124
+msgid "Hong Kong dollar (HKD)"
+msgstr ""
+
+#: includes/catalogue/class-catalogue.php:125
+msgid "Indian rupee (INR)"
+msgstr ""
+
+#: includes/catalogue/class-catalogue.php:126
+msgid "South African rand (ZAR)"
+msgstr ""
+
+#: includes/catalogue/class-catalogue.php:223
+#: includes/fields/default-fields.php:97
+msgid "Price on application"
+msgstr ""
+
+#. translators: %s: how many copies an edition has, e.g. "10".
+#: includes/catalogue/class-catalogue.php:320
+#, php-format
+msgid "Edition of %s"
+msgstr ""
+
+#. translators: 1: an edition, e.g. "Edition of 10". 2: how many copies are left, e.g. "3".
+#: includes/catalogue/class-catalogue.php:325
+#, php-format
+msgid "%1$s, %2$s available"
+msgstr ""
+
+#: includes/catalogue/class-catalogue.php:435
+#: includes/fields/default-fields.php:79
+msgid "Available"
+msgstr ""
+
+#: includes/catalogue/class-catalogue.php:436
+#: includes/fields/default-fields.php:81
+msgid "Sold"
+msgstr ""
+
+#. translators: 1: opening date, 2: closing date.
+#: includes/feeds/class-feeds.php:364
+#, php-format
+msgid "%1$s – %2$s"
+msgstr ""
+
+#. translators: %s: the date an exhibition opens.
+#: includes/feeds/class-feeds.php:367
+#, php-format
+msgid "From %s"
+msgstr ""
+
+#. translators: %s: the date an exhibition closes.
+#: includes/feeds/class-feeds.php:370
+#, php-format
+msgid "Until %s"
+msgstr ""
+
+#: includes/feeds/class-feeds.php:373
+msgid "Dates"
+msgstr ""
+
+#. translators: 1: year of birth or forming, 2: year of death or disbanding.
+#: includes/feeds/class-feeds.php:400
+#, php-format
+msgid "%1$s–%2$s"
+msgstr ""
+
+#: includes/feeds/class-feeds.php:402
+msgid "Years"
+msgstr ""
+
+#: includes/feeds/class-reading-settings.php:54
+msgid "Galerio feeds and sitemap"
+msgstr ""
+
+#: includes/feeds/class-reading-settings.php:60
+msgid "Main feed"
+msgstr ""
+
+#: includes/feeds/class-reading-settings.php:67
+msgid "Sitemap"
+msgstr ""
+
+#: includes/feeds/class-reading-settings.php:81
+msgid "Articles aren’t set up on this site."
+msgstr ""
+
+#. translators: %s: the site's name for articles, e.g. "News stories".
+#: includes/feeds/class-reading-settings.php:89
+#, php-format
+msgid "Include %s in the main feed"
+msgstr ""
+
+#. translators: 1: the main feed's address, 2: the address of the feed of articles alone.
+#: includes/feeds/class-reading-settings.php:96
+#, php-format
+msgid "Without this, the main feed (%1$s) lists posts only. Either way, they have a feed of their own: %2$s"
+msgstr ""
+
+#: includes/feeds/class-reading-settings.php:112
+msgid "Leave out of the sitemap"
+msgstr ""
+
+#: includes/feeds/class-reading-settings.php:113
+msgid "Leave out of the sitemap:"
+msgstr ""
+
+#: includes/feeds/class-reading-settings.php:125
+msgid "The sitemap is off while search engines are discouraged from indexing this site."
+msgstr ""
+
+#. translators: %s: the sitemap's address, as a link.
+#: includes/feeds/class-reading-settings.php:129
+#, php-format
+msgid "What’s left out can still be found on the site; search engines just aren’t pointed to it. The sitemap: %s"
+msgstr ""
+
+#: includes/feeds/class-sitemaps.php:76
+msgid "Users (author pages)"
+msgstr ""
+
 #: includes/fields/class-bindings.php:57
 msgid "Galerio field"
 msgstr ""
@@ -469,6 +642,12 @@ msgstr ""
 #: includes/fields/class-display.php:104
 #: assets/js/field-bindings.js:136
 msgid "No"
+msgstr ""
+
+#. translators: %s: the site's name for one item of a content type, such as "Work".
+#: includes/fields/class-edit-screen.php:54
+#, php-format
+msgid "%s settings"
 msgstr ""
 
 #: includes/fields/class-rest.php:54
@@ -484,7 +663,7 @@ msgid "Creator"
 msgstr ""
 
 #: includes/fields/default-fields.php:26
-#: includes/fields/default-fields.php:316
+#: includes/fields/default-fields.php:367
 msgid "Year"
 msgstr ""
 
@@ -493,12 +672,12 @@ msgid "Definitive image"
 msgstr ""
 
 #: includes/fields/default-fields.php:35
-#: includes/fields/default-fields.php:226
+#: includes/fields/default-fields.php:277
 msgid "Images"
 msgstr ""
 
 #: includes/fields/default-fields.php:39
-#: includes/fields/default-fields.php:206
+#: includes/fields/default-fields.php:257
 msgid "Description"
 msgstr ""
 
@@ -511,7 +690,7 @@ msgid "Duration"
 msgstr ""
 
 #: includes/fields/default-fields.php:51
-#: includes/fields/default-fields.php:209
+#: includes/fields/default-fields.php:260
 msgid "Location"
 msgstr ""
 
@@ -535,136 +714,188 @@ msgstr ""
 msgid "Valuation notes"
 msgstr ""
 
-#: includes/fields/default-fields.php:78
-#: includes/fields/default-fields.php:221
+#: includes/fields/default-fields.php:80
+msgid "Reserved"
+msgstr ""
+
+#: includes/fields/default-fields.php:82
+msgid "On loan"
+msgstr ""
+
+#: includes/fields/default-fields.php:83
+msgid "Not for sale"
+msgstr ""
+
+#: includes/fields/default-fields.php:85
+msgid "Availability"
+msgstr ""
+
+#: includes/fields/default-fields.php:89
+msgid "Price"
+msgstr ""
+
+#: includes/fields/default-fields.php:93
+msgid "Price as shown"
+msgstr ""
+
+#: includes/fields/default-fields.php:102
+msgid "Currency"
+msgstr ""
+
+#: includes/fields/default-fields.php:106
+msgid "Edition size"
+msgstr ""
+
+#: includes/fields/default-fields.php:110
+msgid "Editions available"
+msgstr ""
+
+#: includes/fields/default-fields.php:114
+msgid "Framed"
+msgstr ""
+
+#: includes/fields/default-fields.php:117
+msgid "Inventory number"
+msgstr ""
+
+#: includes/fields/default-fields.php:121
+msgid "Available from"
+msgstr ""
+
+#: includes/fields/default-fields.php:125
+#: includes/fields/default-fields.php:272
 msgid "Website"
 msgstr ""
 
 #. translators: Keep {works} as it is: it becomes this site's name for works.
-#: includes/fields/default-fields.php:97
+#: includes/fields/default-fields.php:144
 msgid "Related {works}"
 msgstr ""
 
-#: includes/fields/default-fields.php:103
+#: includes/fields/default-fields.php:150
 msgid "Portrait"
 msgstr ""
 
-#: includes/fields/default-fields.php:107
+#: includes/fields/default-fields.php:154
 msgid "Show portrait"
 msgstr ""
 
-#: includes/fields/default-fields.php:110
+#: includes/fields/default-fields.php:157
 msgid "Nationality"
 msgstr ""
 
-#: includes/fields/default-fields.php:114
+#: includes/fields/default-fields.php:161
 msgid "Show nationality"
 msgstr ""
 
-#: includes/fields/default-fields.php:118
+#: includes/fields/default-fields.php:165
 msgid "Year of birth or formation"
 msgstr ""
 
-#: includes/fields/default-fields.php:122
+#: includes/fields/default-fields.php:169
 msgid "Year of death or disbanding"
 msgstr ""
 
-#: includes/fields/default-fields.php:126
+#: includes/fields/default-fields.php:173
 msgid "Show lifespan"
 msgstr ""
 
-#: includes/fields/default-fields.php:130
+#: includes/fields/default-fields.php:177
 msgid "Is a collective"
 msgstr ""
 
-#: includes/fields/default-fields.php:136
+#: includes/fields/default-fields.php:183
 msgid "Members"
 msgstr ""
 
-#: includes/fields/default-fields.php:142
+#: includes/fields/default-fields.php:189
 msgid "Member of"
 msgstr ""
 
-#: includes/fields/default-fields.php:146
+#: includes/fields/default-fields.php:193
 msgid "Biography"
 msgstr ""
 
-#: includes/fields/default-fields.php:150
-#: includes/fields/default-fields.php:239
+#: includes/fields/default-fields.php:197
+#: includes/fields/default-fields.php:290
 msgid "Notes"
 msgstr ""
 
-#: includes/fields/default-fields.php:155
+#: includes/fields/default-fields.php:202
 msgid "Accolades"
 msgstr ""
 
 #. translators: Keep {articles} as it is: it becomes this site's name for articles.
-#: includes/fields/default-fields.php:174
+#: includes/fields/default-fields.php:221
 msgid "Mentioned in {articles}"
 msgstr ""
 
 #. translators: Keep {articles} as it is: it becomes this site's name for articles.
-#: includes/fields/default-fields.php:181
+#: includes/fields/default-fields.php:228
 msgid "Authored {articles}"
 msgstr ""
 
 #. translators: Keep {profiles} as it is: it becomes this site's name for profiles.
-#: includes/fields/default-fields.php:188
+#: includes/fields/default-fields.php:235
 msgid "Related {profiles}"
 msgstr ""
 
-#: includes/fields/default-fields.php:192
+#: includes/fields/default-fields.php:239
 msgid "Show links"
 msgstr ""
 
-#: includes/fields/default-fields.php:197
+#: includes/fields/default-fields.php:244
 msgid "Links"
 msgstr ""
 
-#: includes/fields/default-fields.php:202
-#: includes/fields/default-fields.php:279
+#: includes/fields/default-fields.php:248
+msgid "Represented by"
+msgstr ""
+
+#: includes/fields/default-fields.php:253
+#: includes/fields/default-fields.php:330
 msgid "Standfirst"
 msgstr ""
 
-#: includes/fields/default-fields.php:213
+#: includes/fields/default-fields.php:264
 msgid "Start date"
 msgstr ""
 
-#: includes/fields/default-fields.php:217
+#: includes/fields/default-fields.php:268
 msgid "End date"
 msgstr ""
 
-#: includes/fields/default-fields.php:230
+#: includes/fields/default-fields.php:281
 msgid "Shuffle images"
 msgstr ""
 
-#: includes/fields/default-fields.php:235
+#: includes/fields/default-fields.php:286
 msgid "Embeds"
 msgstr ""
 
-#: includes/fields/default-fields.php:251
+#: includes/fields/default-fields.php:302
 msgid "Curators"
 msgstr ""
 
-#: includes/fields/default-fields.php:255
+#: includes/fields/default-fields.php:306
 msgid "Other contributors"
 msgstr ""
 
 #. translators: Keep {collections} as it is: it becomes this site's name for collections.
-#: includes/fields/default-fields.php:274
+#: includes/fields/default-fields.php:325
 msgid "Related {collections}"
 msgstr ""
 
 #. translators: Keep {articles} as it is: it becomes this site's name for articles.
-#: includes/fields/default-fields.php:310
+#: includes/fields/default-fields.php:361
 msgid "Related {articles}"
 msgstr ""
 
-#: includes/fields/default-fields.php:319
+#: includes/fields/default-fields.php:370
 msgid "Credit"
 msgstr ""
 
-#: includes/fields/default-fields.php:322
+#: includes/fields/default-fields.php:373
 msgid "Copyright"
 msgstr ""
 
@@ -788,23 +1019,63 @@ msgid "Automatic"
 msgstr ""
 
 #. translators: %s: an image list field's name, such as "Images".
-#: assets/js/featured-image.js:47
+#: assets/js/featured-image.js:34
 #, js-format
-msgid "Use the first of its “%s” instead"
+msgid "the first of its “%s”"
 msgstr ""
 
-#. translators: %s: an image field's name, such as "Portrait".
-#: assets/js/featured-image.js:55
+#. translators: %s: an image field's name, such as "Definitive image".
+#: assets/js/featured-image.js:39
 #, js-format
-msgid "Use the “%s” instead"
+msgid "the “%s”"
 msgstr ""
 
-#: assets/js/featured-image.js:59
-msgid "A plain colour shows where the featured image would be."
+#: assets/js/featured-image.js:43
+msgid "That’s the image in cards, lists, carousels, feeds and links shared on social media."
 msgstr ""
 
-#: assets/js/featured-image.js:63
-msgid "Shown where the featured image would be, while none is set."
+#: assets/js/featured-image.js:77
+msgid "The work’s own page shows its definitive image either way."
+msgstr ""
+
+#. translators: %s: e.g. "the “Portrait”".
+#: assets/js/featured-image.js:90
+#, js-format
+msgid "Use %s instead of the featured image"
+msgstr ""
+
+#. translators: %s: e.g. "the “Portrait”".
+#: assets/js/featured-image.js:98
+#, js-format
+msgid "Use %s as its image"
+msgstr ""
+
+#: assets/js/featured-image.js:103
+msgid "Shown while the profile shows its portrait."
+msgstr ""
+
+#: assets/js/featured-image.js:107
+msgid "Off, the portrait is never used as the profile’s image."
+msgstr ""
+
+#. translators: %s: e.g. "the “Definitive image”".
+#: assets/js/featured-image.js:127
+#, js-format
+msgid "With no featured image, %s is used."
+msgstr ""
+
+#. translators: %s: e.g. "the “Definitive image”".
+#: assets/js/featured-image.js:141
+#, js-format
+msgid "Use %s instead"
+msgstr ""
+
+#: assets/js/featured-image.js:146
+msgid "The featured image isn’t used."
+msgstr ""
+
+#: assets/js/featured-image.js:147
+msgid "The featured image is used."
 msgstr ""
 
 #. translators: %d: number of fonts.

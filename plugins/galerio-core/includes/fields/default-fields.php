@@ -73,6 +73,53 @@ return array(
 		'public' => false,
 		'label'  => __( 'Valuation notes', 'galerio-core' ),
 	),
+	'work.availability'              => array(
+		'type'    => 'choice',
+		'options' => array(
+			'available'    => __( 'Available', 'galerio-core' ),
+			'reserved'     => __( 'Reserved', 'galerio-core' ),
+			'sold'         => __( 'Sold', 'galerio-core' ),
+			'on_loan'      => __( 'On loan', 'galerio-core' ),
+			'not_for_sale' => __( 'Not for sale', 'galerio-core' ),
+		),
+		'label'   => __( 'Availability', 'galerio-core' ),
+	),
+	'work.price'                     => array(
+		'type'  => 'number',
+		'label' => __( 'Price', 'galerio-core' ),
+	),
+	'work.price_label'               => array(
+		'value_callback' => array( \Galerio\Core\Catalogue\Catalogue::class, 'price_label' ),
+		'label'          => __( 'Price as shown', 'galerio-core' ),
+	),
+	'work.price_on_application'      => array(
+		'type'  => 'boolean',
+		'label' => __( 'Price on application', 'galerio-core' ),
+	),
+	'work.currency'                  => array(
+		'type'    => 'choice',
+		'options' => \Galerio\Core\Catalogue\Catalogue::currencies(),
+		'label'   => __( 'Currency', 'galerio-core' ),
+	),
+	'work.edition_size'              => array(
+		'type'  => 'number',
+		'label' => __( 'Edition size', 'galerio-core' ),
+	),
+	'work.editions_available'        => array(
+		'type'  => 'number',
+		'label' => __( 'Editions available', 'galerio-core' ),
+	),
+	'work.framed'                    => array(
+		'type'  => 'boolean',
+		'label' => __( 'Framed', 'galerio-core' ),
+	),
+	'work.inventory_number'          => array(
+		'label' => __( 'Inventory number', 'galerio-core' ),
+	),
+	'work.available_from'            => array(
+		'type'  => 'link',
+		'label' => __( 'Available from', 'galerio-core' ),
+	),
 	'work.website'                   => array(
 		'type'  => 'link',
 		'label' => __( 'Website', 'galerio-core' ),
@@ -195,6 +242,10 @@ return array(
 		'type'     => 'link',
 		'multiple' => true,
 		'label'    => __( 'Links', 'galerio-core' ),
+	),
+	'profile.represented_by'         => array(
+		'type'  => 'link',
+		'label' => __( 'Represented by', 'galerio-core' ),
 	),
 
 	// Collections.
