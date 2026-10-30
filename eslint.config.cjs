@@ -16,6 +16,7 @@ module.exports = [
 				'@wordpress/components',
 				'@wordpress/core-data',
 				'@wordpress/data',
+				'@wordpress/date',
 				'@wordpress/element',
 				'@wordpress/i18n',
 				'@wordpress/server-side-render',
