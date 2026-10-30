@@ -518,8 +518,8 @@ final class Folders {
 			usort(
 				$list,
 				function ( $a, $b ) {
-					// A person's own folders come after the shared ones.
-					$root = (int) (bool) get_term_meta( $a->term_id, self::ROOT, true ) - (int) (bool) get_term_meta( $b->term_id, self::ROOT, true );
+					// A person's own folders come before the shared ones.
+					$root = (int) (bool) get_term_meta( $b->term_id, self::ROOT, true ) - (int) (bool) get_term_meta( $a->term_id, self::ROOT, true );
 					if ( $root ) {
 						return $root;
 					}

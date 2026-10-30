@@ -437,7 +437,7 @@
                                 "color": {
                                     "background": "var(--wp--preset--color--custom-highlight)"
                                 },
-                                "css": "text-wrap: nowrap",
+                                "css": "text-wrap: nowrap; display: inline-block; margin-block: 0.2em",
                                 "spacing": {
                                     "padding": {
                                         "bottom": "var(--wp--preset--spacing--20)",
@@ -548,7 +548,7 @@
                                     "background": "var(--wp--preset--color--custom-highlight)",
                                     "text": "var(--wp--preset--color--custom-lowlight)"
                                 },
-                                "css": "text-wrap: nowrap",
+                                "css": "text-wrap: nowrap; display: inline-block; margin-block: 0.2em",
                                 "spacing": {
                                     "padding": {
                                         "bottom": "var(--wp--preset--spacing--20)",
