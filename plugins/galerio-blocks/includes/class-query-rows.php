@@ -12,12 +12,12 @@ use WP_HTML_Tag_Processor;
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Lets a Query Loop show only so many rows of items, and either hide the rest
- * or scroll to them: the `galerioRows` and `galerioScroll` attributes, set in
- * the Rows panel.
+ * Lets a Query Loop show only so many rows of items and hide the rest: the
+ * `galerioRows` attribute, set in the Rows panel.
  *
  * Rows are counted on the page by query-rows-view.js, as laid out, so the
- * limit holds when a grid has fewer columns on a phone.
+ * limit holds when a grid has fewer columns on a phone. The editor's canvas
+ * loads the script too, so it shows the same rows.
  */
 final class Query_Rows {
 
@@ -31,6 +31,7 @@ final class Query_Rows {
 	 */
 	public static function init() {
 		add_action( 'enqueue_block_editor_assets', array( __CLASS__, 'editor_assets' ) );
+		add_action( 'enqueue_block_assets', array( __CLASS__, 'canvas_assets' ) );
 		add_filter( 'register_block_type_args', array( __CLASS__, 'attributes' ), 10, 2 );
 		add_filter( 'render_block_core/query', array( __CLASS__, 'render' ), 10, 2 );
 	}
@@ -50,6 +51,16 @@ final class Query_Rows {
 	}
 
 	/**
+	 * The script that counts the rows, in the editor's canvas.
+	 */
+	public static function canvas_assets() {
+		if ( is_admin() ) {
+			self::view_assets();
+			wp_add_inline_script( 'galerio-query-rows-view', 'window.galerioQueryRowsEditor = true;', 'before' );
+		}
+	}
+
+	/**
 	 * Add the attributes to the Query Loop on the server too.
 	 *
 	 * @param array  $args Block type arguments.
@@ -58,13 +69,9 @@ final class Query_Rows {
 	 */
 	public static function attributes( $args, $name ) {
 		if ( 'core/query' === $name ) {
-			$args['attributes']['galerioRows']   = array(
+			$args['attributes']['galerioRows'] = array(
 				'type'    => 'number',
 				'default' => 0,
-			);
-			$args['attributes']['galerioScroll'] = array(
-				'type'    => 'boolean',
-				'default' => false,
 			);
 		}
 
@@ -91,9 +98,6 @@ final class Query_Rows {
 		}
 
 		$tags->add_class( 'has-galerio-rows' );
-		if ( ! empty( $block['attrs']['galerioScroll'] ) ) {
-			$tags->add_class( 'is-galerio-scroll' );
-		}
 		$tags->set_attribute( 'data-galerio-rows', (string) min( $rows, self::MAX ) );
 
 		self::view_assets();
@@ -124,8 +128,7 @@ final class Query_Rows {
 		wp_enqueue_style( 'galerio-query-rows' );
 		wp_add_inline_style(
 			'galerio-query-rows',
-			'.has-galerio-rows .wp-block-post-template > [hidden] { display: none !important; }
-			.has-galerio-rows .wp-block-post-template.is-scrolling { overflow-y: auto; overscroll-behavior: contain; scrollbar-gutter: stable; grid-auto-rows: max-content; }'
+			'.has-galerio-rows .wp-block-post-template > [hidden] { display: none !important; }'
 		);
 	}
 }

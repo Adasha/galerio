@@ -1,10 +1,10 @@
 /**
- * The Query Loop's "Rows" panel: show only so many rows of items, and
- * either hide the rest or let the list scroll to them.
+ * The Query Loop's "Rows" panel: show only so many rows of items and hide
+ * the rest.
  *
- * The settings are the `galerioRows` and `galerioScroll` attributes, added
- * to the Query Loop here and applied on the site by query-rows-view.js. The
- * editor shows every item.
+ * The setting is the `galerioRows` attribute, added to the Query Loop here.
+ * The Query Loop is marked for it in the editor as on the site, and
+ * query-rows-view.js hides the extra items in both.
  *
  * @param {Object} wp WordPress's scripts.
  */
@@ -16,9 +16,12 @@
 	const { addFilter } = wp.hooks;
 	const { createHigherOrderComponent } = wp.compose;
 	const { InspectorControls } = wp.blockEditor;
-	const { PanelBody, RangeControl, ToggleControl } = wp.components;
+	const { PanelBody, RangeControl } = wp.components;
 	const { createElement: el, Fragment } = wp.element;
 	const { __ } = wp.i18n;
+
+	// Most rows the panel offers, as Query_Rows::MAX.
+	const MAX = 10;
 
 	addFilter(
 		'blocks.registerBlockType',
@@ -29,9 +32,36 @@
 				: Object.assign( {}, settings, {
 						attributes: Object.assign( {}, settings.attributes, {
 							galerioRows: { type: 'number', default: 0 },
-							galerioScroll: { type: 'boolean', default: false },
 						} ),
 					} )
+	);
+
+	// Mark the Query Loop in the editor as the server does on the site.
+	addFilter(
+		'editor.BlockListBlock',
+		'galerio/query-rows-wrapper',
+		createHigherOrderComponent(
+			( BlockListBlock ) => ( props ) => {
+				const rows = props.attributes.galerioRows;
+
+				if ( props.name !== 'core/query' || ! rows ) {
+					return el( BlockListBlock, props );
+				}
+
+				return el(
+					BlockListBlock,
+					Object.assign( {}, props, {
+						className: [ props.className, 'has-galerio-rows' ]
+							.filter( Boolean )
+							.join( ' ' ),
+						wrapperProps: Object.assign( {}, props.wrapperProps, {
+							'data-galerio-rows': Math.min( rows, MAX ),
+						} ),
+					} )
+				);
+			},
+			'withGalerioQueryRowsWrapper'
+		)
 	);
 
 	addFilter(
@@ -43,8 +73,7 @@
 					return el( BlockEdit, props );
 				}
 
-				const { galerioRows: rows, galerioScroll: scroll } =
-					props.attributes;
+				const { galerioRows: rows } = props.attributes;
 
 				return el(
 					Fragment,
@@ -65,7 +94,7 @@
 								label: __( 'Rows to show', 'galerio-blocks' ),
 								help: rows
 									? __(
-											'Counted as laid out on the screen, so a phone shows fewer items. The editor shows them all.',
+											'Counted as laid out on the screen, so a phone shows fewer items. To load fewer, lower “Items per page” instead.',
 											'galerio-blocks'
 										)
 									: __(
@@ -74,36 +103,14 @@
 										),
 								value: rows || undefined,
 								min: 1,
-								max: 10,
+								max: MAX,
 								allowReset: true,
 								resetFallbackValue: 0,
 								onChange: ( value ) =>
 									props.setAttributes( {
 										galerioRows: value || 0,
 									} ),
-							} ),
-							!! rows &&
-								el( ToggleControl, {
-									__nextHasNoMarginBottom: true,
-									label: __(
-										'Scroll to the rest',
-										'galerio-blocks'
-									),
-									help: scroll
-										? __(
-												'The list scrolls to show the other items.',
-												'galerio-blocks'
-											)
-										: __(
-												'The other items are hidden. To load fewer, lower “Items per page” instead.',
-												'galerio-blocks'
-											),
-									checked: !! scroll,
-									onChange: ( value ) =>
-										props.setAttributes( {
-											galerioScroll: value,
-										} ),
-								} )
+							} )
 						)
 					)
 				);

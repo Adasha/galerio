@@ -87,26 +87,58 @@ test.describe( 'Query Loop rows', () => {
 		await expect( items.locator( 'visible=true' ) ).toHaveCount( 1 );
 	} );
 
-	test( 'scrolls to the rest', async ( { page, requestUtils } ) => {
-		const link = await publish( requestUtils, {
-			galerioRows: 1,
-			galerioScroll: true,
-		} );
-
+	test( 'the editor shows the same rows', async ( {
+		admin,
+		editor,
+		page,
+		requestUtils,
+	} ) => {
+		await publish( requestUtils, { galerioRows: 1 } );
 		await page.setViewportSize( { width: 1280, height: 900 } );
-		await page.goto( link );
-		const list = page.locator( '.wp-block-post-template' );
-		await expect( list ).toHaveClass( /is-scrolling/ );
-
-		const { scrollHeight, clientHeight } = await list.evaluate(
-			( element ) => ( {
-				scrollHeight: element.scrollHeight,
-				clientHeight: element.clientHeight,
-			} )
+		await admin.visitAdminPage(
+			'post.php',
+			`post=${ pages[ pages.length - 1 ] }&action=edit`
 		);
-		expect( scrollHeight ).toBeGreaterThan( clientHeight );
+
+		// The editor keeps a hidden copy of the item being edited, so only
+		// the items laid out are counted.
+		const items = editor.canvas.locator(
+			'.wp-block-post-template > li:not(.block-editor-block-list__layout)'
+		);
+		await expect.poll( () => items.count() ).toBeGreaterThan( 3 );
+		const total = await items.count();
+		const shown = editor.canvas.locator(
+			'.wp-block-post-template > li:not([hidden])'
+		);
+
+		// Only the first row is left showing.
+		await expect
+			.poll( () =>
+				shown.evaluateAll( ( list, count ) => {
+					const tops = list
+						.filter( ( item ) => item.getClientRects().length )
+						.map( ( item ) =>
+							Math.round( item.getBoundingClientRect().top )
+						);
+					return tops.length < count ? new Set( tops ).size : 0;
+				}, total )
+			)
+			.toBe( 1 );
+
+		// Without the limit, every item shows again.
+		await editor.canvas.locator( '[data-type="core/query"]' ).waitFor();
+		await page.evaluate( () => {
+			const { select, dispatch } = window.wp.data;
+			const query = select( 'core/block-editor' )
+				.getBlocks()
+				.find( ( block ) => block.name === 'core/query' );
+			dispatch( 'core/block-editor' ).updateBlockAttributes(
+				query.clientId,
+				{ galerioRows: 0 }
+			);
+		} );
 		await expect(
-			page.locator( '.wp-block-post-template > li[hidden]' )
+			editor.canvas.locator( '.wp-block-post-template > li[hidden]' )
 		).toHaveCount( 0 );
 	} );
 

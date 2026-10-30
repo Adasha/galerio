@@ -620,7 +620,7 @@ function galerio_demo_playground() {
 	};
 
 	$content = galerio_demo_paragraph( 'Galerio blocks set up to try their settings. Change them in the editor to see the effect.' )
-		. $heading( 'On now and upcoming: two rows, scrolling' )
+		. $heading( 'On now and upcoming: two rows' )
 		. $loop(
 			'galerio/exhibitions',
 			array(
@@ -628,10 +628,7 @@ function galerio_demo_playground() {
 				'galerioStatus' => 'current-upcoming',
 			),
 			'card-collection',
-			array(
-				'galerioRows'   => 2,
-				'galerioScroll' => true,
-			)
+			array( 'galerioRows' => 2 )
 		)
 		. $heading( 'Works: one row, the rest hidden' )
 		. $loop( 'galerio/works', array( 'postType' => 'galerio_work' ), 'card-work', array( 'galerioRows' => 1 ) )
