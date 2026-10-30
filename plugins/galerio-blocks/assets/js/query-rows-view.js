@@ -1,6 +1,6 @@
 /**
  * Query Loops limited to so many rows (the Rows panel): items after the last
- * row are hidden, or the list scrolls to them.
+ * row are hidden.
  *
  * Rows are counted as laid out, so the limit holds as the grid's columns
  * change with the screen's width. Without this script every item shows.
@@ -9,16 +9,13 @@
 	/**
 	 * Fit one Query Loop's list to its rows.
 	 *
-	 * @param {HTMLElement} list   The Post Template's list.
-	 * @param {number}      rows   Rows to show.
-	 * @param {boolean}     scroll Scroll to the rest rather than hide them.
+	 * @param {HTMLElement} list The Post Template's list.
+	 * @param {number}      rows Rows to show.
 	 */
-	function fit( list, rows, scroll ) {
+	function fit( list, rows ) {
 		const items = Array.from( list.children );
 
 		items.forEach( ( item ) => ( item.hidden = false ) );
-		list.style.maxHeight = '';
-		list.classList.remove( 'is-scrolling' );
 
 		const top = ( item ) => Math.round( item.getBoundingClientRect().top );
 
@@ -33,20 +30,9 @@
 
 		const next = tops[ rows ];
 
-		if ( scroll ) {
-			const bottom = Math.max(
-				...items
-					.filter( ( item ) => top( item ) < next )
-					.map( ( item ) => item.getBoundingClientRect().bottom )
-			);
-			list.style.maxHeight =
-				Math.ceil( bottom - list.getBoundingClientRect().top ) + 'px';
-			list.classList.add( 'is-scrolling' );
-		} else {
-			items.forEach( ( item ) => {
-				item.hidden = top( item ) >= next;
-			} );
-		}
+		items.forEach( ( item ) => {
+			item.hidden = top( item ) >= next;
+		} );
 	}
 
 	function init() {
@@ -60,13 +46,12 @@
 					return;
 				}
 
-				const scroll = block.classList.contains( 'is-galerio-scroll' );
 				let frame = 0;
 				let width = 0;
 				const refit = () => {
 					window.cancelAnimationFrame( frame );
 					frame = window.requestAnimationFrame( () =>
-						fit( list, rows, scroll )
+						fit( list, rows )
 					);
 				};
 
@@ -79,16 +64,6 @@
 							refit();
 						}
 					} ).observe( block );
-
-					// When scrolling, the visible height follows the first
-					// rows' heights. Nothing is hidden then, so watching the
-					// items can't set off a loop.
-					if ( scroll ) {
-						const items = new window.ResizeObserver( refit );
-						Array.from( list.children ).forEach( ( item ) =>
-							items.observe( item )
-						);
-					}
 				} else {
 					window.addEventListener( 'resize', refit );
 				}
@@ -96,7 +71,7 @@
 				// Images that load late change the rows' heights.
 				list.addEventListener( 'load', refit, true );
 
-				fit( list, rows, scroll );
+				fit( list, rows );
 			} );
 	}
 

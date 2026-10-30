@@ -87,29 +87,6 @@ test.describe( 'Query Loop rows', () => {
 		await expect( items.locator( 'visible=true' ) ).toHaveCount( 1 );
 	} );
 
-	test( 'scrolls to the rest', async ( { page, requestUtils } ) => {
-		const link = await publish( requestUtils, {
-			galerioRows: 1,
-			galerioScroll: true,
-		} );
-
-		await page.setViewportSize( { width: 1280, height: 900 } );
-		await page.goto( link );
-		const list = page.locator( '.wp-block-post-template' );
-		await expect( list ).toHaveClass( /is-scrolling/ );
-
-		const { scrollHeight, clientHeight } = await list.evaluate(
-			( element ) => ( {
-				scrollHeight: element.scrollHeight,
-				clientHeight: element.clientHeight,
-			} )
-		);
-		expect( scrollHeight ).toBeGreaterThan( clientHeight );
-		await expect(
-			page.locator( '.wp-block-post-template > li[hidden]' )
-		).toHaveCount( 0 );
-	} );
-
 	test( 'the editor keeps the setting', async ( {
 		admin,
 		editor,

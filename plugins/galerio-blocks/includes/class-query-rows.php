@@ -12,9 +12,8 @@ use WP_HTML_Tag_Processor;
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Lets a Query Loop show only so many rows of items, and either hide the rest
- * or scroll to them: the `galerioRows` and `galerioScroll` attributes, set in
- * the Rows panel.
+ * Lets a Query Loop show only so many rows of items and hide the rest: the
+ * `galerioRows` attribute, set in the Rows panel.
  *
  * Rows are counted on the page by query-rows-view.js, as laid out, so the
  * limit holds when a grid has fewer columns on a phone.
@@ -58,13 +57,9 @@ final class Query_Rows {
 	 */
 	public static function attributes( $args, $name ) {
 		if ( 'core/query' === $name ) {
-			$args['attributes']['galerioRows']   = array(
+			$args['attributes']['galerioRows'] = array(
 				'type'    => 'number',
 				'default' => 0,
-			);
-			$args['attributes']['galerioScroll'] = array(
-				'type'    => 'boolean',
-				'default' => false,
 			);
 		}
 
@@ -91,9 +86,6 @@ final class Query_Rows {
 		}
 
 		$tags->add_class( 'has-galerio-rows' );
-		if ( ! empty( $block['attrs']['galerioScroll'] ) ) {
-			$tags->add_class( 'is-galerio-scroll' );
-		}
 		$tags->set_attribute( 'data-galerio-rows', (string) min( $rows, self::MAX ) );
 
 		self::view_assets();
@@ -124,8 +116,7 @@ final class Query_Rows {
 		wp_enqueue_style( 'galerio-query-rows' );
 		wp_add_inline_style(
 			'galerio-query-rows',
-			'.has-galerio-rows .wp-block-post-template > [hidden] { display: none !important; }
-			.has-galerio-rows .wp-block-post-template.is-scrolling { overflow-y: auto; overscroll-behavior: contain; scrollbar-gutter: stable; grid-auto-rows: max-content; }'
+			'.has-galerio-rows .wp-block-post-template > [hidden] { display: none !important; }'
 		);
 	}
 }

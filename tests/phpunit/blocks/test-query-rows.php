@@ -31,15 +31,11 @@ class Test_Query_Rows extends Galerio_TestCase {
 			'<div class="wp-block-query"><ul></ul></div>',
 			array(
 				'blockName' => 'core/query',
-				'attrs'     => array(
-					'galerioRows'   => 2,
-					'galerioScroll' => true,
-				),
+				'attrs'     => array( 'galerioRows' => 2 ),
 			)
 		);
 
 		$this->assertStringContainsString( 'has-galerio-rows', $html );
-		$this->assertStringContainsString( 'is-galerio-scroll', $html );
 		$this->assertStringContainsString( 'data-galerio-rows="2"', $html );
 		$this->assertTrue( wp_script_is( 'galerio-query-rows-view' ) );
 	}
@@ -57,11 +53,10 @@ class Test_Query_Rows extends Galerio_TestCase {
 	}
 
 	/**
-	 * The Query Loop has the attributes on the server.
+	 * The Query Loop has the attribute on the server.
 	 */
 	public function test_attributes() {
 		$attributes = WP_Block_Type_Registry::get_instance()->get_registered( 'core/query' )->attributes;
 		$this->assertSame( 0, $attributes['galerioRows']['default'] );
-		$this->assertFalse( $attributes['galerioScroll']['default'] );
 	}
 }

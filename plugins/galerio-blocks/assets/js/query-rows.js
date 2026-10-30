@@ -1,10 +1,10 @@
 /**
- * The Query Loop's "Rows" panel: show only so many rows of items, and
- * either hide the rest or let the list scroll to them.
+ * The Query Loop's "Rows" panel: show only so many rows of items and hide
+ * the rest.
  *
- * The settings are the `galerioRows` and `galerioScroll` attributes, added
- * to the Query Loop here and applied on the site by query-rows-view.js. The
- * editor shows every item.
+ * The setting is the `galerioRows` attribute, added to the Query Loop here
+ * and applied on the site by query-rows-view.js. The editor shows every
+ * item.
  *
  * @param {Object} wp WordPress's scripts.
  */
@@ -16,7 +16,7 @@
 	const { addFilter } = wp.hooks;
 	const { createHigherOrderComponent } = wp.compose;
 	const { InspectorControls } = wp.blockEditor;
-	const { PanelBody, RangeControl, ToggleControl } = wp.components;
+	const { PanelBody, RangeControl } = wp.components;
 	const { createElement: el, Fragment } = wp.element;
 	const { __ } = wp.i18n;
 
@@ -29,7 +29,6 @@
 				: Object.assign( {}, settings, {
 						attributes: Object.assign( {}, settings.attributes, {
 							galerioRows: { type: 'number', default: 0 },
-							galerioScroll: { type: 'boolean', default: false },
 						} ),
 					} )
 	);
@@ -43,8 +42,7 @@
 					return el( BlockEdit, props );
 				}
 
-				const { galerioRows: rows, galerioScroll: scroll } =
-					props.attributes;
+				const { galerioRows: rows } = props.attributes;
 
 				return el(
 					Fragment,
@@ -65,7 +63,7 @@
 								label: __( 'Rows to show', 'galerio-blocks' ),
 								help: rows
 									? __(
-											'Counted as laid out on the screen, so a phone shows fewer items. The editor shows them all.',
+											'Counted as laid out on the screen, so a phone shows fewer items. The editor shows them all. To load fewer, lower “Items per page” instead.',
 											'galerio-blocks'
 										)
 									: __(
@@ -81,29 +79,7 @@
 									props.setAttributes( {
 										galerioRows: value || 0,
 									} ),
-							} ),
-							!! rows &&
-								el( ToggleControl, {
-									__nextHasNoMarginBottom: true,
-									label: __(
-										'Scroll to the rest',
-										'galerio-blocks'
-									),
-									help: scroll
-										? __(
-												'The list scrolls to show the other items.',
-												'galerio-blocks'
-											)
-										: __(
-												'The other items are hidden. To load fewer, lower “Items per page” instead.',
-												'galerio-blocks'
-											),
-									checked: !! scroll,
-									onChange: ( value ) =>
-										props.setAttributes( {
-											galerioScroll: value,
-										} ),
-								} )
+							} )
 						)
 					)
 				);
