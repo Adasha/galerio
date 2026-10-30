@@ -69,12 +69,36 @@ final class Settings_Page {
 	 * Add the page under Settings.
 	 */
 	public static function add_page() {
-		add_options_page(
+		$hook = add_options_page(
 			__( 'Galerio content types', 'galerio-core' ),
 			__( 'Galerio content types', 'galerio-core' ),
 			'manage_options',
 			self::SLUG,
 			array( __CLASS__, 'render' )
+		);
+
+		if ( $hook ) {
+			add_action( 'load-' . $hook, array( __CLASS__, 'enqueue_style' ) );
+		}
+	}
+
+	/**
+	 * Narrow the alias fields, which hold short names and slugs, and let
+	 * the tables shrink to fit them. Phones keep WordPress's full-width fields.
+	 */
+	public static function enqueue_style() {
+		wp_register_style( 'galerio-aliases', false, array(), GALERIO_CORE_VERSION );
+		wp_enqueue_style( 'galerio-aliases' );
+		wp_add_inline_style(
+			'galerio-aliases',
+			'@media screen and (min-width: 783px) {
+				.galerio-aliases.widefat {
+					width: auto;
+				}
+				.galerio-aliases input.regular-text {
+					width: 16em;
+				}
+			}'
 		);
 	}
 
