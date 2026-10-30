@@ -229,6 +229,12 @@ $width: 240px;
 	}
 }
 
+// A person's own folders: their folder icons are amber, chosen or not, so
+// they stand apart from the shared folders.
+.galerio-folders .is-personal .galerio-folders__icon.dashicons {
+	color: #b98900;
+}
+
 .galerio-folders__row:hover:not(.is-chosen) {
 	background: #f6f7f7;
 }

@@ -416,95 +416,110 @@ function FolderTree( { lib } ) {
 		</li>
 	);
 
+	// The hidden root of "My folders" is that section's heading, so it isn't
+	// listed among the shared folders.
 	const branch = ( parent, depth ) =>
-		( byParent.get( parent ) || [] ).map( ( folder ) => {
-			const children = byParent.has( folder.id );
-			const open = expanded.has( folder.id );
+		( byParent.get( parent ) || [] )
+			.filter( ( folder ) => ! folder.root )
+			.map( ( folder ) => {
+				const children = byParent.has( folder.id );
+				const open = expanded.has( folder.id );
 
-			return (
-				<li key={ folder.id }>
-					<div
-						className={ [
-							'galerio-folders__row',
-							chosen === folder.id ? 'is-chosen' : '',
-							target === folder.id ? 'is-drop-target' : '',
-						].join( ' ' ) }
-						style={ { '--depth': depth } }
-						{ ...dropProps( folder.id, folder.id, folder.owner ) }
-						draggable={ folder.canEdit }
-						onDragStart={ ( event ) => {
-							event.dataTransfer.setData(
-								FOLDER_TYPE,
-								String( folder.id )
-							);
-							event.dataTransfer.effectAllowed = 'move';
-							setDragging( folder.id );
-						} }
-						onDragEnd={ () => {
-							setDragging( null );
-							setTarget( null );
-						} }
-					>
-						{ children ? (
-							<Button
-								className="galerio-folders__toggle"
-								icon={
-									open
-										? 'arrow-down-alt2'
-										: 'arrow-right-alt2'
-								}
-								label={
-									open
-										? __( 'Close folder', 'galerio-media' )
-										: __( 'Open folder', 'galerio-media' )
-								}
-								aria-expanded={ open }
-								onClick={ () => toggle( folder.id ) }
-								size="small"
-							/>
-						) : (
-							<span className="galerio-folders__spacer" />
-						) }
-						<Button
-							className="galerio-folders__item"
-							title={ folder.name }
-							aria-current={
-								chosen === folder.id ? 'true' : undefined
-							}
-							onClick={ () => choose( folder.id ) }
-						>
-							<span
-								className={ `galerio-folders__icon dashicons dashicons-${
-									open && children
-										? 'open-folder'
-										: 'category'
-								}` }
-								aria-hidden="true"
-							/>
-							<span className="galerio-folders__name">
-								{ folder.name }
-							</span>
-							{ folder.count !== null && (
-								<span className="galerio-folders__count">
-									{ folder.count }
-								</span>
-							) }
-						</Button>
-					</div>
-					{ addingInside === folder.id && (
+				return (
+					<li key={ folder.id }>
 						<div
-							className="galerio-folders__inline"
-							style={ { '--depth': depth + 1 } }
+							className={ [
+								'galerio-folders__row',
+								folder.owner ? 'is-personal' : '',
+								chosen === folder.id ? 'is-chosen' : '',
+								target === folder.id ? 'is-drop-target' : '',
+							].join( ' ' ) }
+							style={ { '--depth': depth } }
+							{ ...dropProps(
+								folder.id,
+								folder.id,
+								folder.owner
+							) }
+							draggable={ folder.canEdit }
+							onDragStart={ ( event ) => {
+								event.dataTransfer.setData(
+									FOLDER_TYPE,
+									String( folder.id )
+								);
+								event.dataTransfer.effectAllowed = 'move';
+								setDragging( folder.id );
+							} }
+							onDragEnd={ () => {
+								setDragging( null );
+								setTarget( null );
+							} }
 						>
-							{ editingForm }
+							{ children ? (
+								<Button
+									className="galerio-folders__toggle"
+									icon={
+										open
+											? 'arrow-down-alt2'
+											: 'arrow-right-alt2'
+									}
+									label={
+										open
+											? __(
+													'Close folder',
+													'galerio-media'
+												)
+											: __(
+													'Open folder',
+													'galerio-media'
+												)
+									}
+									aria-expanded={ open }
+									onClick={ () => toggle( folder.id ) }
+									size="small"
+								/>
+							) : (
+								<span className="galerio-folders__spacer" />
+							) }
+							<Button
+								className="galerio-folders__item"
+								title={ folder.name }
+								aria-current={
+									chosen === folder.id ? 'true' : undefined
+								}
+								onClick={ () => choose( folder.id ) }
+							>
+								<span
+									className={ `galerio-folders__icon dashicons dashicons-${
+										open && children
+											? 'open-folder'
+											: 'category'
+									}` }
+									aria-hidden="true"
+								/>
+								<span className="galerio-folders__name">
+									{ folder.name }
+								</span>
+								{ folder.count !== null && (
+									<span className="galerio-folders__count">
+										{ folder.count }
+									</span>
+								) }
+							</Button>
 						</div>
-					) }
-					{ children && open && (
-						<ul>{ branch( folder.id, depth + 1 ) }</ul>
-					) }
-				</li>
-			);
-		} );
+						{ addingInside === folder.id && (
+							<div
+								className="galerio-folders__inline"
+								style={ { '--depth': depth + 1 } }
+							>
+								{ editingForm }
+							</div>
+						) }
+						{ children && open && (
+							<ul>{ branch( folder.id, depth + 1 ) }</ul>
+						) }
+					</li>
+				);
+			} );
 
 	const canAdd = ( personal ) =>
 		personal ? data.personal : data.canAddShared;
@@ -567,27 +582,7 @@ function FolderTree( { lib } ) {
 				) }
 			</ul>
 
-			<div
-				className={ [
-					'galerio-folders__heading',
-					target === 'shared' ? 'is-drop-target' : '',
-				].join( ' ' ) }
-				{ ...dropProps( 'shared', 0, 0, { files: false } ) }
-			>
-				<h2>{ __( 'Folders', 'galerio-media' ) }</h2>
-				{ canAdd( false ) && (
-					<Button
-						size="small"
-						variant="tertiary"
-						onClick={ () => startAdd( false ) }
-					>
-						{ __( 'New', 'galerio-media' ) }
-					</Button>
-				) }
-			</div>
-			{ editing && ! addingInside && ! editing.personal && editingForm }
-			<ul className="galerio-folders__tree">{ branch( 0, 0 ) }</ul>
-
+			{ /* A person's own folders come first, above the shared ones. */ }
 			{ data.personal && (
 				<>
 					<div
@@ -610,11 +605,32 @@ function FolderTree( { lib } ) {
 						! addingInside &&
 						editing.personal &&
 						editingForm }
-					<ul className="galerio-folders__tree">
+					<ul className="galerio-folders__tree is-personal">
 						{ root ? branch( root.id, 0 ) : null }
 					</ul>
 				</>
 			) }
+
+			<div
+				className={ [
+					'galerio-folders__heading',
+					target === 'shared' ? 'is-drop-target' : '',
+				].join( ' ' ) }
+				{ ...dropProps( 'shared', 0, 0, { files: false } ) }
+			>
+				<h2>{ __( 'Folders', 'galerio-media' ) }</h2>
+				{ canAdd( false ) && (
+					<Button
+						size="small"
+						variant="tertiary"
+						onClick={ () => startAdd( false ) }
+					>
+						{ __( 'New', 'galerio-media' ) }
+					</Button>
+				) }
+			</div>
+			{ editing && ! addingInside && ! editing.personal && editingForm }
+			<ul className="galerio-folders__tree">{ branch( 0, 0 ) }</ul>
 
 			{ current && ( current.canEdit || current.canDelete ) && (
 				<div className="galerio-folders__actions">

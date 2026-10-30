@@ -162,7 +162,7 @@ class Test_Folders extends Galerio_TestCase {
 	}
 
 	/**
-	 * The tree lists shared folders then the person's own, in order, with depth.
+	 * The tree lists the person's own folders then the shared ones, in order, with depth.
 	 */
 	public function test_tree() {
 		$b    = $this->add_folder( $this->editor, 'B' );
@@ -175,10 +175,10 @@ class Test_Folders extends Galerio_TestCase {
 
 		$tree = Folders::tree( $this->student );
 
-		$this->assertSame( array( 'B', 'A', 'A1', 'My folders', 'Mine' ), wp_list_pluck( $tree, 'name' ) );
-		$this->assertSame( 1, $tree[2]['depth'] );
-		$this->assertTrue( $tree[3]['root'] );
-		$this->assertSame( $a1, $tree[2]['id'] );
+		$this->assertSame( array( 'My folders', 'Mine', 'B', 'A', 'A1' ), wp_list_pluck( $tree, 'name' ) );
+		$this->assertSame( 1, $tree[4]['depth'] );
+		$this->assertTrue( $tree[0]['root'] );
+		$this->assertSame( $a1, $tree[4]['id'] );
 	}
 
 	/**
