@@ -65,8 +65,22 @@ test.describe( 'Theme templates', () => {
 
 		try {
 			await page.goto( '/works/' );
-			await page.getByRole( 'link', { name: /Next Page/ } ).click();
+			await page
+				.getByRole( 'link', { name: 'Next', exact: true } )
+				.click();
 			await expect( page ).toHaveURL( /\/works\/page\/2\/$/ );
+
+			// Page numbers, with the current one marked.
+			await expect(
+				page.locator(
+					'.wp-block-query-pagination-numbers .page-numbers.current'
+				)
+			).toHaveText( '2' );
+			await page
+				.locator( '.wp-block-query-pagination-numbers' )
+				.getByRole( 'link', { name: '1' } )
+				.click();
+			await expect( page ).toHaveURL( /\/works\/$/ );
 		} finally {
 			await requestUtils.updateSiteSettings( {
 				posts_per_page: perPage,
