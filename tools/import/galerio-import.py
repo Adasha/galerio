@@ -13,7 +13,7 @@ Usage:
 Credentials come from an env file (default .env.galerio-net at the repository
 root) holding GALERIO_NET_URL, GALERIO_NET_USER and GALERIO_NET_APP_PASSWORD,
 or from --url/--user with the application password in GALERIO_IMPORT_PASSWORD.
-Stages: terms, media, profiles, works, collections, links.
+Stages: terms, folders, media, profiles, works, collections, links.
 """
 
 import argparse
@@ -29,8 +29,9 @@ import urllib.parse
 import urllib.request
 
 UA = 'galerio-import (https://galerio.net)'
-STAGES = ['terms', 'media', 'profiles', 'works', 'collections', 'links']
+STAGES = ['terms', 'folders', 'media', 'profiles', 'works', 'collections', 'links']
 MAX_PIXELS = 3000
+MAX_COLLECTION_IMAGES = 8
 POST_TYPES = {'profile': 'galerio_profile', 'work': 'galerio_work', 'collection': 'galerio_collection'}
 LOCAL_HOSTS = ('localhost', '127.0.0.1')
 
@@ -101,6 +102,7 @@ class Importer:
 		self.taxonomies = {}   # taxonomy slug => rest_base
 		self.terms = {}        # (taxonomy, name) => id
 		self.media = {}        # work key => attachment id
+		self.folders = {}      # folder path (tuple of names) => term ID
 		self.ids = {'profile': {}, 'work': {}, 'collection': {}}
 		self.problems = []
 
@@ -218,6 +220,66 @@ class Importer:
 				log(f'    image {url}: {err}')
 		return None
 
+	def stage_folders(self):
+		"""Make the Media Library folders the manifest's images are filed in."""
+		log('== Media folders')
+		status, data = self.api.call('GET', '/galerio-media/v1/folders')
+		if status != 200:
+			self.fail(f'cannot read media folders (HTTP {status}): {data.get("message")}')
+			return
+		by_id = {folder['id']: folder for folder in data['folders']}
+
+		def path_of(folder):
+			names = [folder['name']]
+			while folder['parent'] in by_id:
+				folder = by_id[folder['parent']]
+				names.insert(0, folder['name'])
+			return tuple(names)
+
+		for folder in data['folders']:
+			self.folders.setdefault(path_of(folder), folder['id'])
+
+		for work in self.m['works']:
+			path = tuple(work.get('folder', ()))
+			for depth in range(1, len(path) + 1):
+				sub = path[:depth]
+				if sub in self.folders:
+					continue
+				log(f'  create folder: {"/".join(sub)}')
+				if not self.api.apply:
+					self.folders[sub] = 0
+					continue
+				status, data = self.api.call('POST', '/galerio-media/v1/folders', {'name': sub[-1], 'parent': self.folders.get(sub[:-1], 0)})
+				if status in (200, 201):
+					self.folders[sub] = data['id']
+				else:
+					self.fail(f'folder {"/".join(sub)}: HTTP {status} {data.get("message")}')
+
+	def file_image(self, work, attachment):
+		"""Put an uploaded image in its work's folder."""
+		folder = self.folders.get(tuple(work.get('folder', ())))
+		if not folder:
+			return
+		status, data = self.api.call('POST', '/galerio-media/v1/file', {'folder': folder, 'attachments': [attachment]})
+		if status not in (200, 201):
+			self.fail(f'filing the image for {work["key"]}: HTTP {status} {data.get("message")}')
+
+	def find_media(self, work):
+		"""The ID of a work's image if it has been uploaded already, else 0."""
+		stem = slugify(work['key']) + '-image'
+		status, data = self.api.call('GET', f'/wp/v2/media?search={urllib.parse.quote(stem)}&_fields=id,source_url')
+		pattern = re.compile(rf'^{re.escape(stem)}(-scaled|-\d+)?\.jpg$')
+		found = [item['id'] for item in data if pattern.match(item['source_url'].rsplit('/', 1)[-1])] if status == 200 else []
+		return found[0] if found else 0
+
+	def load_media(self):
+		"""Find the images already uploaded, when the media stage isn't run."""
+		for work in self.m['works']:
+			if work.get('image') and work['key'] not in self.media:
+				found = self.find_media(work)
+				if found:
+					self.media[work['key']] = found
+
 	def stage_media(self):
 		log('== Media')
 		for work in self.m['works']:
@@ -225,14 +287,13 @@ class Importer:
 			if not image:
 				continue
 			# The suffix keeps the attachment's slug from clashing with the work's.
-			stem = slugify(work['key']) + '-image'
-			filename = stem + '.jpg'
-			status, data = self.api.call('GET', f'/wp/v2/media?search={urllib.parse.quote(stem)}&_fields=id,source_url')
-			pattern = re.compile(rf'^{re.escape(stem)}(-scaled|-\d+)?\.jpg$')
-			already = [item['id'] for item in data if pattern.match(item['source_url'].rsplit('/', 1)[-1])] if status == 200 else []
+			filename = slugify(work['key']) + '-image.jpg'
+			already = self.find_media(work)
 			if already:
-				self.media[work['key']] = already[0]
+				self.media[work['key']] = already
 				log(f'  have image: {work["title"]}')
+				if self.api.apply:
+					self.file_image(work, already)
 				continue
 			log(f'  upload image: {work["title"]}')
 			if not self.api.apply:
@@ -249,6 +310,7 @@ class Importer:
 				self.fail(f'image for {work["key"]}: HTTP {status} {data.get("message")}')
 				continue
 			self.media[work['key']] = data['id']
+			self.file_image(work, data['id'])
 			credit = image.get('credit', '')
 			self.api.call('POST', f'/wp/v2/media/{data["id"]}', {
 				'title': work['title'],
@@ -261,6 +323,10 @@ class Importer:
 		log('== Profiles')
 		for profile in self.m['profiles']:
 			payload = {'title': profile['title'], 'status': 'publish', 'galerio_fields': profile.get('fields', {})}
+			# No portrait is available, so a profile shows one of the creator's works.
+			own = [self.media[w['key']] for w in self.m['works'] if w['creator'] == profile['key'] and self.media.get(w['key'])]
+			if own:
+				payload['featured_media'] = own[0]
 			payload.update(self._terms(profile))
 			self.ids['profile'][profile['key']] = self.save_post('profile', profile['key'], payload)
 
@@ -302,7 +368,12 @@ class Importer:
 			fields = dict(collection.get('fields', {}))
 			fields['works'] = [self.ids['work'][k] for k in collection.get('works', []) if self.ids['work'].get(k)]
 			fields['profiles'] = [i for i in (self.ids['profile'].get(k) or self.lookup_profile(k) for k in collection.get('profiles', [])) if i]
+			images = [self.media[k] for k in collection.get('works', []) if self.media.get(k)][:MAX_COLLECTION_IMAGES]
+			if images:
+				fields['images'] = images
 			payload = {'title': collection['title'], 'status': 'publish', 'galerio_fields': fields}
+			if images:
+				payload['featured_media'] = images[0]
 			payload.update(self._terms(collection))
 			self.ids['collection'][collection['key']] = self.save_post('collection', collection['key'], payload)
 
@@ -339,6 +410,10 @@ class Importer:
 		if self.api.apply:
 			self.preflight_field_writes()
 		self.preload_ids()
+		if 'media' in self.stages:
+			self.stages = list(set(self.stages) | {'folders'})
+		elif {'profiles', 'works', 'collections'} & set(self.stages):
+			self.load_media()
 		for stage in STAGES:
 			if stage in self.stages:
 				getattr(self, f'stage_{stage}')()
