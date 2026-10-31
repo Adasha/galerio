@@ -4,7 +4,7 @@ Tags: carousel, slider, gallery, exhibition, art
 Requires at least: 6.6
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 0.4.1-alpha.1
+Stable tag: 0.4.2-alpha.1
 License: GPL-2.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -47,6 +47,9 @@ Ready-made Query Loops in the inserter, named after the site's content types: Ga
 Galerio is in alpha. Expect breaking changes.
 
 == Changelog ==
+
+= 0.4.2-alpha.1 =
+* Carousel slides show the item's image as its featured image, so Galerio Core's focal points place it, such as a portrait kept a little above the middle.
 
 = 0.4.1-alpha.1 =
 * Related items in a Query Loop: a loop with nothing related is hidden again, heading and all, on sites that also run the Gutenberg plugin. Gutenberg's own block filter undid the hiding, so pages showed headings such as "Related works" or "Authored articles" with nothing under them.

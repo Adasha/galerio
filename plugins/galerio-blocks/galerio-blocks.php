@@ -3,7 +3,7 @@
  * Plugin Name:       Galerio Blocks
  * Plugin URI:        https://galerio.net
  * Description:       Blocks for galleries, artists and publishers: a carousel, a gallery, exhibition dates and related items, for exhibitions, works and creators.
- * Version:           0.4.1-alpha.1
+ * Version:           0.4.2-alpha.1
  * Requires at least: 6.6
  * Requires PHP:      7.4
  * Author:            Adam Shailer
@@ -18,7 +18,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'GALERIO_BLOCKS_VERSION', '0.4.1-alpha.1' );
+define( 'GALERIO_BLOCKS_VERSION', '0.4.2-alpha.1' );
 define( 'GALERIO_BLOCKS_FILE', __FILE__ );
 define( 'GALERIO_BLOCKS_DIR', plugin_dir_path( __FILE__ ) );
 

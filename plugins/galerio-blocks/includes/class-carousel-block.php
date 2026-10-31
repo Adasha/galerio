@@ -316,7 +316,8 @@ final class Carousel_Block {
 				$attr['fetchpriority'] = 'high';
 			}
 
-			$image = wp_get_attachment_image( $image_id, $attributes['imageSize'], false, $attr );
+			// As the item's featured image, so it's placed as the item's image (Galerio Core keeps a portrait's face in view).
+			$image = get_the_post_thumbnail( $post, $attributes['imageSize'], $attr );
 		}
 
 		$caption = '';
