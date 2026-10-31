@@ -107,4 +107,27 @@ test.describe( 'Content type aliases', () => {
 			} )
 		).toHaveValue( '' );
 	} );
+
+	test( 'fits a phone screen', async ( { page } ) => {
+		await page.setViewportSize( { width: 375, height: 800 } );
+		await page.goto( `/wp-admin/${ SCREEN }` );
+
+		// Nothing scrolls sideways.
+		const overflow = await page.evaluate(
+			() =>
+				document.documentElement.scrollWidth -
+				document.documentElement.clientWidth
+		);
+		expect( overflow ).toBeLessThanOrEqual( 0 );
+
+		// Each field shows its column name above it.
+		const cell = page
+			.getByRole( 'textbox', { name: 'Works: Address', exact: true } )
+			.locator( '..' );
+		await expect( cell ).toHaveAttribute( 'data-colname', 'Address' );
+		const label = await cell.evaluate(
+			( el ) => window.getComputedStyle( el, '::before' ).content
+		);
+		expect( label ).toBe( '"Address"' );
+	} );
 } );

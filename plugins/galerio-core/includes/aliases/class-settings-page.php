@@ -84,7 +84,8 @@ final class Settings_Page {
 
 	/**
 	 * Narrow the alias fields, which hold short names and slugs, and let
-	 * the tables shrink to fit them. Phones keep WordPress's full-width fields.
+	 * the tables shrink to fit them. On phones each row stacks, with the
+	 * column name above each field, as WordPress's own list tables do.
 	 */
 	public static function enqueue_style() {
 		wp_register_style( 'galerio-aliases', false, array(), GALERIO_CORE_VERSION );
@@ -97,6 +98,27 @@ final class Settings_Page {
 				}
 				.galerio-aliases input.regular-text {
 					width: 16em;
+				}
+			}
+			@media screen and (max-width: 782px) {
+				.galerio-aliases thead {
+					display: none;
+				}
+				.galerio-aliases tr,
+				.galerio-aliases th,
+				.galerio-aliases td {
+					display: block;
+				}
+				.galerio-aliases tbody th {
+					font-weight: 600;
+				}
+				.galerio-aliases td::before {
+					content: attr(data-colname);
+					display: block;
+					margin-bottom: 4px;
+				}
+				.galerio-aliases input.regular-text {
+					width: 100%;
 				}
 			}'
 		);
@@ -266,7 +288,7 @@ final class Settings_Page {
 										$is_slug  = in_array( $property, array( 'slug', 'archive' ), true );
 										$name     = sprintf( '%s[%s][%s][%s]', Aliases::OPTION, $kind, $key, $property );
 										?>
-										<td>
+										<td data-colname="<?php echo esc_attr( $columns[ $property ] ); ?>">
 											<?php if ( $is_slug && '' === $original ) : ?>
 												<span class="description"><?php esc_html_e( 'None', 'galerio-core' ); ?></span>
 											<?php else : ?>
