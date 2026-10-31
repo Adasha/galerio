@@ -34,7 +34,9 @@ final class Related_Query {
 	public static function init() {
 		add_action( 'enqueue_block_editor_assets', array( __CLASS__, 'editor_assets' ) );
 		add_filter( 'query_loop_block_query_vars', array( __CLASS__, 'query_vars' ), 10, 2 );
-		add_filter( 'pre_render_block', array( __CLASS__, 'hide_when_empty' ), 10, 2 );
+		// After priority 10: the Gutenberg plugin's own filter there returns null
+		// for every block, which would undo this one's empty output.
+		add_filter( 'pre_render_block', array( __CLASS__, 'hide_when_empty' ), 20, 2 );
 	}
 
 	/**
