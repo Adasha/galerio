@@ -227,6 +227,7 @@ final class Schema_Org {
 		$title   = galerio_get_field( 'work.definitive_title', $post );
 		$creator = galerio_get_field( 'work.creator', $post );
 		$year    = galerio_get_field( 'work.year', $post );
+		$year_to = (int) galerio_get_field( 'work.year_to', $post );
 		$mediums = wp_get_post_terms( $post->ID, self::MEDIUM, array( 'fields' => 'names' ) );
 		$labels  = wp_get_post_terms( $post->ID, 'galerio_label', array( 'fields' => 'names' ) );
 
@@ -237,7 +238,7 @@ final class Schema_Org {
 			'url'         => get_permalink( $post ),
 			'image'       => self::image( get_post_thumbnail_id( $post ) ),
 			'creator'     => $creator ? self::reference( $creator ) : null,
-			'dateCreated' => $year ? (string) $year : null,
+			'dateCreated' => $year ? $year . ( $year_to > $year ? '/' . $year_to : '' ) : null,
 			'description' => self::summary( galerio_get_field( 'work.description', $post ) ),
 			'keywords'    => is_array( $labels ) && $labels ? implode( ', ', $labels ) : null,
 			'genre'       => is_array( $mediums ) && $mediums ? implode( ', ', $mediums ) : null,

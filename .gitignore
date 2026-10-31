@@ -12,6 +12,7 @@ dist/
 .wp-env.override.json
 .wp-env.test.override.json
 .env
+.env.*
 
 # Testing
 coverage/

@@ -48,7 +48,7 @@ final class Feeds {
 	 * shown only when the profile allows it names its switch.
 	 */
 	const DETAILS = array(
-		'galerio_work'       => array( 'work.creator', 'work.year', 'work.medium', 'work.dimensions', 'work.duration' ),
+		'galerio_work'       => array( 'work.creator', 'work.date_label', 'work.medium', 'work.dimensions', 'work.duration' ),
 		'galerio_collection' => array( 'dates', 'collection.location' ),
 		'galerio_profile'    => array( 'profile.nationality', 'lifespan' ),
 		'galerio_article'    => array( 'article.authors' ),
@@ -335,7 +335,10 @@ final class Feeds {
 			return null;
 		}
 
-		return array( Names::expand( $field->label ), $value );
+		// The date as shown is labelled plainly, as the year was.
+		$label = 'work.date_label' === $key ? __( 'Date', 'galerio-core' ) : Names::expand( $field->label );
+
+		return array( $label, $value );
 	}
 
 	/**

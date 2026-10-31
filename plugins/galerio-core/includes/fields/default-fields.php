@@ -25,6 +25,17 @@ return array(
 		'type'  => 'year',
 		'label' => __( 'Year', 'galerio-core' ),
 	),
+	'work.year_to'                   => array(
+		'type'  => 'year',
+		'label' => __( 'Year to', 'galerio-core' ),
+	),
+	'work.date_text'                 => array(
+		'label' => __( 'Date in words', 'galerio-core' ),
+	),
+	'work.date_label'                => array(
+		'value_callback' => array( \Galerio\Core\Fields\Dates::class, 'label' ),
+		'label'          => __( 'Date as shown', 'galerio-core' ),
+	),
 	'work.definitive_image'          => array(
 		'type'  => 'image',
 		'label' => __( 'Definitive image', 'galerio-core' ),

@@ -2,14 +2,14 @@
 # This file is distributed under the GPL-2.0-or-later.
 msgid ""
 msgstr ""
-"Project-Id-Version: Galerio Core 0.6.0-alpha.1\n"
+"Project-Id-Version: Galerio Core 0.6.1-alpha.1\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/galerio-core\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-10-31T12:41:56+00:00\n"
+"POT-Creation-Date: 2026-10-31T18:36:18+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: galerio-core\n"
@@ -77,7 +77,7 @@ msgstr ""
 
 #: includes/aliases/class-names.php:59
 #: includes/aliases/class-settings-page.php:214
-#: includes/fields/default-fields.php:42
+#: includes/fields/default-fields.php:53
 #: blocks/archive-filters/index.js:143
 msgid "Medium"
 msgstr ""
@@ -424,7 +424,7 @@ msgid "Author"
 msgstr ""
 
 #: includes/aliases/presets.php:118
-#: includes/fields/default-fields.php:336
+#: includes/fields/default-fields.php:347
 msgid "Authors"
 msgstr ""
 
@@ -603,7 +603,7 @@ msgid "South African rand (ZAR)"
 msgstr ""
 
 #: includes/catalogue/class-catalogue.php:223
-#: includes/fields/default-fields.php:97
+#: includes/fields/default-fields.php:108
 msgid "Price on application"
 msgstr ""
 
@@ -620,12 +620,12 @@ msgid "%1$s, %2$s available"
 msgstr ""
 
 #: includes/catalogue/class-catalogue.php:435
-#: includes/fields/default-fields.php:79
+#: includes/fields/default-fields.php:90
 msgid "Available"
 msgstr ""
 
 #: includes/catalogue/class-catalogue.php:436
-#: includes/fields/default-fields.php:81
+#: includes/fields/default-fields.php:92
 msgid "Sold"
 msgstr ""
 
@@ -712,35 +712,39 @@ msgstr ""
 msgid "Reply to this email to answer them. Nothing about this enquiry is kept on the site."
 msgstr ""
 
+#: includes/feeds/class-feeds.php:339
+msgid "Date"
+msgstr ""
+
 #. translators: 1: opening date, 2: closing date.
-#: includes/feeds/class-feeds.php:364
+#: includes/feeds/class-feeds.php:367
 #, php-format
 msgid "%1$s – %2$s"
 msgstr ""
 
 #. translators: %s: the date an exhibition opens.
-#: includes/feeds/class-feeds.php:367
+#: includes/feeds/class-feeds.php:370
 #, php-format
 msgid "From %s"
 msgstr ""
 
 #. translators: %s: the date an exhibition closes.
-#: includes/feeds/class-feeds.php:370
+#: includes/feeds/class-feeds.php:373
 #, php-format
 msgid "Until %s"
 msgstr ""
 
-#: includes/feeds/class-feeds.php:373
+#: includes/feeds/class-feeds.php:376
 msgid "Dates"
 msgstr ""
 
 #. translators: 1: year of birth or forming, 2: year of death or disbanding.
-#: includes/feeds/class-feeds.php:400
+#: includes/feeds/class-feeds.php:403
 #, php-format
 msgid "%1$s–%2$s"
 msgstr ""
 
-#: includes/feeds/class-feeds.php:402
+#: includes/feeds/class-feeds.php:405
 msgid "Years"
 msgstr ""
 
@@ -814,8 +818,20 @@ msgstr ""
 msgid "%s settings"
 msgstr ""
 
-#: includes/fields/class-rest.php:54
+#: includes/fields/class-rest.php:83
 msgid "Galerio field values."
+msgstr ""
+
+#. translators: %s: field name.
+#: includes/fields/class-rest.php:114
+#, php-format
+msgid "The field %s doesn't exist or can't be saved."
+msgstr ""
+
+#. translators: %s: field name.
+#: includes/fields/class-rest.php:142
+#, php-format
+msgid "The field %s could not be saved."
 msgstr ""
 
 #: includes/fields/default-fields.php:17
@@ -827,239 +843,251 @@ msgid "Creator"
 msgstr ""
 
 #: includes/fields/default-fields.php:26
-#: includes/fields/default-fields.php:367
+#: includes/fields/default-fields.php:378
 msgid "Year"
 msgstr ""
 
 #: includes/fields/default-fields.php:30
+msgid "Year to"
+msgstr ""
+
+#: includes/fields/default-fields.php:33
+msgid "Date in words"
+msgstr ""
+
+#: includes/fields/default-fields.php:37
+msgid "Date as shown"
+msgstr ""
+
+#: includes/fields/default-fields.php:41
 msgid "Definitive image"
 msgstr ""
 
-#: includes/fields/default-fields.php:35
-#: includes/fields/default-fields.php:277
+#: includes/fields/default-fields.php:46
+#: includes/fields/default-fields.php:288
 msgid "Images"
 msgstr ""
 
-#: includes/fields/default-fields.php:39
-#: includes/fields/default-fields.php:257
+#: includes/fields/default-fields.php:50
+#: includes/fields/default-fields.php:268
 msgid "Description"
 msgstr ""
 
-#: includes/fields/default-fields.php:45
+#: includes/fields/default-fields.php:56
 msgid "Dimensions"
 msgstr ""
 
-#: includes/fields/default-fields.php:48
+#: includes/fields/default-fields.php:59
 msgid "Duration"
 msgstr ""
 
-#: includes/fields/default-fields.php:51
-#: includes/fields/default-fields.php:260
+#: includes/fields/default-fields.php:62
+#: includes/fields/default-fields.php:271
 msgid "Location"
 msgstr ""
 
-#: includes/fields/default-fields.php:55
+#: includes/fields/default-fields.php:66
 msgid "Current owner"
 msgstr ""
 
-#: includes/fields/default-fields.php:60
+#: includes/fields/default-fields.php:71
 msgid "Valuation"
 msgstr ""
 
-#: includes/fields/default-fields.php:65
+#: includes/fields/default-fields.php:76
 msgid "Valuation date"
 msgstr ""
 
-#: includes/fields/default-fields.php:69
+#: includes/fields/default-fields.php:80
 msgid "Valued by"
 msgstr ""
 
-#: includes/fields/default-fields.php:74
+#: includes/fields/default-fields.php:85
 msgid "Valuation notes"
 msgstr ""
 
-#: includes/fields/default-fields.php:80
+#: includes/fields/default-fields.php:91
 msgid "Reserved"
 msgstr ""
 
-#: includes/fields/default-fields.php:82
+#: includes/fields/default-fields.php:93
 msgid "On loan"
 msgstr ""
 
-#: includes/fields/default-fields.php:83
+#: includes/fields/default-fields.php:94
 msgid "Not for sale"
 msgstr ""
 
-#: includes/fields/default-fields.php:85
+#: includes/fields/default-fields.php:96
 msgid "Availability"
 msgstr ""
 
-#: includes/fields/default-fields.php:89
+#: includes/fields/default-fields.php:100
 msgid "Price"
 msgstr ""
 
-#: includes/fields/default-fields.php:93
+#: includes/fields/default-fields.php:104
 msgid "Price as shown"
 msgstr ""
 
-#: includes/fields/default-fields.php:102
+#: includes/fields/default-fields.php:113
 msgid "Currency"
 msgstr ""
 
-#: includes/fields/default-fields.php:106
+#: includes/fields/default-fields.php:117
 msgid "Edition size"
 msgstr ""
 
-#: includes/fields/default-fields.php:110
+#: includes/fields/default-fields.php:121
 msgid "Editions available"
 msgstr ""
 
-#: includes/fields/default-fields.php:114
+#: includes/fields/default-fields.php:125
 msgid "Framed"
 msgstr ""
 
-#: includes/fields/default-fields.php:117
+#: includes/fields/default-fields.php:128
 msgid "Inventory number"
 msgstr ""
 
-#: includes/fields/default-fields.php:121
+#: includes/fields/default-fields.php:132
 msgid "Available from"
 msgstr ""
 
-#: includes/fields/default-fields.php:125
-#: includes/fields/default-fields.php:272
+#: includes/fields/default-fields.php:136
+#: includes/fields/default-fields.php:283
 msgid "Website"
 msgstr ""
 
 #. translators: Keep {works} as it is: it becomes this site's name for works.
-#: includes/fields/default-fields.php:144
+#: includes/fields/default-fields.php:155
 msgid "Related {works}"
 msgstr ""
 
-#: includes/fields/default-fields.php:150
+#: includes/fields/default-fields.php:161
 msgid "Portrait"
 msgstr ""
 
-#: includes/fields/default-fields.php:154
+#: includes/fields/default-fields.php:165
 msgid "Show portrait"
 msgstr ""
 
-#: includes/fields/default-fields.php:157
+#: includes/fields/default-fields.php:168
 msgid "Nationality"
 msgstr ""
 
-#: includes/fields/default-fields.php:161
+#: includes/fields/default-fields.php:172
 msgid "Show nationality"
 msgstr ""
 
-#: includes/fields/default-fields.php:165
+#: includes/fields/default-fields.php:176
 msgid "Year of birth or formation"
 msgstr ""
 
-#: includes/fields/default-fields.php:169
+#: includes/fields/default-fields.php:180
 msgid "Year of death or disbanding"
 msgstr ""
 
-#: includes/fields/default-fields.php:173
+#: includes/fields/default-fields.php:184
 msgid "Show lifespan"
 msgstr ""
 
-#: includes/fields/default-fields.php:177
+#: includes/fields/default-fields.php:188
 msgid "Is a collective"
 msgstr ""
 
-#: includes/fields/default-fields.php:183
+#: includes/fields/default-fields.php:194
 msgid "Members"
 msgstr ""
 
-#: includes/fields/default-fields.php:189
+#: includes/fields/default-fields.php:200
 msgid "Member of"
 msgstr ""
 
-#: includes/fields/default-fields.php:193
+#: includes/fields/default-fields.php:204
 msgid "Biography"
 msgstr ""
 
-#: includes/fields/default-fields.php:197
-#: includes/fields/default-fields.php:290
+#: includes/fields/default-fields.php:208
+#: includes/fields/default-fields.php:301
 msgid "Notes"
 msgstr ""
 
-#: includes/fields/default-fields.php:202
+#: includes/fields/default-fields.php:213
 msgid "Accolades"
 msgstr ""
 
 #. translators: Keep {articles} as it is: it becomes this site's name for articles.
-#: includes/fields/default-fields.php:221
+#: includes/fields/default-fields.php:232
 msgid "Mentioned in {articles}"
 msgstr ""
 
 #. translators: Keep {articles} as it is: it becomes this site's name for articles.
-#: includes/fields/default-fields.php:228
+#: includes/fields/default-fields.php:239
 msgid "Authored {articles}"
 msgstr ""
 
 #. translators: Keep {profiles} as it is: it becomes this site's name for profiles.
-#: includes/fields/default-fields.php:235
+#: includes/fields/default-fields.php:246
 msgid "Related {profiles}"
 msgstr ""
 
-#: includes/fields/default-fields.php:239
+#: includes/fields/default-fields.php:250
 msgid "Show links"
 msgstr ""
 
-#: includes/fields/default-fields.php:244
+#: includes/fields/default-fields.php:255
 msgid "Links"
 msgstr ""
 
-#: includes/fields/default-fields.php:248
+#: includes/fields/default-fields.php:259
 msgid "Represented by"
 msgstr ""
 
-#: includes/fields/default-fields.php:253
-#: includes/fields/default-fields.php:330
+#: includes/fields/default-fields.php:264
+#: includes/fields/default-fields.php:341
 msgid "Standfirst"
 msgstr ""
 
-#: includes/fields/default-fields.php:264
+#: includes/fields/default-fields.php:275
 msgid "Start date"
 msgstr ""
 
-#: includes/fields/default-fields.php:268
+#: includes/fields/default-fields.php:279
 msgid "End date"
 msgstr ""
 
-#: includes/fields/default-fields.php:281
+#: includes/fields/default-fields.php:292
 msgid "Shuffle images"
 msgstr ""
 
-#: includes/fields/default-fields.php:286
+#: includes/fields/default-fields.php:297
 msgid "Embeds"
 msgstr ""
 
-#: includes/fields/default-fields.php:302
+#: includes/fields/default-fields.php:313
 msgid "Curators"
 msgstr ""
 
-#: includes/fields/default-fields.php:306
+#: includes/fields/default-fields.php:317
 msgid "Other contributors"
 msgstr ""
 
 #. translators: Keep {collections} as it is: it becomes this site's name for collections.
-#: includes/fields/default-fields.php:325
+#: includes/fields/default-fields.php:336
 msgid "Related {collections}"
 msgstr ""
 
 #. translators: Keep {articles} as it is: it becomes this site's name for articles.
-#: includes/fields/default-fields.php:361
+#: includes/fields/default-fields.php:372
 msgid "Related {articles}"
 msgstr ""
 
-#: includes/fields/default-fields.php:370
+#: includes/fields/default-fields.php:381
 msgid "Credit"
 msgstr ""
 
-#: includes/fields/default-fields.php:373
+#: includes/fields/default-fields.php:384
 msgid "Copyright"
 msgstr ""
 
@@ -1159,26 +1187,26 @@ msgstr ""
 msgid "Video"
 msgstr ""
 
-#: includes/schema/class-schema-org.php:447
-#: includes/schema/class-schema-org.php:464
+#: includes/schema/class-schema-org.php:448
+#: includes/schema/class-schema-org.php:465
 msgid "Kind of work, for search engines"
 msgstr ""
 
-#: includes/schema/class-schema-org.php:449
+#: includes/schema/class-schema-org.php:450
 msgid "How works in this medium are described to search engines. Leave it to follow the parent medium, or Galerio’s guess from the name."
 msgstr ""
 
 #. translators: %s: a kind of work, such as "Painting".
-#: includes/schema/class-schema-org.php:471
+#: includes/schema/class-schema-org.php:472
 #, php-format
 msgid "Currently: %s, from the parent medium or the name."
 msgstr ""
 
-#: includes/schema/class-schema-org.php:473
+#: includes/schema/class-schema-org.php:474
 msgid "How works in this medium are described to search engines. Media inside this one follow it unless they set their own."
 msgstr ""
 
-#: includes/schema/class-schema-org.php:490
+#: includes/schema/class-schema-org.php:491
 msgid "Automatic"
 msgstr ""
 

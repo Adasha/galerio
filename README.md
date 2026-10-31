@@ -117,6 +117,9 @@ Every field templates, blocks and code can use, by content type. Keys work in `g
 | `work.definitive_title` | Definitive title | Text |  |
 | `work.creator` | Creator | Relationship to profiles |  |
 | `work.year` | Year | Year |  |
+| `work.year_to` | Year to | Year |  |
+| `work.date_text` | Date in words | Text |  |
+| `work.date_label` | Date as shown | Text | Read-only: worked out from other fields. |
 | `work.definitive_image` | Definitive image | Image |  |
 | `work.images` | Images | Image (list) |  |
 | `work.description` | Description | Formatted text |  |
