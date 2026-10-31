@@ -30,7 +30,8 @@
 <!-- wp:galerio/field-display {"key":"collection.images"} /-->
 <?php endif; ?>
 
-<!-- wp:columns -->
+<!-- wp:group {"className":"galerio-split","metadata":{"name":"Split"},"layout":{"type":"default"}} -->
+<div class="wp-block-group galerio-split"><!-- wp:columns -->
 <div class="wp-block-columns"><!-- wp:column {"width":"66.66%"} -->
 <div class="wp-block-column" style="flex-basis:66.66%"><!-- wp:group {"tagName":"article","layout":{"type":"default"}} -->
 <article class="wp-block-group"><!-- wp:galerio/field-display {"key":"collection.description"} /-->
@@ -50,7 +51,8 @@
 <!-- wp:galerio/field-display {"key":"collection.website","label":"{field}:"} /--></div>
 <!-- /wp:group --></div>
 <!-- /wp:column --></div>
-<!-- /wp:columns -->
+<!-- /wp:columns --></div>
+<!-- /wp:group -->
 
 <?php if ( galerio_theme_has_related() ) : ?>
 	<?php galerio_related_query( 'collection.profiles', galerio_theme_text( /* translators: Heading above the profiles a collection features. */ __( 'Featuring', 'galerio' ) ), 4 ); ?>

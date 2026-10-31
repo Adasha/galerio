@@ -30,7 +30,8 @@
 <!-- /wp:paragraph --></div>
 <!-- /wp:group -->
 
-<!-- wp:columns -->
+<!-- wp:group {"className":"galerio-split","metadata":{"name":"Split"},"layout":{"type":"default"}} -->
+<div class="wp-block-group galerio-split"><!-- wp:columns -->
 <div class="wp-block-columns"><!-- wp:column {"width":"33%"} -->
 <div class="wp-block-column" style="flex-basis:33%"><!-- wp:pattern {"slug":"galerio/work-details"} /-->
 
@@ -74,7 +75,8 @@
 <!-- /wp:group --></article>
 <!-- /wp:group --></div>
 <!-- /wp:column --></div>
-<!-- /wp:columns -->
+<!-- /wp:columns --></div>
+<!-- /wp:group -->
 
 <?php if ( galerio_theme_has_related() ) : ?>
 	<?php galerio_related_query( 'work.related_works', '', 4 ); ?>

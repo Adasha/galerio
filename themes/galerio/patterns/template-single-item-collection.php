@@ -10,7 +10,8 @@
 
 ?>
 <!-- wp:group {"tagName":"main","metadata":{"name":"Main"},"layout":{"type":"default"}} -->
-<main class="wp-block-group"><!-- wp:columns -->
+<main class="wp-block-group"><!-- wp:group {"className":"galerio-split","metadata":{"name":"Split"},"layout":{"type":"default"}} -->
+<div class="wp-block-group galerio-split"><!-- wp:columns -->
 <div class="wp-block-columns"><!-- wp:column {"width":"75%"} -->
 <div class="wp-block-column" style="flex-basis:75%"><!-- wp:post-content /-->
 
@@ -38,5 +39,6 @@
 
 <!-- wp:galerio/field-display {"key":"collection.notes"} /--></div>
 <!-- /wp:column --></div>
-<!-- /wp:columns --></main>
+<!-- /wp:columns --></div>
+<!-- /wp:group --></main>
 <!-- /wp:group -->
