@@ -155,6 +155,22 @@ class Test_Related_Query extends Galerio_TestCase {
 	}
 
 	/**
+	 * Still left out when another filter at the default priority returns
+	 * null for every block, as the Gutenberg plugin's preset styles do.
+	 */
+	public function test_hidden_despite_a_filter_returning_null() {
+		$null = function () {
+			return null;
+		};
+		add_filter( 'pre_render_block', $null, 10, 2 );
+
+		$html = $this->render( $this->loner, array( 'galerioRelated' => 'profile.works' ) );
+
+		remove_filter( 'pre_render_block', $null, 10 );
+		$this->assertSame( '', $html );
+	}
+
+	/**
 	 * A No results block with something in it shows instead.
 	 */
 	public function test_no_results_message_shows() {

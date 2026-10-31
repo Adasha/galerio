@@ -3,7 +3,7 @@ Contributors: adasha
 Requires at least: 6.6
 Tested up to: 7.1
 Requires PHP: 7.4
-Version: 3.0.0-alpha.7
+Version: 3.0.0-alpha.8
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -22,6 +22,11 @@ Galerio presents creators, works, collections and articles: a page for each, lis
 * Translatable, and the wording follows the names a site gives its content types (e.g. Exhibitions for collections) under Settings → Galerio content types.
 
 == Changelog ==
+
+= 3.0.0-alpha.8 =
+* The Main Menu style in the side menu shows submenus as a nested list under their item, indented a little and always open, instead of a pop-up. A menu across a header bar keeps its pop-ups.
+* Search blocks match the theme's form fields: the body font, the buttons' rounded corners, a dark border, and a button as tall as the field.
+* Empty related-item headings ("Featured in", "Authored articles"…) on sites running the Gutenberg plugin are fixed in Galerio Blocks 0.4.1-alpha.1.
 
 = 3.0.0-alpha.7 =
 * A work's date on its card and its own page is the date as shown: words such as "mid-19th century" or "600–800 CE" if the work has them, otherwise the year or range ("1830–32"). Needs Galerio Core 0.6.1-alpha.1 or later; update Core first. A card or page you've edited in the Site Editor keeps showing the plain year until you point its date at "Date as shown".
