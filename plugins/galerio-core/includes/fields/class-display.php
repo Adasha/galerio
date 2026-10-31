@@ -7,6 +7,8 @@
 
 namespace Galerio\Core\Fields;
 
+use Galerio\Core\Media\Focal_Point;
+
 defined( 'ABSPATH' ) || exit;
 
 /**
@@ -23,6 +25,11 @@ final class Display {
 	 * @return string Escaped HTML, or an empty string.
 	 */
 	public static function render( Field $field, $raw, $object_id ) {
+		// An image is placed by the item it belongs to, e.g. a portrait a little above the middle.
+		if ( 'image' === $field->type ) {
+			Focal_Point::enter( $object_id );
+		}
+
 		if ( $field->display_callback ) {
 			$html = (string) call_user_func( $field->display_callback, $raw, $field, $object_id );
 		} elseif ( $field->multiple ) {
@@ -32,6 +39,10 @@ final class Display {
 				: implode( self::separator( $field ), $items );
 		} else {
 			$html = self::render_one( $field, $raw );
+		}
+
+		if ( 'image' === $field->type ) {
+			Focal_Point::leave();
 		}
 
 		/**
