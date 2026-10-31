@@ -24,7 +24,7 @@
 <h3 class="wp-block-heading"></h3>
 <!-- /wp:heading -->
 
-<!-- wp:paragraph {"metadata":{"bindings":{"content":{"source":"galerio/field","args":{"key":"work.year"}}}}} -->
+<!-- wp:paragraph {"metadata":{"bindings":{"content":{"source":"galerio/field","args":{"key":"work.date_label"}}}}} -->
 <p></p>
 <!-- /wp:paragraph -->
 

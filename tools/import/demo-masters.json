@@ -1,0 +1,3356 @@
+{
+	"meta": {
+		"about": "Demo content for galerio.net: public-domain masterworks from the Metropolitan Museum of Art Open Access collection, chosen to show the range of what a Galerio site can hold.",
+		"source": "https://metmuseum.github.io/",
+		"licence": "CC0 1.0 (Met Open Access)"
+	},
+	"terms": {
+		"galerio_label": [
+			"Renaissance",
+			"Baroque",
+			"Dutch Golden Age",
+			"Rococo",
+			"Neoclassicism",
+			"Realism",
+			"Impressionism",
+			"Post-Impressionism",
+			"Art Nouveau",
+			"Pictorialism",
+			"Early photography",
+			"Ukiyo-e",
+			"Ming dynasty",
+			"Goryeo",
+			"Mughal",
+			"Deccan",
+			"Persian",
+			"Benin",
+			"Yoruba",
+			"Dogon",
+			"Asante",
+			"Moche",
+			"Maya",
+			"Diné (Navajo)",
+			"Māori",
+			"Ancient Egyptian",
+			"Portraiture",
+			"Animal art"
+		],
+		"galerio_medium": [
+			{
+				"name": "Painting"
+			},
+			{
+				"name": "Oil",
+				"parent": "Painting"
+			},
+			{
+				"name": "Ink and watercolour",
+				"parent": "Painting"
+			},
+			{
+				"name": "Manuscript illumination",
+				"parent": "Painting"
+			},
+			{
+				"name": "Print"
+			},
+			{
+				"name": "Woodblock",
+				"parent": "Print"
+			},
+			{
+				"name": "Photography"
+			},
+			{
+				"name": "Albumen print",
+				"parent": "Photography"
+			},
+			{
+				"name": "Platinum print",
+				"parent": "Photography"
+			},
+			{
+				"name": "Sculpture"
+			},
+			{
+				"name": "Bronze",
+				"parent": "Sculpture"
+			},
+			{
+				"name": "Brass",
+				"parent": "Sculpture"
+			},
+			{
+				"name": "Stone",
+				"parent": "Sculpture"
+			},
+			{
+				"name": "Wood",
+				"parent": "Sculpture"
+			},
+			{
+				"name": "Ceramics"
+			},
+			{
+				"name": "Stoneware",
+				"parent": "Ceramics"
+			},
+			{
+				"name": "Earthenware",
+				"parent": "Ceramics"
+			},
+			{
+				"name": "Textile"
+			},
+			{
+				"name": "Weaving",
+				"parent": "Textile"
+			},
+			{
+				"name": "Carpet",
+				"parent": "Textile"
+			},
+			{
+				"name": "Decorative art"
+			},
+			{
+				"name": "Glass",
+				"parent": "Decorative art"
+			}
+		],
+		"galerio_role": [
+			"Painter",
+			"Sculptor",
+			"Printmaker",
+			"Photographer",
+			"Ceramicist",
+			"Weaver",
+			"Metalworker",
+			"Glassmaker",
+			"Author",
+			"Workshop or guild"
+		],
+		"galerio_collection_category": [
+			"Thematic",
+			"Technique",
+			"Cross-cultural survey"
+		]
+	},
+	"profiles": [
+		{
+			"key": "rembrandt",
+			"title": "Rembrandt van Rijn",
+			"fields": {
+				"nationality": "Dutch",
+				"show_nationality": true,
+				"is_collective": false,
+				"bio": "<p>Painter and printmaker of Leiden and Amsterdam, celebrated for his command of light and for the psychological depth of his portraits.</p>",
+				"notes": "<p>Written for the Galerio demo. Dates and nationality follow the Metropolitan Museum of Art Open Access records.</p>",
+				"year_of_birth": 1606,
+				"year_of_death": 1669,
+				"show_lifespan": true
+			},
+			"terms": {
+				"galerio_role": [
+					"Painter",
+					"Printmaker"
+				],
+				"galerio_label": [
+					"Dutch Golden Age",
+					"Baroque"
+				],
+				"galerio_medium": [
+					"Oil"
+				]
+			}
+		},
+		{
+			"key": "vermeer",
+			"title": "Johannes Vermeer",
+			"fields": {
+				"nationality": "Dutch",
+				"show_nationality": true,
+				"is_collective": false,
+				"bio": "<p>Painter of Delft who specialised in quiet domestic interiors. Fewer than forty paintings are attributed to him.</p>",
+				"notes": "<p>Written for the Galerio demo. Dates and nationality follow the Metropolitan Museum of Art Open Access records.</p>",
+				"year_of_birth": 1632,
+				"year_of_death": 1675,
+				"show_lifespan": true
+			},
+			"terms": {
+				"galerio_role": [
+					"Painter"
+				],
+				"galerio_label": [
+					"Dutch Golden Age"
+				],
+				"galerio_medium": [
+					"Oil"
+				]
+			}
+		},
+		{
+			"key": "gentileschi",
+			"title": "Artemisia Gentileschi",
+			"fields": {
+				"nationality": "Italian",
+				"show_nationality": true,
+				"is_collective": false,
+				"bio": "<p>Baroque painter, trained by her father Orazio Gentileschi, and one of the most accomplished followers of Caravaggio. She was the first woman admitted to the Accademia delle Arti del Disegno in Florence.</p>",
+				"notes": "<p>Written for the Galerio demo. Dates and nationality follow the Metropolitan Museum of Art Open Access records.</p>",
+				"year_of_birth": 1593,
+				"year_of_death": 1654,
+				"show_lifespan": true
+			},
+			"terms": {
+				"galerio_role": [
+					"Painter"
+				],
+				"galerio_label": [
+					"Baroque"
+				],
+				"galerio_medium": [
+					"Oil"
+				]
+			}
+		},
+		{
+			"key": "vigee-le-brun",
+			"title": "Élisabeth Louise Vigée Le Brun",
+			"fields": {
+				"nationality": "French",
+				"show_nationality": true,
+				"is_collective": false,
+				"bio": "<p>Portrait painter who became a favourite of Marie Antoinette and worked for courts across Europe.</p>",
+				"notes": "<p>Written for the Galerio demo. Dates and nationality follow the Metropolitan Museum of Art Open Access records.</p>",
+				"year_of_birth": 1755,
+				"year_of_death": 1842,
+				"show_lifespan": true
+			},
+			"terms": {
+				"galerio_role": [
+					"Painter"
+				],
+				"galerio_label": [
+					"Rococo",
+					"Portraiture"
+				],
+				"galerio_medium": [
+					"Oil"
+				]
+			}
+		},
+		{
+			"key": "morisot",
+			"title": "Berthe Morisot",
+			"fields": {
+				"nationality": "French",
+				"show_nationality": true,
+				"is_collective": false,
+				"bio": "<p>A founding member of the Impressionist group, she exhibited in seven of its eight exhibitions.</p>",
+				"notes": "<p>Written for the Galerio demo. Dates and nationality follow the Metropolitan Museum of Art Open Access records.</p>",
+				"year_of_birth": 1841,
+				"year_of_death": 1895,
+				"show_lifespan": true
+			},
+			"terms": {
+				"galerio_role": [
+					"Painter",
+					"Printmaker"
+				],
+				"galerio_label": [
+					"Impressionism"
+				],
+				"galerio_medium": [
+					"Oil"
+				]
+			}
+		},
+		{
+			"key": "bonheur",
+			"title": "Rosa Bonheur",
+			"fields": {
+				"nationality": "French",
+				"show_nationality": true,
+				"is_collective": false,
+				"bio": "<p>The leading animal painter of her day, who also modelled animals in clay and wax for casting in bronze.</p>",
+				"notes": "<p>Written for the Galerio demo. Dates and nationality follow the Metropolitan Museum of Art Open Access records.</p>",
+				"year_of_birth": 1822,
+				"year_of_death": 1899,
+				"show_lifespan": true
+			},
+			"terms": {
+				"galerio_role": [
+					"Painter",
+					"Sculptor"
+				],
+				"galerio_label": [
+					"Realism",
+					"Animal art"
+				],
+				"galerio_medium": [
+					"Oil",
+					"Bronze"
+				]
+			}
+		},
+		{
+			"key": "caravaggio",
+			"title": "Caravaggio (Michelangelo Merisi)",
+			"fields": {
+				"nationality": "Italian",
+				"show_nationality": true,
+				"is_collective": false,
+				"bio": "<p>Painter whose dramatic use of light and shadow and unidealised figures changed European painting.</p>",
+				"notes": "<p>Written for the Galerio demo. Dates and nationality follow the Metropolitan Museum of Art Open Access records.</p>",
+				"year_of_birth": 1571,
+				"year_of_death": 1610,
+				"show_lifespan": true
+			},
+			"terms": {
+				"galerio_role": [
+					"Painter"
+				],
+				"galerio_label": [
+					"Baroque"
+				],
+				"galerio_medium": [
+					"Oil"
+				]
+			}
+		},
+		{
+			"key": "de-la-tour",
+			"title": "Georges de La Tour",
+			"fields": {
+				"nationality": "French",
+				"show_nationality": true,
+				"is_collective": false,
+				"bio": "<p>Painter from Lorraine known for night scenes lit by a single candle or torch.</p>",
+				"notes": "<p>Written for the Galerio demo. Dates and nationality follow the Metropolitan Museum of Art Open Access records.</p>",
+				"year_of_birth": 1593,
+				"year_of_death": 1652,
+				"show_lifespan": true
+			},
+			"terms": {
+				"galerio_role": [
+					"Painter"
+				],
+				"galerio_label": [
+					"Baroque"
+				],
+				"galerio_medium": [
+					"Oil"
+				]
+			}
+		},
+		{
+			"key": "hals",
+			"title": "Frans Hals",
+			"fields": {
+				"nationality": "Dutch",
+				"show_nationality": true,
+				"is_collective": false,
+				"bio": "<p>Portraitist of Haarlem, admired for his quick, visible brushwork and lively sitters.</p>",
+				"notes": "<p>Written for the Galerio demo. Dates and nationality follow the Metropolitan Museum of Art Open Access records.</p>",
+				"year_of_birth": 1582,
+				"year_of_death": 1666,
+				"show_lifespan": true
+			},
+			"terms": {
+				"galerio_role": [
+					"Painter"
+				],
+				"galerio_label": [
+					"Dutch Golden Age",
+					"Portraiture"
+				],
+				"galerio_medium": [
+					"Oil"
+				]
+			}
+		},
+		{
+			"key": "chardin",
+			"title": "Jean Siméon Chardin",
+			"fields": {
+				"nationality": "French",
+				"show_nationality": true,
+				"is_collective": false,
+				"bio": "<p>Painter of still lifes and quiet scenes of domestic life, working in a restrained style at the height of the Rococo.</p>",
+				"notes": "<p>Written for the Galerio demo. Dates and nationality follow the Metropolitan Museum of Art Open Access records.</p>",
+				"year_of_birth": 1699,
+				"year_of_death": 1779,
+				"show_lifespan": true
+			},
+			"terms": {
+				"galerio_role": [
+					"Painter"
+				],
+				"galerio_label": [
+					"Rococo"
+				],
+				"galerio_medium": [
+					"Oil"
+				]
+			}
+		},
+		{
+			"key": "velazquez",
+			"title": "Diego Velázquez",
+			"fields": {
+				"nationality": "Spanish",
+				"show_nationality": true,
+				"is_collective": false,
+				"bio": "<p>Court painter to Philip IV of Spain and the leading figure of the Spanish Golden Age of painting.</p>",
+				"notes": "<p>Written for the Galerio demo. Dates and nationality follow the Metropolitan Museum of Art Open Access records.</p>",
+				"year_of_birth": 1599,
+				"year_of_death": 1660,
+				"show_lifespan": true
+			},
+			"terms": {
+				"galerio_role": [
+					"Painter"
+				],
+				"galerio_label": [
+					"Baroque",
+					"Portraiture"
+				],
+				"galerio_medium": [
+					"Oil"
+				]
+			}
+		},
+		{
+			"key": "poussin",
+			"title": "Nicolas Poussin",
+			"fields": {
+				"nationality": "French",
+				"show_nationality": true,
+				"is_collective": false,
+				"bio": "<p>French painter who worked mostly in Rome, and whose ordered, classical compositions shaped later academic art.</p>",
+				"notes": "<p>Written for the Galerio demo. Dates and nationality follow the Metropolitan Museum of Art Open Access records.</p>",
+				"year_of_birth": 1594,
+				"year_of_death": 1665,
+				"show_lifespan": true
+			},
+			"terms": {
+				"galerio_role": [
+					"Painter"
+				],
+				"galerio_label": [
+					"Baroque",
+					"Neoclassicism"
+				],
+				"galerio_medium": [
+					"Oil"
+				]
+			}
+		},
+		{
+			"key": "rubens",
+			"title": "Peter Paul Rubens",
+			"fields": {
+				"nationality": "Flemish",
+				"show_nationality": true,
+				"is_collective": false,
+				"bio": "<p>Antwerp painter and diplomat, head of a large workshop, and the dominant figure of Flemish Baroque painting.</p>",
+				"notes": "<p>Written for the Galerio demo. Dates and nationality follow the Metropolitan Museum of Art Open Access records.</p>",
+				"year_of_birth": 1577,
+				"year_of_death": 1640,
+				"show_lifespan": true
+			},
+			"terms": {
+				"galerio_role": [
+					"Painter"
+				],
+				"galerio_label": [
+					"Baroque"
+				],
+				"galerio_medium": [
+					"Oil"
+				]
+			}
+		},
+		{
+			"key": "cezanne",
+			"title": "Paul Cézanne",
+			"fields": {
+				"nationality": "French",
+				"show_nationality": true,
+				"is_collective": false,
+				"bio": "<p>Painter whose structured approach to form and colour paved the way for Cubism.</p>",
+				"notes": "<p>Written for the Galerio demo. Dates and nationality follow the Metropolitan Museum of Art Open Access records.</p>",
+				"year_of_birth": 1839,
+				"year_of_death": 1906,
+				"show_lifespan": true
+			},
+			"terms": {
+				"galerio_role": [
+					"Painter"
+				],
+				"galerio_label": [
+					"Post-Impressionism"
+				],
+				"galerio_medium": [
+					"Oil"
+				]
+			}
+		},
+		{
+			"key": "renoir",
+			"title": "Auguste Renoir",
+			"fields": {
+				"nationality": "French",
+				"show_nationality": true,
+				"is_collective": false,
+				"bio": "<p>Impressionist painter of figures, portraits and bathers, known for warm colour and soft brushwork.</p>",
+				"notes": "<p>Written for the Galerio demo. Dates and nationality follow the Metropolitan Museum of Art Open Access records.</p>",
+				"year_of_birth": 1841,
+				"year_of_death": 1919,
+				"show_lifespan": true
+			},
+			"terms": {
+				"galerio_role": [
+					"Painter"
+				],
+				"galerio_label": [
+					"Impressionism"
+				],
+				"galerio_medium": [
+					"Oil"
+				]
+			}
+		},
+		{
+			"key": "manet",
+			"title": "Édouard Manet",
+			"fields": {
+				"nationality": "French",
+				"show_nationality": true,
+				"is_collective": false,
+				"bio": "<p>Painter of modern Paris whose work bridged Realism and Impressionism.</p>",
+				"notes": "<p>Written for the Galerio demo. Dates and nationality follow the Metropolitan Museum of Art Open Access records.</p>",
+				"year_of_birth": 1832,
+				"year_of_death": 1883,
+				"show_lifespan": true
+			},
+			"terms": {
+				"galerio_role": [
+					"Painter",
+					"Printmaker"
+				],
+				"galerio_label": [
+					"Realism",
+					"Impressionism"
+				],
+				"galerio_medium": [
+					"Oil"
+				]
+			}
+		},
+		{
+			"key": "degas",
+			"title": "Edgar Degas",
+			"fields": {
+				"nationality": "French",
+				"show_nationality": true,
+				"is_collective": false,
+				"bio": "<p>Painter, pastellist and sculptor of dancers, bathers and city life.</p>",
+				"notes": "<p>Written for the Galerio demo. Dates and nationality follow the Metropolitan Museum of Art Open Access records.</p>",
+				"year_of_birth": 1834,
+				"year_of_death": 1917,
+				"show_lifespan": true
+			},
+			"terms": {
+				"galerio_role": [
+					"Painter",
+					"Sculptor"
+				],
+				"galerio_label": [
+					"Impressionism"
+				],
+				"galerio_medium": [
+					"Oil",
+					"Bronze"
+				]
+			}
+		},
+		{
+			"key": "fontana",
+			"title": "Lavinia Fontana",
+			"fields": {
+				"nationality": "Italian",
+				"show_nationality": true,
+				"is_collective": false,
+				"bio": "<p>Painter of Bologna and Rome, regarded as one of the first women in Europe to work as a professional painter outside a convent.</p>",
+				"notes": "<p>Written for the Galerio demo. Dates and nationality follow the Metropolitan Museum of Art Open Access records.</p>",
+				"year_of_birth": 1552,
+				"year_of_death": 1614,
+				"show_lifespan": true
+			},
+			"terms": {
+				"galerio_role": [
+					"Painter"
+				],
+				"galerio_label": [
+					"Renaissance",
+					"Portraiture"
+				],
+				"galerio_medium": [
+					"Oil"
+				]
+			}
+		},
+		{
+			"key": "sargent",
+			"title": "John Singer Sargent",
+			"fields": {
+				"nationality": "American",
+				"show_nationality": true,
+				"is_collective": false,
+				"bio": "<p>American portrait painter born in Florence and active in Paris, London and the United States.</p>",
+				"notes": "<p>Written for the Galerio demo. Dates and nationality follow the Metropolitan Museum of Art Open Access records.</p>",
+				"year_of_birth": 1856,
+				"year_of_death": 1925,
+				"show_lifespan": true
+			},
+			"terms": {
+				"galerio_role": [
+					"Painter"
+				],
+				"galerio_label": [
+					"Portraiture"
+				],
+				"galerio_medium": [
+					"Oil"
+				]
+			}
+		},
+		{
+			"key": "homer",
+			"title": "Winslow Homer",
+			"fields": {
+				"nationality": "American",
+				"show_nationality": true,
+				"is_collective": false,
+				"bio": "<p>American painter and illustrator best known for his seascapes and scenes of everyday life.</p>",
+				"notes": "<p>Written for the Galerio demo. Dates and nationality follow the Metropolitan Museum of Art Open Access records.</p>",
+				"year_of_birth": 1836,
+				"year_of_death": 1910,
+				"show_lifespan": true
+			},
+			"terms": {
+				"galerio_role": [
+					"Painter",
+					"Printmaker"
+				],
+				"galerio_label": [
+					"Realism"
+				],
+				"galerio_medium": [
+					"Oil"
+				]
+			}
+		},
+		{
+			"key": "cameron",
+			"title": "Julia Margaret Cameron",
+			"fields": {
+				"nationality": "British",
+				"show_nationality": true,
+				"is_collective": false,
+				"bio": "<p>Born in Calcutta, she took up photography in her late forties and made soft-focus portraits and allegorical scenes.</p>",
+				"notes": "<p>Written for the Galerio demo. Dates and nationality follow the Metropolitan Museum of Art Open Access records.</p>",
+				"year_of_birth": 1815,
+				"year_of_death": 1879,
+				"show_lifespan": true
+			},
+			"terms": {
+				"galerio_role": [
+					"Photographer"
+				],
+				"galerio_label": [
+					"Early photography"
+				],
+				"galerio_medium": [
+					"Albumen print"
+				]
+			}
+		},
+		{
+			"key": "muybridge",
+			"title": "Eadweard Muybridge",
+			"fields": {
+				"nationality": "British and American",
+				"show_nationality": true,
+				"is_collective": false,
+				"bio": "<p>Photographer who pioneered the use of multiple cameras to capture the stages of animal and human motion.</p>",
+				"notes": "<p>Written for the Galerio demo. Dates and nationality follow the Metropolitan Museum of Art Open Access records.</p>",
+				"year_of_birth": 1830,
+				"year_of_death": 1904,
+				"show_lifespan": true
+			},
+			"terms": {
+				"galerio_role": [
+					"Photographer"
+				],
+				"galerio_label": [
+					"Early photography"
+				],
+				"galerio_medium": [
+					"Albumen print"
+				]
+			}
+		},
+		{
+			"key": "emerson",
+			"title": "Peter Henry Emerson",
+			"fields": {
+				"nationality": "British",
+				"show_nationality": true,
+				"is_collective": false,
+				"bio": "<p>Photographer and writer who argued for a naturalistic approach to photography, and made his best-known work in rural Norfolk.</p>",
+				"notes": "<p>Written for the Galerio demo. Dates and nationality follow the Metropolitan Museum of Art Open Access records.</p>",
+				"year_of_birth": 1856,
+				"year_of_death": 1936,
+				"show_lifespan": true
+			},
+			"terms": {
+				"galerio_role": [
+					"Photographer"
+				],
+				"galerio_label": [
+					"Pictorialism"
+				],
+				"galerio_medium": [
+					"Platinum print"
+				]
+			}
+		},
+		{
+			"key": "hokusai",
+			"title": "Katsushika Hokusai",
+			"fields": {
+				"nationality": "Japanese",
+				"show_nationality": true,
+				"is_collective": false,
+				"bio": "<p>Edo-period painter and printmaker of landscapes, nature and everyday life.</p>",
+				"notes": "<p>Written for the Galerio demo. Dates and nationality follow the Metropolitan Museum of Art Open Access records.</p>",
+				"year_of_birth": 1760,
+				"year_of_death": 1849,
+				"show_lifespan": true
+			},
+			"terms": {
+				"galerio_role": [
+					"Printmaker",
+					"Painter"
+				],
+				"galerio_label": [
+					"Ukiyo-e"
+				],
+				"galerio_medium": [
+					"Woodblock"
+				]
+			}
+		},
+		{
+			"key": "hiroshige",
+			"title": "Utagawa Hiroshige",
+			"fields": {
+				"nationality": "Japanese",
+				"show_nationality": true,
+				"is_collective": false,
+				"bio": "<p>Edo-period printmaker best known for landscape series, including views of Edo and the Tōkaidō road.</p>",
+				"notes": "<p>Written for the Galerio demo. Dates and nationality follow the Metropolitan Museum of Art Open Access records.</p>",
+				"year_of_birth": 1797,
+				"year_of_death": 1858,
+				"show_lifespan": true
+			},
+			"terms": {
+				"galerio_role": [
+					"Printmaker"
+				],
+				"galerio_label": [
+					"Ukiyo-e"
+				],
+				"galerio_medium": [
+					"Woodblock"
+				]
+			}
+		},
+		{
+			"key": "utamaro",
+			"title": "Kitagawa Utamaro",
+			"fields": {
+				"nationality": "Japanese",
+				"show_nationality": true,
+				"is_collective": false,
+				"bio": "<p>Printmaker famed for his portraits of women, bijin-ga, in the Edo pleasure quarters.</p>",
+				"notes": "<p>Written for the Galerio demo. Dates and nationality follow the Metropolitan Museum of Art Open Access records.</p>",
+				"year_of_birth": 1754,
+				"year_of_death": 1806,
+				"show_lifespan": true
+			},
+			"terms": {
+				"galerio_role": [
+					"Printmaker"
+				],
+				"galerio_label": [
+					"Ukiyo-e"
+				],
+				"galerio_medium": [
+					"Woodblock"
+				]
+			}
+		},
+		{
+			"key": "kuniyoshi",
+			"title": "Utagawa Kuniyoshi",
+			"fields": {
+				"nationality": "Japanese",
+				"show_nationality": true,
+				"is_collective": false,
+				"bio": "<p>Printmaker of warriors, legends, cats and landscapes in the late Edo period.</p>",
+				"notes": "<p>Written for the Galerio demo. Dates and nationality follow the Metropolitan Museum of Art Open Access records.</p>",
+				"year_of_birth": 1797,
+				"year_of_death": 1861,
+				"show_lifespan": true
+			},
+			"terms": {
+				"galerio_role": [
+					"Printmaker"
+				],
+				"galerio_label": [
+					"Ukiyo-e"
+				],
+				"galerio_medium": [
+					"Woodblock"
+				]
+			}
+		},
+		{
+			"key": "tang-yin",
+			"title": "Tang Yin",
+			"fields": {
+				"nationality": "Chinese",
+				"show_nationality": true,
+				"is_collective": false,
+				"bio": "<p>Ming-dynasty painter, poet and calligrapher of Suzhou, one of the Four Masters of the Ming.</p>",
+				"notes": "<p>Written for the Galerio demo. Dates and nationality follow the Metropolitan Museum of Art Open Access records.</p>",
+				"year_of_birth": 1470,
+				"year_of_death": 1524,
+				"show_lifespan": true
+			},
+			"terms": {
+				"galerio_role": [
+					"Painter"
+				],
+				"galerio_label": [
+					"Ming dynasty"
+				],
+				"galerio_medium": [
+					"Ink and watercolour"
+				]
+			}
+		},
+		{
+			"key": "nidha-mal",
+			"title": "Nidha Mal",
+			"fields": {
+				"nationality": "Indian",
+				"show_nationality": true,
+				"is_collective": false,
+				"bio": "<p>Court painter active in India around the middle of the 18th century.</p>",
+				"notes": "<p>Written for the Galerio demo. Dates and nationality follow the Metropolitan Museum of Art Open Access records.</p>"
+			},
+			"terms": {
+				"galerio_role": [
+					"Painter"
+				],
+				"galerio_label": [
+					"Mughal"
+				],
+				"galerio_medium": [
+					"Ink and watercolour"
+				]
+			}
+		},
+		{
+			"key": "mir-kalan-khan",
+			"title": "Mir Kalan Khan",
+			"fields": {
+				"nationality": "Indian",
+				"show_nationality": true,
+				"is_collective": false,
+				"bio": "<p>Painter active in India in the second half of the 18th century.</p>",
+				"notes": "<p>Written for the Galerio demo. Dates and nationality follow the Metropolitan Museum of Art Open Access records.</p>"
+			},
+			"terms": {
+				"galerio_role": [
+					"Painter"
+				],
+				"galerio_label": [
+					"Mughal"
+				],
+				"galerio_medium": [
+					"Ink and watercolour"
+				]
+			}
+		},
+		{
+			"key": "firdausi",
+			"title": "Abu'l Qasim Firdausi",
+			"fields": {
+				"nationality": "Persian",
+				"show_nationality": true,
+				"is_collective": false,
+				"bio": "<p>Poet of the Shahnama, the Persian Book of Kings, whose verses have been illustrated by painters for a thousand years.</p>",
+				"notes": "<p>Written for the Galerio demo. Dates and nationality follow the Metropolitan Museum of Art Open Access records.</p>",
+				"year_of_birth": 935,
+				"year_of_death": 1020,
+				"show_lifespan": true
+			},
+			"terms": {
+				"galerio_role": [
+					"Author"
+				],
+				"galerio_label": [
+					"Persian"
+				],
+				"galerio_medium": [
+					"Manuscript illumination"
+				]
+			}
+		},
+		{
+			"key": "gauguin",
+			"title": "Paul Gauguin",
+			"fields": {
+				"nationality": "French",
+				"show_nationality": true,
+				"is_collective": false,
+				"bio": "<p>Painter who also worked in ceramics, wood and print, and who spent his last years in French Polynesia.</p>",
+				"notes": "<p>Written for the Galerio demo. Dates and nationality follow the Metropolitan Museum of Art Open Access records.</p>",
+				"year_of_birth": 1848,
+				"year_of_death": 1903,
+				"show_lifespan": true
+			},
+			"terms": {
+				"galerio_role": [
+					"Painter",
+					"Ceramicist"
+				],
+				"galerio_label": [
+					"Post-Impressionism"
+				],
+				"galerio_medium": [
+					"Stoneware"
+				]
+			}
+		},
+		{
+			"key": "tiffany-studios",
+			"title": "Tiffany Studios",
+			"fields": {
+				"nationality": "American",
+				"show_nationality": true,
+				"is_collective": true,
+				"bio": "<p>The New York workshop of Louis Comfort Tiffany, known for leaded Favrile glass lamps, windows and mosaics.</p>",
+				"notes": "<p>Written for the Galerio demo. Dates and nationality follow the Metropolitan Museum of Art Open Access records.</p>",
+				"year_of_birth": 1902,
+				"year_of_death": 1932,
+				"show_lifespan": true
+			},
+			"terms": {
+				"galerio_role": [
+					"Glassmaker",
+					"Metalworker"
+				],
+				"galerio_label": [
+					"Art Nouveau"
+				],
+				"galerio_medium": [
+					"Glass"
+				]
+			}
+		},
+		{
+			"key": "igun-eronmwon",
+			"title": "Igun Eronmwon (Benin brass-casters' guild)",
+			"fields": {
+				"nationality": "Edo peoples (Benin)",
+				"show_nationality": true,
+				"is_collective": true,
+				"bio": "<p>The guild of brass-casters in the Kingdom of Benin, which cast plaques, heads and other works for the royal palace using the lost-wax method.</p>",
+				"notes": "<p>Written for the Galerio demo. Dates and nationality follow the Metropolitan Museum of Art Open Access records.</p>"
+			},
+			"terms": {
+				"galerio_role": [
+					"Metalworker",
+					"Workshop or guild"
+				],
+				"galerio_label": [
+					"Benin"
+				],
+				"galerio_medium": [
+					"Brass"
+				]
+			}
+		},
+		{
+			"key": "yoruba-artists",
+			"title": "Yoruba artists",
+			"fields": {
+				"nationality": "Yoruba peoples",
+				"show_nationality": true,
+				"is_collective": true,
+				"bio": "<p>Carvers and casters of the Yoruba-speaking city-states of what is now south-western Nigeria.</p>",
+				"notes": "<p>Written for the Galerio demo. Dates and nationality follow the Metropolitan Museum of Art Open Access records.</p>"
+			},
+			"terms": {
+				"galerio_role": [
+					"Sculptor"
+				],
+				"galerio_label": [
+					"Yoruba"
+				],
+				"galerio_medium": [
+					"Stone"
+				]
+			}
+		},
+		{
+			"key": "dogon-blacksmiths",
+			"title": "Dogon blacksmiths",
+			"fields": {
+				"nationality": "Dogon peoples",
+				"show_nationality": true,
+				"is_collective": true,
+				"bio": "<p>In Dogon society, blacksmiths are the carvers of wooden figures and masks as well as makers of iron tools.</p>",
+				"notes": "<p>Written for the Galerio demo. Dates and nationality follow the Metropolitan Museum of Art Open Access records.</p>"
+			},
+			"terms": {
+				"galerio_role": [
+					"Sculptor",
+					"Metalworker"
+				],
+				"galerio_label": [
+					"Dogon"
+				],
+				"galerio_medium": [
+					"Wood"
+				]
+			}
+		},
+		{
+			"key": "asante-weavers",
+			"title": "Asante-Akan weavers",
+			"fields": {
+				"nationality": "Asante-Akan peoples",
+				"show_nationality": true,
+				"is_collective": true,
+				"bio": "<p>Weavers of the Asante and Akan peoples of present-day Ghana, who weave narrow strips of cotton and silk that are sewn together as kente.</p>",
+				"notes": "<p>Written for the Galerio demo. Dates and nationality follow the Metropolitan Museum of Art Open Access records.</p>"
+			},
+			"terms": {
+				"galerio_role": [
+					"Weaver"
+				],
+				"galerio_label": [
+					"Asante"
+				],
+				"galerio_medium": [
+					"Weaving"
+				]
+			}
+		},
+		{
+			"key": "moche-artists",
+			"title": "Moche artists",
+			"fields": {
+				"nationality": "Moche",
+				"show_nationality": true,
+				"is_collective": true,
+				"bio": "<p>Potters of the Moche culture of the north coast of Peru, who modelled and painted vessels with portraits, animals and ritual scenes.</p>",
+				"notes": "<p>Written for the Galerio demo. Dates and nationality follow the Metropolitan Museum of Art Open Access records.</p>"
+			},
+			"terms": {
+				"galerio_role": [
+					"Ceramicist"
+				],
+				"galerio_label": [
+					"Moche"
+				],
+				"galerio_medium": [
+					"Earthenware"
+				]
+			}
+		},
+		{
+			"key": "maya-artists",
+			"title": "Maya artists",
+			"fields": {
+				"nationality": "Maya",
+				"show_nationality": true,
+				"is_collective": true,
+				"bio": "<p>Painters and potters of the Maya civilisation of Mesoamerica.</p>",
+				"notes": "<p>Written for the Galerio demo. Dates and nationality follow the Metropolitan Museum of Art Open Access records.</p>"
+			},
+			"terms": {
+				"galerio_role": [
+					"Ceramicist"
+				],
+				"galerio_label": [
+					"Maya"
+				],
+				"galerio_medium": [
+					"Earthenware"
+				]
+			}
+		},
+		{
+			"key": "navajo-weavers",
+			"title": "Diné (Navajo) weavers",
+			"fields": {
+				"nationality": "Diné/Navajo",
+				"show_nationality": true,
+				"is_collective": true,
+				"bio": "<p>Weavers of the Diné of the American Southwest, whose blankets were traded widely in the 19th century.</p>",
+				"notes": "<p>Written for the Galerio demo. Dates and nationality follow the Metropolitan Museum of Art Open Access records.</p>"
+			},
+			"terms": {
+				"galerio_role": [
+					"Weaver"
+				],
+				"galerio_label": [
+					"Diné (Navajo)"
+				],
+				"galerio_medium": [
+					"Weaving"
+				]
+			}
+		},
+		{
+			"key": "maori-weavers",
+			"title": "Māori weavers",
+			"fields": {
+				"nationality": "Māori",
+				"show_nationality": true,
+				"is_collective": true,
+				"bio": "<p>Weavers of Aotearoa New Zealand, whose cloaks (korowai and kaitaka) are woven by hand from harakeke, or flax.</p>",
+				"notes": "<p>Written for the Galerio demo. Dates and nationality follow the Metropolitan Museum of Art Open Access records.</p>"
+			},
+			"terms": {
+				"galerio_role": [
+					"Weaver"
+				],
+				"galerio_label": [
+					"Māori"
+				],
+				"galerio_medium": [
+					"Weaving"
+				]
+			}
+		},
+		{
+			"key": "goryeo-potters",
+			"title": "Goryeo potters",
+			"fields": {
+				"nationality": "Korean",
+				"show_nationality": true,
+				"is_collective": true,
+				"bio": "<p>Potters of the Goryeo dynasty (918–1392), famous for celadon wares with carved and inlaid decoration.</p>",
+				"notes": "<p>Written for the Galerio demo. Dates and nationality follow the Metropolitan Museum of Art Open Access records.</p>"
+			},
+			"terms": {
+				"galerio_role": [
+					"Ceramicist"
+				],
+				"galerio_label": [
+					"Goryeo"
+				],
+				"galerio_medium": [
+					"Stoneware"
+				]
+			}
+		},
+		{
+			"key": "egyptian-bronze-casters",
+			"title": "Late Period Egyptian bronze-casters",
+			"fields": {
+				"nationality": "Egyptian",
+				"show_nationality": true,
+				"is_collective": true,
+				"bio": "<p>Anonymous workshops that cast votive bronzes of gods and sacred animals in the first millennium BCE.</p>",
+				"notes": "<p>Written for the Galerio demo. Dates and nationality follow the Metropolitan Museum of Art Open Access records.</p>"
+			},
+			"terms": {
+				"galerio_role": [
+					"Metalworker"
+				],
+				"galerio_label": [
+					"Ancient Egyptian"
+				],
+				"galerio_medium": [
+					"Bronze"
+				]
+			}
+		},
+		{
+			"key": "deccan-painters",
+			"title": "Deccan court painters",
+			"fields": {
+				"nationality": "Indian",
+				"show_nationality": true,
+				"is_collective": true,
+				"bio": "<p>Anonymous painters of the Deccan courts of central India.</p>",
+				"notes": "<p>Written for the Galerio demo. Dates and nationality follow the Metropolitan Museum of Art Open Access records.</p>"
+			},
+			"terms": {
+				"galerio_role": [
+					"Painter"
+				],
+				"galerio_label": [
+					"Deccan"
+				],
+				"galerio_medium": [
+					"Manuscript illumination"
+				]
+			}
+		},
+		{
+			"key": "mughal-court-painters",
+			"title": "Mughal court painters",
+			"fields": {
+				"nationality": "Indian",
+				"show_nationality": true,
+				"is_collective": true,
+				"bio": "<p>The anonymous painters of the Mughal court workshops in northern India.</p>",
+				"notes": "<p>Written for the Galerio demo. Dates and nationality follow the Metropolitan Museum of Art Open Access records.</p>"
+			},
+			"terms": {
+				"galerio_role": [
+					"Painter"
+				],
+				"galerio_label": [
+					"Mughal"
+				],
+				"galerio_medium": [
+					"Ink and watercolour"
+				]
+			}
+		},
+		{
+			"key": "persian-carpet-weavers",
+			"title": "Persian carpet weavers",
+			"fields": {
+				"nationality": "Iranian",
+				"show_nationality": true,
+				"is_collective": true,
+				"bio": "<p>Anonymous weavers of the workshops of Safavid Iran.</p>",
+				"notes": "<p>Written for the Galerio demo. Dates and nationality follow the Metropolitan Museum of Art Open Access records.</p>"
+			},
+			"terms": {
+				"galerio_role": [
+					"Weaver"
+				],
+				"galerio_label": [
+					"Persian"
+				],
+				"galerio_medium": [
+					"Carpet"
+				]
+			}
+		}
+	],
+	"works": [
+		{
+			"key": "aristotle-with-a-bust-of-homer",
+			"title": "Aristotle with a Bust of Homer",
+			"creator": "rembrandt",
+			"related": [
+				"young-woman-with-a-water-pitcher"
+			],
+			"fields": {
+				"year": 1653,
+				"medium": "Oil on canvas",
+				"dimensions": "56 1/2 x 53 3/4 in. (143.5 x 136.5 cm)",
+				"location": "The Metropolitan Museum of Art, New York",
+				"description": "<p>The philosopher rests a hand on the bust of the poet, a gold chain across his chest. Painted for the Sicilian collector Antonio Ruffo.</p><p><small>Source: 1653; accession number 61.198, The Metropolitan Museum of Art, New York. Purchase, special contributions and funds given or bequeathed by friends of the Museum, 1961. Image: public domain (CC0 1.0), Met Open Access.</small></p>"
+			},
+			"terms": {
+				"galerio_label": [
+					"Dutch Golden Age",
+					"Baroque"
+				],
+				"galerio_medium": [
+					"Oil"
+				]
+			},
+			"source": {
+				"url": "https://www.metmuseum.org/art/collection/search/437394",
+				"label": "Metropolitan Museum of Art record"
+			},
+			"image": {
+				"url": "https://images.metmuseum.org/CRDImages/ep/original/DP-30758-001.jpg",
+				"fallback": [
+					"https://images.metmuseum.org/CRDImages/ep/web-large/DP-30758-001.jpg"
+				],
+				"page": "https://www.metmuseum.org/art/collection/search/437394",
+				"licence": "CC0 1.0 (Met Open Access)",
+				"credit": "The Metropolitan Museum of Art, New York. Purchase, special contributions and funds given or bequeathed by friends of the Museum, 1961. Accession number 61.198. Open Access, CC0 1.0.",
+				"alt": "Aristotle with a Bust of Homer"
+			}
+		},
+		{
+			"key": "young-woman-with-a-water-pitcher",
+			"title": "Young Woman with a Water Pitcher",
+			"creator": "vermeer",
+			"related": [
+				"aristotle-with-a-bust-of-homer"
+			],
+			"fields": {
+				"year": 1662,
+				"date_text": "ca. 1662",
+				"medium": "Oil on canvas",
+				"dimensions": "18 x 16 in. (45.7 x 40.6 cm)",
+				"location": "The Metropolitan Museum of Art, New York",
+				"description": "<p>A woman opens a window and rests her hand on a metal pitcher in a room lit from the left. One of five paintings by Vermeer at the Met.</p><p><small>Source: ca. 1662; accession number 89.15.21, The Metropolitan Museum of Art, New York. Marquand Collection, Gift of Henry G. Marquand, 1889. Image: public domain (CC0 1.0), Met Open Access.</small></p>"
+			},
+			"terms": {
+				"galerio_label": [
+					"Dutch Golden Age"
+				],
+				"galerio_medium": [
+					"Oil"
+				]
+			},
+			"source": {
+				"url": "https://www.metmuseum.org/art/collection/search/437881",
+				"label": "Metropolitan Museum of Art record"
+			},
+			"image": {
+				"url": "https://images.metmuseum.org/CRDImages/ep/original/DP353257.jpg",
+				"fallback": [
+					"https://images.metmuseum.org/CRDImages/ep/web-large/DP353257.jpg"
+				],
+				"page": "https://www.metmuseum.org/art/collection/search/437881",
+				"licence": "CC0 1.0 (Met Open Access)",
+				"credit": "The Metropolitan Museum of Art, New York. Marquand Collection, Gift of Henry G. Marquand, 1889. Accession number 89.15.21. Open Access, CC0 1.0.",
+				"alt": "Young Woman with a Water Pitcher"
+			}
+		},
+		{
+			"key": "esther-before-ahasuerus",
+			"title": "Esther before Ahasuerus",
+			"creator": "gentileschi",
+			"related": [
+				"the-musicians"
+			],
+			"fields": {
+				"year": 1620,
+				"year_to": 1629,
+				"date_text": "1620s",
+				"medium": "Oil on canvas",
+				"dimensions": "82 in. × 8 ft. 11 3/4 in. (208.3 × 273.7 cm)",
+				"location": "The Metropolitan Museum of Art, New York",
+				"description": "<p>Esther, overcome, faints as she approaches King Ahasuerus to plead for her people.</p><p><small>Source: 1620s; accession number 69.281, The Metropolitan Museum of Art, New York. Gift of Elinor Dorrance Ingersoll, 1969. Image: public domain (CC0 1.0), Met Open Access.</small></p>"
+			},
+			"terms": {
+				"galerio_label": [
+					"Baroque"
+				],
+				"galerio_medium": [
+					"Oil"
+				]
+			},
+			"source": {
+				"url": "https://www.metmuseum.org/art/collection/search/436453",
+				"label": "Metropolitan Museum of Art record"
+			},
+			"image": {
+				"url": "https://images.metmuseum.org/CRDImages/ep/original/DP-20748-001.jpg",
+				"fallback": [
+					"https://images.metmuseum.org/CRDImages/ep/web-large/DP-20748-001.jpg"
+				],
+				"page": "https://www.metmuseum.org/art/collection/search/436453",
+				"licence": "CC0 1.0 (Met Open Access)",
+				"credit": "The Metropolitan Museum of Art, New York. Gift of Elinor Dorrance Ingersoll, 1969. Accession number 69.281. Open Access, CC0 1.0.",
+				"alt": "Esther before Ahasuerus"
+			}
+		},
+		{
+			"key": "madame-grand",
+			"title": "Madame Grand (Noël Catherine Vorlée, 1761–1835)",
+			"creator": "vigee-le-brun",
+			"related": [
+				"madame-x"
+			],
+			"fields": {
+				"year": 1783,
+				"medium": "Oil on canvas",
+				"dimensions": "Oval, 36 1/4 x 28 1/2 in. (92.1 x 72.4 cm)",
+				"location": "The Metropolitan Museum of Art, New York",
+				"description": "<p>A portrait of Noël Catherine Vorlée, later Madame Grand, by the artist who painted Marie Antoinette.</p><p><small>Source: 1783; accession number 50.135.2, The Metropolitan Museum of Art, New York. Bequest of Edward S. Harkness, 1940. Image: public domain (CC0 1.0), Met Open Access.</small></p>"
+			},
+			"terms": {
+				"galerio_label": [
+					"Rococo",
+					"Portraiture"
+				],
+				"galerio_medium": [
+					"Oil"
+				]
+			},
+			"source": {
+				"url": "https://www.metmuseum.org/art/collection/search/437898",
+				"label": "Metropolitan Museum of Art record"
+			},
+			"image": {
+				"url": "https://images.metmuseum.org/CRDImages/ep/original/DP320094.jpg",
+				"fallback": [
+					"https://images.metmuseum.org/CRDImages/ep/web-large/DP320094.jpg"
+				],
+				"page": "https://www.metmuseum.org/art/collection/search/437898",
+				"licence": "CC0 1.0 (Met Open Access)",
+				"credit": "The Metropolitan Museum of Art, New York. Bequest of Edward S. Harkness, 1940. Accession number 50.135.2. Open Access, CC0 1.0.",
+				"alt": "Madame Grand (Noël Catherine Vorlée, 1761–1835)"
+			}
+		},
+		{
+			"key": "the-pink-dress",
+			"title": "The Pink Dress (Albertie-Marguerite Carré, later Madame Ferdinand-Henri Himmes, 1854–1935)",
+			"creator": "morisot",
+			"related": [],
+			"fields": {
+				"year": 1870,
+				"date_text": "ca. 1870",
+				"medium": "Oil on canvas",
+				"dimensions": "21 1/2 x 26 1/2 in. (54.6 x 67.3 cm)",
+				"location": "The Metropolitan Museum of Art, New York",
+				"description": "<p>A young sitter in a pink dress, painted in the loose, feathery brushwork that marks Morisot out among the Impressionists.</p><p><small>Source: ca. 1870; accession number 2003.20.8, The Metropolitan Museum of Art, New York. The Walter H. and Leonore Annenberg Collection, Bequest of Walter H. Annenberg, 2002. Image: public domain (CC0 1.0), Met Open Access.</small></p>"
+			},
+			"terms": {
+				"galerio_label": [
+					"Impressionism",
+					"Portraiture"
+				],
+				"galerio_medium": [
+					"Oil"
+				]
+			},
+			"source": {
+				"url": "https://www.metmuseum.org/art/collection/search/438009",
+				"label": "Metropolitan Museum of Art record"
+			},
+			"image": {
+				"url": "https://images.metmuseum.org/CRDImages/ep/original/DT1927.jpg",
+				"fallback": [
+					"https://images.metmuseum.org/CRDImages/ep/web-large/DT1927.jpg"
+				],
+				"page": "https://www.metmuseum.org/art/collection/search/438009",
+				"licence": "CC0 1.0 (Met Open Access)",
+				"credit": "The Metropolitan Museum of Art, New York. The Walter H. and Leonore Annenberg Collection, Bequest of Walter H. Annenberg, 2002. Accession number 2003.20.8. Open Access, CC0 1.0.",
+				"alt": "The Pink Dress (Albertie-Marguerite Carré, later Madame Ferdinand-Henri Himmes, 1854–1935)"
+			}
+		},
+		{
+			"key": "the-horse-fair",
+			"title": "The Horse Fair",
+			"creator": "bonheur",
+			"related": [
+				"walking-bull"
+			],
+			"fields": {
+				"year": 1852,
+				"year_to": 1855,
+				"medium": "Oil on canvas",
+				"dimensions": "96 1/4 x 199 1/2 in. (244.5 x 506.7 cm)",
+				"location": "The Metropolitan Museum of Art, New York",
+				"description": "<p>A frieze of draught horses in motion at a Paris horse market, painted on a canvas some sixteen feet long.</p><p><small>Source: 1852–55; accession number 87.25, The Metropolitan Museum of Art, New York. Gift of Cornelius Vanderbilt, 1887. Image: public domain (CC0 1.0), Met Open Access.</small></p>"
+			},
+			"terms": {
+				"galerio_label": [
+					"Realism",
+					"Animal art"
+				],
+				"galerio_medium": [
+					"Oil"
+				]
+			},
+			"source": {
+				"url": "https://www.metmuseum.org/art/collection/search/435702",
+				"label": "Metropolitan Museum of Art record"
+			},
+			"image": {
+				"url": "https://images.metmuseum.org/CRDImages/ep/original/DP-23550-001.jpg",
+				"fallback": [
+					"https://images.metmuseum.org/CRDImages/ep/web-large/DP-23550-001.jpg"
+				],
+				"page": "https://www.metmuseum.org/art/collection/search/435702",
+				"licence": "CC0 1.0 (Met Open Access)",
+				"credit": "The Metropolitan Museum of Art, New York. Gift of Cornelius Vanderbilt, 1887. Accession number 87.25. Open Access, CC0 1.0.",
+				"alt": "The Horse Fair"
+			}
+		},
+		{
+			"key": "walking-bull",
+			"title": "Walking Bull",
+			"creator": "bonheur",
+			"related": [
+				"the-horse-fair"
+			],
+			"fields": {
+				"year": 1846,
+				"date_text": "modelled 1846",
+				"medium": "Bronze",
+				"dimensions": "Overall: 6 7/8 × 12 7/16 × 4 3/8 in. (17.5 × 31.6 × 11.1 cm)",
+				"location": "The Metropolitan Museum of Art, New York",
+				"description": "<p>A small bronze of a bull mid-stride: Bonheur is better known for her paintings, but she also modelled animals for casting.</p><p><small>Source: modeled 1846; accession number 52.126.1, The Metropolitan Museum of Art, New York. Gift of the Estate of Mrs. Edward Robinson, 1952. Image: public domain (CC0 1.0), Met Open Access.</small></p>"
+			},
+			"terms": {
+				"galerio_label": [
+					"Realism",
+					"Animal art"
+				],
+				"galerio_medium": [
+					"Bronze"
+				]
+			},
+			"source": {
+				"url": "https://www.metmuseum.org/art/collection/search/201411",
+				"label": "Metropolitan Museum of Art record"
+			},
+			"image": {
+				"url": "https://images.metmuseum.org/CRDImages/es/original/154142.jpg",
+				"fallback": [
+					"https://images.metmuseum.org/CRDImages/es/web-large/154142.jpg"
+				],
+				"page": "https://www.metmuseum.org/art/collection/search/201411",
+				"licence": "CC0 1.0 (Met Open Access)",
+				"credit": "The Metropolitan Museum of Art, New York. Gift of the Estate of Mrs. Edward Robinson, 1952. Accession number 52.126.1. Open Access, CC0 1.0.",
+				"alt": "Walking Bull"
+			}
+		},
+		{
+			"key": "the-musicians",
+			"title": "The Musicians",
+			"creator": "caravaggio",
+			"related": [
+				"the-penitent-magdalen"
+			],
+			"fields": {
+				"year": 1597,
+				"medium": "Oil on canvas",
+				"dimensions": "36 1/4 x 46 5/8 in. (92.1 x 118.4 cm)",
+				"location": "The Metropolitan Museum of Art, New York",
+				"description": "<p>Young musicians tune their instruments in a closely cropped, richly lit scene painted for Cardinal Francesco Maria del Monte.</p><p><small>Source: 1597; accession number 52.81, The Metropolitan Museum of Art, New York. Rogers Fund, 1952. Image: public domain (CC0 1.0), Met Open Access.</small></p>"
+			},
+			"terms": {
+				"galerio_label": [
+					"Baroque"
+				],
+				"galerio_medium": [
+					"Oil"
+				]
+			},
+			"source": {
+				"url": "https://www.metmuseum.org/art/collection/search/435844",
+				"label": "Metropolitan Museum of Art record"
+			},
+			"image": {
+				"url": "https://images.metmuseum.org/CRDImages/ep/original/DP-687-001.jpg",
+				"fallback": [
+					"https://images.metmuseum.org/CRDImages/ep/web-large/DP-687-001.jpg"
+				],
+				"page": "https://www.metmuseum.org/art/collection/search/435844",
+				"licence": "CC0 1.0 (Met Open Access)",
+				"credit": "The Metropolitan Museum of Art, New York. Rogers Fund, 1952. Accession number 52.81. Open Access, CC0 1.0.",
+				"alt": "The Musicians"
+			}
+		},
+		{
+			"key": "the-penitent-magdalen",
+			"title": "The Penitent Magdalen",
+			"creator": "de-la-tour",
+			"related": [
+				"the-musicians"
+			],
+			"fields": {
+				"year": 1640,
+				"date_text": "ca. 1640",
+				"medium": "Oil on canvas",
+				"dimensions": "52 1/2 x 40 1/4 in. (133.4 x 102.2 cm)",
+				"location": "The Metropolitan Museum of Art, New York",
+				"description": "<p>Mary Magdalen meditates by candlelight, the single flame setting the stillness of the scene.</p><p><small>Source: ca. 1640; accession number 1978.517, The Metropolitan Museum of Art, New York. Gift of Mr. and Mrs. Charles Wrightsman, 1978. Image: public domain (CC0 1.0), Met Open Access.</small></p>"
+			},
+			"terms": {
+				"galerio_label": [
+					"Baroque"
+				],
+				"galerio_medium": [
+					"Oil"
+				]
+			},
+			"source": {
+				"url": "https://www.metmuseum.org/art/collection/search/436839",
+				"label": "Metropolitan Museum of Art record"
+			},
+			"image": {
+				"url": "https://images.metmuseum.org/CRDImages/ep/original/DP-27910-001.jpg",
+				"fallback": [
+					"https://images.metmuseum.org/CRDImages/ep/web-large/DP-27910-001.jpg"
+				],
+				"page": "https://www.metmuseum.org/art/collection/search/436839",
+				"licence": "CC0 1.0 (Met Open Access)",
+				"credit": "The Metropolitan Museum of Art, New York. Gift of Mr. and Mrs. Charles Wrightsman, 1978. Accession number 1978.517. Open Access, CC0 1.0.",
+				"alt": "The Penitent Magdalen"
+			}
+		},
+		{
+			"key": "anna-van-der-aar",
+			"title": "Anna van der Aar (born 1576/77, died after 1626)",
+			"creator": "hals",
+			"related": [],
+			"fields": {
+				"year": 1626,
+				"medium": "Oil on wood",
+				"dimensions": "8 3/4 x 6 1/2 in. (22.2 x 16.5 cm)",
+				"location": "The Metropolitan Museum of Art, New York",
+				"description": "<p>A small, lively panel portrait of the wife of the scholar Petrus Scriverius, painted as a companion to his portrait.</p><p><small>Source: 1626; accession number 29.100.9, The Metropolitan Museum of Art, New York. H. O. Havemeyer Collection, Bequest of Mrs. H. O. Havemeyer, 1929. Image: public domain (CC0 1.0), Met Open Access.</small></p>"
+			},
+			"terms": {
+				"galerio_label": [
+					"Dutch Golden Age",
+					"Portraiture"
+				],
+				"galerio_medium": [
+					"Oil"
+				]
+			},
+			"source": {
+				"url": "https://www.metmuseum.org/art/collection/search/436618",
+				"label": "Metropolitan Museum of Art record"
+			},
+			"image": {
+				"url": "https://images.metmuseum.org/CRDImages/ep/original/DP171420.jpg",
+				"fallback": [
+					"https://images.metmuseum.org/CRDImages/ep/web-large/DP171420.jpg"
+				],
+				"page": "https://www.metmuseum.org/art/collection/search/436618",
+				"licence": "CC0 1.0 (Met Open Access)",
+				"credit": "The Metropolitan Museum of Art, New York. H. O. Havemeyer Collection, Bequest of Mrs. H. O. Havemeyer, 1929. Accession number 29.100.9. Open Access, CC0 1.0.",
+				"alt": "Anna van der Aar (born 1576/77, died after 1626)"
+			}
+		},
+		{
+			"key": "soap-bubbles",
+			"title": "Soap Bubbles",
+			"creator": "chardin",
+			"related": [],
+			"fields": {
+				"year": 1733,
+				"year_to": 1734,
+				"date_text": "ca. 1733–34",
+				"medium": "Oil on canvas",
+				"dimensions": "24 x 24 7/8 in. (61 x 63.2 cm)",
+				"location": "The Metropolitan Museum of Art, New York",
+				"description": "<p>A young man leans from a ledge to blow a bubble, a familiar emblem of the brevity of life. Chardin painted several versions.</p><p><small>Source: ca. 1733–34; accession number 49.24, The Metropolitan Museum of Art, New York. Wentworth Fund, 1949. Image: public domain (CC0 1.0), Met Open Access.</small></p>"
+			},
+			"terms": {
+				"galerio_label": [
+					"Rococo"
+				],
+				"galerio_medium": [
+					"Oil"
+				]
+			},
+			"source": {
+				"url": "https://www.metmuseum.org/art/collection/search/435888",
+				"label": "Metropolitan Museum of Art record"
+			},
+			"image": {
+				"url": "https://images.metmuseum.org/CRDImages/ep/original/DP356133.jpg",
+				"fallback": [
+					"https://images.metmuseum.org/CRDImages/ep/web-large/DP356133.jpg"
+				],
+				"page": "https://www.metmuseum.org/art/collection/search/435888",
+				"licence": "CC0 1.0 (Met Open Access)",
+				"credit": "The Metropolitan Museum of Art, New York. Wentworth Fund, 1949. Accession number 49.24. Open Access, CC0 1.0.",
+				"alt": "Soap Bubbles"
+			}
+		},
+		{
+			"key": "mariana-of-austria",
+			"title": "Mariana of Austria (1634–1696), Queen of Spain",
+			"creator": "velazquez",
+			"related": [
+				"madame-x"
+			],
+			"fields": {
+				"medium": "Oil on canvas",
+				"dimensions": "32 1/4 x 39 1/2 in. (81.9 x 100.3 cm)",
+				"location": "The Metropolitan Museum of Art, New York",
+				"description": "<p>Mariana of Austria, second wife of Philip IV and queen of Spain.</p><p><small>Source: ; accession number 89.15.18, The Metropolitan Museum of Art, New York. Marquand Collection, Gift of Henry G. Marquand, 1889. Image: public domain (CC0 1.0), Met Open Access.</small></p>"
+			},
+			"terms": {
+				"galerio_label": [
+					"Baroque",
+					"Portraiture"
+				],
+				"galerio_medium": [
+					"Oil"
+				]
+			},
+			"source": {
+				"url": "https://www.metmuseum.org/art/collection/search/437872",
+				"label": "Metropolitan Museum of Art record"
+			},
+			"image": {
+				"url": "https://images.metmuseum.org/CRDImages/ep/original/DP276130.jpg",
+				"fallback": [
+					"https://images.metmuseum.org/CRDImages/ep/web-large/DP276130.jpg"
+				],
+				"page": "https://www.metmuseum.org/art/collection/search/437872",
+				"licence": "CC0 1.0 (Met Open Access)",
+				"credit": "The Metropolitan Museum of Art, New York. Marquand Collection, Gift of Henry G. Marquand, 1889. Accession number 89.15.18. Open Access, CC0 1.0.",
+				"alt": "Mariana of Austria (1634–1696), Queen of Spain"
+			}
+		},
+		{
+			"key": "the-abduction-of-the-sabine-women",
+			"title": "The Abduction of the Sabine Women",
+			"creator": "poussin",
+			"related": [],
+			"fields": {
+				"year": 1633,
+				"year_to": 1634,
+				"date_text": "probably 1633–34",
+				"medium": "Oil on canvas",
+				"dimensions": "60 7/8 x 82 5/8 in. (154.6 x 209.9 cm)",
+				"location": "The Metropolitan Museum of Art, New York",
+				"description": "<p>The legendary seizure of the Sabine women by the early Romans, staged as a tightly ordered frieze of figures.</p><p><small>Source: probably 1633–34; accession number 46.160, The Metropolitan Museum of Art, New York. Harris Brisbane Dick Fund, 1946. Image: public domain (CC0 1.0), Met Open Access.</small></p>"
+			},
+			"terms": {
+				"galerio_label": [
+					"Baroque",
+					"Neoclassicism"
+				],
+				"galerio_medium": [
+					"Oil"
+				]
+			},
+			"source": {
+				"url": "https://www.metmuseum.org/art/collection/search/437329",
+				"label": "Metropolitan Museum of Art record"
+			},
+			"image": {
+				"url": "https://images.metmuseum.org/CRDImages/ep/original/DP-29324-001.jpg",
+				"fallback": [
+					"https://images.metmuseum.org/CRDImages/ep/web-large/DP-29324-001.jpg"
+				],
+				"page": "https://www.metmuseum.org/art/collection/search/437329",
+				"licence": "CC0 1.0 (Met Open Access)",
+				"credit": "The Metropolitan Museum of Art, New York. Harris Brisbane Dick Fund, 1946. Accession number 46.160. Open Access, CC0 1.0.",
+				"alt": "The Abduction of the Sabine Women"
+			}
+		},
+		{
+			"key": "rubens-helena-fourment-and-their-son",
+			"title": "Rubens, Helena Fourment (1614–1673), and Their Son Frans (1633–1678)",
+			"creator": "rubens",
+			"related": [],
+			"fields": {
+				"year": 1635,
+				"date_text": "ca. 1635",
+				"medium": "Oil on wood",
+				"dimensions": "80 1/4 x 62 1/4 in. (203.8 x 158.1 cm)",
+				"location": "The Metropolitan Museum of Art, New York",
+				"description": "<p>The painter with his second wife Helena Fourment and their son, a rare family portrait.</p><p><small>Source: ca. 1635; accession number 1981.238, The Metropolitan Museum of Art, New York. Gift of Mr. and Mrs. Charles Wrightsman, in honor of Sir John Pope-Hennessy, 1981. Image: public domain (CC0 1.0), Met Open Access.</small></p>"
+			},
+			"terms": {
+				"galerio_label": [
+					"Baroque",
+					"Portraiture"
+				],
+				"galerio_medium": [
+					"Oil"
+				]
+			},
+			"source": {
+				"url": "https://www.metmuseum.org/art/collection/search/437532",
+				"label": "Metropolitan Museum of Art record"
+			},
+			"image": {
+				"url": "https://images.metmuseum.org/CRDImages/ep/original/DP-14286-003.jpg",
+				"fallback": [
+					"https://images.metmuseum.org/CRDImages/ep/web-large/DP-14286-003.jpg"
+				],
+				"page": "https://www.metmuseum.org/art/collection/search/437532",
+				"licence": "CC0 1.0 (Met Open Access)",
+				"credit": "The Metropolitan Museum of Art, New York. Gift of Mr. and Mrs. Charles Wrightsman, in honor of Sir John Pope-Hennessy, 1981. Accession number 1981.238. Open Access, CC0 1.0.",
+				"alt": "Rubens, Helena Fourment (1614–1673), and Their Son Frans (1633–1678)"
+			}
+		},
+		{
+			"key": "madame-cezanne-in-the-conservatory",
+			"title": "Madame Cézanne (Hortense Fiquet, 1850–1922) in the Conservatory",
+			"creator": "cezanne",
+			"related": [],
+			"fields": {
+				"year": 1891,
+				"medium": "Oil on canvas",
+				"dimensions": "36 1/4 x 28 3/4 in. (92.1 x 73 cm)",
+				"location": "The Metropolitan Museum of Art, New York",
+				"description": "<p>One of Cézanne's many portraits of his wife, Hortense Fiquet.</p><p><small>Source: 1891; accession number 61.101.2, The Metropolitan Museum of Art, New York. Bequest of Stephen C. Clark, 1960. Image: public domain (CC0 1.0), Met Open Access.</small></p>"
+			},
+			"terms": {
+				"galerio_label": [
+					"Post-Impressionism",
+					"Portraiture"
+				],
+				"galerio_medium": [
+					"Oil"
+				]
+			},
+			"source": {
+				"url": "https://www.metmuseum.org/art/collection/search/435875",
+				"label": "Metropolitan Museum of Art record"
+			},
+			"image": {
+				"url": "https://images.metmuseum.org/CRDImages/ep/original/DP317780.jpg",
+				"fallback": [
+					"https://images.metmuseum.org/CRDImages/ep/web-large/DP317780.jpg"
+				],
+				"page": "https://www.metmuseum.org/art/collection/search/435875",
+				"licence": "CC0 1.0 (Met Open Access)",
+				"credit": "The Metropolitan Museum of Art, New York. Bequest of Stephen C. Clark, 1960. Accession number 61.101.2. Open Access, CC0 1.0.",
+				"alt": "Madame Cézanne (Hortense Fiquet, 1850–1922) in the Conservatory"
+			}
+		},
+		{
+			"key": "young-girl-bathing",
+			"title": "Young Girl Bathing",
+			"creator": "renoir",
+			"related": [],
+			"fields": {
+				"year": 1892,
+				"medium": "Oil on canvas",
+				"dimensions": "32 x 25 1/2 in. (81.3 x 64.8 cm)",
+				"location": "The Metropolitan Museum of Art, New York",
+				"description": "<p>A bather at the water’s edge, painted in 1892 in Renoir’s later, more sculptural manner.</p><p><small>Source: 1892; accession number 1975.1.199, The Metropolitan Museum of Art, New York. Robert Lehman Collection, 1975. Image: public domain (CC0 1.0), Met Open Access.</small></p>"
+			},
+			"terms": {
+				"galerio_label": [
+					"Impressionism"
+				],
+				"galerio_medium": [
+					"Oil"
+				]
+			},
+			"source": {
+				"url": "https://www.metmuseum.org/art/collection/search/459110",
+				"label": "Metropolitan Museum of Art record"
+			},
+			"image": {
+				"url": "https://images.metmuseum.org/CRDImages/rl/original/DP-17279-001.jpg",
+				"fallback": [
+					"https://images.metmuseum.org/CRDImages/rl/web-large/DP-17279-001.jpg"
+				],
+				"page": "https://www.metmuseum.org/art/collection/search/459110",
+				"licence": "CC0 1.0 (Met Open Access)",
+				"credit": "The Metropolitan Museum of Art, New York. Robert Lehman Collection, 1975. Accession number 1975.1.199. Open Access, CC0 1.0.",
+				"alt": "Young Girl Bathing"
+			}
+		},
+		{
+			"key": "madame-edouard-manet",
+			"title": "Madame Edouard Manet (Suzanne Leenhoff, 1829–1906)",
+			"creator": "manet",
+			"related": [
+				"madame-cezanne-in-the-conservatory"
+			],
+			"fields": {
+				"year": 1873,
+				"date_text": "ca. 1873",
+				"medium": "Oil on canvas",
+				"dimensions": "39 1/2 x 30 7/8 in. (100.3 x 78.4 cm)",
+				"location": "The Metropolitan Museum of Art, New York",
+				"description": "<p>Manet's wife, Suzanne Leenhoff, a Dutch-born pianist.</p><p><small>Source: ca. 1873; accession number 67.187.81, The Metropolitan Museum of Art, New York. Bequest of Miss Adelaide Milton de Groot (1876-1967), 1967. Image: public domain (CC0 1.0), Met Open Access.</small></p>"
+			},
+			"terms": {
+				"galerio_label": [
+					"Realism",
+					"Portraiture"
+				],
+				"galerio_medium": [
+					"Oil"
+				]
+			},
+			"source": {
+				"url": "https://www.metmuseum.org/art/collection/search/436957",
+				"label": "Metropolitan Museum of Art record"
+			},
+			"image": {
+				"url": "https://images.metmuseum.org/CRDImages/ep/original/DP-17058-001.jpg",
+				"fallback": [
+					"https://images.metmuseum.org/CRDImages/ep/web-large/DP-17058-001.jpg"
+				],
+				"page": "https://www.metmuseum.org/art/collection/search/436957",
+				"licence": "CC0 1.0 (Met Open Access)",
+				"credit": "The Metropolitan Museum of Art, New York. Bequest of Miss Adelaide Milton de Groot (1876-1967), 1967. Accession number 67.187.81. Open Access, CC0 1.0.",
+				"alt": "Madame Edouard Manet (Suzanne Leenhoff, 1829–1906)"
+			}
+		},
+		{
+			"key": "study-in-the-nude-for-the-little-fourteen-year-old-dancer",
+			"title": "Study in the Nude for The Little Fourteen-Year-Old Dancer",
+			"creator": "degas",
+			"related": [],
+			"fields": {
+				"year": 1878,
+				"year_to": 1880,
+				"date_text": "modelled ca. 1878–80, cast 1920",
+				"medium": "Bronze",
+				"dimensions": "28-1/2 x 13-11/16 x 12-1/4 in.  (72.4 x 34.8 x 31.1 cm.)",
+				"location": "The Metropolitan Museum of Art, New York",
+				"description": "<p>A preparatory nude study for the only sculpture Degas showed in his lifetime. The bronzes were cast after his death.</p><p><small>Source: modeled ca. 1878–80, cast 1920; accession number 29.100.373, The Metropolitan Museum of Art, New York. H.O. Havemeyer Collection, Bequest of Mrs. H.O. Havemeyer, 1929. Image: public domain (CC0 1.0), Met Open Access.</small></p>"
+			},
+			"terms": {
+				"galerio_label": [
+					"Impressionism"
+				],
+				"galerio_medium": [
+					"Bronze"
+				]
+			},
+			"source": {
+				"url": "https://www.metmuseum.org/art/collection/search/196442",
+				"label": "Metropolitan Museum of Art record"
+			},
+			"image": {
+				"url": "https://images.metmuseum.org/CRDImages/es/original/ES7551.jpg",
+				"fallback": [
+					"https://images.metmuseum.org/CRDImages/es/web-large/ES7551.jpg"
+				],
+				"page": "https://www.metmuseum.org/art/collection/search/196442",
+				"licence": "CC0 1.0 (Met Open Access)",
+				"credit": "The Metropolitan Museum of Art, New York. H.O. Havemeyer Collection, Bequest of Mrs. H.O. Havemeyer, 1929. Accession number 29.100.373. Open Access, CC0 1.0.",
+				"alt": "Study in the Nude for The Little Fourteen-Year-Old Dancer"
+			}
+		},
+		{
+			"key": "portrait-of-a-prelate",
+			"title": "Portrait of a Prelate",
+			"creator": "fontana",
+			"related": [],
+			"fields": {
+				"year": 1580,
+				"date_text": "ca. 1580",
+				"medium": "Oil on copper",
+				"dimensions": "Diameter 5 1/2 in. (14 cm)",
+				"location": "The Metropolitan Museum of Art, New York",
+				"description": "<p>A small, precise portrait on copper by one of the first women to work as a professional painter in Europe.</p><p><small>Source: ca. 1580; accession number 62.122.141, The Metropolitan Museum of Art, New York. Bequest of Millie Bruhl Fredrick, 1962. Image: public domain (CC0 1.0), Met Open Access.</small></p>"
+			},
+			"terms": {
+				"galerio_label": [
+					"Renaissance",
+					"Portraiture"
+				],
+				"galerio_medium": [
+					"Oil"
+				]
+			},
+			"source": {
+				"url": "https://www.metmuseum.org/art/collection/search/436310",
+				"label": "Metropolitan Museum of Art record"
+			},
+			"image": {
+				"url": "https://images.metmuseum.org/CRDImages/ep/original/DP-26943-001.jpg",
+				"fallback": [
+					"https://images.metmuseum.org/CRDImages/ep/web-large/DP-26943-001.jpg"
+				],
+				"page": "https://www.metmuseum.org/art/collection/search/436310",
+				"licence": "CC0 1.0 (Met Open Access)",
+				"credit": "The Metropolitan Museum of Art, New York. Bequest of Millie Bruhl Fredrick, 1962. Accession number 62.122.141. Open Access, CC0 1.0.",
+				"alt": "Portrait of a Prelate"
+			}
+		},
+		{
+			"key": "madame-x",
+			"title": "Madame X (Virginie Amélie Avegno Gautreau)",
+			"creator": "sargent",
+			"related": [
+				"madame-grand",
+				"mariana-of-austria"
+			],
+			"fields": {
+				"year": 1883,
+				"year_to": 1884,
+				"medium": "Oil on canvas",
+				"dimensions": "82 1/8 × 43 1/4 in. (208.6 × 109.9 cm); Framed: 95 3/4 × 56 5/8 × 5 in. (243.2 × 143.8 × 12.7 cm)",
+				"location": "The Metropolitan Museum of Art, New York",
+				"description": "<p>The society beauty Virginie Gautreau, whose plunging black gown caused a scandal when the portrait was shown in Paris in 1884.</p><p><small>Source: 1883–84; accession number 16.53, The Metropolitan Museum of Art, New York. Arthur Hoppock Hearn Fund, 1916. Image: public domain (CC0 1.0), Met Open Access.</small></p>"
+			},
+			"terms": {
+				"galerio_label": [
+					"Portraiture"
+				],
+				"galerio_medium": [
+					"Oil"
+				]
+			},
+			"source": {
+				"url": "https://www.metmuseum.org/art/collection/search/12127",
+				"label": "Metropolitan Museum of Art record"
+			},
+			"image": {
+				"url": "https://images.metmuseum.org/CRDImages/ad/original/DP-29006-001.jpg",
+				"fallback": [
+					"https://images.metmuseum.org/CRDImages/ad/web-large/DP-29006-001.jpg"
+				],
+				"page": "https://www.metmuseum.org/art/collection/search/12127",
+				"licence": "CC0 1.0 (Met Open Access)",
+				"credit": "The Metropolitan Museum of Art, New York. Arthur Hoppock Hearn Fund, 1916. Accession number 16.53. Open Access, CC0 1.0.",
+				"alt": "Madame X (Virginie Amélie Avegno Gautreau)"
+			}
+		},
+		{
+			"key": "the-gulf-stream",
+			"title": "The Gulf Stream",
+			"creator": "homer",
+			"related": [
+				"under-the-wave-off-kanagawa"
+			],
+			"fields": {
+				"year": 1899,
+				"date_text": "1899; reworked by 1906",
+				"medium": "Oil on canvas",
+				"dimensions": "28 1/8 x 49 1/8 in. (71.4 x 124.8 cm); Framed: 42 5/16 x 62 11/16 x 5 7/8 in. (107.5 x 159.3 x 15 cm)",
+				"location": "The Metropolitan Museum of Art, New York",
+				"description": "<p>A sailor adrift on a battered boat among sharks, with a waterspout on the horizon; Homer reworked it after it was criticised.</p><p><small>Source: 1899; reworked by 1906; accession number 06.1234, The Metropolitan Museum of Art, New York. Catharine Lorillard Wolfe Collection, Wolfe Fund, 1906. Image: public domain (CC0 1.0), Met Open Access.</small></p>"
+			},
+			"terms": {
+				"galerio_label": [
+					"Realism"
+				],
+				"galerio_medium": [
+					"Oil"
+				]
+			},
+			"source": {
+				"url": "https://www.metmuseum.org/art/collection/search/11122",
+				"label": "Metropolitan Museum of Art record"
+			},
+			"image": {
+				"url": "https://images.metmuseum.org/CRDImages/ad/original/DP-20821-001.jpg",
+				"fallback": [
+					"https://images.metmuseum.org/CRDImages/ad/web-large/DP-20821-001.jpg"
+				],
+				"page": "https://www.metmuseum.org/art/collection/search/11122",
+				"licence": "CC0 1.0 (Met Open Access)",
+				"credit": "The Metropolitan Museum of Art, New York. Catharine Lorillard Wolfe Collection, Wolfe Fund, 1906. Accession number 06.1234. Open Access, CC0 1.0.",
+				"alt": "The Gulf Stream"
+			}
+		},
+		{
+			"key": "vivien-and-merlin",
+			"title": "Vivien and Merlin",
+			"creator": "cameron",
+			"related": [
+				"gathering-water-lilies"
+			],
+			"fields": {
+				"year": 1874,
+				"medium": "Albumen silver print from glass negative",
+				"dimensions": "30.4 x 25.3 cm (11 15/16 x 9 15/16 in. )",
+				"location": "The Metropolitan Museum of Art, New York",
+				"description": "<p>A staged scene from Tennyson's Idylls of the King, made with friends and household members as models.</p><p><small>Source: 1874; accession number 52.524.3.5, The Metropolitan Museum of Art, New York. David Hunter McAlpin Fund, 1952. Image: public domain (CC0 1.0), Met Open Access.</small></p>"
+			},
+			"terms": {
+				"galerio_label": [
+					"Early photography"
+				],
+				"galerio_medium": [
+					"Albumen print"
+				]
+			},
+			"source": {
+				"url": "https://www.metmuseum.org/art/collection/search/282118",
+				"label": "Metropolitan Museum of Art record"
+			},
+			"image": {
+				"url": "https://images.metmuseum.org/CRDImages/ph/original/DP158292.jpg",
+				"fallback": [
+					"https://images.metmuseum.org/CRDImages/ph/web-large/DP158292.jpg"
+				],
+				"page": "https://www.metmuseum.org/art/collection/search/282118",
+				"licence": "CC0 1.0 (Met Open Access)",
+				"credit": "The Metropolitan Museum of Art, New York. David Hunter McAlpin Fund, 1952. Accession number 52.524.3.5. Open Access, CC0 1.0.",
+				"alt": "Vivien and Merlin"
+			}
+		},
+		{
+			"key": "attitudes-of-animals-in-motion",
+			"title": "Attitudes of Animals in Motion",
+			"creator": "muybridge",
+			"related": [
+				"the-horse-fair"
+			],
+			"fields": {
+				"year": 1879,
+				"date_text": "1879, printed 1881",
+				"medium": "Albumen silver print",
+				"dimensions": "Image: 6 5/16 × 9 15/16 in. (16 × 25.3 cm); Mount: 8 13/16 × 12 5/8 in. (22.4 × 32 cm)",
+				"location": "The Metropolitan Museum of Art, New York",
+				"description": "<p>A plate from Muybridge's motion studies, in which a row of cameras captured the stages of an animal's movement.</p><p><small>Source: 1879, printed 1881; accession number 2015.778.33, The Metropolitan Museum of Art, New York. Gift of Joyce F. Menschel, 2015. Image: public domain (CC0 1.0), Met Open Access.</small></p>"
+			},
+			"terms": {
+				"galerio_label": [
+					"Early photography",
+					"Animal art"
+				],
+				"galerio_medium": [
+					"Albumen print"
+				]
+			},
+			"source": {
+				"url": "https://www.metmuseum.org/art/collection/search/700109",
+				"label": "Metropolitan Museum of Art record"
+			},
+			"image": {
+				"url": "https://images.metmuseum.org/CRDImages/ph/original/DP-2597-211.jpg",
+				"fallback": [
+					"https://images.metmuseum.org/CRDImages/ph/web-large/DP-2597-211.jpg"
+				],
+				"page": "https://www.metmuseum.org/art/collection/search/700109",
+				"licence": "CC0 1.0 (Met Open Access)",
+				"credit": "The Metropolitan Museum of Art, New York. Gift of Joyce F. Menschel, 2015. Accession number 2015.778.33. Open Access, CC0 1.0.",
+				"alt": "Attitudes of Animals in Motion"
+			}
+		},
+		{
+			"key": "gathering-water-lilies",
+			"title": "Gathering Water-Lilies",
+			"creator": "emerson",
+			"related": [
+				"vivien-and-merlin"
+			],
+			"fields": {
+				"year": 1886,
+				"medium": "Platinum print from glass negative",
+				"dimensions": "Image: 19.7 x 29.2 cm (7 3/4 x 11 1/2 in.); Mount: 28.5 x 40.9 cm (11 1/4 x 16 1/8 in.); Sheet ((Interleaving Plate Sheet)): 28.1 x 40.6 cm (11 1/16 x 16 in.)",
+				"location": "The Metropolitan Museum of Art, New York",
+				"description": "<p>A naturalistic photograph of rural life on the Norfolk Broads, made with the soft focus Emerson championed.</p><p><small>Source: 1886; accession number 2005.100.741, The Metropolitan Museum of Art, New York. Gilman Collection, Purchase, Mrs. Walter Annenberg and The Annenberg Foundation Gift, 2005. Image: public domain (CC0 1.0), Met Open Access.</small></p>"
+			},
+			"terms": {
+				"galerio_label": [
+					"Pictorialism"
+				],
+				"galerio_medium": [
+					"Platinum print"
+				]
+			},
+			"source": {
+				"url": "https://www.metmuseum.org/art/collection/search/286671",
+				"label": "Metropolitan Museum of Art record"
+			},
+			"image": {
+				"url": "https://images.metmuseum.org/CRDImages/ph/original/DP138139.jpg",
+				"fallback": [
+					"https://images.metmuseum.org/CRDImages/ph/web-large/DP138139.jpg"
+				],
+				"page": "https://www.metmuseum.org/art/collection/search/286671",
+				"licence": "CC0 1.0 (Met Open Access)",
+				"credit": "The Metropolitan Museum of Art, New York. Gilman Collection, Purchase, Mrs. Walter Annenberg and The Annenberg Foundation Gift, 2005. Accession number 2005.100.741. Open Access, CC0 1.0.",
+				"alt": "Gathering Water-Lilies"
+			}
+		},
+		{
+			"key": "under-the-wave-off-kanagawa",
+			"title": "Under the Wave off Kanagawa (Kanagawa oki nami ura), or The Great Wave, from the series Thirty-six Views of Mount Fuji (Fugaku sanjūrokkei)",
+			"creator": "hokusai",
+			"related": [
+				"sudden-shower-over-shin-ohashi-bridge"
+			],
+			"fields": {
+				"year": 1830,
+				"year_to": 1832,
+				"date_text": "ca. 1830–32",
+				"medium": "Woodblock print; ink and color on paper",
+				"dimensions": "10 x 15 in. (25.4 x 38.1 cm)",
+				"location": "The Metropolitan Museum of Art, New York",
+				"description": "<p>Known as The Great Wave, from the series Thirty-six Views of Mount Fuji.</p><p><small>Source: ca. 1830–32; accession number JP2569, The Metropolitan Museum of Art, New York. The Howard Mansfield Collection, Purchase, Rogers Fund, 1936. Image: public domain (CC0 1.0), Met Open Access.</small></p>"
+			},
+			"terms": {
+				"galerio_label": [
+					"Ukiyo-e"
+				],
+				"galerio_medium": [
+					"Woodblock"
+				]
+			},
+			"source": {
+				"url": "https://www.metmuseum.org/art/collection/search/39799",
+				"label": "Metropolitan Museum of Art record"
+			},
+			"image": {
+				"url": "https://images.metmuseum.org/CRDImages/as/original/DP141042.jpg",
+				"fallback": [
+					"https://images.metmuseum.org/CRDImages/as/web-large/DP141042.jpg"
+				],
+				"page": "https://www.metmuseum.org/art/collection/search/39799",
+				"licence": "CC0 1.0 (Met Open Access)",
+				"credit": "The Metropolitan Museum of Art, New York. The Howard Mansfield Collection, Purchase, Rogers Fund, 1936. Accession number JP2569. Open Access, CC0 1.0.",
+				"alt": "Under the Wave off Kanagawa (Kanagawa oki nami ura), or The Great Wave, from the series Thirty-six Views of Mount Fuji (Fugaku sanjūrokkei)"
+			}
+		},
+		{
+			"key": "sudden-shower-over-shin-ohashi-bridge",
+			"title": "Sudden Shower over Shin-Ōhashi Bridge and Atake (Ōhashi Atake no yūdachi), from the series One Hundred Famous Views of Edo (Meisho Edo hyakkei)",
+			"creator": "hiroshige",
+			"related": [
+				"under-the-wave-off-kanagawa"
+			],
+			"fields": {
+				"year": 1857,
+				"medium": "Woodblock print; ink and color on paper",
+				"dimensions": "Oban 13 3/8 x 9 1/2 in. (34 x 24.1 cm)",
+				"location": "The Metropolitan Museum of Art, New York",
+				"description": "<p>Pedestrians hurry across a bridge in a downpour. Van Gogh made an oil copy of this design.</p><p><small>Source: 1857; accession number JP2522, The Metropolitan Museum of Art, New York. The Howard Mansfield Collection, Purchase, Rogers Fund, 1936. Image: public domain (CC0 1.0), Met Open Access.</small></p>"
+			},
+			"terms": {
+				"galerio_label": [
+					"Ukiyo-e"
+				],
+				"galerio_medium": [
+					"Woodblock"
+				]
+			},
+			"source": {
+				"url": "https://www.metmuseum.org/art/collection/search/55433",
+				"label": "Metropolitan Museum of Art record"
+			},
+			"image": {
+				"url": "https://images.metmuseum.org/CRDImages/as/original/DP130156.jpg",
+				"fallback": [
+					"https://images.metmuseum.org/CRDImages/as/web-large/DP130156.jpg"
+				],
+				"page": "https://www.metmuseum.org/art/collection/search/55433",
+				"licence": "CC0 1.0 (Met Open Access)",
+				"credit": "The Metropolitan Museum of Art, New York. The Howard Mansfield Collection, Purchase, Rogers Fund, 1936. Accession number JP2522. Open Access, CC0 1.0.",
+				"alt": "Sudden Shower over Shin-Ōhashi Bridge and Atake (Ōhashi Atake no yūdachi), from the series One Hundred Famous Views of Edo (Meisho Edo hyakkei)"
+			}
+		},
+		{
+			"key": "woman-relaxing-after-her-bath",
+			"title": "Woman Relaxing after Her Bath",
+			"creator": "utamaro",
+			"related": [],
+			"fields": {
+				"year": 1790,
+				"year_to": 1799,
+				"date_text": "1790s",
+				"medium": "Woodblock print; ink and color on paper",
+				"dimensions": "H. 14 5/8 in. (37.1 cm); W. 9 5/8 in. (24.4 cm)",
+				"location": "The Metropolitan Museum of Art, New York",
+				"description": "<p>A bijin-ga, or portrait of a beauty, by the printmaker who made the genre his own.</p><p><small>Source: 1790s; accession number JP144, The Metropolitan Museum of Art, New York. Rogers Fund, 1914. Image: public domain (CC0 1.0), Met Open Access.</small></p>"
+			},
+			"terms": {
+				"galerio_label": [
+					"Ukiyo-e",
+					"Portraiture"
+				],
+				"galerio_medium": [
+					"Woodblock"
+				]
+			},
+			"source": {
+				"url": "https://www.metmuseum.org/art/collection/search/36623",
+				"label": "Metropolitan Museum of Art record"
+			},
+			"image": {
+				"url": "https://images.metmuseum.org/CRDImages/as/original/DP135573.jpg",
+				"fallback": [
+					"https://images.metmuseum.org/CRDImages/as/web-large/DP135573.jpg"
+				],
+				"page": "https://www.metmuseum.org/art/collection/search/36623",
+				"licence": "CC0 1.0 (Met Open Access)",
+				"credit": "The Metropolitan Museum of Art, New York. Rogers Fund, 1914. Accession number JP144. Open Access, CC0 1.0.",
+				"alt": "Woman Relaxing after Her Bath"
+			}
+		},
+		{
+			"key": "ochanomizu-in-the-rain",
+			"title": "Ochanomizu in the Rain",
+			"creator": "kuniyoshi",
+			"related": [
+				"sudden-shower-over-shin-ohashi-bridge"
+			],
+			"fields": {
+				"date_text": "mid-19th century",
+				"medium": "Woodblock print; ink and color on paper",
+				"dimensions": "H. 10 1/4 in. (26 cm); W. 13 3/4 in. (34.9 cm)",
+				"location": "The Metropolitan Museum of Art, New York",
+				"description": "<p>A rainy-day view of Ochanomizu in Edo, now Tokyo.</p><p><small>Source: mid-19th century; accession number JP2633, The Metropolitan Museum of Art, New York. The Howard Mansfield Collection, Purchase, Rogers Fund, 1936. Image: public domain (CC0 1.0), Met Open Access.</small></p>"
+			},
+			"terms": {
+				"galerio_label": [
+					"Ukiyo-e"
+				],
+				"galerio_medium": [
+					"Woodblock"
+				]
+			},
+			"source": {
+				"url": "https://www.metmuseum.org/art/collection/search/51084",
+				"label": "Metropolitan Museum of Art record"
+			},
+			"image": {
+				"url": "https://images.metmuseum.org/CRDImages/as/original/DP124469.jpg",
+				"fallback": [
+					"https://images.metmuseum.org/CRDImages/as/web-large/DP124469.jpg"
+				],
+				"page": "https://www.metmuseum.org/art/collection/search/51084",
+				"licence": "CC0 1.0 (Met Open Access)",
+				"credit": "The Metropolitan Museum of Art, New York. The Howard Mansfield Collection, Purchase, Rogers Fund, 1936. Accession number JP2633. Open Access, CC0 1.0.",
+				"alt": "Ochanomizu in the Rain"
+			}
+		},
+		{
+			"key": "bamboo-in-a-spring-thunderstorm",
+			"title": "Bamboo in a spring thunderstorm",
+			"creator": "tang-yin",
+			"related": [],
+			"fields": {
+				"date_text": "17th century",
+				"medium": "Folding fan mounted as an album leaf; ink on gold-flecked paper",
+				"dimensions": "6 13/16 x 19 5/8 in. (17.3 x 49.8 cm)",
+				"location": "The Metropolitan Museum of Art, New York",
+				"description": "<p>Bamboo bending in a storm, brushed in ink on a folding fan later mounted as an album leaf.</p><p><small>Source: 17th century; accession number 1988.394.1, The Metropolitan Museum of Art, New York. Edward Elliott Family Collection, Douglas Dillon Gift, 1988. Image: public domain (CC0 1.0), Met Open Access.</small></p>"
+			},
+			"terms": {
+				"galerio_label": [
+					"Ming dynasty"
+				],
+				"galerio_medium": [
+					"Ink and watercolour"
+				]
+			},
+			"source": {
+				"url": "https://www.metmuseum.org/art/collection/search/44573",
+				"label": "Metropolitan Museum of Art record"
+			},
+			"image": {
+				"url": "https://images.metmuseum.org/CRDImages/as/original/DP153567.jpg",
+				"fallback": [
+					"https://images.metmuseum.org/CRDImages/as/web-large/DP153567.jpg"
+				],
+				"page": "https://www.metmuseum.org/art/collection/search/44573",
+				"licence": "CC0 1.0 (Met Open Access)",
+				"credit": "The Metropolitan Museum of Art, New York. Edward Elliott Family Collection, Douglas Dillon Gift, 1988. Accession number 1988.394.1. Open Access, CC0 1.0.",
+				"alt": "Bamboo in a spring thunderstorm"
+			}
+		},
+		{
+			"key": "maebyeong-with-lotus-decoration",
+			"title": "Maebyeong with lotus decoration",
+			"creator": "goryeo-potters",
+			"related": [],
+			"fields": {
+				"date_text": "late 11th–early 12th century",
+				"medium": "Stoneware with carved and incised design under celadon glaze",
+				"dimensions": "H. 13 13/16 in. (35.1 cm); Diam. 8 13/16 in. (22.4 cm)",
+				"location": "The Metropolitan Museum of Art, New York",
+				"description": "<p>A maebyeong, the narrow-necked vase form made for plum branches, with carved and incised lotus under a celadon glaze.</p><p><small>Source: late 11th–early 12th century; accession number 27.119.1, The Metropolitan Museum of Art, New York. Fletcher Fund, 1927. Image: public domain (CC0 1.0), Met Open Access.</small></p>"
+			},
+			"terms": {
+				"galerio_label": [
+					"Goryeo"
+				],
+				"galerio_medium": [
+					"Stoneware"
+				]
+			},
+			"source": {
+				"url": "https://www.metmuseum.org/art/collection/search/42278",
+				"label": "Metropolitan Museum of Art record"
+			},
+			"image": {
+				"url": "https://images.metmuseum.org/CRDImages/as/original/DP254506.jpg",
+				"fallback": [
+					"https://images.metmuseum.org/CRDImages/as/web-large/DP254506.jpg"
+				],
+				"page": "https://www.metmuseum.org/art/collection/search/42278",
+				"licence": "CC0 1.0 (Met Open Access)",
+				"credit": "The Metropolitan Museum of Art, New York. Fletcher Fund, 1927. Accession number 27.119.1. Open Access, CC0 1.0.",
+				"alt": "Maebyeong with lotus decoration"
+			}
+		},
+		{
+			"key": "prince-and-ladies-in-a-garden",
+			"title": "Prince and Ladies in a Garden",
+			"creator": "nidha-mal",
+			"related": [
+				"a-gathering-of-holy-men-of-different-faiths"
+			],
+			"fields": {
+				"date_text": "mid-18th century",
+				"medium": "Ink, opaque watercolor, and gold on paper",
+				"dimensions": "H. 10 5/8 in. (27 cm); W. 7 3/8 in. (18.7 cm)",
+				"location": "The Metropolitan Museum of Art, New York",
+				"description": "<p>A prince and his ladies at leisure in a garden, in ink, opaque watercolour and gold.</p><p><small>Source: mid-18th century; accession number 2001.302, The Metropolitan Museum of Art, New York. Cynthia Hazen Polsky and Leon B. Polsky Fund, 2001. Image: public domain (CC0 1.0), Met Open Access.</small></p>"
+			},
+			"terms": {
+				"galerio_label": [
+					"Mughal"
+				],
+				"galerio_medium": [
+					"Ink and watercolour"
+				]
+			},
+			"source": {
+				"url": "https://www.metmuseum.org/art/collection/search/454049",
+				"label": "Metropolitan Museum of Art record"
+			},
+			"image": {
+				"url": "https://images.metmuseum.org/CRDImages/is/original/DP246522.jpg",
+				"fallback": [
+					"https://images.metmuseum.org/CRDImages/is/web-large/DP246522.jpg"
+				],
+				"page": "https://www.metmuseum.org/art/collection/search/454049",
+				"licence": "CC0 1.0 (Met Open Access)",
+				"credit": "The Metropolitan Museum of Art, New York. Cynthia Hazen Polsky and Leon B. Polsky Fund, 2001. Accession number 2001.302. Open Access, CC0 1.0.",
+				"alt": "Prince and Ladies in a Garden"
+			}
+		},
+		{
+			"key": "a-gathering-of-holy-men-of-different-faiths",
+			"title": "A Gathering of Holy Men of Different Faiths",
+			"creator": "mir-kalan-khan",
+			"related": [
+				"prince-and-ladies-in-a-garden"
+			],
+			"fields": {
+				"year": 1770,
+				"year_to": 1775,
+				"date_text": "ca. 1770–75",
+				"medium": "Opaque watercolor and gold on paper",
+				"dimensions": "H. 10 1/2 in. (26.7 cm); W. 7 1/2 in. (19.1 cm)",
+				"location": "The Metropolitan Museum of Art, New York",
+				"description": "<p>Holy men of different faiths gathered in one meditative scene.</p><p><small>Source: ca. 1770–75; accession number 2009.318, The Metropolitan Museum of Art, New York. Purchase, Friends of Islamic Art Gifts, 2009. Image: public domain (CC0 1.0), Met Open Access.</small></p>"
+			},
+			"terms": {
+				"galerio_label": [
+					"Mughal"
+				],
+				"galerio_medium": [
+					"Ink and watercolour"
+				]
+			},
+			"source": {
+				"url": "https://www.metmuseum.org/art/collection/search/456967",
+				"label": "Metropolitan Museum of Art record"
+			},
+			"image": {
+				"url": "https://images.metmuseum.org/CRDImages/is/original/DP213133.jpg",
+				"fallback": [
+					"https://images.metmuseum.org/CRDImages/is/web-large/DP213133.jpg"
+				],
+				"page": "https://www.metmuseum.org/art/collection/search/456967",
+				"licence": "CC0 1.0 (Met Open Access)",
+				"credit": "The Metropolitan Museum of Art, New York. Purchase, Friends of Islamic Art Gifts, 2009. Accession number 2009.318. Open Access, CC0 1.0.",
+				"alt": "A Gathering of Holy Men of Different Faiths"
+			}
+		},
+		{
+			"key": "solanki-raga",
+			"title": "\"Solanki Raga\", Folio from a Ragamala",
+			"creator": "deccan-painters",
+			"related": [
+				"bahram-gur-hunting-with-azada"
+			],
+			"fields": {
+				"year": 1590,
+				"date_text": "ca. 1590",
+				"medium": "Ink and opaque watercolor on paper",
+				"dimensions": "H. 8 3/4 in. (22.3 cm); W. 10 15/16 in. (27.8 cm)",
+				"location": "The Metropolitan Museum of Art, New York",
+				"description": "<p>A folio from a Ragamala, a set of paintings that picture musical modes as scenes and characters.</p><p><small>Source: ca. 1590; accession number 1972.285.1, The Metropolitan Museum of Art, New York. Rogers Fund, 1972. Image: public domain (CC0 1.0), Met Open Access.</small></p>"
+			},
+			"terms": {
+				"galerio_label": [
+					"Deccan"
+				],
+				"galerio_medium": [
+					"Manuscript illumination"
+				]
+			},
+			"source": {
+				"url": "https://www.metmuseum.org/art/collection/search/452418",
+				"label": "Metropolitan Museum of Art record"
+			},
+			"image": {
+				"url": "https://images.metmuseum.org/CRDImages/is/original/DP241348.jpg",
+				"fallback": [
+					"https://images.metmuseum.org/CRDImages/is/web-large/DP241348.jpg"
+				],
+				"page": "https://www.metmuseum.org/art/collection/search/452418",
+				"licence": "CC0 1.0 (Met Open Access)",
+				"credit": "The Metropolitan Museum of Art, New York. Rogers Fund, 1972. Accession number 1972.285.1. Open Access, CC0 1.0.",
+				"alt": "\"Solanki Raga\", Folio from a Ragamala"
+			}
+		},
+		{
+			"key": "durbar-of-emperor-akbar-shah-ii",
+			"title": "Durbar of Emperor Akbar Shah II",
+			"creator": "mughal-court-painters",
+			"related": [
+				"prince-and-ladies-in-a-garden"
+			],
+			"fields": {
+				"year": 1820,
+				"year_to": 1830,
+				"medium": "Opaque color and gold on paper",
+				"dimensions": "Image: 29 5/8 × 24 5/16 in. (75.2 × 61.8 cm); Frame: 36 × 30 1/2 × 1 in. (66 × 77.5 × 2.5 cm)",
+				"location": "The Metropolitan Museum of Art, New York",
+				"description": "<p>A court scene (durbar) of Akbar Shah II, the penultimate Mughal emperor.</p><p><small>Source: 1820–30; accession number 2022.196, The Metropolitan Museum of Art, New York. Howard Hodgkin Collection, Purchase, Florence and Herbert Irving Acquisitions, Harris Brisbane Dick, and 2020 Benefit Funds; Howard S. and Nancy Marks, Lila Acheson Wallace, and Friends of Islamic Art Gifts; Louis V. Bell, Harris Brisbane Dick, Fletcher, and Rogers Funds and Joseph Pulitzer Bequest; and funds from various donors, 2022. Image: public domain (CC0 1.0), Met Open Access.</small></p>"
+			},
+			"terms": {
+				"galerio_label": [
+					"Mughal"
+				],
+				"galerio_medium": [
+					"Ink and watercolour"
+				]
+			},
+			"source": {
+				"url": "https://www.metmuseum.org/art/collection/search/825637",
+				"label": "Metropolitan Museum of Art record"
+			},
+			"image": {
+				"url": "https://images.metmuseum.org/CRDImages/is/original/DP-32112-001.jpg",
+				"fallback": [
+					"https://images.metmuseum.org/CRDImages/is/web-large/DP-32112-001.jpg"
+				],
+				"page": "https://www.metmuseum.org/art/collection/search/825637",
+				"licence": "CC0 1.0 (Met Open Access)",
+				"credit": "The Metropolitan Museum of Art, New York. Howard Hodgkin Collection, Purchase, Florence and Herbert Irving Acquisitions, Harris Brisbane Dick, and 2020 Benefit Funds; Howard S. and Nancy Marks, Lila Acheson Wallace, and Friends of Islamic Art Gifts; Louis V. Bell, Harris Brisbane Dick, Fletcher, and Rogers Funds and Joseph Pulitzer Bequest; and funds from various donors, 2022. Accession number 2022.196. Open Access, CC0 1.0.",
+				"alt": "Durbar of Emperor Akbar Shah II"
+			}
+		},
+		{
+			"key": "bahram-gur-hunting-with-azada",
+			"title": "\"Bahram Gur Hunting with Azada\", Folio from a Shahnama (Book of Kings)",
+			"creator": "firdausi",
+			"related": [
+				"solanki-raga"
+			],
+			"fields": {
+				"year": 1352,
+				"date_text": "dated 753 AH/1352 CE",
+				"medium": "Ink, opaque watercolor, and gold on paper",
+				"dimensions": "Painting: H. 3 3/16 in. (8.1 cm);                  W. 6 in. (15.2 cm); Page: H. 11 1/2 in. (29.2 cm);           W. 8 5/16 in. (21.1 cm); Mat: H. 19 1/4 in. (48.9 cm);         W. 14 1/4 in. (36.2 cm)",
+				"location": "The Metropolitan Museum of Art, New York",
+				"description": "<p>The Sasanian king Bahram Gur hunts with his companion Azada, an episode from Firdausi's Shahnama, the Persian Book of Kings.</p><p><small>Source: dated 753 AH/1352 CE; accession number 57.51.32, The Metropolitan Museum of Art, New York. Cora Timken Burnett Collection of Persian Miniatures and Other Persian Art Objects, Bequest of Cora Timken Burnett, 1956. Image: public domain (CC0 1.0), Met Open Access.</small></p>"
+			},
+			"terms": {
+				"galerio_label": [
+					"Persian"
+				],
+				"galerio_medium": [
+					"Manuscript illumination"
+				]
+			},
+			"source": {
+				"url": "https://www.metmuseum.org/art/collection/search/451411",
+				"label": "Metropolitan Museum of Art record"
+			},
+			"image": {
+				"url": "https://images.metmuseum.org/CRDImages/is/original/DT200631.jpg",
+				"fallback": [
+					"https://images.metmuseum.org/CRDImages/is/web-large/DT200631.jpg"
+				],
+				"page": "https://www.metmuseum.org/art/collection/search/451411",
+				"licence": "CC0 1.0 (Met Open Access)",
+				"credit": "The Metropolitan Museum of Art, New York. Cora Timken Burnett Collection of Persian Miniatures and Other Persian Art Objects, Bequest of Cora Timken Burnett, 1956. Accession number 57.51.32. Open Access, CC0 1.0.",
+				"alt": "\"Bahram Gur Hunting with Azada\", Folio from a Shahnama (Book of Kings)"
+			}
+		},
+		{
+			"key": "the-anhalt-medallion-carpet",
+			"title": "The Anhalt Medallion Carpet",
+			"creator": "persian-carpet-weavers",
+			"related": [],
+			"fields": {
+				"date_text": "probably first half 16th century",
+				"medium": "Cotton (warp), silk (weft), wool (pile); asymmetrically knotted pile",
+				"dimensions": "Rug: ;          H. 312 in. (792.5 cm);          W. 165 in. (419.1 cm);          Wt. on 8\" tube - 184 lbs. (83.5 kg)",
+				"location": "The Metropolitan Museum of Art, New York",
+				"description": "<p>A large medallion carpet in cotton, silk and wool, knotted in Iran in the 16th century.</p><p><small>Source: probably first half 16th century; accession number 46.128, The Metropolitan Museum of Art, New York. Gift of Samuel H. Kress Foundation, 1946. Image: public domain (CC0 1.0), Met Open Access.</small></p>"
+			},
+			"terms": {
+				"galerio_label": [
+					"Persian"
+				],
+				"galerio_medium": [
+					"Carpet"
+				]
+			},
+			"source": {
+				"url": "https://www.metmuseum.org/art/collection/search/450716",
+				"label": "Metropolitan Museum of Art record"
+			},
+			"image": {
+				"url": "https://images.metmuseum.org/CRDImages/is/original/DP215776.jpg",
+				"fallback": [
+					"https://images.metmuseum.org/CRDImages/is/web-large/DP215776.jpg"
+				],
+				"page": "https://www.metmuseum.org/art/collection/search/450716",
+				"licence": "CC0 1.0 (Met Open Access)",
+				"credit": "The Metropolitan Museum of Art, New York. Gift of Samuel H. Kress Foundation, 1946. Accession number 46.128. Open Access, CC0 1.0.",
+				"alt": "The Anhalt Medallion Carpet"
+			}
+		},
+		{
+			"key": "plaque-with-warrior-and-attendants",
+			"title": "Plaque with Warrior and Attendants",
+			"creator": "igun-eronmwon",
+			"related": [
+				"head-from-a-figure"
+			],
+			"fields": {
+				"year": 1540,
+				"year_to": 1570,
+				"date_text": "ca. 1540–70",
+				"medium": "Brass",
+				"dimensions": "H. 18 3/4 × W. 15 × D. 4 1/4 in. (47.6 × 38.1 × 10.8 cm)",
+				"location": "The Metropolitan Museum of Art, New York",
+				"description": "<p>A cast brass plaque of the type that once lined the royal palace of Benin, showing a warrior with his attendants.</p><p><small>Source: ca. 1540–70; accession number 1990.332, The Metropolitan Museum of Art, New York. Gift of Mr. and Mrs. Klaus G. Perls, 1990. Image: public domain (CC0 1.0), Met Open Access.</small></p>"
+			},
+			"terms": {
+				"galerio_label": [
+					"Benin"
+				],
+				"galerio_medium": [
+					"Brass"
+				]
+			},
+			"source": {
+				"url": "https://www.metmuseum.org/art/collection/search/316393",
+				"label": "Metropolitan Museum of Art record"
+			},
+			"image": {
+				"url": "https://images.metmuseum.org/CRDImages/ao/original/DT1231.jpg",
+				"fallback": [
+					"https://images.metmuseum.org/CRDImages/ao/web-large/DT1231.jpg"
+				],
+				"page": "https://www.metmuseum.org/art/collection/search/316393",
+				"licence": "CC0 1.0 (Met Open Access)",
+				"credit": "The Metropolitan Museum of Art, New York. Gift of Mr. and Mrs. Klaus G. Perls, 1990. Accession number 1990.332. Open Access, CC0 1.0.",
+				"alt": "Plaque with Warrior and Attendants"
+			}
+		},
+		{
+			"key": "head-from-a-figure",
+			"title": "Head from a figure",
+			"creator": "yoruba-artists",
+			"related": [
+				"plaque-with-warrior-and-attendants"
+			],
+			"fields": {
+				"date_text": "12th–15th century",
+				"medium": "Soapstone (schist)",
+				"dimensions": "H. 11 1/4 in. × W. 5 1/2 in. × D. 6 in. (28.6 × 14 × 15.2 cm)",
+				"location": "The Metropolitan Museum of Art, New York",
+				"description": "<p>A soapstone head from a Yoruba figure, carved between the 12th and 15th centuries.</p><p><small>Source: 12th–15th century; accession number 1979.206.296, The Metropolitan Museum of Art, New York. The Michael C. Rockefeller Memorial Collection, Bequest of Nelson A. Rockefeller, 1979. Image: public domain (CC0 1.0), Met Open Access.</small></p>"
+			},
+			"terms": {
+				"galerio_label": [
+					"Yoruba"
+				],
+				"galerio_medium": [
+					"Stone"
+				]
+			},
+			"source": {
+				"url": "https://www.metmuseum.org/art/collection/search/312519",
+				"label": "Metropolitan Museum of Art record"
+			},
+			"image": {
+				"url": "https://images.metmuseum.org/CRDImages/ao/original/DP215686.jpg",
+				"fallback": [
+					"https://images.metmuseum.org/CRDImages/ao/web-large/DP215686.jpg"
+				],
+				"page": "https://www.metmuseum.org/art/collection/search/312519",
+				"licence": "CC0 1.0 (Met Open Access)",
+				"credit": "The Metropolitan Museum of Art, New York. The Michael C. Rockefeller Memorial Collection, Bequest of Nelson A. Rockefeller, 1979. Accession number 1979.206.296. Open Access, CC0 1.0.",
+				"alt": "Head from a figure"
+			}
+		},
+		{
+			"key": "dogon-equestrian",
+			"title": "Equestrian",
+			"creator": "dogon-blacksmiths",
+			"related": [
+				"priest-with-raised-arms"
+			],
+			"fields": {
+				"date_text": "16th–18th century",
+				"medium": "Wood, metal",
+				"dimensions": "H. 27 1/2 in. × W. 7 in. × D. 16 3/4 in. (69.9 × 17.8 × 42.5 cm)",
+				"location": "The Metropolitan Museum of Art, New York",
+				"description": "<p>A rider on horseback in wood and metal, a recurring figure in Dogon sculpture.</p><p><small>Source: 16th–18th century; accession number 1979.206.85, The Metropolitan Museum of Art, New York. The Michael C. Rockefeller Memorial Collection, Bequest of Nelson A. Rockefeller, 1979. Image: public domain (CC0 1.0), Met Open Access.</small></p>"
+			},
+			"terms": {
+				"galerio_label": [
+					"Dogon",
+					"Animal art"
+				],
+				"galerio_medium": [
+					"Wood"
+				]
+			},
+			"source": {
+				"url": "https://www.metmuseum.org/art/collection/search/312289",
+				"label": "Metropolitan Museum of Art record"
+			},
+			"image": {
+				"url": "https://images.metmuseum.org/CRDImages/ao/original/DP-16555-010.jpg",
+				"fallback": [
+					"https://images.metmuseum.org/CRDImages/ao/web-large/DP-16555-010.jpg"
+				],
+				"page": "https://www.metmuseum.org/art/collection/search/312289",
+				"licence": "CC0 1.0 (Met Open Access)",
+				"credit": "The Metropolitan Museum of Art, New York. The Michael C. Rockefeller Memorial Collection, Bequest of Nelson A. Rockefeller, 1979. Accession number 1979.206.85. Open Access, CC0 1.0.",
+				"alt": "Equestrian"
+			}
+		},
+		{
+			"key": "priest-with-raised-arms",
+			"title": "Priest with raised arms",
+			"creator": "dogon-blacksmiths",
+			"related": [
+				"dogon-equestrian"
+			],
+			"fields": {
+				"date_text": "14th–17th century",
+				"medium": "Wood, applied organic materials",
+				"dimensions": "H. 82 7/8 x W. 14 1/4 x D. 8 3/8 in. (210.5 x 36.2 x 21.3 cm)",
+				"location": "The Metropolitan Museum of Art, New York",
+				"description": "<p>A tall carved figure of a priest with raised arms.</p><p><small>Source: 14th–17th century; accession number 1978.412.322, The Metropolitan Museum of Art, New York. The Michael C. Rockefeller Memorial Collection, Gift of Nelson A. Rockefeller, 1969. Image: public domain (CC0 1.0), Met Open Access.</small></p>"
+			},
+			"terms": {
+				"galerio_label": [
+					"Dogon"
+				],
+				"galerio_medium": [
+					"Wood"
+				]
+			},
+			"source": {
+				"url": "https://www.metmuseum.org/art/collection/search/310765",
+				"label": "Metropolitan Museum of Art record"
+			},
+			"image": {
+				"url": "https://images.metmuseum.org/CRDImages/ao/original/DP302219.jpg",
+				"fallback": [
+					"https://images.metmuseum.org/CRDImages/ao/web-large/DP302219.jpg"
+				],
+				"page": "https://www.metmuseum.org/art/collection/search/310765",
+				"licence": "CC0 1.0 (Met Open Access)",
+				"credit": "The Metropolitan Museum of Art, New York. The Michael C. Rockefeller Memorial Collection, Gift of Nelson A. Rockefeller, 1969. Accession number 1978.412.322. Open Access, CC0 1.0.",
+				"alt": "Priest with raised arms"
+			}
+		},
+		{
+			"key": "mans-kente-prestige-cloth",
+			"title": "Man's kente (prestige cloth)",
+			"creator": "asante-weavers",
+			"related": [
+				"chiefs-blanket"
+			],
+			"fields": {
+				"date_text": "19th century",
+				"medium": "Cotton, silk",
+				"dimensions": "[no dimensions available]",
+				"location": "The Metropolitan Museum of Art, New York",
+				"description": "<p>Narrow strips of cotton and silk woven on a loom and sewn together into a prestige cloth.</p><p><small>Source: 19th century; accession number 1972.56.1, The Metropolitan Museum of Art, New York. Purchase, Irene Lewisohn Bequest, 1972. Image: public domain (CC0 1.0), Met Open Access.</small></p>"
+			},
+			"terms": {
+				"galerio_label": [
+					"Asante"
+				],
+				"galerio_medium": [
+					"Weaving"
+				]
+			},
+			"source": {
+				"url": "https://www.metmuseum.org/art/collection/search/85576",
+				"label": "Metropolitan Museum of Art record"
+			},
+			"image": {
+				"url": "https://images.metmuseum.org/CRDImages/ao/original/1972.56.1.JPG",
+				"fallback": [
+					"https://images.metmuseum.org/CRDImages/ao/web-large/1972.56.1.JPG"
+				],
+				"page": "https://www.metmuseum.org/art/collection/search/85576",
+				"licence": "CC0 1.0 (Met Open Access)",
+				"credit": "The Metropolitan Museum of Art, New York. Purchase, Irene Lewisohn Bequest, 1972. Accession number 1972.56.1. Open Access, CC0 1.0.",
+				"alt": "Man's kente (prestige cloth)"
+			}
+		},
+		{
+			"key": "vessel-with-face-neck",
+			"title": "Vessel with face-neck",
+			"creator": "moche-artists",
+			"related": [
+				"vessel-with-mythological-scene"
+			],
+			"fields": {
+				"year": 200,
+				"year_to": 800,
+				"date_text": "200–800 CE",
+				"medium": "Ceramic, slip",
+				"dimensions": "H. 12 1/8 × Diam. 9 in. (30.8 × 22.9 cm)",
+				"location": "The Metropolitan Museum of Art, New York",
+				"description": "<p>A ceramic vessel whose neck is modelled as a face, from the north coast of Peru.</p><p><small>Source: 200–800 CE; accession number X.2.222, The Metropolitan Museum of Art, New York. Museum Accession. Image: public domain (CC0 1.0), Met Open Access.</small></p>"
+			},
+			"terms": {
+				"galerio_label": [
+					"Moche",
+					"Portraiture"
+				],
+				"galerio_medium": [
+					"Earthenware"
+				]
+			},
+			"source": {
+				"url": "https://www.metmuseum.org/art/collection/search/318602",
+				"label": "Metropolitan Museum of Art record"
+			},
+			"image": {
+				"url": "https://images.metmuseum.org/CRDImages/ao/original/DP-24361-001.jpg",
+				"fallback": [
+					"https://images.metmuseum.org/CRDImages/ao/web-large/DP-24361-001.jpg"
+				],
+				"page": "https://www.metmuseum.org/art/collection/search/318602",
+				"licence": "CC0 1.0 (Met Open Access)",
+				"credit": "The Metropolitan Museum of Art, New York. Museum Accession. Accession number X.2.222. Open Access, CC0 1.0.",
+				"alt": "Vessel with face-neck"
+			}
+		},
+		{
+			"key": "vessel-with-mythological-scene",
+			"title": "Vessel with mythological scene",
+			"creator": "maya-artists",
+			"related": [
+				"vessel-with-face-neck"
+			],
+			"fields": {
+				"year": 600,
+				"year_to": 800,
+				"date_text": "600–800 CE",
+				"medium": "Ceramic",
+				"dimensions": "H. 7 1/2 in. × W. 4 3/8 in. × D. 4 1/4 in. × 4 7/16 in. × 13 7/16 in. (19 × 11.1 × 10.8 × 11.2 × 34.2 cm)",
+				"location": "The Metropolitan Museum of Art, New York",
+				"description": "<p>A Maya ceramic vessel painted with a mythological scene.</p><p><small>Source: 600–800 CE; accession number 2014.632.1, The Metropolitan Museum of Art, New York. Gift of Justin Kerr, in memory of Barbara Kerr, 2014. Image: public domain (CC0 1.0), Met Open Access.</small></p>"
+			},
+			"terms": {
+				"galerio_label": [
+					"Maya"
+				],
+				"galerio_medium": [
+					"Earthenware"
+				]
+			},
+			"source": {
+				"url": "https://www.metmuseum.org/art/collection/search/662967",
+				"label": "Metropolitan Museum of Art record"
+			},
+			"image": {
+				"url": "https://images.metmuseum.org/CRDImages/ao/original/DP348021.jpg",
+				"fallback": [
+					"https://images.metmuseum.org/CRDImages/ao/web-large/DP348021.jpg"
+				],
+				"page": "https://www.metmuseum.org/art/collection/search/662967",
+				"licence": "CC0 1.0 (Met Open Access)",
+				"credit": "The Metropolitan Museum of Art, New York. Gift of Justin Kerr, in memory of Barbara Kerr, 2014. Accession number 2014.632.1. Open Access, CC0 1.0.",
+				"alt": "Vessel with mythological scene"
+			}
+		},
+		{
+			"key": "chiefs-blanket",
+			"title": "Chief's blanket",
+			"creator": "navajo-weavers",
+			"related": [
+				"mans-kente-prestige-cloth"
+			],
+			"fields": {
+				"year": 1865,
+				"date_text": "ca. 1865",
+				"medium": "Wool",
+				"dimensions": "56 × 66 in. (142.2 × 167.6 cm)",
+				"location": "The Metropolitan Museum of Art, New York",
+				"description": "<p>A woollen \"chief's blanket\", woven by Diné weavers and traded widely across the plains and plateau.</p><p><small>Source: ca. 1865; accession number 2019.373.5, The Metropolitan Museum of Art, New York. Gift of John and Margot Ernst, in celebration of the Museum's 150th Anniversary, 2019. Image: public domain (CC0 1.0), Met Open Access.</small></p>"
+			},
+			"terms": {
+				"galerio_label": [
+					"Diné (Navajo)"
+				],
+				"galerio_medium": [
+					"Weaving"
+				]
+			},
+			"source": {
+				"url": "https://www.metmuseum.org/art/collection/search/823661",
+				"label": "Metropolitan Museum of Art record"
+			},
+			"image": {
+				"url": "https://images.metmuseum.org/CRDImages/ad/original/DP-17954-001.jpg",
+				"fallback": [
+					"https://images.metmuseum.org/CRDImages/ad/web-large/DP-17954-001.jpg"
+				],
+				"page": "https://www.metmuseum.org/art/collection/search/823661",
+				"licence": "CC0 1.0 (Met Open Access)",
+				"credit": "The Metropolitan Museum of Art, New York. Gift of John and Margot Ernst, in celebration of the Museum's 150th Anniversary, 2019. Accession number 2019.373.5. Open Access, CC0 1.0.",
+				"alt": "Chief's blanket"
+			}
+		},
+		{
+			"key": "kaitaka-aronui",
+			"title": "Kaitaka aronui (cloak)",
+			"creator": "maori-weavers",
+			"related": [
+				"chiefs-blanket"
+			],
+			"fields": {
+				"date_text": "mid-19th century",
+				"medium": "Flax (harakeke, Phormium tenax), wool",
+				"dimensions": "H. 44 3/4 × W. 68 in. (113.7 × 172.7 cm)",
+				"location": "The Metropolitan Museum of Art, New York",
+				"description": "<p>A fine cloak woven from harakeke (flax) with wool, worn on formal occasions.</p><p><small>Source: mid-19th century; accession number 2020.66, The Metropolitan Museum of Art, New York. Gift of Mark Blackburn, in celebration of the Museum's 150th Anniversary, 2020. Image: public domain (CC0 1.0), Met Open Access.</small></p>"
+			},
+			"terms": {
+				"galerio_label": [
+					"Māori"
+				],
+				"galerio_medium": [
+					"Weaving"
+				]
+			},
+			"source": {
+				"url": "https://www.metmuseum.org/art/collection/search/839896",
+				"label": "Metropolitan Museum of Art record"
+			},
+			"image": {
+				"url": "https://images.metmuseum.org/CRDImages/ao/original/DP-23876-001.jpg",
+				"fallback": [
+					"https://images.metmuseum.org/CRDImages/ao/web-large/DP-23876-001.jpg"
+				],
+				"page": "https://www.metmuseum.org/art/collection/search/839896",
+				"licence": "CC0 1.0 (Met Open Access)",
+				"credit": "The Metropolitan Museum of Art, New York. Gift of Mark Blackburn, in celebration of the Museum's 150th Anniversary, 2020. Accession number 2020.66. Open Access, CC0 1.0.",
+				"alt": "Kaitaka aronui (cloak)"
+			}
+		},
+		{
+			"key": "cat-statuette",
+			"title": "Cat Statuette",
+			"creator": "egyptian-bronze-casters",
+			"related": [
+				"walking-bull"
+			],
+			"fields": {
+				"date_text": "664–525 BCE",
+				"medium": "Bronze",
+				"dimensions": "H. 16.5 × W. 5.8 × D. 8.5 cm (6 1/2 × 2 5/16 × 3 3/8 in.)",
+				"location": "The Metropolitan Museum of Art, New York",
+				"description": "<p>A cast bronze cat of the Late Period; cats were sacred to the goddess Bastet.</p><p><small>Source: 664–525 BCE; accession number 26.2.38, The Metropolitan Museum of Art, New York. Rogers Fund, 1926. Image: public domain (CC0 1.0), Met Open Access.</small></p>"
+			},
+			"terms": {
+				"galerio_label": [
+					"Ancient Egyptian",
+					"Animal art"
+				],
+				"galerio_medium": [
+					"Bronze"
+				]
+			},
+			"source": {
+				"url": "https://www.metmuseum.org/art/collection/search/571798",
+				"label": "Metropolitan Museum of Art record"
+			},
+			"image": {
+				"url": "https://images.metmuseum.org/CRDImages/eg/original/LC-26_2_38_EGDP030275.jpg",
+				"fallback": [
+					"https://images.metmuseum.org/CRDImages/eg/web-large/LC-26_2_38_EGDP030275.jpg"
+				],
+				"page": "https://www.metmuseum.org/art/collection/search/571798",
+				"licence": "CC0 1.0 (Met Open Access)",
+				"credit": "The Metropolitan Museum of Art, New York. Rogers Fund, 1926. Accession number 26.2.38. Open Access, CC0 1.0.",
+				"alt": "Cat Statuette"
+			}
+		},
+		{
+			"key": "table-lamp",
+			"title": "Table lamp",
+			"creator": "tiffany-studios",
+			"related": [],
+			"fields": {
+				"year": 1895,
+				"year_to": 1898,
+				"date_text": "ca. 1895–98",
+				"medium": "Leaded Favrile glass and patinated bronze",
+				"dimensions": "21 1/8 in. (53.7 cm); Body diameter: 18 1/4 in. (46.4 cm)",
+				"location": "The Metropolitan Museum of Art, New York",
+				"description": "<p>A lamp of leaded Favrile glass on a patinated bronze base.</p><p><small>Source: ca. 1895–98; accession number 2011.99.2, The Metropolitan Museum of Art, New York. Gift of Mr. and Mrs. Richard L. Chilton Jr., 2011. Image: public domain (CC0 1.0), Met Open Access.</small></p>"
+			},
+			"terms": {
+				"galerio_label": [
+					"Art Nouveau"
+				],
+				"galerio_medium": [
+					"Glass"
+				]
+			},
+			"source": {
+				"url": "https://www.metmuseum.org/art/collection/search/20633",
+				"label": "Metropolitan Museum of Art record"
+			},
+			"image": {
+				"url": "https://images.metmuseum.org/CRDImages/ad/original/DP254463.jpg",
+				"fallback": [
+					"https://images.metmuseum.org/CRDImages/ad/web-large/DP254463.jpg"
+				],
+				"page": "https://www.metmuseum.org/art/collection/search/20633",
+				"licence": "CC0 1.0 (Met Open Access)",
+				"credit": "The Metropolitan Museum of Art, New York. Gift of Mr. and Mrs. Richard L. Chilton Jr., 2011. Accession number 2011.99.2. Open Access, CC0 1.0.",
+				"alt": "Table lamp"
+			}
+		},
+		{
+			"key": "vessel-with-women-and-goats",
+			"title": "Vessel with Women and Goats",
+			"creator": "gauguin",
+			"related": [],
+			"fields": {
+				"year": 1887,
+				"year_to": 1889,
+				"date_text": "ca. 1887–89",
+				"medium": "Stoneware",
+				"dimensions": "Overall (confirmed, irregular diameter): 7 7/8 × 4 5/8 × 4 3/8 in., 2.2 lb. (20 × 11.7 × 11.1 cm, 1 kg)",
+				"location": "The Metropolitan Museum of Art, New York",
+				"description": "<p>A stoneware vessel by the painter, who took ceramics as seriously as his canvases.</p><p><small>Source: ca. 1887–89; accession number 2013.471, The Metropolitan Museum of Art, New York. Robert A. Ellison Jr. Collection, Purchase, Acquisitions Fund; Louis V. Bell, Harris Brisbane Dick, Fletcher, and Rogers Funds and Joseph Pulitzer Bequest; and 2011 Benefit Fund, 2013. Image: public domain (CC0 1.0), Met Open Access.</small></p>"
+			},
+			"terms": {
+				"galerio_label": [
+					"Post-Impressionism"
+				],
+				"galerio_medium": [
+					"Stoneware"
+				]
+			},
+			"source": {
+				"url": "https://www.metmuseum.org/art/collection/search/239364",
+				"label": "Metropolitan Museum of Art record"
+			},
+			"image": {
+				"url": "https://images.metmuseum.org/CRDImages/es/original/DP315666.jpg",
+				"fallback": [
+					"https://images.metmuseum.org/CRDImages/es/web-large/DP315666.jpg"
+				],
+				"page": "https://www.metmuseum.org/art/collection/search/239364",
+				"licence": "CC0 1.0 (Met Open Access)",
+				"credit": "The Metropolitan Museum of Art, New York. Robert A. Ellison Jr. Collection, Purchase, Acquisitions Fund; Louis V. Bell, Harris Brisbane Dick, Fletcher, and Rogers Funds and Joseph Pulitzer Bequest; and 2011 Benefit Fund, 2013. Accession number 2013.471. Open Access, CC0 1.0.",
+				"alt": "Vessel with Women and Goats"
+			}
+		}
+	],
+	"collections": [
+		{
+			"key": "women-who-shaped-the-canon",
+			"title": "Women Who Shaped the Canon",
+			"works": [
+				"esther-before-ahasuerus",
+				"madame-grand",
+				"the-pink-dress",
+				"the-horse-fair",
+				"walking-bull",
+				"portrait-of-a-prelate",
+				"vivien-and-merlin"
+			],
+			"profiles": [
+				"gentileschi",
+				"vigee-le-brun",
+				"morisot",
+				"bonheur",
+				"fontana",
+				"cameron"
+			],
+			"fields": {
+				"standfirst": "Painters and photographers who made their name against the odds.",
+				"description": "<p>A selection of women who worked at the highest level in their time: court portraitists, Baroque history painters, Impressionists and pioneers of photography.</p>",
+				"notes": "<p>A conceptual collection written for the Galerio demo, not a real-world exhibition. Works are from the Metropolitan Museum of Art Open Access collection.</p>"
+			},
+			"terms": {
+				"galerio_collection_category": [
+					"Thematic"
+				]
+			}
+		},
+		{
+			"key": "weather-and-water",
+			"title": "Weather and Water",
+			"works": [
+				"under-the-wave-off-kanagawa",
+				"sudden-shower-over-shin-ohashi-bridge",
+				"ochanomizu-in-the-rain",
+				"bamboo-in-a-spring-thunderstorm",
+				"the-gulf-stream",
+				"gathering-water-lilies",
+				"young-girl-bathing"
+			],
+			"profiles": [
+				"hokusai",
+				"hiroshige",
+				"kuniyoshi",
+				"tang-yin",
+				"homer",
+				"emerson",
+				"renoir"
+			],
+			"fields": {
+				"standfirst": "Rain, waves, storms and still ponds, from Edo to Norfolk.",
+				"description": "<p>How different traditions picture water and weather: the printmakers of Edo, a Ming master of ink, and a sailor adrift in the Gulf Stream.</p>",
+				"notes": "<p>A conceptual collection written for the Galerio demo, not a real-world exhibition. Works are from the Metropolitan Museum of Art Open Access collection.</p>"
+			},
+			"terms": {
+				"galerio_collection_category": [
+					"Thematic"
+				]
+			}
+		},
+		{
+			"key": "faces-across-cultures",
+			"title": "Faces Across Cultures",
+			"works": [
+				"madame-grand",
+				"madame-x",
+				"mariana-of-austria",
+				"madame-edouard-manet",
+				"anna-van-der-aar",
+				"rubens-helena-fourment-and-their-son",
+				"madame-cezanne-in-the-conservatory",
+				"head-from-a-figure",
+				"vessel-with-face-neck",
+				"plaque-with-warrior-and-attendants",
+				"woman-relaxing-after-her-bath"
+			],
+			"profiles": [
+				"vigee-le-brun",
+				"sargent",
+				"velazquez",
+				"manet",
+				"hals",
+				"rubens",
+				"cezanne",
+				"yoruba-artists",
+				"moche-artists",
+				"igun-eronmwon",
+				"utamaro"
+			],
+			"fields": {
+				"standfirst": "The portrait as a universal act, from Moche potters to Parisian salons.",
+				"description": "<p>Portraits in oil, stone, clay and brass from five continents, brought together to compare what different cultures choose to show of a face.</p>",
+				"notes": "<p>A conceptual collection written for the Galerio demo, not a real-world exhibition. Works are from the Metropolitan Museum of Art Open Access collection.</p>"
+			},
+			"terms": {
+				"galerio_collection_category": [
+					"Cross-cultural survey"
+				]
+			}
+		},
+		{
+			"key": "made-by-hand",
+			"title": "Made by Hand",
+			"works": [
+				"maebyeong-with-lotus-decoration",
+				"vessel-with-face-neck",
+				"vessel-with-mythological-scene",
+				"mans-kente-prestige-cloth",
+				"chiefs-blanket",
+				"kaitaka-aronui",
+				"plaque-with-warrior-and-attendants",
+				"table-lamp",
+				"the-anhalt-medallion-carpet",
+				"vessel-with-women-and-goats"
+			],
+			"profiles": [
+				"goryeo-potters",
+				"moche-artists",
+				"maya-artists",
+				"asante-weavers",
+				"navajo-weavers",
+				"maori-weavers",
+				"igun-eronmwon",
+				"tiffany-studios",
+				"persian-carpet-weavers",
+				"gauguin"
+			],
+			"fields": {
+				"standfirst": "Clay, cloth, glass and metal: the work of skilled hands.",
+				"description": "<p>Objects whose beauty lies in the way they were made: celadon glaze, woven strips of silk, lost-wax brass, leaded glass and hand-knotted wool.</p>",
+				"notes": "<p>A conceptual collection written for the Galerio demo, not a real-world exhibition. Works are from the Metropolitan Museum of Art Open Access collection.</p>"
+			},
+			"terms": {
+				"galerio_collection_category": [
+					"Technique"
+				]
+			}
+		},
+		{
+			"key": "the-painted-page",
+			"title": "The Painted Page",
+			"works": [
+				"bahram-gur-hunting-with-azada",
+				"solanki-raga",
+				"prince-and-ladies-in-a-garden",
+				"a-gathering-of-holy-men-of-different-faiths",
+				"durbar-of-emperor-akbar-shah-ii"
+			],
+			"profiles": [
+				"firdausi",
+				"deccan-painters",
+				"nidha-mal",
+				"mir-kalan-khan",
+				"mughal-court-painters"
+			],
+			"fields": {
+				"standfirst": "Manuscripts and miniatures from Persia and India.",
+				"description": "<p>Small paintings made for books and albums: a folio from the Shahnama, a Ragamala page and the intimate courtly scenes of 18th-century India.</p>",
+				"notes": "<p>A conceptual collection written for the Galerio demo, not a real-world exhibition. Works are from the Metropolitan Museum of Art Open Access collection.</p>"
+			},
+			"terms": {
+				"galerio_collection_category": [
+					"Technique"
+				]
+			}
+		},
+		{
+			"key": "light-in-the-dark",
+			"title": "Light in the Dark",
+			"works": [
+				"the-musicians",
+				"the-penitent-magdalen",
+				"esther-before-ahasuerus",
+				"aristotle-with-a-bust-of-homer",
+				"young-woman-with-a-water-pitcher"
+			],
+			"profiles": [
+				"caravaggio",
+				"de-la-tour",
+				"gentileschi",
+				"rembrandt",
+				"vermeer"
+			],
+			"fields": {
+				"standfirst": "Candlelight, shadow and the Baroque art of chiaroscuro.",
+				"description": "<p>Painters who built their pictures around a pool of light: Caravaggio and his followers, a Lorraine master of the candle, and the Dutch interior.</p>",
+				"notes": "<p>A conceptual collection written for the Galerio demo, not a real-world exhibition. Works are from the Metropolitan Museum of Art Open Access collection.</p>"
+			},
+			"terms": {
+				"galerio_collection_category": [
+					"Thematic"
+				]
+			}
+		},
+		{
+			"key": "stories-on-canvas",
+			"title": "Stories on Canvas",
+			"works": [
+				"the-abduction-of-the-sabine-women",
+				"esther-before-ahasuerus",
+				"the-gulf-stream",
+				"soap-bubbles",
+				"the-horse-fair"
+			],
+			"profiles": [
+				"poussin",
+				"gentileschi",
+				"homer",
+				"chardin",
+				"bonheur"
+			],
+			"fields": {
+				"standfirst": "Myth, scripture and a quiet moment at sea.",
+				"description": "<p>Paintings that tell a story or hold a single charged moment: a legendary abduction, a queen who faints, a sailor adrift and a boy with a soap bubble.</p>",
+				"notes": "<p>A conceptual collection written for the Galerio demo, not a real-world exhibition. Works are from the Metropolitan Museum of Art Open Access collection.</p>"
+			},
+			"terms": {
+				"galerio_collection_category": [
+					"Thematic"
+				]
+			}
+		},
+		{
+			"key": "animals-observed",
+			"title": "Animals Observed",
+			"works": [
+				"the-horse-fair",
+				"walking-bull",
+				"attitudes-of-animals-in-motion",
+				"cat-statuette",
+				"dogon-equestrian"
+			],
+			"profiles": [
+				"bonheur",
+				"muybridge",
+				"egyptian-bronze-casters",
+				"dogon-blacksmiths"
+			],
+			"fields": {
+				"standfirst": "A horse fair, a sacred cat and a galloping rider.",
+				"description": "<p>How artists in different times and places have looked at animals, from sacred Egyptian bronzes and Dogon riders to the scientific eye of Muybridge.</p>",
+				"notes": "<p>A conceptual collection written for the Galerio demo, not a real-world exhibition. Works are from the Metropolitan Museum of Art Open Access collection.</p>"
+			},
+			"terms": {
+				"galerio_collection_category": [
+					"Cross-cultural survey"
+				]
+			}
+		},
+		{
+			"key": "beyond-the-canvas",
+			"title": "Beyond the Canvas",
+			"works": [
+				"study-in-the-nude-for-the-little-fourteen-year-old-dancer",
+				"walking-bull",
+				"vessel-with-women-and-goats",
+				"head-from-a-figure",
+				"dogon-equestrian",
+				"priest-with-raised-arms",
+				"cat-statuette"
+			],
+			"profiles": [
+				"degas",
+				"bonheur",
+				"gauguin",
+				"yoruba-artists",
+				"dogon-blacksmiths",
+				"egyptian-bronze-casters"
+			],
+			"fields": {
+				"standfirst": "Sculptors, potters and weavers working outside the painted surface.",
+				"description": "<p>Painters who modelled in bronze or clay, and sculptors who cast, carved and joined: three dimensions, from a Degas dancer to a Benin plaque.</p>",
+				"notes": "<p>A conceptual collection written for the Galerio demo, not a real-world exhibition. Works are from the Metropolitan Museum of Art Open Access collection.</p>"
+			},
+			"terms": {
+				"galerio_collection_category": [
+					"Technique"
+				]
+			}
+		}
+	]
+}

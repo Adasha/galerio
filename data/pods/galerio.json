@@ -2261,12 +2261,43 @@
                             "date_format": "y",
                             "date_html5": "0",
                             "date_type": "format",
-                            "description": "The year the work was completed.",
+                            "description": "The year the work was completed, or the first year of a range.",
                             "required": "0",
                             "rest_pick_depth": "1",
                             "rest_pick_response": "array",
                             "roles_allowed": "administrator",
                             "weight": 2
+                        },
+                        {
+                            "name": "year_to",
+                            "id": 127,
+                            "label": "Year to",
+                            "type": "date",
+                            "date_allow_empty": "1",
+                            "date_format": "y",
+                            "date_html5": "0",
+                            "date_type": "format",
+                            "description": "The last year of a range, if the work was made over several years or the date is uncertain. Leave empty for a single year.",
+                            "required": "0",
+                            "rest_pick_depth": "1",
+                            "rest_pick_response": "array",
+                            "roles_allowed": "administrator",
+                            "weight": 3
+                        },
+                        {
+                            "required": "0",
+                            "rest_pick_depth": "1",
+                            "rest_pick_response": "array",
+                            "roles_allowed": "administrator",
+                            "name": "date_text",
+                            "id": 128,
+                            "label": "Date in words",
+                            "type": "text",
+                            "weight": 4,
+                            "description": "Overrides how the date is shown, e.g. \"mid-19th century\" or \"600–800 CE\". Leave empty to show the year or range.",
+                            "text_allowed_html_tags": "",
+                            "text_max_length": "255",
+                            "text_trim": "1"
                         },
                         {
                             "name": "definitive_image",
@@ -2302,7 +2333,7 @@
                             "rest_pick_response": "array",
                             "revisions_revision_field": "0",
                             "roles_allowed": "administrator",
-                            "weight": 3
+                            "weight": 5
                         },
                         {
                             "name": "description",
@@ -2326,7 +2357,7 @@
                             "restrict_role": "0",
                             "revisions_revision_field": "0",
                             "roles_allowed": "administrator",
-                            "weight": 4,
+                            "weight": 6,
                             "wysiwyg_allow_shortcode": "1",
                             "wysiwyg_allowed_html_tags": "strong em ul ol li b i u a table tr th td col colgroup img caption code q",
                             "wysiwyg_convert_chars": "1",
@@ -2355,7 +2386,7 @@
                             "rest_pick_depth": "1",
                             "rest_pick_response": "array",
                             "roles_allowed": "administrator",
-                            "weight": 5
+                            "weight": 7
                         },
                         {
                             "name": "images",
@@ -2386,7 +2417,7 @@
                             "rest_pick_depth": "1",
                             "rest_pick_response": "array",
                             "roles_allowed": "administrator",
-                            "weight": 6
+                            "weight": 8
                         }
                     ]
                 },

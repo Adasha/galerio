@@ -4,7 +4,7 @@ Tags: gallery, art, artist, exhibition, portfolio
 Requires at least: 6.6
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 0.6.0-alpha.1
+Stable tag: 0.6.1-alpha.1
 License: GPL-2.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -23,6 +23,11 @@ The importer repairs bidirectional relationships, which Pods otherwise links to 
 Galerio is in alpha. Expect breaking changes.
 
 == Changelog ==
+
+= 0.6.1-alpha.1 =
+* Works take a date range and a date in words: Year to, and Date in words for things like "mid-19th century" or "600–800 CE". The date as shown (the words if there are any, otherwise the year or range such as 1830–32) is the new Date as shown field, which the work card, the single work pattern and feeds use; Schema.org gets a range as an interval. BCE years aren't held by the year fields yet, so write those as words.
+* The `galerio_fields` property of the REST API can now be written as well as read, for importing content. A request that names a field that doesn't exist or is worked out from others is refused before anything is saved.
+* Needs `wp galerio pods import` after updating, for the two new fields. Update Core before the theme: the theme's work patterns now show the date as shown.
 
 = 0.6.0-alpha.1 =
 * Catalogue, for sites that sell: availability, price (or price on application), currency, editions, framed, inventory number and a dealer link on works, and Represented by on profiles. It's a switch on Settings → Galerio → Catalogue, off by default; while it's off the fields read as empty everywhere and their boxes leave the editor. Prices show only while a work is available or reserved, and go into Schema.org as an offer.
