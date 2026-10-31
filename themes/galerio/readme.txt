@@ -3,7 +3,7 @@ Contributors: adasha
 Requires at least: 6.6
 Tested up to: 7.1
 Requires PHP: 7.4
-Version: 3.0.0-alpha.5
+Version: 3.0.0-alpha.6
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -22,6 +22,16 @@ Galerio presents creators, works, collections and articles: a page for each, lis
 * Translatable, and the wording follows the names a site gives its content types (e.g. Exhibitions for collections) under Settings → Galerio content types.
 
 == Changelog ==
+
+= 3.0.0-alpha.6 =
+* Text is 18px on wide screens as well as phones, and the larger sizes are scaled down to match.
+* Cards in mixed grids (a medium's or label's page) line up: narrow work cards get a square image and a smaller creator line, and empty lines are hidden. A work card leaves out the creator on that creator's own profile.
+* The work page's terms table uses the details table's layout, so labels don't break on phones and empty rows are hidden. Long site titles hyphenate.
+* The "Featured in" list on works lines up with its label. Images linked to their own file open in the lightbox on works, collections, articles and profiles.
+* Archives get the Filters panel and page numbers, and works for sale show their price, availability and an enquiry button, with Galerio Core 0.6.0's catalogue switched on.
+* Term buttons that wrap onto a second line no longer touch.
+* The Work details pattern is no longer offered as a starter for every new page.
+* Needs Galerio Core 0.6.0-alpha.1. A template or part saved in the Site Editor keeps its own copy: add the Archive Filters block to a saved archive template by hand.
 
 = 3.0.0-alpha.5 =
 * A work without a definitive image shows its featured image at the top of its page, instead of an empty box. Needs Galerio Core 0.5.1-alpha.1.

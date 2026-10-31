@@ -4,7 +4,7 @@ Tags: gallery, art, artist, exhibition, portfolio
 Requires at least: 6.6
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 0.5.1-alpha.1
+Stable tag: 0.6.0-alpha.1
 License: GPL-2.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -23,6 +23,19 @@ The importer repairs bidirectional relationships, which Pods otherwise links to 
 Galerio is in alpha. Expect breaking changes.
 
 == Changelog ==
+
+= 0.6.0-alpha.1 =
+* Catalogue, for sites that sell: availability, price (or price on application), currency, editions, framed, inventory number and a dealer link on works, and Represented by on profiles. It's a switch on Settings → Galerio → Catalogue, off by default; while it's off the fields read as empty everywhere and their boxes leave the editor. Prices show only while a work is available or reserved, and go into Schema.org as an offer.
+* Enquiries: an "Enquire about this work" form on works that are for sale, sent by email to the Enquiries email on Settings → Galerio (or the site's administration email). Nothing is stored. A hidden field and a minimum fill time keep out spam. Works sold through a dealer link to the dealer instead.
+* Archives: a Filters panel with a text search, a dropdown per taxonomy and a sort order (newest, oldest, title, and year for works), applied as soon as it changes; page numbers; and a page size for each content type on Settings → Reading. Filtered pages aren't indexed. The new Archive Filters block draws the panel.
+* Image precedence: when an item has both a featured image and its own image (a work's definitive image, a collection's first image), a switch under the Featured image panel chooses which one cards, archives, carousels, feeds, shared links and Schema.org use. It starts on the featured image. A profile's portrait is used only when chosen, and only while the profile shows its portrait. The work's own page always shows its definitive image.
+* Feeds: each item carries its image, its creators, curators or authors as the author, and a line of key details. The lightbox's markup is removed from every feed. The exhibitions feed is in opening-date order. Settings → Reading can add articles to the main feed (off by default) and leave content types, taxonomies and author pages out of the sitemap.
+* The switches on Settings → Galerio now work, as display switches: featured images on an item's own page, nationality, birth and death years, portraits on a profile's own page, and collective fields. Fields stay in the editor with their values.
+* Field bindings take `"omitCurrent": true`: a list leaves out the item the page is about, such as a work card's creator on that creator's own profile.
+* The editor's meta box pane is named after the content type, e.g. "Work settings", using the site's own names.
+* Accolades fields start as one line and grow as you type.
+* Settings → Galerio content types: narrower fields, and the tables stack on phones instead of scrolling sideways.
+* Needs `wp galerio pods import` after updating, for the new fields and settings.
 
 = 0.5.1-alpha.1 =
 * Field bindings take `"fallback": "featured_image"`: an empty image field shows the post's featured image instead. The Galerio theme uses it for a work's main image.

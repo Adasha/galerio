@@ -3,7 +3,7 @@
  * Plugin Name:       Galerio Media
  * Plugin URI:        https://galerio.net
  * Description:       Media for galleries, artists and publishers: folders in the Media Library, shared and per person, with an import from FileBird, and uploads kept private to the people who made them.
- * Version:           0.1.0-alpha.1
+ * Version:           0.2.0-alpha.1
  * Requires at least: 6.6
  * Requires PHP:      7.4
  * Author:            Adam Shailer
@@ -18,7 +18,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'GALERIO_MEDIA_VERSION', '0.1.0-alpha.1' );
+define( 'GALERIO_MEDIA_VERSION', '0.2.0-alpha.1' );
 define( 'GALERIO_MEDIA_FILE', __FILE__ );
 define( 'GALERIO_MEDIA_DIR', plugin_dir_path( __FILE__ ) );
 

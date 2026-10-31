@@ -4,7 +4,7 @@ Tags: media library, folders, filebird, uploads, gallery
 Requires at least: 6.6
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 0.1.0-alpha.1
+Stable tag: 0.2.0-alpha.1
 License: GPL-2.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -38,9 +38,17 @@ Galerio is in alpha. Expect breaking changes.
 
 == Changelog ==
 
+= 0.2.0-alpha.1 =
+* The folder tree in the Media Library's list view too: click a folder to filter the list, drag rows onto folders, and upload into the open folder with "Add Media File".
+* "New folder inside" adds a subfolder to the chosen folder; "New" always adds one at the top.
+* Folders move by dragging, onto another folder or onto a heading to go to the top.
+* Settings → Media chooses which roles manage shared folders and which see only their own uploads. Until saved, these give the same behaviour as before.
+* Personal folders come first and have amber icons.
+* Tidier tree: it stays in view in the grid, and list rows are shorter.
+
 = 0.1.0-alpha.1 =
-* Folders for the Media Library, shared and per person: a folder tree in the grid and list views and the media picker, with drag-and-drop filing and uploads into the open folder, plus a column in the list view and a dropdown in each file's details.
+* Folders for the Media Library, shared and per person: a folder tree in the grid and the media picker, with drag-and-drop filing and uploads into the open folder, plus a filter and column in the list view and a dropdown in each file's details.
 * `wp galerio media import-filebird`.
 * Uploads private to the people who made them.
 * New uploads into shared folders saved in the folder's directory, when switched on.
-* Settings on Settings → Media for personal folders, who manages shared folders, folder directories, who sees only their own uploads, and attachment pages.
+* Switches on Settings → Media for personal folders, folder directories, private uploads and attachment pages.
