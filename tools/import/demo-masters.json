@@ -1272,6 +1272,10 @@
 			"related": [
 				"young-woman-with-a-water-pitcher"
 			],
+			"folder": [
+				"artworks",
+				"rembrandt"
+			],
 			"fields": {
 				"year": 1653,
 				"medium": "Oil on canvas",
@@ -1310,6 +1314,10 @@
 			"related": [
 				"aristotle-with-a-bust-of-homer"
 			],
+			"folder": [
+				"artworks",
+				"vermeer"
+			],
 			"fields": {
 				"year": 1662,
 				"date_text": "ca. 1662",
@@ -1347,6 +1355,10 @@
 			"creator": "gentileschi",
 			"related": [
 				"the-musicians"
+			],
+			"folder": [
+				"artworks",
+				"gentileschi"
 			],
 			"fields": {
 				"year": 1620,
@@ -1387,6 +1399,10 @@
 			"related": [
 				"madame-x"
 			],
+			"folder": [
+				"artworks",
+				"vigee-le-brun"
+			],
 			"fields": {
 				"year": 1783,
 				"medium": "Oil on canvas",
@@ -1423,6 +1439,10 @@
 			"title": "The Pink Dress (Albertie-Marguerite Carré, later Madame Ferdinand-Henri Himmes, 1854–1935)",
 			"creator": "morisot",
 			"related": [],
+			"folder": [
+				"artworks",
+				"morisot"
+			],
 			"fields": {
 				"year": 1870,
 				"date_text": "ca. 1870",
@@ -1461,6 +1481,10 @@
 			"creator": "bonheur",
 			"related": [
 				"walking-bull"
+			],
+			"folder": [
+				"artworks",
+				"bonheur"
 			],
 			"fields": {
 				"year": 1852,
@@ -1501,6 +1525,10 @@
 			"related": [
 				"the-horse-fair"
 			],
+			"folder": [
+				"artworks",
+				"bonheur"
+			],
 			"fields": {
 				"year": 1846,
 				"date_text": "modelled 1846",
@@ -1540,6 +1568,10 @@
 			"related": [
 				"the-penitent-magdalen"
 			],
+			"folder": [
+				"artworks",
+				"caravaggio"
+			],
 			"fields": {
 				"year": 1597,
 				"medium": "Oil on canvas",
@@ -1577,6 +1609,10 @@
 			"related": [
 				"the-musicians"
 			],
+			"folder": [
+				"artworks",
+				"de-la-tour"
+			],
 			"fields": {
 				"year": 1640,
 				"date_text": "ca. 1640",
@@ -1613,6 +1649,10 @@
 			"title": "Anna van der Aar (born 1576/77, died after 1626)",
 			"creator": "hals",
 			"related": [],
+			"folder": [
+				"artworks",
+				"hals"
+			],
 			"fields": {
 				"year": 1626,
 				"medium": "Oil on wood",
@@ -1649,6 +1689,10 @@
 			"title": "Soap Bubbles",
 			"creator": "chardin",
 			"related": [],
+			"folder": [
+				"artworks",
+				"chardin"
+			],
 			"fields": {
 				"year": 1733,
 				"year_to": 1734,
@@ -1688,6 +1732,10 @@
 			"related": [
 				"madame-x"
 			],
+			"folder": [
+				"artworks",
+				"velazquez"
+			],
 			"fields": {
 				"medium": "Oil on canvas",
 				"dimensions": "32 1/4 x 39 1/2 in. (81.9 x 100.3 cm)",
@@ -1723,6 +1771,10 @@
 			"title": "The Abduction of the Sabine Women",
 			"creator": "poussin",
 			"related": [],
+			"folder": [
+				"artworks",
+				"poussin"
+			],
 			"fields": {
 				"year": 1633,
 				"year_to": 1634,
@@ -1761,6 +1813,10 @@
 			"title": "Rubens, Helena Fourment (1614–1673), and Their Son Frans (1633–1678)",
 			"creator": "rubens",
 			"related": [],
+			"folder": [
+				"artworks",
+				"rubens"
+			],
 			"fields": {
 				"year": 1635,
 				"date_text": "ca. 1635",
@@ -1798,6 +1854,10 @@
 			"title": "Madame Cézanne (Hortense Fiquet, 1850–1922) in the Conservatory",
 			"creator": "cezanne",
 			"related": [],
+			"folder": [
+				"artworks",
+				"cezanne"
+			],
 			"fields": {
 				"year": 1891,
 				"medium": "Oil on canvas",
@@ -1834,6 +1894,10 @@
 			"title": "Young Girl Bathing",
 			"creator": "renoir",
 			"related": [],
+			"folder": [
+				"artworks",
+				"renoir"
+			],
 			"fields": {
 				"year": 1892,
 				"medium": "Oil on canvas",
@@ -1870,6 +1934,10 @@
 			"creator": "manet",
 			"related": [
 				"madame-cezanne-in-the-conservatory"
+			],
+			"folder": [
+				"artworks",
+				"manet"
 			],
 			"fields": {
 				"year": 1873,
@@ -1908,6 +1976,10 @@
 			"title": "Study in the Nude for The Little Fourteen-Year-Old Dancer",
 			"creator": "degas",
 			"related": [],
+			"folder": [
+				"artworks",
+				"degas"
+			],
 			"fields": {
 				"year": 1878,
 				"year_to": 1880,
@@ -1945,6 +2017,10 @@
 			"title": "Portrait of a Prelate",
 			"creator": "fontana",
 			"related": [],
+			"folder": [
+				"artworks",
+				"fontana"
+			],
 			"fields": {
 				"year": 1580,
 				"date_text": "ca. 1580",
@@ -1985,6 +2061,10 @@
 				"madame-grand",
 				"mariana-of-austria"
 			],
+			"folder": [
+				"artworks",
+				"sargent"
+			],
 			"fields": {
 				"year": 1883,
 				"year_to": 1884,
@@ -2022,6 +2102,10 @@
 			"creator": "homer",
 			"related": [
 				"under-the-wave-off-kanagawa"
+			],
+			"folder": [
+				"artworks",
+				"homer"
 			],
 			"fields": {
 				"year": 1899,
@@ -2061,6 +2145,10 @@
 			"related": [
 				"gathering-water-lilies"
 			],
+			"folder": [
+				"artworks",
+				"cameron"
+			],
 			"fields": {
 				"year": 1874,
 				"medium": "Albumen silver print from glass negative",
@@ -2097,6 +2185,10 @@
 			"creator": "muybridge",
 			"related": [
 				"the-horse-fair"
+			],
+			"folder": [
+				"artworks",
+				"muybridge"
 			],
 			"fields": {
 				"year": 1879,
@@ -2137,6 +2229,10 @@
 			"related": [
 				"vivien-and-merlin"
 			],
+			"folder": [
+				"artworks",
+				"emerson"
+			],
 			"fields": {
 				"year": 1886,
 				"medium": "Platinum print from glass negative",
@@ -2173,6 +2269,10 @@
 			"creator": "hokusai",
 			"related": [
 				"sudden-shower-over-shin-ohashi-bridge"
+			],
+			"folder": [
+				"artworks",
+				"hokusai"
 			],
 			"fields": {
 				"year": 1830,
@@ -2213,6 +2313,10 @@
 			"related": [
 				"under-the-wave-off-kanagawa"
 			],
+			"folder": [
+				"artworks",
+				"hiroshige"
+			],
 			"fields": {
 				"year": 1857,
 				"medium": "Woodblock print; ink and color on paper",
@@ -2248,6 +2352,10 @@
 			"title": "Woman Relaxing after Her Bath",
 			"creator": "utamaro",
 			"related": [],
+			"folder": [
+				"artworks",
+				"utamaro"
+			],
 			"fields": {
 				"year": 1790,
 				"year_to": 1799,
@@ -2288,6 +2396,10 @@
 			"related": [
 				"sudden-shower-over-shin-ohashi-bridge"
 			],
+			"folder": [
+				"artworks",
+				"kuniyoshi"
+			],
 			"fields": {
 				"date_text": "mid-19th century",
 				"medium": "Woodblock print; ink and color on paper",
@@ -2323,6 +2435,10 @@
 			"title": "Bamboo in a spring thunderstorm",
 			"creator": "tang-yin",
 			"related": [],
+			"folder": [
+				"artworks",
+				"tang-yin"
+			],
 			"fields": {
 				"date_text": "17th century",
 				"medium": "Folding fan mounted as an album leaf; ink on gold-flecked paper",
@@ -2358,6 +2474,10 @@
 			"title": "Maebyeong with lotus decoration",
 			"creator": "goryeo-potters",
 			"related": [],
+			"folder": [
+				"artworks",
+				"collective-and-anonymous"
+			],
 			"fields": {
 				"date_text": "late 11th–early 12th century",
 				"medium": "Stoneware with carved and incised design under celadon glaze",
@@ -2395,6 +2515,10 @@
 			"related": [
 				"a-gathering-of-holy-men-of-different-faiths"
 			],
+			"folder": [
+				"artworks",
+				"nidha-mal"
+			],
 			"fields": {
 				"date_text": "mid-18th century",
 				"medium": "Ink, opaque watercolor, and gold on paper",
@@ -2431,6 +2555,10 @@
 			"creator": "mir-kalan-khan",
 			"related": [
 				"prince-and-ladies-in-a-garden"
+			],
+			"folder": [
+				"artworks",
+				"mir-kalan-khan"
 			],
 			"fields": {
 				"year": 1770,
@@ -2471,6 +2599,10 @@
 			"related": [
 				"bahram-gur-hunting-with-azada"
 			],
+			"folder": [
+				"artworks",
+				"collective-and-anonymous"
+			],
 			"fields": {
 				"year": 1590,
 				"date_text": "ca. 1590",
@@ -2508,6 +2640,10 @@
 			"creator": "mughal-court-painters",
 			"related": [
 				"prince-and-ladies-in-a-garden"
+			],
+			"folder": [
+				"artworks",
+				"collective-and-anonymous"
 			],
 			"fields": {
 				"year": 1820,
@@ -2547,6 +2683,10 @@
 			"related": [
 				"solanki-raga"
 			],
+			"folder": [
+				"artworks",
+				"firdausi"
+			],
 			"fields": {
 				"year": 1352,
 				"date_text": "dated 753 AH/1352 CE",
@@ -2583,6 +2723,10 @@
 			"title": "The Anhalt Medallion Carpet",
 			"creator": "persian-carpet-weavers",
 			"related": [],
+			"folder": [
+				"artworks",
+				"collective-and-anonymous"
+			],
 			"fields": {
 				"date_text": "probably first half 16th century",
 				"medium": "Cotton (warp), silk (weft), wool (pile); asymmetrically knotted pile",
@@ -2619,6 +2763,10 @@
 			"creator": "igun-eronmwon",
 			"related": [
 				"head-from-a-figure"
+			],
+			"folder": [
+				"artworks",
+				"collective-and-anonymous"
 			],
 			"fields": {
 				"year": 1540,
@@ -2659,6 +2807,10 @@
 			"related": [
 				"plaque-with-warrior-and-attendants"
 			],
+			"folder": [
+				"artworks",
+				"collective-and-anonymous"
+			],
 			"fields": {
 				"date_text": "12th–15th century",
 				"medium": "Soapstone (schist)",
@@ -2695,6 +2847,10 @@
 			"creator": "dogon-blacksmiths",
 			"related": [
 				"priest-with-raised-arms"
+			],
+			"folder": [
+				"artworks",
+				"collective-and-anonymous"
 			],
 			"fields": {
 				"date_text": "16th–18th century",
@@ -2734,6 +2890,10 @@
 			"related": [
 				"dogon-equestrian"
 			],
+			"folder": [
+				"artworks",
+				"collective-and-anonymous"
+			],
 			"fields": {
 				"date_text": "14th–17th century",
 				"medium": "Wood, applied organic materials",
@@ -2771,6 +2931,10 @@
 			"related": [
 				"chiefs-blanket"
 			],
+			"folder": [
+				"artworks",
+				"collective-and-anonymous"
+			],
 			"fields": {
 				"date_text": "19th century",
 				"medium": "Cotton, silk",
@@ -2807,6 +2971,10 @@
 			"creator": "moche-artists",
 			"related": [
 				"vessel-with-mythological-scene"
+			],
+			"folder": [
+				"artworks",
+				"collective-and-anonymous"
 			],
 			"fields": {
 				"year": 200,
@@ -2848,6 +3016,10 @@
 			"related": [
 				"vessel-with-face-neck"
 			],
+			"folder": [
+				"artworks",
+				"collective-and-anonymous"
+			],
 			"fields": {
 				"year": 600,
 				"year_to": 800,
@@ -2887,6 +3059,10 @@
 			"related": [
 				"mans-kente-prestige-cloth"
 			],
+			"folder": [
+				"artworks",
+				"collective-and-anonymous"
+			],
 			"fields": {
 				"year": 1865,
 				"date_text": "ca. 1865",
@@ -2925,6 +3101,10 @@
 			"related": [
 				"chiefs-blanket"
 			],
+			"folder": [
+				"artworks",
+				"collective-and-anonymous"
+			],
 			"fields": {
 				"date_text": "mid-19th century",
 				"medium": "Flax (harakeke, Phormium tenax), wool",
@@ -2962,6 +3142,10 @@
 			"related": [
 				"walking-bull"
 			],
+			"folder": [
+				"artworks",
+				"collective-and-anonymous"
+			],
 			"fields": {
 				"date_text": "664–525 BCE",
 				"medium": "Bronze",
@@ -2998,6 +3182,10 @@
 			"title": "Table lamp",
 			"creator": "tiffany-studios",
 			"related": [],
+			"folder": [
+				"artworks",
+				"tiffany-studios"
+			],
 			"fields": {
 				"year": 1895,
 				"year_to": 1898,
@@ -3035,6 +3223,10 @@
 			"title": "Vessel with Women and Goats",
 			"creator": "gauguin",
 			"related": [],
+			"folder": [
+				"artworks",
+				"gauguin"
+			],
 			"fields": {
 				"year": 1887,
 				"year_to": 1889,

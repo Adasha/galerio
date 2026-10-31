@@ -384,6 +384,14 @@ def dates_of(key, record):
 	return fields
 
 
+def folder_of(profile):
+	"""The Media Library folder for a work's image: a folder per named artist
+	under "artworks", and one shared folder for peoples, guilds and anonymous
+	workshops, so there aren't a dozen folders holding a single file."""
+	named = not P[profile]['collective'] or profile == 'tiffany-studios'
+	return ['artworks', profile if named else 'collective-and-anonymous']
+
+
 def build():
 	profiles = []
 	for key, p in P.items():
@@ -407,7 +415,7 @@ def build():
 		assert o['isPublicDomain'] and o['primaryImage'], met_id
 		credit = f'{MET}. {o["creditLine"]}. Accession number {o["accessionNumber"]}. Open Access, CC0 1.0.'
 		works.append({
-			'key': key, 'title': o['title'], 'creator': profile, 'related': related,
+			'key': key, 'title': o['title'], 'creator': profile, 'related': related, 'folder': folder_of(profile),
 			'fields': {
 				**dates_of(key, o), 'medium': o['medium'], 'dimensions': o['dimensions'].replace('\r\n', '; ').replace('\n', '; '),
 				'location': MET,
