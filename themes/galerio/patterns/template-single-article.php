@@ -32,7 +32,8 @@
 <!-- wp:post-date {"fontSize":"small"} /--></div>
 <!-- /wp:group -->
 
-<!-- wp:columns -->
+<!-- wp:group {"className":"galerio-split","metadata":{"name":"Split"},"layout":{"type":"default"}} -->
+<div class="wp-block-group galerio-split"><!-- wp:columns -->
 <div class="wp-block-columns"><!-- wp:column {"width":"66.66%"} -->
 <div class="wp-block-column" style="flex-basis:66.66%"><!-- wp:post-content /--></div>
 <!-- /wp:column -->
@@ -50,7 +51,8 @@
 <?php endif; ?></div>
 <!-- /wp:group --></div>
 <!-- /wp:column --></div>
-<!-- /wp:columns -->
+<!-- /wp:columns --></div>
+<!-- /wp:group -->
 
 <?php if ( galerio_theme_has_related() ) : ?>
 	<?php galerio_related_query( 'article.related_articles', '', 1 ); ?>

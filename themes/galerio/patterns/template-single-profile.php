@@ -20,7 +20,8 @@
 
 <!-- wp:post-terms {"term":"galerio_group","separator":" ","className":"is-style-buttons"} /-->
 
-<!-- wp:columns -->
+<!-- wp:group {"className":"galerio-split","metadata":{"name":"Split"},"layout":{"type":"default"}} -->
+<div class="wp-block-group galerio-split"><!-- wp:columns -->
 <div class="wp-block-columns"><!-- wp:column {"width":"66.66%","style":{"spacing":{"blockGap":"var:preset|spacing|30"}}} -->
 <div class="wp-block-column" style="flex-basis:66.66%"><!-- wp:group {"tagName":"article","layout":{"type":"default"}} -->
 <article class="wp-block-group"><!-- wp:group {"metadata":{"name":"Nationality and lifespan"},"style":{"spacing":{"blockGap":"var:preset|spacing|10"}},"layout":{"type":"flex","flexWrap":"wrap"}} -->
@@ -62,7 +63,8 @@
 <!-- wp:galerio/field-display {"key":"profile.links","label":<?php galerio_theme_attr( /* translators: Heading above a profile's links. */ __( 'More links:', 'galerio' ) ); ?>,"showIf":"show_links"} /--></div>
 <!-- /wp:group --></div>
 <!-- /wp:column --></div>
-<!-- /wp:columns -->
+<!-- /wp:columns --></div>
+<!-- /wp:group -->
 
 <!-- wp:separator {"className":"is-style-dots"} -->
 <hr class="wp-block-separator has-alpha-channel-opacity is-style-dots"/>
