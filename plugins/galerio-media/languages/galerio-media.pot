@@ -2,14 +2,14 @@
 # This file is distributed under the GPL-2.0-or-later.
 msgid ""
 msgstr ""
-"Project-Id-Version: Galerio Media 0.1.0-alpha.1\n"
+"Project-Id-Version: Galerio Media 0.2.0-alpha.1\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/galerio-media\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-10-24T23:04:24+00:00\n"
+"POT-Creation-Date: 2026-10-31T12:42:00+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: galerio-media\n"
@@ -44,14 +44,16 @@ msgid "This site has no FileBird folders to import."
 msgstr ""
 
 #: includes/class-folders.php:72
-#: includes/class-list-view.php:120
-#: includes/class-settings.php:133
-#: build/folders.js:2
+#: includes/class-list-view.php:113
+#: includes/class-settings.php:215
+#: build/folders.js:3
+#: src/folders.js:573
+#: src/folders.js:621
 msgid "Folders"
 msgstr ""
 
 #: includes/class-folders.php:73
-#: includes/class-list-view.php:160
+#: includes/class-list-view.php:153
 msgid "Folder"
 msgstr ""
 
@@ -80,16 +82,29 @@ msgstr ""
 msgid "No folders yet."
 msgstr ""
 
-#: includes/class-folders.php:312
+#: includes/class-folders.php:315
 msgid "That folder belongs to someone else."
 msgstr ""
 
-#: includes/class-folders.php:316
-msgid "Only editors can add shared folders."
+#: includes/class-folders.php:319
+msgid "You can’t add shared folders."
 msgstr ""
 
-#: includes/class-folders.php:434
-#: build/folders.js:2
+#: includes/class-folders.php:398
+msgid "You can’t move that folder."
+msgstr ""
+
+#: includes/class-folders.php:406
+msgid "A folder can only move among the folders it’s with: shared folders among the shared ones, your own among yours."
+msgstr ""
+
+#: includes/class-folders.php:412
+msgid "A folder can’t go inside itself."
+msgstr ""
+
+#: includes/class-folders.php:539
+#: build/folders.js:3
+#: src/folders.js:595
 msgid "My folders"
 msgstr ""
 
@@ -97,114 +112,154 @@ msgstr ""
 msgid "Filter by folder"
 msgstr ""
 
-#: includes/class-list-view.php:163
+#: includes/class-list-view.php:156
 msgid "My folder"
 msgstr ""
 
-#: includes/class-list-view.php:191
+#: includes/class-list-view.php:184
 msgid "None"
 msgstr ""
 
-#: includes/class-rest.php:151
+#: includes/class-rest.php:168
 msgid "Personal folders are switched off."
 msgstr ""
 
-#: includes/class-rest.php:177
+#: includes/class-rest.php:206
 msgid "You can’t put files in that folder."
 msgstr ""
 
-#: includes/class-rest.php:181
+#: includes/class-rest.php:210
 msgid "Those folders belong to someone else."
 msgstr ""
 
-#: includes/class-settings.php:126
+#: includes/class-settings.php:208
 msgid "Galerio"
 msgstr ""
 
-#: includes/class-settings.php:135
+#: includes/class-settings.php:217
 msgid "Each person can have their own folders as well as the shared ones"
 msgstr ""
 
-#: includes/class-settings.php:143
+#: includes/class-settings.php:225
+msgid "Shared folders"
+msgstr ""
+
+#: includes/class-settings.php:227
+msgid "These roles add, rename, move and delete the shared folders. Everyone who can upload files puts files in them, and arranges their own folders as they like. Administrators always can."
+msgstr ""
+
+#: includes/class-settings.php:235
 msgid "Folder directories"
 msgstr ""
 
-#: includes/class-settings.php:145
+#: includes/class-settings.php:237
 msgid "Save files uploaded into a shared folder in a directory named after the folder, such as uploads/collections/visions/, instead of year and month directories"
 msgstr ""
 
-#: includes/class-settings.php:153
-msgid "Uploads"
+#: includes/class-settings.php:245
+msgid "Own uploads only"
 msgstr ""
 
-#: includes/class-settings.php:155
-msgid "People who can’t edit others’ posts, such as contributors, see only their own uploads"
+#: includes/class-settings.php:247
+msgid "These roles see only the files they uploaded, in the Media Library and when choosing media. Someone with another role as well sees everything. Files on the site itself stay public. Administrators always see everything."
 msgstr ""
 
-#: includes/class-settings.php:163
+#: includes/class-settings.php:255
 msgid "Attachment pages"
 msgstr ""
 
-#: includes/class-settings.php:165
+#: includes/class-settings.php:257
 msgid "Give each uploaded file its own page. Off, links to a file go to the file itself."
 msgstr ""
 
 #: build/folders.js:1
+#: src/folders.js:216
 msgid "That didn’t work."
+msgstr ""
+
+#: build/folders.js:1
+#: src/folders.js:371
+msgid "Folder moved."
 msgstr ""
 
 #. translators: %d: number of files.
 #: build/folders.js:2
+#: src/folders.js:329
 #, js-format
 msgid "%d moved."
 msgstr ""
 
 #: build/folders.js:2
+#: src/folders.js:467
 msgid "Close folder"
 msgstr ""
 
 #: build/folders.js:2
+#: src/folders.js:471
 msgid "Open folder"
-msgstr ""
-
-#: build/folders.js:2
-msgid "New folder name"
-msgstr ""
-
-#: build/folders.js:2
-msgid "Folder name"
-msgstr ""
-
-#: build/folders.js:2
-msgid "Save"
-msgstr ""
-
-#: build/folders.js:2
-msgid "Cancel"
-msgstr ""
-
-#: build/folders.js:2
-msgid "All files"
-msgstr ""
-
-#: build/folders.js:2
-msgid "Not in a folder"
-msgstr ""
-
-#: build/folders.js:2
-msgid "New"
-msgstr ""
-
-#: build/folders.js:2
-msgid "Rename"
 msgstr ""
 
 #. translators: %s: folder name.
 #: build/folders.js:3
+#: src/folders.js:536
+#, js-format
+msgid "New folder inside “%s”"
+msgstr ""
+
+#: build/folders.js:3
+#: src/folders.js:546
+msgid "New folder name"
+msgstr ""
+
+#: build/folders.js:3
+#: src/folders.js:547
+msgid "Folder name"
+msgstr ""
+
+#: build/folders.js:3
+#: src/folders.js:558
+msgid "Save"
+msgstr ""
+
+#: build/folders.js:3
+#: src/folders.js:565
+msgid "Cancel"
+msgstr ""
+
+#: build/folders.js:3
+#: src/folders.js:576
+msgid "All files"
+msgstr ""
+
+#: build/folders.js:3
+#: src/folders.js:579
+msgid "Not in a folder"
+msgstr ""
+
+#: build/folders.js:3
+#: src/folders.js:601
+#: src/folders.js:628
+msgid "New"
+msgstr ""
+
+#: build/folders.js:3
+#: src/folders.js:645
+msgid "New folder inside"
+msgstr ""
+
+#: build/folders.js:3
+#: src/folders.js:661
+msgid "Rename"
+msgstr ""
+
+#. translators: %s: folder name.
+#: build/folders.js:4
+#: src/folders.js:272
 #, js-format
 msgid "Delete the folder “%s”? Its files stay in the Media Library, and folders inside it move up a level."
 msgstr ""
 
-#: build/folders.js:3
+#: build/folders.js:4
+#: src/folders.js:671
 msgid "Delete"
 msgstr ""

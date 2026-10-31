@@ -4,7 +4,7 @@ Tags: carousel, slider, gallery, exhibition, art
 Requires at least: 6.6
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 0.3.3-alpha.1
+Stable tag: 0.4.0-alpha.1
 License: GPL-2.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -47,6 +47,12 @@ Ready-made Query Loops in the inserter, named after the site's content types: Ga
 Galerio is in alpha. Expect breaking changes.
 
 == Changelog ==
+
+= 0.4.0-alpha.1 =
+* Query Loops get a Rows panel: show only so many rows, counted as laid out (three cards on a desktop are one row, as is one card on a phone). The rest are hidden, on the page and in the editor.
+* Transforms between a Query Loop and the Galerio Carousel, both ways. A Query Loop becomes the carousel's source, with its own card design for the slides; a carousel with its own query becomes a Query Loop of the same items.
+* With Galerio Core's catalogue on, the works Query Loop can show only works of a chosen availability, such as those for sale.
+* Includes the fixes from 0.3.1 to 0.3.3.
 
 = 0.3.3-alpha.1 =
 * Query Loops: a Cover that uses the featured image, as in the collection card, no longer redraws the loop without end when its items' images mix dark and light. In the editor it keeps the light or dark setting it was saved with.
