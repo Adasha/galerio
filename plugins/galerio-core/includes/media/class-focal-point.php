@@ -146,8 +146,18 @@ final class Focal_Point {
 	 * @return array{x: float, y: float}
 	 */
 	public static function default_for( $item = null ) {
-		$post_type = $item ? get_post_type( $item ) : '';
-		$point     = 'galerio_profile' === $post_type ? array(
+		return self::default_for_type( $item ? (string) get_post_type( $item ) : '' );
+	}
+
+	/**
+	 * Where an image without a focal point is kept in view, for an item of
+	 * a type.
+	 *
+	 * @param string $post_type Type of the item the image stands for, or empty.
+	 * @return array{x: float, y: float}
+	 */
+	public static function default_for_type( $post_type ) {
+		$point = 'galerio_profile' === $post_type ? array(
 			'x' => 0.5,
 			'y' => 0.3,
 		) : self::CENTRE;

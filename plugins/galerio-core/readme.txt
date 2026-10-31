@@ -27,6 +27,7 @@ Galerio is in alpha. Expect breaking changes.
 = 0.7.0-alpha.1 =
 * Image focal points: each image can keep a point in view when it's cropped to fill a box, such as a card, a cover, a carousel slide or a grid tile. The point is kept with the image, so it holds wherever the image is shown. An image without one is centred, except as a profile's image: a portrait is kept a little above the middle, where a face usually is. A Cover block with its own focal point keeps it. Themes and plugins can change the defaults with the `galerio_focal_point_default` filter.
 * A Focal point field in an image's details, in the Media Library, the media pop-up and the image's own edit screen: click the image where it should stay in view, or type how far across and down. Clear goes back to the default.
+* A Focal point panel in the editor's sidebar, for the image that stands for the item (its featured image, or its own image as the item's settings choose). It's saved to the image straight away, not with the item, as the point belongs to the image wherever it's shown.
 
 = 0.6.1-alpha.1 =
 * Works take a date range and a date in words: Year to, and Date in words for things like "mid-19th century" or "600–800 CE". The date as shown (the words if there are any, otherwise the year or range such as 1830–32) is the new Date as shown field, which the work card, the single work pattern and feeds use; Schema.org gets a range as an interval. BCE years aren't held by the year fields yet, so write those as words.
