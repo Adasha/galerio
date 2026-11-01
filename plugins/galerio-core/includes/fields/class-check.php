@@ -34,6 +34,12 @@ final class Check {
 	const TAXONOMIES = array( 'galerio_article_category', 'galerio_collection_category', 'galerio_group', 'galerio_label', 'galerio_medium', 'galerio_role' );
 
 	/**
+	 * Fields and taxonomies deliberately left out of Galerio for now. Their
+	 * data stays stored, so it's a note rather than a problem.
+	 */
+	const LEFT_OUT = array( 'attachment.intent', 'media_intent', 'user.profile' );
+
+	/**
 	 * Fields to check.
 	 *
 	 * @var Registry
@@ -106,6 +112,20 @@ final class Check {
 			'item'   => $item,
 			'detail' => $detail,
 		);
+	}
+
+	/**
+	 * Add a result about data Galerio doesn't define.
+	 *
+	 * @param string $item   Field, type or taxonomy.
+	 * @param string $detail What was found.
+	 */
+	private function add_left_behind( $item, $detail ) {
+		if ( in_array( $item, self::LEFT_OUT, true ) ) {
+			$this->add( self::NOTE, 'left out', $item, $detail . ', kept in the database' );
+		} else {
+			$this->add( self::PROBLEM, 'data left behind', $item, $detail );
+		}
 	}
 
 	/**
@@ -325,14 +345,14 @@ final class Check {
 				$count = (int) $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(*) FROM {$wpdb->posts} WHERE post_type = %s AND post_status <> 'auto-draft'", $pod->post_name ) );
 
 				if ( $count ) {
-					$this->add( self::PROBLEM, 'data left behind', $pod->post_name, sprintf( 'a post type Galerio does not define, with %d item(s)', $count ) );
+					$this->add_left_behind( $pod->post_name, sprintf( 'a post type Galerio does not define, with %d item(s)', $count ) );
 				}
 			} elseif ( 'taxonomy' === $pod->type && ! in_array( $pod->post_name, self::TAXONOMIES, true ) ) {
 				// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- A one-off check of what's stored.
 				$count = (int) $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(*) FROM {$wpdb->term_taxonomy} WHERE taxonomy = %s", $pod->post_name ) );
 
 				if ( $count ) {
-					$this->add( self::PROBLEM, 'data left behind', $pod->post_name, sprintf( 'a taxonomy Galerio does not define, with %d term(s)', $count ) );
+					$this->add_left_behind( $pod->post_name, sprintf( 'a taxonomy Galerio does not define, with %d term(s)', $count ) );
 				}
 			}
 
@@ -375,7 +395,7 @@ final class Check {
 			}
 
 			if ( $count ) {
-				$this->add( self::PROBLEM, 'data left behind', $key, sprintf( 'a field Galerio does not define, with %d value(s)', $count ) );
+				$this->add_left_behind( $key, sprintf( 'a field Galerio does not define, with %d value(s)', $count ) );
 			}
 		}
 	}
