@@ -24,6 +24,9 @@ test( 'templates have names, and only custom ones are offered per item', async (
 	expect( bySlug[ 'taxonomy-galerio_group' ].title.rendered ).toBe(
 		'Group archive'
 	);
+	expect( bySlug[ 'taxonomy-galerio_role' ].title.rendered ).toBe(
+		'Role archive'
+	);
 	expect( bySlug[ 'single-galerio_work' ].is_custom ).toBe( false );
 	expect( bySlug[ 'title-page' ].is_custom ).toBe( true );
 

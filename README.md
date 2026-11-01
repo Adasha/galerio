@@ -78,6 +78,15 @@ git diff data/pods/galerio.json
 
 Exports are canonical: pods and templates are sorted by name, settings are in a fixed order, IDs are numbered from 1, and values that only describe one site (database IDs, edit locks, Pods' upgrade markers) are left out. The same configuration exports identically from any site, so `git diff` shows only real changes. `--raw` gives Pods' own export instead.
 
+### Moving terms
+
+`wp galerio terms move <taxonomy> <term> [--to=<taxonomy>] [--parent=<term>] [--dry-run]` moves a term (by ID or slug), with the terms under it, to another taxonomy, under another parent, or both. `--parent` names a term in the taxonomy it moves to; `0`, the default, is the top level. The terms keep their IDs, names, slugs, descriptions and items, and the terms under the moved one keep their places beneath it. Nothing changes if a slug is already taken in the other taxonomy, or if some items are of a type the other taxonomy isn't used for. The output lists each term's old and new address, for redirects.
+
+```sh
+wp galerio terms move galerio_group staff --to=galerio_role --dry-run
+wp galerio terms move galerio_role fellows --parent=0
+```
+
 Pods packages refer to relationship fields by numeric ID, and Pods doesn't remap those IDs on import, so on a new site every two-way relationship (for example a work's creator and that creator's works) would be linked to the wrong field. Galerio's importer repairs this, which is why packages should be imported with `wp galerio pods import`.
 
 Two side effects of importing are worth knowing about:
