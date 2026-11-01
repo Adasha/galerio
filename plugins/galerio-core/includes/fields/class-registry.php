@@ -34,6 +34,13 @@ final class Registry {
 	);
 
 	/**
+	 * Groups added on top of the standard ones: object => name => label.
+	 *
+	 * @var array<string, array<string, string>>
+	 */
+	private $added_groups = array();
+
+	/**
 	 * Registered fields by key.
 	 *
 	 * @var array<string, Field>
@@ -101,6 +108,70 @@ final class Registry {
 		$this->fields[ $key ] = $field;
 
 		return $field;
+	}
+
+	/**
+	 * Add a group of fields to an object's editor, after the standard ones.
+	 *
+	 * @param string $object_name Object name, e.g. "profile".
+	 * @param string $name        Group name, as fields' `group` gives it.
+	 * @param string $label       Heading.
+	 */
+	public function register_group( $object_name, $name, $label ) {
+		$this->added_groups[ $object_name ][ $name ] = $label;
+	}
+
+	/**
+	 * An object's groups in the editor, in order.
+	 *
+	 * @param string $object_name Object name.
+	 * @return array<string, string> Headings by group name.
+	 */
+	public function groups( $object_name ) {
+		$this->load();
+
+		$standard = array(
+			'work'       => array(
+				'details'       => __( 'Details', 'galerio-core' ),
+				'metadata'      => __( 'Metadata', 'galerio-core' ),
+				'relationships' => __( 'Relationships', 'galerio-core' ),
+				'cataloging'    => __( 'Cataloging', 'galerio-core' ),
+				'sales'         => __( 'Sales', 'galerio-core' ),
+			),
+			'profile'    => array(
+				'details'        => __( 'Details', 'galerio-core' ),
+				'biography'      => __( 'Biography', 'galerio-core' ),
+				'relationships'  => __( 'Relationships', 'galerio-core' ),
+				'external_links' => __( 'External Links', 'galerio-core' ),
+				'sales'          => __( 'Sales', 'galerio-core' ),
+			),
+			'collection' => array(
+				'details'       => __( 'Details', 'galerio-core' ),
+				'content'       => __( 'Content', 'galerio-core' ),
+				'relationships' => __( 'Relationships', 'galerio-core' ),
+			),
+			'article'    => array(
+				'details'       => __( 'Details', 'galerio-core' ),
+				'relationships' => __( 'Relationships', 'galerio-core' ),
+			),
+			'attachment' => array(
+				'metadata' => __( 'Metadata', 'galerio-core' ),
+			),
+		);
+
+		$groups = isset( $standard[ $object_name ] ) ? $standard[ $object_name ] : array();
+
+		if ( isset( $this->added_groups[ $object_name ] ) ) {
+			$groups += $this->added_groups[ $object_name ];
+		}
+
+		/**
+		 * Filters the groups an object's fields are shown in, in the editor.
+		 *
+		 * @param array<string, string> $groups      Headings by group name.
+		 * @param string                $object_name Object name.
+		 */
+		return apply_filters( 'galerio_field_groups', $groups, $object_name );
 	}
 
 	/**

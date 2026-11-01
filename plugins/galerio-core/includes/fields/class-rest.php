@@ -30,7 +30,7 @@ final class Rest {
 			add_filter(
 				"rest_pre_insert_{$post_type}",
 				function ( $prepared, $request ) use ( $object ) {
-					$error = self::validate( self::public_fields( $object ), $request['galerio_fields'] ?? array() );
+					$error = self::validate( galerio_fields()->all( $object ), $request['galerio_fields'] ?? array() );
 					return $error ? $error : $prepared;
 				},
 				10,
@@ -40,26 +40,11 @@ final class Rest {
 	}
 
 	/**
-	 * An object's public fields.
-	 *
-	 * @param string $object_name Object name, e.g. "work".
-	 * @return Field[]
-	 */
-	private static function public_fields( $object_name ) {
-		return array_filter(
-			galerio_fields()->all( $object_name ),
-			function ( Field $field ) {
-				return $field->public;
-			}
-		);
-	}
-
-	/**
 	 * Register the REST field on every object's post type.
 	 */
 	public static function register() {
 		foreach ( Registry::OBJECTS as $object => $post_type ) {
-			$fields = self::public_fields( $object );
+			$fields = galerio_fields()->all( $object );
 
 			if ( ! $fields ) {
 				continue;
@@ -69,10 +54,14 @@ final class Rest {
 				$post_type,
 				'galerio_fields',
 				array(
-					'get_callback'    => function ( $data ) use ( $fields ) {
-						$values = array();
+					'get_callback'    => function ( $data, $name, $request ) use ( $fields ) {
+						$editing = 'edit' === $request['context'] && current_user_can( 'edit_post', $data['id'] );
+						$values  = array();
 						foreach ( $fields as $field ) {
-							$values[ $field->name ] = self::visible_value( $field, galerio_fields()->value( $field, $data['id'] ), $data['id'] );
+							// Private fields are only for the editor.
+							if ( $field->public || ( $editing && $field->can_edit() ) ) {
+								$values[ $field->name ] = self::visible_value( $field, galerio_fields()->value( $field, $data['id'] ), $data['id'] );
+							}
 						}
 						return (object) $values;
 					},
@@ -126,7 +115,7 @@ final class Rest {
 	/**
 	 * Check that a request names only fields that exist and can be saved.
 	 *
-	 * @param Field[] $fields Public fields of the post's object.
+	 * @param Field[] $fields Fields of the post's object.
 	 * @param mixed   $values Field values by name.
 	 * @return \WP_Error|null Null when the request is fine.
 	 */
@@ -145,6 +134,15 @@ final class Rest {
 					array( 'status' => 400 )
 				);
 			}
+
+			if ( ! $by_name[ $name ]->can_edit() ) {
+				return new \WP_Error(
+					'galerio_forbidden_field',
+					/* translators: %s: field name. */
+					sprintf( __( 'You can\'t edit the field %s.', 'galerio-core' ), $name ),
+					array( 'status' => rest_authorization_required_code() )
+				);
+			}
 		}
 
 		return null;
@@ -153,7 +151,7 @@ final class Rest {
 	/**
 	 * Save the fields named in a REST request.
 	 *
-	 * @param Field[]  $fields Public fields of the post's object.
+	 * @param Field[]  $fields Fields of the post's object.
 	 * @param mixed    $values Field values by name, already validated.
 	 * @param \WP_Post $post   Post being saved.
 	 * @return true|\WP_Error
@@ -236,6 +234,10 @@ final class Rest {
 
 		if ( $field->value_callback ) {
 			$schema['readonly'] = true;
+		}
+
+		if ( ! $field->public ) {
+			$schema['context'] = array( 'edit' );
 		}
 
 		return $schema;

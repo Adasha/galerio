@@ -328,4 +328,21 @@ class Test_Registry extends Galerio_TestCase {
 		$this->assertSame( 'Oil on canvas', $fields['medium'] );
 		$this->assertArrayNotHasKey( 'owner', $fields );
 	}
+
+	/**
+	 * A site can add a group, and Sales is left out while the catalogue is off.
+	 */
+	public function test_groups() {
+		$registry = galerio_fields();
+		$registry->register_group( 'profile', 'review', 'Review' );
+
+		$groups = $registry->groups( 'profile' );
+
+		$this->assertSame( 'review', array_key_last( $groups ) );
+		$this->assertArrayNotHasKey( 'sales', $groups );
+
+		update_option( 'galerio_settings_catalogue', '1' );
+		$this->assertArrayHasKey( 'sales', $registry->groups( 'profile' ) );
+		delete_option( 'galerio_settings_catalogue' );
+	}
 }

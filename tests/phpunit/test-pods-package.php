@@ -262,4 +262,64 @@ class Test_Pods_Package extends WP_UnitTestCase {
 
 		$this->assertSame( $expected, $actual );
 	}
+
+	/**
+	 * The registry's groups, their order, and the roles of each field are the package's.
+	 */
+	public function test_groups_and_roles_match() {
+		$objects = array(
+			'galerio_work'       => 'work',
+			'galerio_profile'    => 'profile',
+			'galerio_collection' => 'collection',
+			'galerio_article'    => 'article',
+			'media'              => 'attachment',
+		);
+		$names   = array(
+			'work_meta_group' => 'metadata',
+			'media_metadata'  => 'metadata',
+		);
+
+		foreach ( self::$package['pods'] as $pod ) {
+			if ( ! isset( $objects[ $pod['name'] ] ) ) {
+				continue;
+			}
+
+			$object   = $objects[ $pod['name'] ];
+			$expected = array();
+
+			foreach ( $pod['groups'] as $group ) {
+				// The intent field is deliberately left out of Galerio for now.
+				if ( 'media_taxonomy' === $group['name'] ) {
+					continue;
+				}
+
+				$name = isset( $names[ $group['name'] ] ) ? $names[ $group['name'] ] : str_replace( '_group', '', $group['name'] );
+
+				foreach ( $group['fields'] as $field ) {
+					$roles = isset( $field['restrict_role'] ) && '1' === $field['restrict_role'] ? array_values( array_diff( (array) $field['roles_allowed'], array( 'moderator' ) ) ) : array();
+					sort( $roles );
+
+					$expected[ $object . '.' . $field['name'] ] = array( $name, $roles );
+				}
+			}
+
+			$actual = array();
+
+			foreach ( galerio_fields()->all( $object ) as $field ) {
+				if ( $field->group ) {
+					$roles = $field->roles;
+					sort( $roles );
+
+					$actual[ $field->key ] = array( $field->group, $roles );
+				}
+			}
+
+			$this->assertSame( $expected, $actual, $object );
+
+			$groups = array_values( array_unique( array_column( $expected, 0 ) ) );
+			$known  = array_keys( galerio_fields()->groups( $object ) );
+
+			$this->assertSame( array(), array_values( array_diff( $groups, $known, array( 'sales' ) ) ), $object );
+		}
+	}
 }
