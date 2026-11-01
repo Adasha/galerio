@@ -205,4 +205,77 @@ class Test_Term_Mover extends Galerio_TestCase {
 	public function test_refuses_a_loop() {
 		$this->assertWPError( Term_Mover::move( get_term( $this->groups['staff'] ), 'galerio_group', $this->groups['academics'] ) );
 	}
+
+	/**
+	 * A term with terms under it can't go to a taxonomy without parents.
+	 */
+	public function test_refuses_a_branch_into_a_flat_taxonomy() {
+		$this->assertWPError( Term_Mover::move( get_term( $this->groups['staff'] ), 'galerio_label' ) );
+
+		Term_Mover::move( get_term( $this->groups['fellows'] ), 'galerio_label' );
+		$this->assertSame( 'galerio_label', get_term( $this->groups['fellows'] )->taxonomy );
+		$this->assertSame( 0, (int) get_term( $this->groups['fellows'] )->parent );
+	}
+
+	/**
+	 * A merge gives the term's items and children to the other term and
+	 * deletes it.
+	 */
+	public function test_merges_into_another_term() {
+		$visiting = self::factory()->term->create(
+			array(
+				'taxonomy' => 'galerio_group',
+				'name'     => 'Visiting',
+				'slug'     => 'visiting',
+				'parent'   => $this->groups['academics'],
+			)
+		);
+
+		$rows = Term_Mover::merge( get_term( $this->groups['academics'] ), get_term( $this->groups['alumni'] ) );
+
+		$this->assertSame( 1, $rows[0]['items'] );
+		$this->assertSame( 'Visiting', $rows[0]['children'] );
+		$this->assertNull( get_term( $this->groups['academics'] ) );
+		$this->assertSame( $this->groups['alumni'], (int) get_term( $visiting )->parent );
+		$this->assertSame( array( 'alumni', 'staff' ), $this->slugs( $this->profiles['holly'], 'galerio_group' ) );
+	}
+
+	/**
+	 * A dry run of a merge changes nothing, and a term can't merge into one
+	 * under it or into another taxonomy.
+	 */
+	public function test_merge_dry_run_and_refusals() {
+		Term_Mover::merge( get_term( $this->groups['academics'] ), get_term( $this->groups['alumni'] ), true );
+		$this->assertSame( array( 'academics', 'staff' ), $this->slugs( $this->profiles['holly'], 'galerio_group' ) );
+
+		$this->assertWPError( Term_Mover::merge( get_term( $this->groups['staff'] ), get_term( $this->groups['academics'] ) ) );
+
+		$role = self::factory()->term->create(
+			array(
+				'taxonomy' => 'galerio_role',
+				'name'     => 'Tutor',
+			)
+		);
+		$this->assertWPError( Term_Mover::merge( get_term( $this->groups['alumni'] ), get_term( $role ) ) );
+	}
+
+	/**
+	 * A tidy drops a tag when the item has a term under it, and leaves items
+	 * without one alone.
+	 */
+	public function test_tidies_redundant_parents() {
+		$only_staff = self::factory()->post->create( array( 'post_type' => 'galerio_profile' ) );
+		wp_set_object_terms( $only_staff, array( $this->groups['staff'] ), 'galerio_group' );
+
+		$dry = Term_Mover::tidy( 'galerio_group', true );
+		$this->assertCount( 1, $dry );
+		$this->assertSame( 'Staff', $dry[0]['removed'] );
+		$this->assertSame( 'Academics', $dry[0]['kept'] );
+		$this->assertSame( array( 'academics', 'staff' ), $this->slugs( $this->profiles['holly'], 'galerio_group' ) );
+
+		Term_Mover::tidy( 'galerio_group' );
+		$this->assertSame( array( 'academics' ), $this->slugs( $this->profiles['holly'], 'galerio_group' ) );
+		$this->assertSame( array( 'alumni', 'fellows' ), $this->slugs( $this->profiles['owain'], 'galerio_group' ) );
+		$this->assertSame( array( 'staff' ), $this->slugs( $only_staff, 'galerio_group' ) );
+	}
 }

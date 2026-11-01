@@ -26,6 +26,9 @@ Galerio is in alpha. Expect breaking changes.
 
 = 0.8.0-alpha.1 =
 * `wp galerio terms move` moves a term, with the terms under it, to another taxonomy or under another parent, e.g. a site's staff types from Groups to Roles. The terms keep their IDs, names, slugs and items. `--dry-run` shows what would move. It stops before changing anything if a slug is taken in the other taxonomy, or if some items are of a type the other taxonomy isn't used for. The old and new addresses are listed, for redirects.
+* `wp galerio terms merge` folds one term into another in the same taxonomy: its items and the terms under it go to the other, and it's deleted.
+* `wp galerio terms tidy` drops a tag when the same item has a term under it, e.g. "Exhibition" on an item that's also a "Graduate Exhibition". The upper term's page still lists the item.
+* Moving a term with terms under it to a taxonomy without parents (such as Labels) is refused. Item counts in the move's output include drafts and private items.
 
 = 0.7.1-alpha.1 =
 * Fixed: an item could appear on two pages of an archive, and another be missing, when several items had the same date or title, as items added by one import do. Items that sort equally now stay in a fixed order from page to page.

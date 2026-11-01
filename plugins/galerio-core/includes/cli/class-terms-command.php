@@ -14,7 +14,7 @@ use WP_CLI\Utils;
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Reorganise a site's terms.
+ * Reorganise a site's terms: move, merge and tidy.
  */
 class Terms_Command {
 
@@ -107,6 +107,126 @@ class Terms_Command {
 			WP_CLI::log( sprintf( 'Dry run: %s would move. Nothing was changed.', $this->terms( count( $rows ) ) ) );
 		} else {
 			WP_CLI::success( sprintf( 'Moved %s. Redirect the old addresses to the new ones if they were shared.', $this->terms( count( $rows ) ) ) );
+		}
+	}
+
+	/**
+	 * Merge a term into another in the same taxonomy.
+	 *
+	 * Its items get the other term, the terms under it move under the other,
+	 * and it's deleted. Its address goes, so redirect it if it was shared.
+	 *
+	 * ## OPTIONS
+	 *
+	 * <taxonomy>
+	 * : The taxonomy, e.g. galerio_collection_category.
+	 *
+	 * <term>
+	 * : The ID or slug of the term to merge away.
+	 *
+	 * <into>
+	 * : The ID or slug of the term to keep.
+	 *
+	 * [--dry-run]
+	 * : Show what would happen without changing anything.
+	 *
+	 * [--format=<format>]
+	 * : Output format.
+	 * ---
+	 * default: table
+	 * options:
+	 *   - table
+	 *   - csv
+	 *   - json
+	 *   - yaml
+	 * ---
+	 *
+	 * ## EXAMPLES
+	 *
+	 *     wp galerio terms merge galerio_collection_category group-project project --dry-run
+	 *
+	 * @param array $args       Positional arguments.
+	 * @param array $assoc_args Associative arguments.
+	 */
+	public function merge( $args, $assoc_args ) {
+		list( $taxonomy, $which, $into_which ) = $args;
+
+		$dry = (bool) Utils\get_flag_value( $assoc_args, 'dry-run', false );
+
+		if ( ! taxonomy_exists( $taxonomy ) ) {
+			WP_CLI::error( sprintf( 'There is no taxonomy "%s".', $taxonomy ) );
+		}
+		$from = $this->find( $which, $taxonomy );
+		$into = $this->find( $into_which, $taxonomy );
+		if ( ! $from || ! $into ) {
+			WP_CLI::error( sprintf( 'There is no term "%s" in "%s".', $from ? $into_which : $which, $taxonomy ) );
+		}
+
+		$rows = Term_Mover::merge( $from, $into, $dry );
+		if ( is_wp_error( $rows ) ) {
+			WP_CLI::error( $rows->get_error_message() );
+		}
+
+		Utils\format_items( (string) Utils\get_flag_value( $assoc_args, 'format', 'table' ), $rows, array( 'term_id', 'name', 'into', 'items', 'children', 'old_url', 'new_url' ) );
+
+		if ( $dry ) {
+			WP_CLI::log( 'Dry run: nothing was changed.' );
+		} else {
+			WP_CLI::success( sprintf( 'Merged "%s" into "%s".', $from->name, $into->name ) );
+		}
+	}
+
+	/**
+	 * Drop tags made redundant by a lower term on the same item.
+	 *
+	 * An item tagged with both a term and a term above it, e.g. "Exhibition"
+	 * and "Graduate Exhibition", keeps only the lower one. The upper term's
+	 * page still lists it.
+	 *
+	 * ## OPTIONS
+	 *
+	 * <taxonomy>
+	 * : A hierarchical taxonomy, e.g. galerio_collection_category.
+	 *
+	 * [--dry-run]
+	 * : Show what would change without changing it.
+	 *
+	 * [--format=<format>]
+	 * : Output format.
+	 * ---
+	 * default: table
+	 * options:
+	 *   - table
+	 *   - csv
+	 *   - json
+	 *   - yaml
+	 * ---
+	 *
+	 * ## EXAMPLES
+	 *
+	 *     wp galerio terms tidy galerio_collection_category --dry-run
+	 *
+	 * @param array $args       Positional arguments.
+	 * @param array $assoc_args Associative arguments.
+	 */
+	public function tidy( $args, $assoc_args ) {
+		$dry  = (bool) Utils\get_flag_value( $assoc_args, 'dry-run', false );
+		$rows = Term_Mover::tidy( $args[0], $dry );
+		if ( is_wp_error( $rows ) ) {
+			WP_CLI::error( $rows->get_error_message() );
+		}
+
+		if ( ! $rows ) {
+			WP_CLI::success( 'Nothing to tidy.' );
+			return;
+		}
+
+		Utils\format_items( (string) Utils\get_flag_value( $assoc_args, 'format', 'table' ), $rows, array( 'id', 'type', 'title', 'removed', 'kept' ) );
+
+		if ( $dry ) {
+			WP_CLI::log( sprintf( 'Dry run: %d items would change. Nothing was changed.', count( $rows ) ) );
+		} else {
+			WP_CLI::success( sprintf( 'Tidied %d items.', count( $rows ) ) );
 		}
 	}
 

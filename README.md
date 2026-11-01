@@ -87,6 +87,13 @@ wp galerio terms move galerio_group staff --to=galerio_role --dry-run
 wp galerio terms move galerio_role fellows --parent=0
 ```
 
+`wp galerio terms merge <taxonomy> <term> <into> [--dry-run]` folds a term into another in the same taxonomy: its items get the other term, the terms under it move under the other, and it's deleted. `wp galerio terms tidy <taxonomy> [--dry-run]` drops a tag when the same item also has a term under it, so each item is tagged with its most specific term only; the upper term's page still lists it.
+
+```sh
+wp galerio terms merge galerio_collection_category group-project project --dry-run
+wp galerio terms tidy galerio_collection_category --dry-run
+```
+
 Pods packages refer to relationship fields by numeric ID, and Pods doesn't remap those IDs on import, so on a new site every two-way relationship (for example a work's creator and that creator's works) would be linked to the wrong field. Galerio's importer repairs this, which is why packages should be imported with `wp galerio pods import`.
 
 Two side effects of importing are worth knowing about:
