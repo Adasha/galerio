@@ -28,6 +28,7 @@ Galerio is in alpha. Expect breaking changes.
 * Groundwork for moving off Pods: Galerio's own definitions of its content types and taxonomies, not yet in use. Sites keep running on Pods. Pods is no longer a required plugin in WordPress's eyes, so it can be switched off when the time comes; a notice still warns while a site depends on it.
 * `wp galerio fields check` also reports where what's registered differs from those definitions, and where a field's role limits do.
 * `wp galerio fields repair` fixes two-way relationships whose sides disagree. It only reports while a site is on Pods.
+* A native Settings → Galerio page and fields in a file's details, for sites on native data. They use the same stored values as Pods' page and fields.
 * A native field editor in the pane under the editor, for sites on native data. Sites on Pods keep Pods' fields.
 * Unpublished items can be chosen in relationship fields by people who can edit them, and say so.
 * Fields have a group and a list of roles, matching the editor's boxes and limits today. The REST API refuses edits to a field limited to other roles, and lets people who can edit an item read and save its private fields.
