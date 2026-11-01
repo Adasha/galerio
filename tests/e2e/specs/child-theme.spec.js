@@ -54,4 +54,64 @@ test.describe( 'Child theme starter', () => {
 			} )
 		).toBeVisible();
 	} );
+
+	test( 'collection, article, profile and documentation pages use the top layout and stack their splits', async ( {
+		page,
+		requestUtils,
+	} ) => {
+		const docs = await requestUtils.rest( {
+			path: '/wp/v2/pages',
+			method: 'POST',
+			data: {
+				title: 'Starter docs test',
+				status: 'publish',
+				template: 'wp-custom-template-documentation',
+			},
+		} );
+
+		try {
+			const pages = [
+				'/collection/shorelines/',
+				'/article/in-conversation-shorelines/',
+				'/profile/ana-morgan/',
+				docs.link,
+			];
+
+			for ( const [ width, stacked ] of [
+				[ 1280, false ],
+				[ 420, true ],
+			] ) {
+				await page.setViewportSize( { width, height: 900 } );
+
+				for ( const url of pages ) {
+					await page.goto( url );
+					await expect(
+						page.locator( '.galerio-header-bar' )
+					).toBeVisible();
+					await expect(
+						page.locator( '.galerio-site-header' )
+					).toHaveCount( 0 );
+
+					const columns = page.locator(
+						'.galerio-split > .wp-block-columns > .wp-block-column'
+					);
+					const first = await columns.first().boundingBox();
+					const last = await columns.last().boundingBox();
+
+					// Side by side on a wide page; one above the other on a phone.
+					if ( stacked ) {
+						expect( last.y ).toBeGreaterThan( first.y );
+					} else {
+						expect( last.x ).toBeGreaterThan( first.x );
+					}
+				}
+			}
+		} finally {
+			await requestUtils.rest( {
+				path: `/wp/v2/pages/${ docs.id }`,
+				method: 'DELETE',
+				params: { force: true },
+			} );
+		}
+	} );
 } );
