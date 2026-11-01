@@ -22,6 +22,9 @@ if ( ! file_exists( $tests_wp . '/includes/functions.php' ) ) {
 define( 'WP_TESTS_CONFIG_FILE_PATH', __DIR__ . '/wp-tests-config.php' );
 define( 'WP_TESTS_PHPUNIT_POLYFILLS_PATH', $repo . '/vendor/yoast/phpunit-polyfills' );
 
+// Tells development plugins that this is PHPUnit, which loads Pods itself.
+define( 'GALERIO_PHPUNIT', true );
+
 require_once $tests_wp . '/includes/functions.php';
 
 tests_add_filter(

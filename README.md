@@ -158,8 +158,8 @@ Every field templates, blocks and code can use, by content type. Keys work in `g
 | `work.valuation_notes` | Valuation notes | Plain text, several lines | Private: not shown on the site, in REST or in block bindings. |
 | `work.availability` | Availability | Choice | One of: available, reserved, sold, on_loan, not_for_sale. Catalogue: empty while the catalogue is off. |
 | `work.price` | Price | Number | Catalogue: empty while the catalogue is off. |
-| `work.price_on_application` | Price on application | On/off | Catalogue: empty while the catalogue is off. |
 | `work.currency` | Currency | Choice | One of: GBP, EUR, USD, CAD, AUD, NZD, CHF, SEK, NOK, DKK, PLN, JPY, CNY, HKD, INR, ZAR. Catalogue: empty while the catalogue is off. |
+| `work.price_on_application` | Price on application | On/off | Catalogue: empty while the catalogue is off. |
 | `work.edition_size` | Edition size | Number | Catalogue: empty while the catalogue is off. |
 | `work.editions_available` | Editions available | Number | Catalogue: empty while the catalogue is off. |
 | `work.framed` | Framed | On/off | Catalogue: empty while the catalogue is off. |
@@ -190,8 +190,8 @@ Every field templates, blocks and code can use, by content type. Keys work in `g
 | `profile.article_mentions` | Mentioned in articles | Relationship to articles (list) |  |
 | `profile.related_profiles` | Related profiles | Relationship to profiles (list) |  |
 | `profile.authored_articles` | Authored articles | Relationship to articles (list) |  |
-| `profile.show_links` | Show links | On/off |  |
 | `profile.links` | Links | Link (list) |  |
+| `profile.show_links` | Show links | On/off |  |
 | `profile.represented_by` | Represented by | Link | Catalogue: empty while the catalogue is off. |
 
 #### Collections

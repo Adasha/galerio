@@ -61,6 +61,9 @@ build "$net" galerio-net "$(header "$net/style.css" Version)"
 swansea="$repo/themes/swansea-art"
 build "$swansea" swansea-art "$(header "$swansea/style.css" Version)"
 
+# Compiled fresh so no zip carries a stale build.
+(cd "$repo" && npm run --silent build >/dev/null) || fail "npm run build failed."
+
 # Galerio Core.
 core="$repo/plugins/galerio-core"
 core_version="$(header "$core/galerio-core.php" Version)"
@@ -75,13 +78,12 @@ cp "$repo/data/pods/galerio.json" "$core_staging/galerio-core/package/galerio.js
 build "$core_staging/galerio-core" galerio-core "$core_version"
 rm -rf "$core_staging"
 
-# Galerio Blocks, compiled fresh so the zip never carries a stale build.
+# Galerio Blocks.
 blocks="$repo/plugins/galerio-blocks"
 blocks_version="$(header "$blocks/galerio-blocks.php" Version)"
 [ "$blocks_version" = "$(header "$blocks/readme.txt" 'Stable tag')" ] || fail "galerio-blocks: plugin header and readme Stable tag differ."
 grep -q "define( 'GALERIO_BLOCKS_VERSION', '$blocks_version' );" "$blocks/galerio-blocks.php" || fail "galerio-blocks: GALERIO_BLOCKS_VERSION doesn't match the plugin header."
 [ -f "$blocks/languages/galerio-blocks.pot" ] || fail "galerio-blocks: languages/galerio-blocks.pot is missing. Run: npm run i18n:pot"
-(cd "$repo" && npm run --silent build >/dev/null) || fail "galerio-blocks: npm run build failed."
 build "$blocks" galerio-blocks "$blocks_version"
 
 # Galerio Media.
