@@ -10,8 +10,9 @@ namespace Galerio\Core\Fields;
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Names the editor's meta box pane after the content type ("Work settings",
- * using the site's name for works), and keeps the accolades fields short.
+ * Names the editor's meta box pane after the content type ("Work details",
+ * using the site's name for works), gives its title more weight, and keeps the
+ * accolades fields short.
  */
 final class Edit_Screen {
 
@@ -40,7 +41,7 @@ final class Edit_Screen {
 
 	/**
 	 * Rename the pane under the editor that holds the meta boxes, which
-	 * WordPress calls "Meta Boxes", to "Work settings" and the like.
+	 * WordPress calls "Meta Boxes", to "Work details" and the like.
 	 */
 	public static function pane_label() {
 		$post_type = self::post_type();
@@ -51,7 +52,7 @@ final class Edit_Screen {
 		}
 
 		/* translators: %s: the site's name for one item of a content type, such as "Work". */
-		$label = sprintf( __( '%s settings', 'galerio-core' ), $object->labels->singular_name );
+		$label = sprintf( __( '%s details', 'galerio-core' ), $object->labels->singular_name );
 
 		// In the head, so the filter is in place before the editor first draws the pane.
 		wp_register_script( 'galerio-edit-screen', false, array( 'wp-hooks', 'wp-i18n' ), GALERIO_CORE_VERSION, false );
@@ -66,8 +67,8 @@ final class Edit_Screen {
 	}
 
 	/**
-	 * Styles for the meta boxes: accolades start as one line, as each is
-	 * usually short, and grow as they're typed in.
+	 * Styles for the meta boxes: the pane's title stands out, and accolades
+	 * start as one line, as each is usually short, and grow as they're typed in.
 	 *
 	 * @param string $hook_suffix Admin page.
 	 */
@@ -80,7 +81,11 @@ final class Edit_Screen {
 		wp_enqueue_style( 'galerio-edit-screen' );
 		wp_add_inline_style(
 			'galerio-edit-screen',
-			'textarea.pods-form-ui-field.pods-form-ui-field-type-paragraph[name^="pods_meta_accolades"] {
+			'.edit-post-meta-boxes-main__presenter > button[aria-expanded] {
+				font-size: 16px;
+				font-weight: 600;
+			}
+			textarea.pods-form-ui-field.pods-form-ui-field-type-paragraph[name^="pods_meta_accolades"] {
 				min-height: 0;
 				height: auto;
 				field-sizing: content;

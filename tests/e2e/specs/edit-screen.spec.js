@@ -17,8 +17,9 @@ test.describe( 'Edit screen', () => {
 
 		await admin.createNewPost( { postType: 'galerio_profile' } );
 
-		const pane = page.getByRole( 'button', { name: `${ name } settings` } );
+		const pane = page.getByRole( 'button', { name: `${ name } details` } );
 		await expect( pane ).toBeVisible();
+		await expect( pane ).toHaveCSS( 'font-weight', '600' );
 		await expect(
 			page.getByRole( 'button', { name: 'Meta Boxes' } )
 		).toHaveCount( 0 );
