@@ -714,13 +714,6 @@
             ]
         },
         {
-            "name": "wp-custom-template-documentation",
-            "title": "Documentation",
-            "postTypes": [
-                "page"
-            ]
-        },
-        {
             "name": "wp-custom-template-single-item-collection-project",
             "title": "Single-item collection (project)",
             "postTypes": [
