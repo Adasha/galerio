@@ -219,4 +219,47 @@ class Test_Pods_Package extends WP_UnitTestCase {
 				return ! empty( $field[ $field['type'] . '_repeatable' ] ) || ! empty( $field['repeatable'] );
 		}
 	}
+
+	/**
+	 * The registry's two-way relations are the package's, in both directions.
+	 */
+	public function test_inverses_match_sister_fields() {
+		$by_id   = array();
+		$objects = array_flip( Galerio\Core\Fields\Registry::OBJECTS );
+
+		foreach ( self::$package['pods'] as $pod ) {
+			if ( ! isset( $objects[ $pod['name'] ] ) ) {
+				continue;
+			}
+
+			foreach ( $pod['groups'] as $group ) {
+				foreach ( $group['fields'] as $field ) {
+					$by_id[ $field['id'] ] = $objects[ $pod['name'] ] . '.' . $field['name'] . '|' . ( isset( $field['sister_id'] ) ? $field['sister_id'] : '' );
+				}
+			}
+		}
+
+		$expected = array();
+
+		foreach ( $by_id as $entry ) {
+			list( $key, $sister ) = explode( '|', $entry );
+
+			if ( $sister && isset( $by_id[ $sister ] ) ) {
+				$expected[ $key ] = strtok( $by_id[ $sister ], '|' );
+			}
+		}
+
+		$actual = array();
+
+		foreach ( galerio_fields()->all() as $field ) {
+			if ( $field->inverse ) {
+				$actual[ $field->key ] = $field->inverse;
+			}
+		}
+
+		ksort( $expected );
+		ksort( $actual );
+
+		$this->assertSame( $expected, $actual );
+	}
 }

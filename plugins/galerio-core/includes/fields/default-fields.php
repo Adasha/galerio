@@ -17,9 +17,10 @@ return array(
 		'label' => __( 'Definitive title', 'galerio-core' ),
 	),
 	'work.creator'                   => array(
-		'type'   => 'relation',
-		'target' => 'profile',
-		'label'  => __( 'Creator', 'galerio-core' ),
+		'type'    => 'relation',
+		'target'  => 'profile',
+		'inverse' => 'profile.works',
+		'label'   => __( 'Creator', 'galerio-core' ),
 	),
 	'work.year'                      => array(
 		'type'  => 'year',
@@ -138,18 +139,21 @@ return array(
 	'work.collections'               => array(
 		'type'     => 'relation',
 		'target'   => 'collection',
+		'inverse'  => 'collection.works',
 		'multiple' => true,
 		'label'    => '{Collections}',
 	),
 	'work.articles'                  => array(
 		'type'     => 'relation',
 		'target'   => 'article',
+		'inverse'  => 'article.works',
 		'multiple' => true,
 		'label'    => '{Articles}',
 	),
 	'work.related_works'             => array(
 		'type'     => 'relation',
 		'target'   => 'work',
+		'inverse'  => 'work.related_works',
 		'multiple' => true,
 		/* translators: Keep {works} as it is: it becomes this site's name for works. */
 		'label'    => __( 'Related {works}', 'galerio-core' ),
@@ -190,12 +194,14 @@ return array(
 	'profile.members'                => array(
 		'type'     => 'relation',
 		'target'   => 'profile',
+		'inverse'  => 'profile.member_of',
 		'multiple' => true,
 		'label'    => __( 'Members', 'galerio-core' ),
 	),
 	'profile.member_of'              => array(
 		'type'     => 'relation',
 		'target'   => 'profile',
+		'inverse'  => 'profile.members',
 		'multiple' => true,
 		'label'    => __( 'Member of', 'galerio-core' ),
 	),
@@ -215,18 +221,21 @@ return array(
 	'profile.works'                  => array(
 		'type'     => 'relation',
 		'target'   => 'work',
+		'inverse'  => 'work.creator',
 		'multiple' => true,
 		'label'    => '{Works}',
 	),
 	'profile.collections'            => array(
 		'type'     => 'relation',
 		'target'   => 'collection',
+		'inverse'  => 'collection.profiles',
 		'multiple' => true,
 		'label'    => '{Collections}',
 	),
 	'profile.article_mentions'       => array(
 		'type'     => 'relation',
 		'target'   => 'article',
+		'inverse'  => 'article.profiles',
 		'multiple' => true,
 		/* translators: Keep {articles} as it is: it becomes this site's name for articles. */
 		'label'    => __( 'Mentioned in {articles}', 'galerio-core' ),
@@ -234,6 +243,7 @@ return array(
 	'profile.authored_articles'      => array(
 		'type'     => 'relation',
 		'target'   => 'article',
+		'inverse'  => 'article.authors',
 		'multiple' => true,
 		/* translators: Keep {articles} as it is: it becomes this site's name for articles. */
 		'label'    => __( 'Authored {articles}', 'galerio-core' ),
@@ -241,6 +251,7 @@ return array(
 	'profile.related_profiles'       => array(
 		'type'     => 'relation',
 		'target'   => 'profile',
+		'inverse'  => 'profile.related_profiles',
 		'multiple' => true,
 		/* translators: Keep {profiles} as it is: it becomes this site's name for profiles. */
 		'label'    => __( 'Related {profiles}', 'galerio-core' ),
@@ -303,6 +314,7 @@ return array(
 	'collection.profiles'            => array(
 		'type'     => 'relation',
 		'target'   => 'profile',
+		'inverse'  => 'profile.collections',
 		'multiple' => true,
 		'label'    => '{Profiles}',
 	),
@@ -319,18 +331,21 @@ return array(
 	'collection.works'               => array(
 		'type'     => 'relation',
 		'target'   => 'work',
+		'inverse'  => 'work.collections',
 		'multiple' => true,
 		'label'    => '{Works}',
 	),
 	'collection.articles'            => array(
 		'type'     => 'relation',
 		'target'   => 'article',
+		'inverse'  => 'article.collections',
 		'multiple' => true,
 		'label'    => '{Articles}',
 	),
 	'collection.related_collections' => array(
 		'type'     => 'relation',
 		'target'   => 'collection',
+		'inverse'  => 'collection.related_collections',
 		'multiple' => true,
 		/* translators: Keep {collections} as it is: it becomes this site's name for collections. */
 		'label'    => __( 'Related {collections}', 'galerio-core' ),
@@ -343,30 +358,35 @@ return array(
 	'article.authors'                => array(
 		'type'     => 'relation',
 		'target'   => 'profile',
+		'inverse'  => 'profile.authored_articles',
 		'multiple' => true,
 		'label'    => __( 'Authors', 'galerio-core' ),
 	),
 	'article.profiles'               => array(
 		'type'     => 'relation',
 		'target'   => 'profile',
+		'inverse'  => 'profile.article_mentions',
 		'multiple' => true,
 		'label'    => '{Profiles}',
 	),
 	'article.works'                  => array(
 		'type'     => 'relation',
 		'target'   => 'work',
+		'inverse'  => 'work.articles',
 		'multiple' => true,
 		'label'    => '{Works}',
 	),
 	'article.collections'            => array(
 		'type'     => 'relation',
 		'target'   => 'collection',
+		'inverse'  => 'collection.articles',
 		'multiple' => true,
 		'label'    => '{Collections}',
 	),
 	'article.related_articles'       => array(
 		'type'     => 'relation',
 		'target'   => 'article',
+		'inverse'  => 'article.related_articles',
 		'multiple' => true,
 		/* translators: Keep {articles} as it is: it becomes this site's name for articles. */
 		'label'    => __( 'Related {articles}', 'galerio-core' ),

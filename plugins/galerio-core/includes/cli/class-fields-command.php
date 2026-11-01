@@ -7,6 +7,8 @@
 
 namespace Galerio\Core\CLI;
 
+use Galerio\Core\Fields\Check;
+use Galerio\Core\Fields\Pods_Adapter;
 use Galerio\Core\Fields\Reference;
 use WP_CLI;
 use WP_CLI\Utils;
@@ -14,7 +16,7 @@ use WP_CLI\Utils;
 defined( 'ABSPATH' ) || exit;
 
 /**
- * List the fields templates, blocks and code can use.
+ * List the fields templates, blocks and code can use, and check their stored data.
  */
 class Fields_Command {
 
@@ -69,5 +71,66 @@ class Fields_Command {
 			Reference::rows( galerio_fields(), (string) Utils\get_flag_value( $assoc_args, 'object', '' ) ),
 			array( 'key', 'label', 'type', 'notes' )
 		);
+	}
+
+	/**
+	 * Check that the stored fields can be read and kept without Pods.
+	 *
+	 * Reads only: nothing is changed. It reports field values that read
+	 * differently from what's stored, two-way relationships whose sides
+	 * disagree, Pods shortcodes and blocks in content, and content in types
+	 * and fields Galerio doesn't define. Links to unpublished or missing items
+	 * are listed as notes.
+	 *
+	 * ## OPTIONS
+	 *
+	 * [--exit-code]
+	 * : Exit with status 1 if there are any problems.
+	 *
+	 * [--format=<format>]
+	 * : Output format.
+	 * ---
+	 * default: table
+	 * options:
+	 *   - table
+	 *   - csv
+	 *   - json
+	 *   - yaml
+	 * ---
+	 *
+	 * ## EXAMPLES
+	 *
+	 *     wp galerio fields check
+	 *     wp galerio fields check --format=json --exit-code
+	 *
+	 * @param array $args       Positional arguments.
+	 * @param array $assoc_args Associative arguments.
+	 */
+	public function check( $args, $assoc_args ) {
+		$adapter = new Pods_Adapter();
+		$check   = new Check( galerio_fields(), $adapter->is_available() ? $adapter : null );
+		$results = $check->run();
+		$format  = Utils\get_flag_value( $assoc_args, 'format', 'table' );
+
+		if ( ! $adapter->is_available() ) {
+			WP_CLI::warning( "Pods isn't active, so reads through Pods weren't compared." );
+		}
+
+		if ( $results ) {
+			Utils\format_items( $format, $results, array( 'level', 'check', 'item', 'detail' ) );
+		}
+
+		$problems = count( wp_list_filter( $results, array( 'level' => Check::PROBLEM ) ) );
+
+		if ( ! $problems ) {
+			WP_CLI::success( 'No problems found.' );
+			return;
+		}
+
+		WP_CLI::warning( sprintf( '%d problem(s) found.', $problems ) );
+
+		if ( Utils\get_flag_value( $assoc_args, 'exit-code', false ) ) {
+			WP_CLI::halt( 1 );
+		}
 	}
 }

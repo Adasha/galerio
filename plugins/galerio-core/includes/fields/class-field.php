@@ -100,6 +100,14 @@ final class Field {
 	public $target;
 
 	/**
+	 * For two-way relations, the key of the field on the target that lists
+	 * this item back, e.g. "profile.works" for "work.creator".
+	 *
+	 * @var string
+	 */
+	public $inverse;
+
+	/**
 	 * For choices, the values allowed: value => label.
 	 *
 	 * @var array<string, string>
@@ -163,6 +171,7 @@ final class Field {
 				'source'            => $parts[2],
 				'multiple'          => false,
 				'target'            => '',
+				'inverse'           => '',
 				'options'           => array(),
 				'public'            => true,
 				'deprecated'        => '',
@@ -192,6 +201,7 @@ final class Field {
 		$this->source            = $args['source'];
 		$this->multiple          = (bool) $args['multiple'];
 		$this->target            = $args['target'];
+		$this->inverse           = $args['inverse'];
 		$this->options           = (array) $args['options'];
 		$this->public            = (bool) $args['public'];
 		$this->deprecated        = $args['deprecated'];
