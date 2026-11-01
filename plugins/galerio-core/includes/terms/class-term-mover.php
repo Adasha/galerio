@@ -1,6 +1,6 @@
 <?php
 /**
- * Moving a term, with the terms under it, to another taxonomy or parent.
+ * Moving, merging and tidying terms.
  *
  * @package Galerio\Core
  */
@@ -13,8 +13,9 @@ use WP_Term;
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Moves a term and its children, keeping their IDs and the items tagged with
- * them, e.g. a site's staff types from Groups to Roles.
+ * Reorganises a site's terms: moves a term and its children, keeping their
+ * IDs and items (e.g. staff types from Groups to Roles), merges one term into
+ * another, and drops tags made redundant by a lower term on the same item.
  */
 class Term_Mover {
 
@@ -72,7 +73,7 @@ class Term_Mover {
 				'name'    => $item->name,
 				'from'    => $item->taxonomy,
 				'to'      => $taxonomy,
-				'items'   => (int) $item->count,
+				'items'   => self::count_objects( $item ),
 				'old_url' => is_wp_error( $link ) ? '' : $link,
 				'new_url' => '',
 			);
@@ -94,6 +95,135 @@ class Term_Mover {
 		foreach ( $rows as $i => $row ) {
 			$link                  = get_term_link( (int) $row['term_id'], $taxonomy );
 			$rows[ $i ]['new_url'] = is_wp_error( $link ) ? '' : $link;
+		}
+
+		return $rows;
+	}
+
+	/**
+	 * Plan or make a merge: one term's items go to another in the same
+	 * taxonomy, the terms under it move under the other, and it's deleted.
+	 *
+	 * @param WP_Term $from    The term to merge away.
+	 * @param WP_Term $into    The term to keep.
+	 * @param bool    $dry_run Only report what would happen.
+	 * @return array|WP_Error One row: term_id, name, into, items, children,
+	 *                        old_url and new_url.
+	 */
+	public static function merge( WP_Term $from, WP_Term $into, $dry_run = false ) {
+		if ( $from->taxonomy !== $into->taxonomy ) {
+			return new WP_Error( 'galerio_terms_merge', 'Both terms must be in the same taxonomy. Move one across first.' );
+		}
+
+		$below = self::descendants( $from );
+		if ( (int) $from->term_id === (int) $into->term_id || in_array( (int) $into->term_id, array_map( 'intval', wp_list_pluck( $below, 'term_id' ) ), true ) ) {
+			return new WP_Error( 'galerio_terms_merge', 'A term can\'t merge into itself or a term under it.' );
+		}
+
+		$children = array_filter(
+			$below,
+			function ( $child ) use ( $from ) {
+				return (int) $child->parent === (int) $from->term_id;
+			}
+		);
+
+		$old  = get_term_link( $from );
+		$new  = get_term_link( $into );
+		$rows = array(
+			array(
+				'term_id'  => (int) $from->term_id,
+				'name'     => $from->name,
+				'into'     => $into->name,
+				'items'    => self::count_objects( $from ),
+				'children' => implode( ', ', wp_list_pluck( $children, 'name' ) ),
+				'old_url'  => is_wp_error( $old ) ? '' : $old,
+				'new_url'  => is_wp_error( $new ) ? '' : $new,
+			),
+		);
+
+		if ( $dry_run ) {
+			return $rows;
+		}
+
+		foreach ( self::objects( array( $from ) ) as $ids ) {
+			foreach ( $ids as $id ) {
+				wp_set_object_terms( $id, array( (int) $into->term_id ), $into->taxonomy, true );
+			}
+		}
+
+		foreach ( $children as $child ) {
+			wp_update_term( $child->term_id, $child->taxonomy, array( 'parent' => (int) $into->term_id ) );
+		}
+
+		$deleted = wp_delete_term( $from->term_id, $from->taxonomy );
+		if ( is_wp_error( $deleted ) ) {
+			return $deleted;
+		}
+
+		return $rows;
+	}
+
+	/**
+	 * Plan or make a tidy: an item tagged with a term and with a term above it
+	 * keeps only the lower one, e.g. "Graduate Exhibition" without
+	 * "Exhibition". The upper term's page still lists the item.
+	 *
+	 * @param string $taxonomy A hierarchical taxonomy.
+	 * @param bool   $dry_run  Only report what would happen.
+	 * @return array|WP_Error One row per item changed: id, type, title,
+	 *                        removed and kept.
+	 */
+	public static function tidy( $taxonomy, $dry_run = false ) {
+		global $wpdb;
+
+		if ( ! taxonomy_exists( $taxonomy ) ) {
+			return new WP_Error( 'galerio_terms_taxonomy', sprintf( 'There is no taxonomy "%s".', $taxonomy ) );
+		}
+		if ( ! is_taxonomy_hierarchical( $taxonomy ) ) {
+			return array();
+		}
+
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery -- Every item's terms in one query, drafts and private items included.
+		$pairs = $wpdb->get_results( $wpdb->prepare( "SELECT tr.object_id, tt.term_id FROM {$wpdb->term_relationships} tr JOIN {$wpdb->term_taxonomy} tt ON tt.term_taxonomy_id = tr.term_taxonomy_id WHERE tt.taxonomy = %s ORDER BY tr.object_id", $taxonomy ) );
+
+		$by_object = array();
+		foreach ( $pairs as $pair ) {
+			$by_object[ (int) $pair->object_id ][] = (int) $pair->term_id;
+		}
+
+		$rows = array();
+		foreach ( $by_object as $object_id => $term_ids ) {
+			if ( count( $term_ids ) < 2 ) {
+				continue;
+			}
+
+			$above = array();
+			foreach ( $term_ids as $term_id ) {
+				$above = array_merge( $above, array_map( 'intval', get_ancestors( $term_id, $taxonomy, 'taxonomy' ) ) );
+			}
+			$remove = array_values( array_intersect( $term_ids, $above ) );
+			if ( ! $remove ) {
+				continue;
+			}
+
+			$names  = function ( $ids ) use ( $taxonomy ) {
+				$list = array();
+				foreach ( $ids as $id ) {
+					$list[] = get_term( $id, $taxonomy )->name;
+				}
+				return implode( ', ', $list );
+			};
+			$rows[] = array(
+				'id'      => $object_id,
+				'type'    => get_post_type( $object_id ),
+				'title'   => get_the_title( $object_id ),
+				'removed' => $names( $remove ),
+				'kept'    => $names( array_diff( $term_ids, $remove ) ),
+			);
+
+			if ( ! $dry_run ) {
+				wp_remove_object_terms( $object_id, $remove, $taxonomy );
+			}
 		}
 
 		return $rows;
@@ -146,6 +276,10 @@ class Term_Mover {
 			if ( $same ) {
 				$problems[] = sprintf( '"%s" has a term with the slug "%s" already (ID %d).', $taxonomy, $item->slug, $same->term_id );
 			}
+		}
+
+		if ( count( $terms ) > 1 && ! is_taxonomy_hierarchical( $taxonomy ) ) {
+			$problems[] = sprintf( '"%s" has no parents, so the terms under "%s" can\'t go with it. Move them first.', $taxonomy, $terms[0]->name );
 		}
 
 		$covered = get_taxonomy( $taxonomy )->object_type;
@@ -217,6 +351,16 @@ class Term_Mover {
 		}
 
 		return $by_type;
+	}
+
+	/**
+	 * How many items have a term, drafts and private items included.
+	 *
+	 * @param WP_Term $term Term.
+	 * @return int
+	 */
+	private static function count_objects( WP_Term $term ) {
+		return (int) array_sum( array_map( 'count', self::objects( array( $term ) ) ) );
 	}
 
 	/**
