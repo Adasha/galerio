@@ -1,0 +1,62 @@
+// The pane's title says what the box would, so the box itself is left plain.
+#galerio-fields {
+	border: 0;
+	margin: 0;
+
+	> .postbox-header {
+		display: none;
+	}
+
+	> .inside {
+		margin: 0;
+		padding: 0;
+	}
+}
+
+.galerio-field-editor {
+	border: 0;
+}
+
+.galerio-field-editor__grid {
+	display: grid;
+	gap: 16px 24px;
+	grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+	max-width: 960px;
+}
+
+.galerio-field-editor__field.is-wide {
+	grid-column: 1 / -1;
+}
+
+.galerio-field-list {
+	display: grid;
+	gap: 8px;
+	justify-items: start;
+}
+
+.galerio-field-list__label {
+	font-size: 11px;
+	font-weight: 500;
+	line-height: 1.4;
+	margin-bottom: 8px;
+	padding: 0;
+	text-transform: uppercase;
+}
+
+.galerio-field-list__row {
+	align-items: center;
+	display: flex;
+	gap: 8px;
+	width: 100%;
+
+	> :first-child {
+		flex: 1;
+	}
+}
+
+.galerio-field-pending {
+	border: 1px dashed currentColor;
+	color: #757575;
+	margin: 0;
+	padding: 8px 12px;
+}
