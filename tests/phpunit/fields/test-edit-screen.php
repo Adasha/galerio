@@ -8,8 +8,8 @@
 use Galerio\Core\Fields\Edit_Screen;
 
 /**
- * The meta box pane is named after the content type, and accolades start
- * as one line.
+ * The meta box pane is named after the content type with a stronger title,
+ * and accolades start as one line.
  *
  * @covers \Galerio\Core\Fields\Edit_Screen
  */
@@ -28,7 +28,7 @@ class Test_Edit_Screen extends Galerio_TestCase {
 	}
 
 	/**
-	 * On a work's edit screen, "Meta Boxes" becomes "<the site's name for a work> settings".
+	 * On a work's edit screen, "Meta Boxes" becomes "<the site's name for a work> details".
 	 */
 	public function test_pane_label() {
 		set_current_screen( 'galerio_work' );
@@ -39,7 +39,7 @@ class Test_Edit_Screen extends Galerio_TestCase {
 
 		$this->assertTrue( wp_script_is( 'galerio-edit-screen' ) );
 		$this->assertStringContainsString( '"Meta Boxes" === text', $script );
-		$this->assertStringContainsString( wp_json_encode( $name . ' settings' ), $script );
+		$this->assertStringContainsString( wp_json_encode( $name . ' details' ), $script );
 	}
 
 	/**
@@ -53,7 +53,7 @@ class Test_Edit_Screen extends Galerio_TestCase {
 	}
 
 	/**
-	 * The accolades style is added on a profile's edit screen only.
+	 * The pane title and accolades styles are added on a profile's edit screen only.
 	 */
 	public function test_styles() {
 		set_current_screen( 'galerio_profile' );
@@ -62,6 +62,9 @@ class Test_Edit_Screen extends Galerio_TestCase {
 
 		Edit_Screen::styles( 'post.php' );
 		$this->assertTrue( wp_style_is( 'galerio-edit-screen' ) );
-		$this->assertStringContainsString( 'pods_meta_accolades', implode( '', wp_styles()->get_data( 'galerio-edit-screen', 'after' ) ) );
+
+		$css = implode( '', wp_styles()->get_data( 'galerio-edit-screen', 'after' ) );
+		$this->assertStringContainsString( 'edit-post-meta-boxes-main__presenter', $css );
+		$this->assertStringContainsString( 'pods_meta_accolades', $css );
 	}
 }

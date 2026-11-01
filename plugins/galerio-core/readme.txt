@@ -25,6 +25,7 @@ Galerio is in alpha. Expect breaking changes.
 == Changelog ==
 
 = 0.8.1-alpha.1 =
+* The editor's pane of fields is now called "Work details", "Profile details" and so on, rather than "settings", and its title is larger and bolder.
 * Removed the Focal point panel from the editor's sidebar. It set the same point as the image's own details, but saved straight to the image rather than with the item, which was easy to mistake for part of the item. Set an image's focal point in its details: in the Media Library, or in the pop-up that opens from the editor's Featured image.
 
 = 0.8.0-alpha.1 =
