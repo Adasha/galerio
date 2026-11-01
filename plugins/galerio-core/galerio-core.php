@@ -39,6 +39,8 @@ define( 'GALERIO_CORE_URL', plugin_dir_url( __FILE__ ) );
 require_once GALERIO_CORE_DIR . 'includes/fields/class-field.php';
 require_once GALERIO_CORE_DIR . 'includes/fields/interface-adapter.php';
 require_once GALERIO_CORE_DIR . 'includes/fields/class-pods-adapter.php';
+require_once GALERIO_CORE_DIR . 'includes/fields/class-meta-adapter.php';
+require_once GALERIO_CORE_DIR . 'includes/fields/class-relations.php';
 require_once GALERIO_CORE_DIR . 'includes/fields/class-registry.php';
 require_once GALERIO_CORE_DIR . 'includes/fields/class-display.php';
 require_once GALERIO_CORE_DIR . 'includes/fields/class-dates.php';
