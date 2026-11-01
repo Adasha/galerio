@@ -203,4 +203,43 @@ test.describe( 'Field editor', () => {
 			fields.getByRole( 'button', { name: 'Replace image' } )
 		).toBeVisible();
 	} );
+
+	test( 'keeps site settings on its own page', async ( { admin, page } ) => {
+		await admin.visitAdminPage(
+			'options-general.php',
+			'page=galerio-settings'
+		);
+
+		const portraits = page.locator(
+			'input[name="galerio_settings_show_portraits"]'
+		);
+		const wasOn = await portraits.isChecked();
+
+		await portraits.setChecked( ! wasOn );
+		await page.getByRole( 'button', { name: 'Save Changes' } ).click();
+		await expect( page.getByText( 'Settings saved.' ) ).toBeVisible();
+		await expect( portraits ).toBeChecked( { checked: ! wasOn } );
+
+		await portraits.setChecked( wasOn );
+		await page.getByRole( 'button', { name: 'Save Changes' } ).click();
+		await expect( portraits ).toBeChecked( { checked: wasOn } );
+	} );
+
+	test( 'shows a file’s fields in its details', async ( {
+		admin,
+		page,
+		requestUtils,
+	} ) => {
+		const media = await requestUtils.rest( { path: '/wp/v2/media' } );
+		test.skip( ! media.length, 'The site has no images.' );
+
+		await admin.visitAdminPage(
+			'post.php',
+			`post=${ media[ 0 ].id }&action=edit`
+		);
+
+		await expect(
+			page.locator( 'input[name$="[galerio_field_credit]"]' )
+		).toBeVisible();
+	} );
 } );
