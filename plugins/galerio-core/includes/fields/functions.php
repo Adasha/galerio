@@ -6,7 +6,9 @@
  */
 
 use Galerio\Core\Fields\Display;
+use Galerio\Core\Fields\Meta_Adapter;
 use Galerio\Core\Fields\Pods_Adapter;
+use Galerio\Core\Types\Content_Types;
 use Galerio\Core\Fields\Registry;
 
 defined( 'ABSPATH' ) || exit;
@@ -23,9 +25,9 @@ function galerio_fields() {
 		/**
 		 * Filters the storage adapter fields are read through.
 		 *
-		 * @param Galerio\Core\Fields\Adapter $adapter Adapter. Defaults to Pods.
+		 * @param Galerio\Core\Fields\Adapter $adapter Adapter. Defaults to post meta on sites that have moved to native data, and to Pods on the others.
 		 */
-		$adapter  = apply_filters( 'galerio_field_adapter', new Pods_Adapter() );
+		$adapter  = apply_filters( 'galerio_field_adapter', Content_Types::active() ? new Meta_Adapter() : new Pods_Adapter() );
 		$registry = new Registry( $adapter, require __DIR__ . '/default-fields.php' );
 	}
 

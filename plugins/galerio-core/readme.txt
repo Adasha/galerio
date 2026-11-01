@@ -4,7 +4,7 @@ Tags: gallery, art, artist, exhibition, portfolio
 Requires at least: 6.6
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 0.8.2-alpha.1
+Stable tag: 0.9.0-alpha.1
 License: GPL-2.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -23,6 +23,10 @@ The importer repairs bidirectional relationships, which Pods otherwise links to 
 Galerio is in alpha. Expect breaking changes.
 
 == Changelog ==
+
+= 0.9.0-alpha.1 =
+* Groundwork for moving off Pods: Galerio's own definitions of its content types and taxonomies, not yet in use. Sites keep running on Pods. Pods is no longer a required plugin in WordPress's eyes, so it can be switched off when the time comes; a notice still warns while a site depends on it.
+* `wp galerio fields check` also reports where what's registered differs from those definitions.
 
 = 0.8.2-alpha.1 =
 * `wp galerio fields check` lists `media_intent` and the user's link to a profile as notes rather than problems. They're left out of Galerio for now, and their data stays in the database.

@@ -72,7 +72,7 @@ final class Rest {
 					'get_callback'    => function ( $data ) use ( $fields ) {
 						$values = array();
 						foreach ( $fields as $field ) {
-							$values[ $field->name ] = galerio_fields()->value( $field, $data['id'] );
+							$values[ $field->name ] = self::visible_value( $field, galerio_fields()->value( $field, $data['id'] ), $data['id'] );
 						}
 						return (object) $values;
 					},
@@ -91,6 +91,36 @@ final class Rest {
 				)
 			);
 		}
+	}
+
+	/**
+	 * A field's value as the current user may see it. Links to unpublished
+	 * items are for people who can edit the item that holds them.
+	 *
+	 * @param Field $field Field.
+	 * @param mixed $value Normalised value.
+	 * @param int   $id    Item holding the field.
+	 * @return mixed
+	 */
+	public static function visible_value( Field $field, $value, $id ) {
+		if ( ! $field->holds_ids() || current_user_can( 'edit_post', $id ) ) {
+			return $value;
+		}
+
+		$visible = array_values(
+			array_filter(
+				(array) $value,
+				function ( $target ) {
+					return in_array( get_post_status( $target ), array( 'publish', 'inherit' ), true );
+				}
+			)
+		);
+
+		if ( $field->multiple ) {
+			return $visible;
+		}
+
+		return $visible ? $visible[0] : $field->empty_value();
 	}
 
 	/**

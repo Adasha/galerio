@@ -3,10 +3,9 @@
  * Plugin Name:       Galerio Core
  * Plugin URI:        https://galerio.net
  * Description:       Data layer for Galerio: a field API over creators, works, collections and articles, used by the Galerio theme and blocks.
- * Version:           0.8.2-alpha.1
+ * Version:           0.9.0-alpha.1
  * Requires at least: 6.6
  * Requires PHP:      7.4
- * Requires Plugins:  pods
  * Author:            Adam Shailer
  * Author URI:        https://adasha.com
  * License:           GPL-2.0-or-later
@@ -19,15 +18,15 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'GALERIO_CORE_VERSION', '0.8.2-alpha.1' );
+define( 'GALERIO_CORE_VERSION', '0.9.0-alpha.1' );
 define( 'GALERIO_CORE_FILE', __FILE__ );
 define( 'GALERIO_CORE_DIR', plugin_dir_path( __FILE__ ) );
 define( 'GALERIO_CORE_URL', plugin_dir_url( __FILE__ ) );
 
 /*
- * Content types and fields are currently defined by the Pods package in
- * data/pods/galerio.json. This plugin deliberately registers no post types or
- * taxonomies of its own until the native data layer replaces Pods.
+ * Until a site moves to native data, content types and fields are defined by
+ * the Pods package in data/pods/galerio.json. Afterwards this plugin registers
+ * them itself (Galerio\Core\Types\Content_Types) and stores fields as post meta.
  *
  * Templates and blocks read fields through the field API below, never through
  * Pods directly, so that the storage backend can be swapped later.
@@ -36,6 +35,7 @@ define( 'GALERIO_CORE_URL', plugin_dir_url( __FILE__ ) );
  * content types). The aliases are applied while the types are registered.
  */
 
+require_once GALERIO_CORE_DIR . 'includes/types/class-content-types.php';
 require_once GALERIO_CORE_DIR . 'includes/fields/class-field.php';
 require_once GALERIO_CORE_DIR . 'includes/fields/interface-adapter.php';
 require_once GALERIO_CORE_DIR . 'includes/fields/class-pods-adapter.php';
@@ -82,6 +82,7 @@ add_action(
 	1
 );
 
+Galerio\Core\Types\Content_Types::init();
 Galerio\Core\Fields\Rest::init();
 Galerio\Core\Fields\Bindings::init();
 Galerio\Core\Fields\Featured_Image::init();

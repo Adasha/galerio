@@ -69,4 +69,15 @@ class Test_Status_Notice extends Galerio_TestCase {
 			$wp_post_types['galerio_article'] = $type; // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited -- Puts back the type this test removed.
 		}
 	}
+
+	/**
+	 * A site on native data doesn't need Pods, so there's nothing to warn about.
+	 */
+	public function test_no_problem_on_native_data() {
+		add_filter( 'galerio_native_data', '__return_true' );
+		$problem = Galerio\Core\Pods\Status_Notice::problem();
+		remove_filter( 'galerio_native_data', '__return_true' );
+
+		$this->assertSame( '', $problem );
+	}
 }
