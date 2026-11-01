@@ -3,7 +3,7 @@ Contributors: adasha
 Requires at least: 6.6
 Tested up to: 7.1
 Requires PHP: 7.4
-Version: 3.0.0-alpha.8
+Version: 3.0.0-alpha.9
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -22,6 +22,11 @@ Galerio presents creators, works, collections and articles: a page for each, lis
 * Translatable, and the wording follows the names a site gives its content types (e.g. Exhibitions for collections) under Settings → Galerio content types.
 
 == Changelog ==
+
+= 3.0.0-alpha.9 =
+* The Documentation page's content is its own pattern (`galerio/template-documentation`), so it works in any layout, and a child theme can override it alone.
+* The two-pane splits (an article beside its asides, a work beside its details, a project) stack when their own box is under 40rem wide, rather than at a fixed window width, so they suit a side menu and a top header alike. A "Stays in view" column stops sticking once stacked.
+* Sticky columns and the side header add `--galerio-sticky-clearance` (default 0), so a child theme with a sticky top bar can keep them below it.
 
 = 3.0.0-alpha.8 =
 * The Main Menu style in the side menu shows submenus as a nested list under their item, indented a little and always open, instead of a pop-up. A menu across a header bar keeps its pop-ups.
