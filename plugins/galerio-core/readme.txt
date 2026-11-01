@@ -26,6 +26,7 @@ Galerio is in alpha. Expect breaking changes.
 
 = 0.8.1-alpha.1 =
 * Removed the Focal point panel from the editor's sidebar. It set the same point as the image's own details, but saved straight to the image rather than with the item, which was easy to mistake for part of the item. Set an image's focal point in its details: in the Media Library, or in the pop-up that opens from the editor's Featured image.
+* `wp galerio fields check` reports whether a site's stored fields can be read and kept without Pods. It changes nothing.
 
 = 0.8.0-alpha.1 =
 * `wp galerio terms move` moves a term, with the terms under it, to another taxonomy or under another parent, e.g. a site's staff types from Groups to Roles. The terms keep their IDs, names, slugs and items. `--dry-run` shows what would move. It stops before changing anything if a slug is taken in the other taxonomy, or if some items are of a type the other taxonomy isn't used for. The old and new addresses are listed, for redirects.

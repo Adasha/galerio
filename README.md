@@ -115,6 +115,8 @@ galerio_get_field( 'links', $profile );              // [ [ 'url' => …, 'label
 
 Raw values are normalised by type: strings for text, `Y-m-d` for dates, integers for years, booleans, post IDs for images and relations, and `{url, label, offline}` arrays for links. Fields that hold several values return lists. Display values are escaped HTML. Every field is listed in `plugins/galerio-core/includes/fields/default-fields.php`, under the same name it has in the Pods package. Other plugins and child themes can add fields on the `galerio_register_fields` action.
 
+`wp galerio fields check` reports anything that would stop a site's data being read without Pods: values that read differently from what's stored, two-way relationships whose sides disagree, Pods shortcodes and blocks in content, and content in types and fields Galerio doesn't define. It changes nothing. Add `--exit-code` to exit with status 1 when there are problems.
+
 Links (a profile's `links`, and the `website` of works and collections) use Galerio's own Link field type in Pods. Each link has optional display text. Without it, links to recognised services (Instagram, YouTube, Bluesky and others; extend the list with the `galerio_link_services` filter) show the service's name, and other links show their address.
 
 A work without a featured image uses its `definitive_image` as one, so core blocks such as Post Featured Image show it.

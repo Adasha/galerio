@@ -48,6 +48,7 @@ require_once GALERIO_CORE_DIR . 'includes/fields/class-featured-image.php';
 require_once GALERIO_CORE_DIR . 'includes/fields/class-field-block.php';
 require_once GALERIO_CORE_DIR . 'includes/fields/class-edit-screen.php';
 require_once GALERIO_CORE_DIR . 'includes/fields/class-reference.php';
+require_once GALERIO_CORE_DIR . 'includes/fields/class-check.php';
 require_once GALERIO_CORE_DIR . 'includes/fields/functions.php';
 require_once GALERIO_CORE_DIR . 'includes/pods/field-types.php';
 require_once GALERIO_CORE_DIR . 'includes/pods/class-package.php';
