@@ -7,6 +7,7 @@
 
 use Galerio\Core\Fields\Meta_Adapter;
 use Galerio\Core\Fields\Pods_Adapter;
+use Galerio\Core\Fields\Relations;
 
 /**
  * Runs the adapter contract against plain post meta, with Pods' meta handling
@@ -231,5 +232,106 @@ class Test_Meta_Adapter extends Galerio_Adapter_Contract_TestCase {
 		Galerio\Core\Fields\Relations::forget( $gone );
 
 		$this->assertSame( array( $kept ), $this->adapter->get( $this->field( 'profile.collections' ), $profile ) );
+	}
+
+	/**
+	 * Add a stored row directly, as a plugin writing post meta would.
+	 *
+	 * @param int    $id    Post.
+	 * @param string $key   Meta key.
+	 * @param int    $value Value.
+	 */
+	private function add_row( $id, $key, $value ) {
+		add_post_meta( $id, $key, $value );
+	}
+
+	/**
+	 * A link only one side has is added to the other.
+	 */
+	public function test_repair_adds_missing_side() {
+		$profile    = $this->make_object( 'profile' );
+		$collection = $this->make_object( 'collection' );
+
+		$this->add_row( $profile, 'collections', $collection );
+
+		$issues = Relations::audit();
+		$this->assertSame( Relations::ONE_WAY, $issues[0]['issue'] );
+
+		Relations::repair( $issues );
+
+		$this->assertSame( array( $profile ), $this->adapter->get( $this->field( 'collection.profiles' ), $collection ) );
+		$this->assertSame( array(), Relations::audit() );
+	}
+
+	/**
+	 * A link to something that no longer exists is removed.
+	 */
+	public function test_repair_removes_missing_links() {
+		$profile = $this->make_object( 'profile' );
+
+		$this->add_row( $profile, 'collections', 999999 );
+
+		$issues = Relations::audit();
+		$this->assertSame( Relations::MISSING, $issues[0]['issue'] );
+
+		Relations::repair( $issues );
+
+		$this->assertSame( array(), $this->adapter->get( $this->field( 'profile.collections' ), $profile ) );
+		$this->assertSame( array(), Relations::audit() );
+	}
+
+	/**
+	 * A work's creator wins over another profile's list that claims the work.
+	 */
+	public function test_repair_keeps_single_item_field() {
+		$work     = $this->make_object( 'work' );
+		$creator  = $this->make_object( 'profile' );
+		$claimant = $this->make_object( 'profile' );
+
+		$this->adapter->set( $this->field( 'work.creator' ), $work, $creator );
+		$this->add_row( $claimant, 'works', $work );
+
+		$issues = Relations::audit();
+		$this->assertSame( Relations::CONFLICT, $issues[0]['issue'] );
+
+		Relations::repair( $issues );
+
+		$this->assertSame( $creator, $this->adapter->get( $this->field( 'work.creator' ), $work ) );
+		$this->assertSame( array( $work ), $this->adapter->get( $this->field( 'profile.works' ), $creator ) );
+		$this->assertSame( array(), $this->adapter->get( $this->field( 'profile.works' ), $claimant ) );
+		$this->assertSame( array(), Relations::audit() );
+	}
+
+	/**
+	 * Two profiles claiming a creatorless work: the first gets it, the other lets go.
+	 */
+	public function test_repair_with_two_claims() {
+		$work   = $this->make_object( 'work' );
+		$first  = $this->make_object( 'profile' );
+		$second = $this->make_object( 'profile' );
+
+		$this->add_row( $first, 'works', $work );
+		$this->add_row( $second, 'works', $work );
+
+		Relations::repair( Relations::audit() );
+
+		$this->assertSame( $first, $this->adapter->get( $this->field( 'work.creator' ), $work ) );
+		$this->assertSame( array( $work ), $this->adapter->get( $this->field( 'profile.works' ), $first ) );
+		$this->assertSame( array(), $this->adapter->get( $this->field( 'profile.works' ), $second ) );
+		$this->assertSame( array(), Relations::audit() );
+	}
+
+	/**
+	 * Agreed relationships aren't touched, and their order stays.
+	 */
+	public function test_repair_leaves_agreed_links_alone() {
+		$collection = $this->make_object( 'collection' );
+		$profiles   = array( $this->make_object( 'profile' ), $this->make_object( 'profile' ) );
+		$profiles   = array_reverse( $profiles );
+
+		$this->adapter->set( $this->field( 'collection.profiles' ), $collection, $profiles );
+
+		$this->assertSame( array(), Relations::audit() );
+		$this->assertSame( $profiles, $this->adapter->get( $this->field( 'collection.profiles' ), $collection ) );
 	}
 }

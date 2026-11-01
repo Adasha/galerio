@@ -18,6 +18,22 @@ defined( 'ABSPATH' ) || exit;
 final class Relations {
 
 	/**
+	 * Issue: one side lists the other, which doesn't list it back.
+	 */
+	const ONE_WAY = 'one-way';
+
+	/**
+	 * Issue: a list names an item that doesn't exist or is of another type.
+	 */
+	const MISSING = 'missing';
+
+	/**
+	 * Issue: a list claims an item whose single-item field names something else,
+	 * such as a profile listing a work credited to another creator.
+	 */
+	const CONFLICT = 'conflict';
+
+	/**
 	 * Update the other side of a relation after one item's list changed.
 	 *
 	 * @param Field $field   Relation field.
@@ -59,6 +75,107 @@ final class Relations {
 				foreach ( $inverse ? (array) $adapter->get( $field, $id ) : array() as $target ) {
 					self::remove( $inverse, $target, $id );
 				}
+			}
+		}
+	}
+
+	/**
+	 * Find links the two sides disagree about, from the stored rows.
+	 *
+	 * Reads the database directly, because Pods answers get_post_meta() itself
+	 * for relationship fields.
+	 *
+	 * @return array[] Each with issue, field, id, target and inverse.
+	 */
+	public static function audit() {
+		global $wpdb;
+
+		$fields = array_filter(
+			galerio_fields()->all(),
+			function ( Field $field ) {
+				return 'relation' === $field->type && ! $field->value_callback;
+			}
+		);
+		$lists  = array();
+		$known  = array();
+
+		foreach ( $fields as $field ) {
+			if ( ! isset( $known[ $field->object ] ) ) {
+				// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- A one-off check of what's stored.
+				$ids = $wpdb->get_col( $wpdb->prepare( "SELECT ID FROM {$wpdb->posts} WHERE post_type = %s AND post_status <> 'auto-draft'", Registry::OBJECTS[ $field->object ] ) );
+
+				$known[ $field->object ] = array_fill_keys( array_map( 'intval', $ids ), true );
+			}
+
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- A one-off check of what's stored.
+			$rows = $wpdb->get_results( $wpdb->prepare( "SELECT post_id, meta_value FROM {$wpdb->postmeta} WHERE meta_key = %s ORDER BY meta_id", $field->source ) );
+
+			$lists[ $field->key ] = array();
+
+			foreach ( $rows as $row ) {
+				$target = absint( $row->meta_value );
+
+				if ( $target && isset( $known[ $field->object ][ (int) $row->post_id ] ) ) {
+					$lists[ $field->key ][ (int) $row->post_id ][] = $target;
+				}
+			}
+		}
+
+		$issues = array();
+
+		foreach ( $fields as $field ) {
+			$inverse = $field->inverse && isset( $fields[ $field->inverse ] ) ? $fields[ $field->inverse ] : null;
+
+			foreach ( $lists[ $field->key ] as $id => $targets ) {
+				foreach ( $targets as $target ) {
+					$held  = $inverse && isset( $lists[ $inverse->key ][ $target ] ) ? $lists[ $inverse->key ][ $target ] : array();
+					$issue = '';
+
+					if ( empty( $known[ $field->target ][ $target ] ) ) {
+						$issue = self::MISSING;
+					} elseif ( $inverse && ! in_array( $id, $held, true ) && $target !== $id ) {
+						$issue = ! $inverse->multiple && $held ? self::CONFLICT : self::ONE_WAY;
+					}
+
+					if ( $issue ) {
+						$issues[] = array(
+							'issue'   => $issue,
+							'field'   => $field->key,
+							'id'      => $id,
+							'target'  => $target,
+							'inverse' => $inverse ? $inverse->key : '',
+						);
+					}
+				}
+			}
+		}
+
+		return $issues;
+	}
+
+	/**
+	 * Fix what the audit finds: a link only one side has is added to the other,
+	 * a link to something that no longer exists is removed, and a single-item
+	 * field wins over a list that disagrees with it.
+	 *
+	 * @param array[] $issues Issues from audit().
+	 */
+	public static function repair( array $issues ) {
+		foreach ( $issues as $issue ) {
+			$field = galerio_fields()->get( $issue['field'] );
+
+			if ( self::ONE_WAY === $issue['issue'] ) {
+				$inverse = galerio_fields()->get( $issue['inverse'] );
+				$list    = self::list_of( $inverse, $issue['target'] );
+
+				if ( ! $inverse->multiple && $list ) {
+					// Another issue already filled this single-item field.
+					self::remove( $field, $issue['id'], $issue['target'] );
+				} else {
+					self::add( $inverse, $field, $issue['target'], $issue['id'] );
+				}
+			} else {
+				self::remove( $field, $issue['id'], $issue['target'] );
 			}
 		}
 	}
