@@ -17,12 +17,27 @@ import {
 	ToggleControl,
 } from '@wordpress/components';
 import { store as coreStore } from '@wordpress/core-data';
-import { useDispatch, useSelect } from '@wordpress/data';
+import { dispatch, useDispatch, useSelect } from '@wordpress/data';
 import domReady from '@wordpress/dom-ready';
 import { store as editorStore } from '@wordpress/editor';
 import { createRoot } from '@wordpress/element';
+import { store as preferencesStore } from '@wordpress/preferences';
 
+import HtmlField from './html-field';
+import ImageField from './image-field';
+import LinkField from './link-field';
+import RelationField from './relation-field';
 import './style.scss';
+
+const PREFERENCES = 'galerio/field-editor';
+
+// The pane starts open, leaving part of the editor showing, until someone changes it.
+const { setDefaults } = dispatch( preferencesStore );
+setDefaults( 'core/edit-post', {
+	metaBoxesMainIsOpen: true,
+	metaBoxesMainOpenHeight: Math.round( window.innerHeight * 0.55 ),
+} );
+setDefaults( PREFERENCES, { openGroups: [ 'details' ] } );
 
 /**
  * The current item's field values and a way to change them.
@@ -32,7 +47,8 @@ import './style.scss';
 function useFields() {
 	const { type, id, saved, edits } = useSelect( ( select ) => {
 		const { getCurrentPostId, getCurrentPostType } = select( editorStore );
-		const { getEntityRecordEdits, getRawEntityRecord } = select( coreStore );
+		const { getEntityRecordEdits, getRawEntityRecord } =
+			select( coreStore );
 		const postType = getCurrentPostType();
 		const postId = getCurrentPostId();
 
@@ -60,29 +76,29 @@ function useFields() {
 /**
  * A list of values, one control each, with a way to add and remove them.
  *
- * @param {Object}   props           Props.
- * @param {string}   props.label     Field label.
- * @param {string[]} props.value     Values.
- * @param {Function} props.onChange  Called with the new values.
- * @param {Function} props.Control   Control for one value.
- * @param {string}   props.inputType Input type for the control.
+ * @param {Object}   props              Props.
+ * @param {string}   props.label        Field label.
+ * @param {string}   props.help         Help text.
+ * @param {string[]} props.value        Values.
+ * @param {Function} props.onChange     Called with the new values.
+ * @param {Function} props.Control      Control for one value.
+ * @param {Object}   props.controlProps More props for the control.
  * @return {Element} The list.
  */
-function ListField( { label, value, onChange, Control, inputType } ) {
+function ListField( { label, help, value, onChange, Control, controlProps } ) {
 	const rows = value.length ? value : [ '' ];
 
 	return (
 		<fieldset className="galerio-field-list">
 			<legend className="galerio-field-list__label">{ label }</legend>
+			{ help && <p className="galerio-field-list__help">{ help }</p> }
 			{ rows.map( ( item, index ) => (
 				<div className="galerio-field-list__row" key={ index }>
 					<Control
-						__next40pxDefaultSize
 						__nextHasNoMarginBottom
 						hideLabelFromVision
 						label={ label }
-						type={ inputType }
-						rows={ 1 }
+						{ ...controlProps }
 						value={ item }
 						onChange={ ( next ) =>
 							onChange(
@@ -130,14 +146,52 @@ function Field( { field, value, onChange } ) {
 		__next40pxDefaultSize: true,
 		__nextHasNoMarginBottom: true,
 		label: field.label,
+		help: field.description,
 	};
 
 	switch ( field.type ) {
+		case 'html':
+			return (
+				<HtmlField
+					field={ field }
+					value={ value }
+					onChange={ onChange }
+				/>
+			);
+
+		case 'image':
+			return (
+				<ImageField
+					field={ field }
+					value={ value }
+					onChange={ onChange }
+				/>
+			);
+
+		case 'relation':
+			return (
+				<RelationField
+					field={ field }
+					value={ value }
+					onChange={ onChange }
+				/>
+			);
+
+		case 'link':
+			return (
+				<LinkField
+					field={ field }
+					value={ value }
+					onChange={ onChange }
+				/>
+			);
+
 		case 'boolean':
 			return (
 				<ToggleControl
 					__nextHasNoMarginBottom
 					label={ field.label }
+					help={ field.description }
 					checked={ !! value }
 					onChange={ onChange }
 				/>
@@ -188,14 +242,17 @@ function Field( { field, value, onChange } ) {
 			return field.multiple ? (
 				<ListField
 					label={ field.label }
+					help={ field.description }
 					value={ value ?? [] }
 					onChange={ onChange }
 					Control={ TextareaControl }
+					controlProps={ { rows: 1 } }
 				/>
 			) : (
 				<TextareaControl
 					__nextHasNoMarginBottom
 					label={ field.label }
+					help={ field.description }
 					value={ value ?? '' }
 					onChange={ onChange }
 				/>
@@ -207,10 +264,14 @@ function Field( { field, value, onChange } ) {
 			return field.multiple ? (
 				<ListField
 					label={ field.label }
+					help={ field.description }
 					value={ value ?? [] }
 					onChange={ onChange }
 					Control={ TextControl }
-					inputType={ 'text' === field.type ? 'text' : 'url' }
+					controlProps={ {
+						__next40pxDefaultSize: true,
+						type: 'text' === field.type ? 'text' : 'url',
+					} }
 				/>
 			) : (
 				<TextControl
@@ -222,13 +283,7 @@ function Field( { field, value, onChange } ) {
 			);
 
 		default:
-			return (
-				<p className="galerio-field-pending">
-					<strong>{ field.label }</strong>
-					<br />
-					{ field.type }
-				</p>
-			);
+			return null;
 	}
 }
 
@@ -240,7 +295,8 @@ function Field( { field, value, onChange } ) {
  */
 function isWide( field ) {
 	return (
-		field.multiple || [ 'html', 'textarea', 'link' ].includes( field.type )
+		field.multiple ||
+		[ 'html', 'textarea', 'link', 'relation' ].includes( field.type )
 	);
 }
 
@@ -251,14 +307,31 @@ function isWide( field ) {
  */
 function FieldEditor() {
 	const { values, setValue } = useFields();
+	const openGroups = useSelect(
+		( select ) =>
+			select( preferencesStore ).get( PREFERENCES, 'openGroups' ),
+		[]
+	);
+	const { set } = useDispatch( preferencesStore );
 
 	return (
 		<Panel className="galerio-field-editor">
-			{ window.galerioFieldEditor.groups.map( ( group, index ) => (
+			{ window.galerioFieldEditor.groups.map( ( group ) => (
 				<PanelBody
 					key={ group.name }
 					title={ group.label }
-					initialOpen={ 0 === index }
+					opened={ openGroups.includes( group.name ) }
+					onToggle={ () =>
+						set(
+							PREFERENCES,
+							'openGroups',
+							openGroups.includes( group.name )
+								? openGroups.filter(
+										( name ) => name !== group.name
+									)
+								: [ ...openGroups, group.name ]
+						)
+					}
 				>
 					<div className="galerio-field-editor__grid">
 						{ group.fields.map( ( field ) => (

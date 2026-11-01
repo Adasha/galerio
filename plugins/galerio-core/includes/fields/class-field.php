@@ -71,6 +71,20 @@ final class Field {
 	public $type;
 
 	/**
+	 * Help text for the editor.
+	 *
+	 * @var string
+	 */
+	public $description;
+
+	/**
+	 * For links, whether the editor asks if the site is offline.
+	 *
+	 * @var bool
+	 */
+	public $asks_offline;
+
+	/**
 	 * The field's group in the editor, or empty when it isn't edited there.
 	 *
 	 * @var string
@@ -183,6 +197,8 @@ final class Field {
 			array(
 				'type'              => 'text',
 				'label'             => $parts[2],
+				'description'       => '',
+				'asks_offline'      => false,
 				'group'             => '',
 				'roles'             => array(),
 				'source'            => $parts[2],
@@ -214,6 +230,8 @@ final class Field {
 		$this->object            = $parts[1];
 		$this->name              = $parts[2];
 		$this->type              = $args['type'];
+		$this->description       = Names::expand( $args['description'] );
+		$this->asks_offline      = (bool) $args['asks_offline'];
 		$this->group             = $args['group'];
 		$this->roles             = (array) $args['roles'];
 		$this->label             = Names::expand( $args['label'] );

@@ -1,5 +1,6 @@
 // The pane's title says what the box would, so the box itself is left plain.
 #galerio-fields {
+	background: none;
 	border: 0;
 	margin: 0;
 
@@ -15,6 +16,17 @@
 
 .galerio-field-editor {
 	border: 0;
+}
+
+// WordPress's meta box styles would otherwise move the panels' headings.
+#galerio-fields .components-panel__body-title {
+	font-size: 13px;
+	margin: 0;
+	padding: 0;
+}
+
+#galerio-fields .components-panel__body.is-opened > .components-panel__body-title {
+	margin: -16px -16px 16px;
 }
 
 .galerio-field-editor__grid {
@@ -54,9 +66,77 @@
 	}
 }
 
-.galerio-field-pending {
-	border: 1px dashed currentColor;
+.galerio-field-list__help {
 	color: #757575;
+	font-size: 12px;
 	margin: 0;
-	padding: 8px 12px;
+}
+
+.galerio-field-buttons {
+	display: inline-flex;
+	gap: 4px;
+	white-space: nowrap;
+}
+
+.galerio-field-relation__items,
+.galerio-field-image__items {
+	list-style: none;
+	margin: 8px 0 0;
+	padding: 0;
+}
+
+.galerio-field-relation__items li {
+	align-items: center;
+	border-bottom: 1px solid #e0e0e0;
+	display: flex;
+	gap: 8px;
+	justify-content: space-between;
+	margin: 0;
+	padding: 4px 0;
+}
+
+.galerio-field-image__items {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 12px;
+	margin: 0 0 8px;
+
+	&:empty {
+		display: none;
+	}
+
+	li {
+		display: grid;
+		gap: 4px;
+		justify-items: start;
+		margin: 0;
+	}
+}
+
+.galerio-field-image__preview {
+	align-items: center;
+	background: #f0f0f0;
+	display: flex;
+	height: 96px;
+	justify-content: center;
+	object-fit: cover;
+	width: 96px;
+}
+
+.galerio-field-links {
+	display: grid;
+	gap: 8px;
+	justify-items: start;
+}
+
+.galerio-field-links__row {
+	align-items: end;
+	display: grid;
+	gap: 8px 16px;
+	grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+	width: 100%;
+}
+
+.galerio-field-html {
+	width: 100%;
 }

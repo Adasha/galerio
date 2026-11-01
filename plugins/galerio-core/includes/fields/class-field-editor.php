@@ -76,6 +76,21 @@ final class Field_Editor {
 	}
 
 	/**
+	 * Which items the current user can pick in a relationship: unpublished
+	 * ones too, if they can edit that type.
+	 *
+	 * @param string $post_type Post type.
+	 * @return string[] Post statuses.
+	 */
+	private static function statuses( $post_type ) {
+		$type = get_post_type_object( $post_type );
+
+		return $type && current_user_can( $type->cap->edit_posts )
+			? array( 'publish', 'future', 'draft', 'pending', 'private' )
+			: array( 'publish' );
+	}
+
+	/**
 	 * The groups and fields a user can edit on an object.
 	 *
 	 * @param string $object_name Object name.
@@ -90,12 +105,15 @@ final class Field_Editor {
 			foreach ( galerio_fields()->all( $object_name ) as $field ) {
 				if ( $name === $field->group && ! $field->value_callback && $field->can_edit() ) {
 					$fields[] = array(
-						'name'     => $field->name,
-						'label'    => $field->label,
-						'type'     => $field->type,
-						'multiple' => $field->multiple,
-						'target'   => $field->target ? Registry::OBJECTS[ $field->target ] : '',
-						'options'  => $field->options,
+						'name'        => $field->name,
+						'label'       => $field->label,
+						'description' => $field->description,
+						'type'        => $field->type,
+						'multiple'    => $field->multiple,
+						'target'      => $field->target ? Registry::OBJECTS[ $field->target ] : '',
+						'statuses'    => $field->target ? self::statuses( Registry::OBJECTS[ $field->target ] ) : array(),
+						'options'     => $field->options,
+						'asksOffline' => $field->asks_offline,
 					);
 				}
 			}
@@ -125,6 +143,10 @@ final class Field_Editor {
 		}
 
 		$asset = require $asset_file;
+
+		// Formatted text uses WordPress's classic editor, and images its media picker.
+		wp_enqueue_editor();
+		wp_enqueue_media();
 
 		wp_enqueue_script( 'galerio-field-editor', GALERIO_CORE_URL . 'build/field-editor.js', $asset['dependencies'], $asset['version'], true );
 		wp_enqueue_style( 'galerio-field-editor', GALERIO_CORE_URL . 'build/style-field-editor.css', array( 'wp-components' ), $asset['version'] );
