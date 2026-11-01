@@ -33,6 +33,7 @@ Change as little as you can: anything you don't copy keeps getting Galerio's upd
    | `galerio/template-single-article` | an article's page |
    | `galerio/template-archive-works`, `-profiles`, `-collections`, `-articles` | the lists of each |
    | `galerio/template-taxonomy-group` | a group's page |
+   | `galerio/template-taxonomy-role` | a role's page |
    | `galerio/template-404` | the "page not found" page |
    | `galerio/template-single-item-collection` | the single-item collection template |
    | `galerio/footer-credit` | the footer's credit line |

@@ -3,7 +3,7 @@
  * Plugin Name:       Galerio Core
  * Plugin URI:        https://galerio.net
  * Description:       Data layer for Galerio: a field API over creators, works, collections and articles, used by the Galerio theme and blocks.
- * Version:           0.7.1-alpha.1
+ * Version:           0.8.0-alpha.1
  * Requires at least: 6.6
  * Requires PHP:      7.4
  * Requires Plugins:  pods
@@ -19,7 +19,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'GALERIO_CORE_VERSION', '0.7.1-alpha.1' );
+define( 'GALERIO_CORE_VERSION', '0.8.0-alpha.1' );
 define( 'GALERIO_CORE_FILE', __FILE__ );
 define( 'GALERIO_CORE_DIR', plugin_dir_path( __FILE__ ) );
 define( 'GALERIO_CORE_URL', plugin_dir_url( __FILE__ ) );
@@ -69,6 +69,7 @@ require_once GALERIO_CORE_DIR . 'includes/archives/class-archives.php';
 require_once GALERIO_CORE_DIR . 'includes/feeds/class-feeds.php';
 require_once GALERIO_CORE_DIR . 'includes/feeds/class-sitemaps.php';
 require_once GALERIO_CORE_DIR . 'includes/feeds/class-reading-settings.php';
+require_once GALERIO_CORE_DIR . 'includes/terms/class-term-mover.php';
 
 // Galerio isn't hosted on WordPress.org, so its bundled translations in languages/ are loaded here.
 add_action(
@@ -107,4 +108,7 @@ if ( defined( 'WP_CLI' ) && WP_CLI ) {
 
 	require_once GALERIO_CORE_DIR . 'includes/cli/class-fields-command.php';
 	WP_CLI::add_command( 'galerio fields', Galerio\Core\CLI\Fields_Command::class );
+
+	require_once GALERIO_CORE_DIR . 'includes/cli/class-terms-command.php';
+	WP_CLI::add_command( 'galerio terms', Galerio\Core\CLI\Terms_Command::class );
 }

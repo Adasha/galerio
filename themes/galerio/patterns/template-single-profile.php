@@ -18,7 +18,11 @@
 
 <!-- wp:post-title {"level":1} /-->
 
-<!-- wp:post-terms {"term":"galerio_group","separator":" ","className":"is-style-buttons"} /-->
+<!-- wp:group {"metadata":{"name":"Roles and groups"},"style":{"spacing":{"blockGap":"var:preset|spacing|10"}},"layout":{"type":"flex","flexWrap":"wrap"}} -->
+<div class="wp-block-group"><!-- wp:post-terms {"term":"galerio_role","separator":" ","className":"is-style-buttons"} /-->
+
+<!-- wp:post-terms {"term":"galerio_group","separator":" ","className":"is-style-buttons"} /--></div>
+<!-- /wp:group -->
 
 <!-- wp:group {"className":"galerio-split","metadata":{"name":"Split"},"layout":{"type":"default"}} -->
 <div class="wp-block-group galerio-split"><!-- wp:columns -->

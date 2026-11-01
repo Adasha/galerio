@@ -3,7 +3,7 @@ Contributors: adasha
 Requires at least: 6.6
 Tested up to: 7.1
 Requires PHP: 7.4
-Version: 3.0.0-alpha.10
+Version: 3.0.0-alpha.11
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -22,6 +22,11 @@ Galerio presents creators, works, collections and articles: a page for each, lis
 * Translatable, and the wording follows the names a site gives its content types (e.g. Exhibitions for collections) under Settings → Galerio content types.
 
 == Changelog ==
+
+= 3.0.0-alpha.11 =
+* Profile pages and profile cards show the profile's Roles, before its Groups.
+* A Role's page lists its profiles, like a Group's page, using the new `galerio/template-taxonomy-role` pattern.
+* A site that changed the profile card or the profile page in the Site Editor keeps its own copy; add a Post Terms block for Roles there by hand.
 
 = 3.0.0-alpha.10 =
 * The Documentation page template has moved out of Galerio into galerio.net's own child theme, since only galerio.net uses it. A site that uses it needs that theme (or its own copy of the template) before updating. Pages keep the template name.
