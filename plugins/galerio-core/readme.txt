@@ -4,7 +4,7 @@ Tags: gallery, art, artist, exhibition, portfolio
 Requires at least: 6.6
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 0.8.0-alpha.1
+Stable tag: 0.8.1-alpha.1
 License: GPL-2.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -23,6 +23,9 @@ The importer repairs bidirectional relationships, which Pods otherwise links to 
 Galerio is in alpha. Expect breaking changes.
 
 == Changelog ==
+
+= 0.8.1-alpha.1 =
+* Removed the Focal point panel from the editor's sidebar. It set the same point as the image's own details, but saved straight to the image rather than with the item, which was easy to mistake for part of the item. Set an image's focal point in its details: in the Media Library, or in the pop-up that opens from the editor's Featured image.
 
 = 0.8.0-alpha.1 =
 * `wp galerio terms move` moves a term, with the terms under it, to another taxonomy or under another parent, e.g. a site's staff types from Groups to Roles. The terms keep their IDs, names, slugs and items. `--dry-run` shows what would move. It stops before changing anything if a slug is taken in the other taxonomy, or if some items are of a type the other taxonomy isn't used for. The old and new addresses are listed, for redirects.

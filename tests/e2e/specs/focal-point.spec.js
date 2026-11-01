@@ -65,49 +65,26 @@ test.describe( 'Focal point', () => {
 		await expect.poll( async () => ( await saved() )?.x ).toBeUndefined();
 	} );
 
-	test( 'the editor’s Focal point panel sets the point of the item’s image', async ( {
+	test( 'the editor’s Featured image pop-up offers the image’s Focal point', async ( {
 		admin,
 		editor,
 		page,
-		requestUtils,
 	} ) => {
 		await admin.editPost( work.id );
 		await editor.openDocumentSettingsSidebar();
 
-		const panel = page.locator( '.galerio-focal-point-panel' );
-		const toggle = panel.getByRole( 'button', { name: 'Focal point' } );
-		if ( 'false' === ( await toggle.getAttribute( 'aria-expanded' ) ) ) {
-			await toggle.click();
-		}
+		await page
+			.locator( '.editor-post-featured-image' )
+			.getByRole( 'button' )
+			.first()
+			.click();
+
+		const modal = page.locator( '.media-modal' ).last();
+		await modal.getByRole( 'tab', { name: 'Media Library' } ).click();
+		await modal.locator( `li.attachment[data-id="${ image }"]` ).click();
+
 		await expect(
-			panel.getByText( 'Not set: the image is centred.' )
+			modal.locator( '.media-sidebar .galerio-focal-point' )
 		).toBeVisible();
-
-		const picture = panel.locator( '.components-focal-point-picker' );
-		await picture.scrollIntoViewIfNeeded();
-		const box = await picture.boundingBox();
-		await page.mouse.click(
-			box.x + box.width * 0.8,
-			box.y + box.height * 0.2
-		);
-
-		await expect
-			.poll(
-				async () =>
-					(
-						await requestUtils.rest( {
-							path: `/wp/v2/media/${ image }`,
-							params: { context: 'edit' },
-						} )
-					).meta.galerio_focal_point?.x
-			)
-			.toBeGreaterThan( 0.7 );
-		await expect(
-			panel.getByRole( 'button', { name: 'Clear' } )
-		).toBeVisible();
-
-		await panel.screenshot( {
-			path: 'artifacts/focal-point-panel.png',
-		} );
 	} );
 } );
