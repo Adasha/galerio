@@ -1,6 +1,6 @@
 /**
- * The child theme starter: its colours, fonts and footer pattern take effect
- * over Galerio's, and everything else is inherited.
+ * The child theme starter: its colours, fonts, footer pattern and top header
+ * layout take effect over Galerio's, and everything else is inherited.
  */
 const { test, expect } = require( '@wordpress/e2e-test-utils-playwright' );
 
@@ -13,7 +13,7 @@ test.describe( 'Child theme starter', () => {
 		await requestUtils.activateTheme( 'galerio' );
 	} );
 
-	test( 'overrides the palette, fonts and footer credit', async ( {
+	test( 'overrides the palette, fonts, footer credit and layout', async ( {
 		page,
 	} ) => {
 		await page.goto( '/work/low-tide-rhossili/' );
@@ -40,6 +40,11 @@ test.describe( 'Child theme starter', () => {
 		const footer = page.locator( 'footer' ).last();
 		await expect( footer ).toContainText( '© ' );
 		await expect( footer ).not.toContainText( 'Powered by' );
+
+		// The child's templates put the site title and menu in a bar across the
+		// top, instead of Galerio's side menu column.
+		await expect( page.locator( '.galerio-header-bar' ) ).toBeVisible();
+		await expect( page.locator( '.galerio-site-header' ) ).toHaveCount( 0 );
 
 		// Galerio's templates and fields are inherited.
 		await expect(
