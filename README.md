@@ -117,6 +117,8 @@ Raw values are normalised by type: strings for text, `Y-m-d` for dates, integers
 
 `wp galerio fields check` reports anything that would stop a site's data being read without Pods: values that read differently from what's stored, two-way relationships whose sides disagree, Pods shortcodes and blocks in content, and content in types and fields Galerio doesn't define. It changes nothing. Add `--exit-code` to exit with status 1 when there are problems.
 
+`wp galerio fields repair` fixes two-way relationships whose sides disagree, which can happen when plugins write post meta directly. A link only one side has is added to the other, a link to something that no longer exists is removed, and a single-item field such as a work's creator wins over a list that disagrees with it. `--dry-run` shows what would change. While a site is on Pods it only reports, as Pods keeps its own table of these links.
+
 Links (a profile's `links`, and the `website` of works and collections) use Galerio's own Link field type in Pods. Each link has optional display text. Without it, links to recognised services (Instagram, YouTube, Bluesky and others; extend the list with the `galerio_link_services` filter) show the service's name, and other links show their address.
 
 A work without a featured image uses its `definitive_image` as one, so core blocks such as Post Featured Image show it.

@@ -87,7 +87,7 @@ final class Check {
 			$this->check_reads( $fields );
 		}
 
-		$this->check_relationships( $fields );
+		$this->check_relationships();
 		$this->check_content();
 		$this->check_definitions();
 		$this->check_registration();
@@ -246,55 +246,25 @@ final class Check {
 
 	/**
 	 * Check that each side of a two-way relationship lists the other.
-	 *
-	 * @param Field[] $fields Fields.
 	 */
-	private function check_relationships( array $fields ) {
-		$lists = array();
-		$known = array();
+	private function check_relationships() {
+		$missing = array();
 
-		foreach ( $fields as $field ) {
-			if ( 'relation' !== $field->type ) {
-				continue;
-			}
-
-			$rows                 = $this->rows( $field );
-			$lists[ $field->key ] = array();
-
-			foreach ( $this->items( $field->object ) as $id ) {
-				$known[ $field->object ][ $id ] = true;
-
-				if ( isset( $rows[ $id ] ) ) {
-					$lists[ $field->key ][ $id ] = self::ids( $rows[ $id ] );
-				}
+		foreach ( Relations::audit() as $issue ) {
+			if ( Relations::MISSING === $issue['issue'] ) {
+				$missing[ $issue['field'] ] = ( isset( $missing[ $issue['field'] ] ) ? $missing[ $issue['field'] ] : 0 ) + 1;
+			} else {
+				$this->add(
+					self::PROBLEM,
+					'one-way link',
+					sprintf( '%s #%d', $issue['field'], $issue['id'] ),
+					sprintf( 'lists #%d, but %s of #%d does not list it back', $issue['target'], $issue['inverse'], $issue['target'] )
+				);
 			}
 		}
 
-		foreach ( $fields as $field ) {
-			if ( ! isset( $lists[ $field->key ] ) ) {
-				continue;
-			}
-
-			$dangling = 0;
-
-			foreach ( $lists[ $field->key ] as $id => $targets ) {
-				foreach ( $targets as $target ) {
-					if ( empty( $known[ $field->target ][ $target ] ) ) {
-						++$dangling;
-					} elseif ( $field->inverse && ( empty( $lists[ $field->inverse ][ $target ] ) || ! in_array( $id, $lists[ $field->inverse ][ $target ], true ) ) ) {
-						$this->add(
-							self::PROBLEM,
-							'one-way link',
-							sprintf( '%s #%d', $field->key, $id ),
-							sprintf( 'lists #%d, but %s of #%d does not list it back', $target, $field->inverse, $target )
-						);
-					}
-				}
-			}
-
-			if ( $dangling ) {
-				$this->add( self::NOTE, 'missing links', $field->key, sprintf( '%d link(s) to items that no longer exist or are of another type', $dangling ) );
-			}
+		foreach ( $missing as $key => $count ) {
+			$this->add( self::NOTE, 'missing links', $key, sprintf( '%d link(s) to items that no longer exist or are of another type', $count ) );
 		}
 	}
 
