@@ -8,6 +8,7 @@
 	<file>./plugins/galerio-migrate</file>
 	<file>./themes/galerio</file>
 	<file>./themes/galerio-child-starter</file>
+	<file>./themes/galerio-net</file>
 	<file>./themes/swansea-art</file>
 	<file>./tools</file>
 	<file>./tests/phpunit</file>
@@ -35,6 +36,7 @@
 				<element value="galerio-core"/>
 				<element value="galerio-media"/>
 				<element value="galerio-child-starter"/>
+				<element value="galerio-net"/>
 				<element value="swansea-art"/>
 			</property>
 		</properties>

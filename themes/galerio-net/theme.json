@@ -1,0 +1,13 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/theme.json",
+	"version": 3,
+	"customTemplates": [
+		{
+			"name": "wp-custom-template-documentation",
+			"title": "Documentation",
+			"postTypes": [
+				"page"
+			]
+		}
+	]
+}

@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# Build installable zips of the theme, the child theme starter, Galerio Core,
+# Build installable zips of the theme, the child theme starter, the galerio.net and swansea.art child themes, Galerio Core,
 # Galerio Blocks, Galerio Media and the one-off Galerio Migrate plugin into dist/, named <slug>-<version>.zip, each with a <slug>/ folder
 # inside, ready for Plugins/Themes → Add New → Upload.
 #
@@ -52,6 +52,10 @@ build "$theme" galerio "$theme_version"
 # Child theme starter.
 child="$repo/themes/galerio-child-starter"
 build "$child" galerio-child-starter "$(header "$child/style.css" Version)"
+
+# galerio.net's child theme.
+net="$repo/themes/galerio-net"
+build "$net" galerio-net "$(header "$net/style.css" Version)"
 
 # swansea.art's child theme.
 swansea="$repo/themes/swansea-art"

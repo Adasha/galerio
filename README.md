@@ -9,6 +9,7 @@ Galerio has a demo/dev site at <https://galerio.net>, but it's in a very unfinis
 | Path | Contents |
 | --- | --- |
 | `themes/galerio` | The Galerio block theme (presentation only). |
+| `themes/galerio-net` | galerio.net's child theme: the Documentation page template, which only galerio.net uses. |
 | `themes/galerio-child-starter` | A starter child theme with its own colours, fonts, footer pattern and a top header layout. Its README explains how to make your own Galerio child. |
 | `plugins/galerio-core` | Data layer and tools, including the Pods package importer. |
 | `plugins/galerio-media` | Media Library folders (shared and per person, with a FileBird import) and uploads private to the people who made them. |

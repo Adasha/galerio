@@ -1,11 +1,11 @@
 <?php
 /**
  * Title: Documentation
- * Slug: galerio/template-documentation
+ * Slug: galerio-net/template-documentation
  * Inserter: no
- * Description: A documentation page: a menu column on the left and the item's content beside it. Used by the wp-custom-template-documentation template; a child theme can override this pattern alone.
+ * Description: A documentation page: a menu column on the left and the item's content beside it. Used by the wp-custom-template-documentation template.
  *
- * @package Galerio
+ * @package Galerio_Net
  */
 
 ?>

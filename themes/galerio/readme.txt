@@ -3,7 +3,7 @@ Contributors: adasha
 Requires at least: 6.6
 Tested up to: 7.1
 Requires PHP: 7.4
-Version: 3.0.0-alpha.9
+Version: 3.0.0-alpha.10
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -23,8 +23,11 @@ Galerio presents creators, works, collections and articles: a page for each, lis
 
 == Changelog ==
 
+= 3.0.0-alpha.10 =
+* The Documentation page template has moved out of Galerio into galerio.net's own child theme, since only galerio.net uses it. A site that uses it needs that theme (or its own copy of the template) before updating. Pages keep the template name.
+
 = 3.0.0-alpha.9 =
-* The Documentation page's content is its own pattern (`galerio/template-documentation`), so it works in any layout, and a child theme can override it alone.
+* The Documentation page's content is its own pattern, so it works in any layout.
 * The two-pane splits (an article beside its asides, a work beside its details, a project) stack when their own box is under 40rem wide, rather than at a fixed window width, so they suit a side menu and a top header alike. A "Stays in view" column stops sticking once stacked.
 * Sticky columns and the side header add `--galerio-sticky-clearance` (default 0), so a child theme with a sticky top bar can keep them below it.
 
