@@ -2,6 +2,8 @@
 
 Galerio is a framework for Wordpress that adds content types, blocks and theme templates to suit an art gallery, bookshop or other place that presents creative works. Galerio is simply 'Gallery' in Esperanto, as it is meant to be accessible to everyone.
 
+The bits of Galerio can be downloaded individually from `dist` until a full release is ready - galerio-core is required, then galerio-blocks and galerio-media offer enhanced features, and the galerio theme gives templates. Consider it alpha until a full version comes out - things are pretty much fixed by this point but there's no guarantees.
+
 Galerio has a demo/dev site at <https://galerio.net>, but it's in a very unfinished state. If you'd like to see Galerio in action on a real site, you can visit <https://swansea.art>.
 
 ## Repository layout
