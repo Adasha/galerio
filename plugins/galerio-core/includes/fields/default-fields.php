@@ -7,7 +7,9 @@
  * added to both, and renaming one needs a migration for existing sites' data.
  *
  * Fields are listed in the order the editor shows them. A field's `group` is
- * its box in the editor, and fields without one aren't edited there. `roles`
+ * its box in the editor, and fields without one aren't edited there. Fields
+ * next to each other with the same `unit` stay together in the editor's layout,
+ * such as a field and the switch that shows it. `roles`
  * limits who sees and edits it in the editor; administrators always can.
  *
  * @package Galerio\Core
@@ -31,18 +33,21 @@ return array(
 		'label'       => __( 'Creator', 'galerio-core' ),
 	),
 	'work.year'                      => array(
+		'unit'        => 'date',
 		'description' => __( 'The year the work was completed, or the first year of a range.', 'galerio-core' ),
 		'group'       => 'details',
 		'type'        => 'year',
 		'label'       => __( 'Year', 'galerio-core' ),
 	),
 	'work.year_to'                   => array(
+		'unit'        => 'date',
 		'description' => __( 'The last year of a range, if the work was made over several years or the date is uncertain. Leave empty for a single year.', 'galerio-core' ),
 		'group'       => 'details',
 		'type'        => 'year',
 		'label'       => __( 'Year to', 'galerio-core' ),
 	),
 	'work.date_text'                 => array(
+		'unit'        => 'date',
 		'description' => __( 'Overrides how the date is shown, e.g. "mid-19th century" or "600–800 CE". Leave empty to show the year or range.', 'galerio-core' ),
 		'group'       => 'details',
 		'label'       => __( 'Date in words', 'galerio-core' ),
@@ -126,6 +131,7 @@ return array(
 		'label'       => __( 'Current owner', 'galerio-core' ),
 	),
 	'work.valuation'                 => array(
+		'unit'        => 'valuation',
 		'description' => __( 'Private: the work\'s value, in the site\'s currency. Seen by editors and administrators only.', 'galerio-core' ),
 		'group'       => 'cataloging',
 		'roles'       => array( 'administrator', 'editor' ),
@@ -134,6 +140,7 @@ return array(
 		'label'       => __( 'Valuation', 'galerio-core' ),
 	),
 	'work.valuation_date'            => array(
+		'unit'        => 'valuation',
 		'description' => __( 'Private: when the work was valued.', 'galerio-core' ),
 		'group'       => 'cataloging',
 		'roles'       => array( 'administrator', 'editor' ),
@@ -142,6 +149,7 @@ return array(
 		'label'       => __( 'Valuation date', 'galerio-core' ),
 	),
 	'work.valued_by'                 => array(
+		'unit'        => 'valuation',
 		'description' => __( 'Private: who valued the work.', 'galerio-core' ),
 		'group'       => 'cataloging',
 		'roles'       => array( 'administrator', 'editor' ),
@@ -149,6 +157,7 @@ return array(
 		'label'       => __( 'Valued by', 'galerio-core' ),
 	),
 	'work.valuation_notes'           => array(
+		'unit'        => 'valuation',
 		'description' => __( 'Private: anything else about the valuation, such as its purpose or the documents behind it.', 'galerio-core' ),
 		'group'       => 'cataloging',
 		'roles'       => array( 'administrator', 'editor' ),
@@ -170,31 +179,36 @@ return array(
 		'label'       => __( 'Availability', 'galerio-core' ),
 	),
 	'work.price'                     => array(
+		'unit'        => 'price',
 		'description' => __( 'Shown while the work is Available or Reserved, in the work’s currency.', 'galerio-core' ),
 		'group'       => 'sales',
 		'type'        => 'number',
 		'label'       => __( 'Price', 'galerio-core' ),
 	),
-	'work.price_on_application'      => array(
-		'description' => __( 'Shows “Price on application” instead of the price, which then stays private.', 'galerio-core' ),
-		'group'       => 'sales',
-		'type'        => 'boolean',
-		'label'       => __( 'Price on application', 'galerio-core' ),
-	),
 	'work.currency'                  => array(
+		'unit'        => 'price',
 		'description' => __( 'Leave empty for the site’s currency (Settings → Galerio).', 'galerio-core' ),
 		'group'       => 'sales',
 		'type'        => 'choice',
 		'options'     => \Galerio\Core\Catalogue\Catalogue::currencies(),
 		'label'       => __( 'Currency', 'galerio-core' ),
 	),
+	'work.price_on_application'      => array(
+		'unit'        => 'price',
+		'description' => __( 'Shows “Price on application” instead of the price, which then stays private.', 'galerio-core' ),
+		'group'       => 'sales',
+		'type'        => 'boolean',
+		'label'       => __( 'Price on application', 'galerio-core' ),
+	),
 	'work.edition_size'              => array(
+		'unit'        => 'editions',
 		'description' => __( 'For a work in an edition, such as a print: how many there are. Shown as “Edition of 10”.', 'galerio-core' ),
 		'group'       => 'sales',
 		'type'        => 'number',
 		'label'       => __( 'Edition size', 'galerio-core' ),
 	),
 	'work.editions_available'        => array(
+		'unit'        => 'editions',
 		'description' => __( 'How many of the edition are left. At 0 the work shows as Sold.', 'galerio-core' ),
 		'group'       => 'sales',
 		'type'        => 'number',
@@ -228,27 +242,32 @@ return array(
 
 	// Creator profiles.
 	'profile.portrait'               => array(
+		'unit'  => 'portrait',
 		'group' => 'details',
 		'type'  => 'image',
 		'label' => __( 'Portrait', 'galerio-core' ),
 	),
 	'profile.show_portrait'          => array(
+		'unit'        => 'portrait',
 		'description' => __( 'Only valid if enabled site-wide.', 'galerio-core' ),
 		'group'       => 'details',
 		'type'        => 'boolean',
 		'label'       => __( 'Show portrait', 'galerio-core' ),
 	),
 	'profile.nationality'            => array(
+		'unit'  => 'nationality',
 		'group' => 'details',
 		'label' => __( 'Nationality', 'galerio-core' ),
 	),
 	'profile.show_nationality'       => array(
+		'unit'  => 'nationality',
 		'group' => 'details',
 		'roles' => array( 'administrator', 'editor', 'author' ),
 		'type'  => 'boolean',
 		'label' => __( 'Show nationality', 'galerio-core' ),
 	),
 	'profile.year_of_birth'          => array(
+		'unit'        => 'lifespan',
 		'description' => __( 'Year of birth of the artist (or year collective was formed).', 'galerio-core' ),
 		'group'       => 'details',
 		'roles'       => array( 'administrator', 'editor', 'author' ),
@@ -256,6 +275,7 @@ return array(
 		'label'       => __( 'Year of birth or formation', 'galerio-core' ),
 	),
 	'profile.year_of_death'          => array(
+		'unit'        => 'lifespan',
 		'description' => __( 'Year of death of the artist (or year collective was disbanded).', 'galerio-core' ),
 		'group'       => 'details',
 		'roles'       => array( 'administrator', 'editor', 'author' ),
@@ -263,6 +283,7 @@ return array(
 		'label'       => __( 'Year of death or disbanding', 'galerio-core' ),
 	),
 	'profile.show_lifespan'          => array(
+		'unit'        => 'lifespan',
 		'description' => __( 'Whether to display the year of birth/death (if specified).', 'galerio-core' ),
 		'group'       => 'details',
 		'roles'       => array( 'administrator', 'editor', 'author' ),
@@ -270,12 +291,14 @@ return array(
 		'label'       => __( 'Show lifespan', 'galerio-core' ),
 	),
 	'profile.is_collective'          => array(
+		'unit'  => 'collective',
 		'group' => 'details',
 		'roles' => array( 'administrator', 'editor', 'author' ),
 		'type'  => 'boolean',
 		'label' => __( 'Is a collective', 'galerio-core' ),
 	),
 	'profile.members'                => array(
+		'unit'     => 'collective',
 		'group'    => 'details',
 		'roles'    => array( 'administrator', 'editor', 'author' ),
 		'type'     => 'relation',
@@ -285,6 +308,7 @@ return array(
 		'label'    => __( 'Members', 'galerio-core' ),
 	),
 	'profile.member_of'              => array(
+		'unit'        => 'collective',
 		'description' => __( 'Collectives this profile belongs to.', 'galerio-core' ),
 		'group'       => 'details',
 		'roles'       => array( 'administrator', 'editor', 'author' ),
@@ -360,17 +384,19 @@ return array(
 		/* translators: Keep {articles} as it is: it becomes this site's name for articles. */
 		'label'    => __( 'Authored {articles}', 'galerio-core' ),
 	),
-	'profile.show_links'             => array(
-		'group' => 'external_links',
-		'type'  => 'boolean',
-		'label' => __( 'Show links', 'galerio-core' ),
-	),
 	'profile.links'                  => array(
+		'unit'        => 'links',
 		'description' => __( 'Websites and social media. Display text is optional: recognised services show their name, others their address.', 'galerio-core' ),
 		'group'       => 'external_links',
 		'type'        => 'link',
 		'multiple'    => true,
 		'label'       => __( 'Links', 'galerio-core' ),
+	),
+	'profile.show_links'             => array(
+		'unit'  => 'links',
+		'group' => 'external_links',
+		'type'  => 'boolean',
+		'label' => __( 'Show links', 'galerio-core' ),
 	),
 	'profile.represented_by'         => array(
 		'description' => __( 'A gallery or dealer that sells this creator’s work. Their available works link to it, unless a work names its own dealer.', 'galerio-core' ),
@@ -391,12 +417,14 @@ return array(
 		'label'       => __( 'Location', 'galerio-core' ),
 	),
 	'collection.start_date'          => array(
+		'unit'        => 'dates',
 		'description' => __( 'When the collection opened.', 'galerio-core' ),
 		'group'       => 'details',
 		'type'        => 'date',
 		'label'       => __( 'Start date', 'galerio-core' ),
 	),
 	'collection.end_date'            => array(
+		'unit'        => 'dates',
 		'description' => __( 'When the collection closed.', 'galerio-core' ),
 		'group'       => 'details',
 		'type'        => 'date',
@@ -416,6 +444,7 @@ return array(
 		'label'       => __( 'Description', 'galerio-core' ),
 	),
 	'collection.images'              => array(
+		'unit'        => 'images',
 		'description' => __( 'Images the collection page lays out as a gallery, in this order. Leave empty to show only the main text.', 'galerio-core' ),
 		'group'       => 'content',
 		'type'        => 'image',
@@ -423,6 +452,7 @@ return array(
 		'label'       => __( 'Images', 'galerio-core' ),
 	),
 	'collection.shuffle_images'      => array(
+		'unit'        => 'images',
 		'description' => __( 'Randomise the order of images?', 'galerio-core' ),
 		'group'       => 'content',
 		'type'        => 'boolean',

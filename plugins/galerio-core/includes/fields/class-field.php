@@ -92,6 +92,13 @@ final class Field {
 	public $group;
 
 	/**
+	 * Fields with the same unit stay together in the editor's layout.
+	 *
+	 * @var string
+	 */
+	public $unit;
+
+	/**
 	 * Roles that may see and edit the field in the editor. Empty means anyone
 	 * who can edit the item.
 	 *
@@ -200,6 +207,7 @@ final class Field {
 				'description'       => '',
 				'asks_offline'      => false,
 				'group'             => '',
+				'unit'              => '',
 				'roles'             => array(),
 				'source'            => $parts[2],
 				'multiple'          => false,
@@ -233,6 +241,7 @@ final class Field {
 		$this->description       = Names::expand( $args['description'] );
 		$this->asks_offline      = (bool) $args['asks_offline'];
 		$this->group             = $args['group'];
+		$this->unit              = $args['unit'];
 		$this->roles             = (array) $args['roles'];
 		$this->label             = Names::expand( $args['label'] );
 		$this->source            = $args['source'];

@@ -78,4 +78,35 @@ class Test_Field_Editor extends Galerio_TestCase {
 		$this->assertContains( 'draft', $statuses( 'editor' ) );
 		$this->assertSame( array( 'publish' ), $statuses( 'subscriber' ) );
 	}
+
+	/**
+	 * Fields of a unit are next to each other in one group, so they stay together.
+	 */
+	public function test_units_stay_together() {
+		wp_set_current_user( self::factory()->user->create( array( 'role' => 'administrator' ) ) );
+		update_option( 'galerio_settings_catalogue', '1' );
+
+		foreach ( array( 'work', 'profile', 'collection', 'article' ) as $object_name ) {
+			$seen = array();
+
+			foreach ( Field_Editor::groups( $object_name ) as $group ) {
+				$previous = '';
+
+				foreach ( $group['fields'] as $field ) {
+					if ( $field['unit'] && $field['unit'] !== $previous ) {
+						$this->assertNotContains( $field['unit'], $seen, "$object_name: {$field['name']}" );
+						$seen[] = $field['unit'];
+					}
+
+					$previous = $field['unit'];
+				}
+			}
+		}
+
+		delete_option( 'galerio_settings_catalogue' );
+
+		$names = wp_list_pluck( Field_Editor::groups( 'profile' )[0]['fields'], 'name' );
+
+		$this->assertSame( array_search( 'nationality', $names, true ) + 1, array_search( 'show_nationality', $names, true ) );
+	}
 }

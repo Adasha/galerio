@@ -38,6 +38,7 @@ function swansea_art_review_fields( $registry ) {
 		'profile.edited_bio',
 		array(
 			'group'  => 'review',
+			'unit'   => 'review',
 			'roles'  => array( 'administrator', 'editor' ),
 			'type'   => 'boolean',
 			'label'  => __( 'Edited bio', 'swansea-art' ),
@@ -48,6 +49,7 @@ function swansea_art_review_fields( $registry ) {
 		'profile.edited_gallery',
 		array(
 			'group'  => 'review',
+			'unit'   => 'review',
 			'roles'  => array( 'administrator', 'editor' ),
 			'type'   => 'boolean',
 			'label'  => __( 'Edited gallery', 'swansea-art' ),
@@ -58,6 +60,7 @@ function swansea_art_review_fields( $registry ) {
 		'profile.editing_comments',
 		array(
 			'group'  => 'review',
+			'unit'   => 'review',
 			'roles'  => array( 'administrator', 'editor' ),
 			'type'   => 'textarea',
 			'label'  => __( 'Editing comments', 'swansea-art' ),

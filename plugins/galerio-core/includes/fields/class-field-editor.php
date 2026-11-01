@@ -109,6 +109,7 @@ final class Field_Editor {
 						'label'       => $field->label,
 						'description' => $field->description,
 						'type'        => $field->type,
+						'unit'        => $field->unit,
 						'multiple'    => $field->multiple,
 						'target'      => $field->target ? Registry::OBJECTS[ $field->target ] : '',
 						'statuses'    => $field->target ? self::statuses( Registry::OBJECTS[ $field->target ] ) : array(),

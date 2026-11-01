@@ -288,16 +288,86 @@ function Field( { field, value, onChange } ) {
 }
 
 /**
- * Whether a field takes the whole row rather than a column.
+ * Whether a field takes the whole width of its unit.
  *
  * @param {Object} field Field definition.
  * @return {boolean} Whether it's wide.
  */
 function isWide( field ) {
+	if ( 'relation' === field.type ) {
+		return false;
+	}
+
 	return (
-		field.multiple ||
-		[ 'html', 'textarea', 'link', 'relation' ].includes( field.type )
+		field.multiple || [ 'html', 'textarea', 'link' ].includes( field.type )
 	);
+}
+
+/**
+ * Whether a field is a switch, which goes on a row of its own in its unit.
+ *
+ * @param {Object} field Field definition.
+ * @return {boolean} Whether it's a switch.
+ */
+function isSwitch( field ) {
+	return 'boolean' === field.type;
+}
+
+/**
+ * Sort a group's fields into layout units: fields next to each other with the
+ * same unit go together, and any other field is a unit of its own.
+ *
+ * @param {Object[]} fields Field definitions, in order.
+ * @return {Object[][]} Lists of fields.
+ */
+function toUnits( fields ) {
+	const units = [];
+
+	fields.forEach( ( field ) => {
+		const last = units[ units.length - 1 ];
+
+		if ( last && field.unit && last[ 0 ].unit === field.unit ) {
+			last.push( field );
+		} else {
+			units.push( [ field ] );
+		}
+	} );
+
+	return units;
+}
+
+/**
+ * The columns a unit takes: one for each short field side by side, at most
+ * three. A unit with a wide field takes the whole row.
+ *
+ * @param {Object[]} unit Fields of the unit.
+ * @return {Object} Number of columns inside it, and its class.
+ */
+function unitLayout( unit ) {
+	const columns = Math.min(
+		3,
+		Math.max(
+			1,
+			unit.filter( ( field ) => ! isWide( field ) && ! isSwitch( field ) )
+				.length
+		)
+	);
+
+	return {
+		columns,
+		className: [
+			'galerio-field-editor__unit',
+			`has-${ columns }-columns`,
+			unit.some( isWide ) ? 'is-wide' : '',
+			unit.some(
+				( field ) => 'image' === field.type && ! isWide( field )
+			)
+				? 'has-image'
+				: '',
+		]
+			.filter( Boolean )
+			.join( ' ' ),
+	};
 }
 
 /**
@@ -334,22 +404,29 @@ function FieldEditor() {
 					}
 				>
 					<div className="galerio-field-editor__grid">
-						{ group.fields.map( ( field ) => (
+						{ toUnits( group.fields ).map( ( unit ) => (
 							<div
-								key={ field.name }
-								className={
-									isWide( field )
-										? 'galerio-field-editor__field is-wide'
-										: 'galerio-field-editor__field'
-								}
+								key={ unit[ 0 ].name }
+								className={ unitLayout( unit ).className }
 							>
-								<Field
-									field={ field }
-									value={ values[ field.name ] }
-									onChange={ ( next ) =>
-										setValue( field.name, next )
-									}
-								/>
+								{ unit.map( ( field ) => (
+									<div
+										key={ field.name }
+										className={
+											isWide( field ) || isSwitch( field )
+												? 'galerio-field-editor__field is-full'
+												: 'galerio-field-editor__field'
+										}
+									>
+										<Field
+											field={ field }
+											value={ values[ field.name ] }
+											onChange={ ( next ) =>
+												setValue( field.name, next )
+											}
+										/>
+									</div>
+								) ) }
 							</div>
 						) ) }
 					</div>

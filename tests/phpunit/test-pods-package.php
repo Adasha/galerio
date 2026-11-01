@@ -264,7 +264,7 @@ class Test_Pods_Package extends WP_UnitTestCase {
 	}
 
 	/**
-	 * The registry's groups, their order, and the roles of each field are the package's.
+	 * Each field's group and roles are the package's.
 	 */
 	public function test_groups_and_roles_match() {
 		$objects = array(
@@ -313,6 +313,10 @@ class Test_Pods_Package extends WP_UnitTestCase {
 					$actual[ $field->key ] = array( $field->group, $roles );
 				}
 			}
+
+			// The editor's order is Galerio's own, so it's left out.
+			ksort( $expected );
+			ksort( $actual );
 
 			$this->assertSame( $expected, $actual, $object );
 
