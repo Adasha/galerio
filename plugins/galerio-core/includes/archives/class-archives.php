@@ -75,6 +75,7 @@ final class Archives {
 		add_action( 'init', array( __CLASS__, 'register' ) );
 		add_action( 'pre_get_posts', array( __CLASS__, 'query' ) );
 		add_filter( 'posts_search', array( __CLASS__, 'search_sql' ), 10, 2 );
+		add_filter( 'posts_orderby', array( __CLASS__, 'tiebreak' ), 10, 2 );
 		add_filter( 'wp_robots', array( __CLASS__, 'robots' ) );
 		add_filter( 'render_block_core/query-no-results', array( __CLASS__, 'no_results' ), 10, 3 );
 		add_action( 'admin_init', array( __CLASS__, 'register_settings' ) );
@@ -279,6 +280,8 @@ final class Archives {
 			$query->set( 'posts_per_page', self::per_page( $post_type ) );
 		}
 
+		$query->set( 'galerio_tiebreak', true );
+
 		$current = self::current( $post_type );
 
 		if ( $current['terms'] ) {
@@ -356,6 +359,28 @@ final class Archives {
 					do_action( 'galerio_archive_sort', $query, $current['sort'], $post_type );
 				}
 		}
+	}
+
+	/**
+	 * Break ties between items that sort equally by their ID, so each page of
+	 * an archive continues where the last stopped. Items imported together
+	 * share a date, and without this MySQL can order them differently for each
+	 * page, repeating some and skipping others.
+	 *
+	 * @param string   $orderby ORDER BY clause.
+	 * @param WP_Query $query   Query.
+	 * @return string
+	 */
+	public static function tiebreak( $orderby, $query ) {
+		global $wpdb;
+
+		if ( ! $query->get( 'galerio_tiebreak' ) || false !== strpos( $orderby, "$wpdb->posts.ID" ) ) {
+			return $orderby;
+		}
+
+		$direction = false !== stripos( $orderby, ' ASC' ) && false === stripos( $orderby, ' DESC' ) ? 'ASC' : 'DESC';
+
+		return ( '' === trim( $orderby ) ? '' : $orderby . ', ' ) . "$wpdb->posts.ID $direction";
 	}
 
 	/**

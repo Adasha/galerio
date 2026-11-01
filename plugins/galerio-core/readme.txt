@@ -4,7 +4,7 @@ Tags: gallery, art, artist, exhibition, portfolio
 Requires at least: 6.6
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 0.7.0-alpha.1
+Stable tag: 0.7.1-alpha.1
 License: GPL-2.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -23,6 +23,9 @@ The importer repairs bidirectional relationships, which Pods otherwise links to 
 Galerio is in alpha. Expect breaking changes.
 
 == Changelog ==
+
+= 0.7.1-alpha.1 =
+* Fixed: an item could appear on two pages of an archive, and another be missing, when several items had the same date or title, as items added by one import do. Items that sort equally now stay in a fixed order from page to page.
 
 = 0.7.0-alpha.1 =
 * Image focal points: each image can keep a point in view when it's cropped to fill a box, such as a card, a cover, a carousel slide or a grid tile. The point is kept with the image, so it holds wherever the image is shown. An image without one is centred, except as a profile's image: a portrait is kept a little above the middle, where a face usually is. A Cover block with its own focal point keeps it. Themes and plugins can change the defaults with the `galerio_focal_point_default` filter.
