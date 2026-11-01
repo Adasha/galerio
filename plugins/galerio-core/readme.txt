@@ -4,7 +4,7 @@ Tags: gallery, art, artist, exhibition, portfolio
 Requires at least: 6.6
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 0.8.1-alpha.1
+Stable tag: 0.8.2-alpha.1
 License: GPL-2.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -23,6 +23,9 @@ The importer repairs bidirectional relationships, which Pods otherwise links to 
 Galerio is in alpha. Expect breaking changes.
 
 == Changelog ==
+
+= 0.8.2-alpha.1 =
+* `wp galerio fields check` lists `media_intent` and the user's link to a profile as notes rather than problems. They're left out of Galerio for now, and their data stays in the database.
 
 = 0.8.1-alpha.1 =
 * The editor's pane of fields is now called "Work details", "Profile details" and so on, rather than "settings", and its title is larger and bolder.

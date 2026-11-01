@@ -146,12 +146,33 @@ class Test_Check extends Galerio_TestCase {
 	}
 
 	/**
-	 * Values in the package's fields that Galerio doesn't define are reported,
-	 * and those fields are quiet while they're empty.
+	 * Values in a field only this site's Pods setup defines are a problem.
 	 */
 	public function test_data_left_behind() {
 		$this->assertSame( array(), $this->results( 'data left behind' ) );
 
+		global $wpdb;
+		$pod = (int) $wpdb->get_var( "SELECT ID FROM {$wpdb->posts} WHERE post_type = '_pods_pod' AND post_name = 'galerio_profile'" );
+
+		self::factory()->post->create(
+			array(
+				'post_type'   => '_pods_field',
+				'post_name'   => 'site_only',
+				'post_parent' => $pod,
+			)
+		);
+
+		$this->assertSame( array(), $this->results( 'data left behind' ) );
+
+		add_post_meta( $this->item( 'profile' ), 'site_only', 'A value' );
+
+		$this->assertContains( 'profile.site_only', wp_list_pluck( $this->results( 'data left behind' ), 'item' ) );
+	}
+
+	/**
+	 * Values in what's deliberately left out are notes, not problems.
+	 */
+	public function test_left_out_data_is_a_note() {
 		$user = self::factory()->user->create();
 		$file = self::factory()->attachment->create_object(
 			array(
@@ -181,11 +202,12 @@ class Test_Check extends Galerio_TestCase {
 		// phpcs:enable WordPress.DB.SlowDBQuery
 		wp_insert_term( 'Artwork', 'media_intent' );
 
-		$items = wp_list_pluck( $this->results( 'data left behind' ), 'item' );
+		$items = wp_list_pluck( $this->results( 'left out' ), 'item' );
 
 		$this->assertContains( 'user.profile', $items );
 		$this->assertContains( 'attachment.intent', $items );
 		$this->assertContains( 'media_intent', $items );
+		$this->assertSame( array(), $this->results( 'data left behind' ) );
 	}
 
 	/**
