@@ -5,6 +5,8 @@
  * @package Galerio\Tests
  */
 
+use Galerio\Core\Fields\Rest;
+
 /**
  * Saving fields through the galerio_fields REST property.
  *
@@ -56,5 +58,28 @@ class Test_Rest extends Galerio_TestCase {
 	public function test_unsaveable_fields_are_refused() {
 		$this->assertSame( 400, $this->create_work( array( 'price_label' => 'x' ) )->get_status() );
 		$this->assertSame( 400, $this->create_work( array( 'nonsense' => 'x' ) )->get_status() );
+	}
+
+	/**
+	 * Links to unpublished items are hidden from people who can't edit the item.
+	 */
+	public function test_unpublished_links_are_for_editors() {
+		$profile   = self::factory()->post->create( array( 'post_type' => 'galerio_profile' ) );
+		$published = self::factory()->post->create( array( 'post_type' => 'galerio_collection' ) );
+		$draft     = self::factory()->post->create(
+			array(
+				'post_type'   => 'galerio_collection',
+				'post_status' => 'draft',
+			)
+		);
+		$many      = galerio_fields()->get( 'profile.collections' );
+		$one       = galerio_fields()->get( 'work.creator' );
+
+		wp_set_current_user( 0 );
+		$this->assertSame( array( $published ), Rest::visible_value( $many, array( $draft, $published ), $profile ) );
+		$this->assertSame( $one->empty_value(), Rest::visible_value( $one, $draft, $profile ) );
+
+		wp_set_current_user( self::factory()->user->create( array( 'role' => 'administrator' ) ) );
+		$this->assertSame( array( $draft, $published ), Rest::visible_value( $many, array( $draft, $published ), $profile ) );
 	}
 }

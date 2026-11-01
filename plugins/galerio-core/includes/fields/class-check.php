@@ -7,6 +7,8 @@
 
 namespace Galerio\Core\Fields;
 
+use Galerio\Core\Types\Content_Types;
+
 defined( 'ABSPATH' ) || exit;
 
 /**
@@ -27,11 +29,6 @@ final class Check {
 	 * Level of a result that's for information.
 	 */
 	const NOTE = 'note';
-
-	/**
-	 * Taxonomies Galerio defines.
-	 */
-	const TAXONOMIES = array( 'galerio_article_category', 'galerio_collection_category', 'galerio_group', 'galerio_label', 'galerio_medium', 'galerio_role' );
 
 	/**
 	 * Fields and taxonomies deliberately left out of Galerio for now. Their
@@ -93,6 +90,7 @@ final class Check {
 		$this->check_relationships( $fields );
 		$this->check_content();
 		$this->check_definitions();
+		$this->check_registration();
 
 		return $this->results;
 	}
@@ -339,6 +337,8 @@ final class Check {
 			WHERE p.post_type = '_pods_pod'"
 		);
 
+		$taxonomies = Content_Types::taxonomies();
+
 		foreach ( $pods as $pod ) {
 			if ( 'post_type' === $pod->type && ! in_array( $pod->post_name, Registry::OBJECTS, true ) ) {
 				// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- A one-off check of what's stored.
@@ -347,7 +347,7 @@ final class Check {
 				if ( $count ) {
 					$this->add_left_behind( $pod->post_name, sprintf( 'a post type Galerio does not define, with %d item(s)', $count ) );
 				}
-			} elseif ( 'taxonomy' === $pod->type && ! in_array( $pod->post_name, self::TAXONOMIES, true ) ) {
+			} elseif ( 'taxonomy' === $pod->type && ! isset( $taxonomies[ $pod->post_name ] ) ) {
 				// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- A one-off check of what's stored.
 				$count = (int) $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(*) FROM {$wpdb->term_taxonomy} WHERE taxonomy = %s", $pod->post_name ) );
 
@@ -357,6 +357,25 @@ final class Check {
 			}
 
 			$this->check_pod_fields( $pod );
+		}
+	}
+
+	/**
+	 * Look for settings of the registered types and taxonomies that Galerio's
+	 * own definitions wouldn't keep.
+	 */
+	private function check_registration() {
+		if ( Content_Types::active() ) {
+			return;
+		}
+
+		foreach ( Content_Types::differences() as $difference ) {
+			$this->add(
+				self::PROBLEM,
+				'registered differently',
+				$difference['object'] . ' ' . $difference['property'],
+				sprintf( 'is %s, would become %s', wp_json_encode( $difference['registered'] ), wp_json_encode( $difference['native'] ) )
+			);
 		}
 	}
 

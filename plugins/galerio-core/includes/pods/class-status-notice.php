@@ -7,6 +7,8 @@
 
 namespace Galerio\Core\Pods;
 
+use Galerio\Core\Types\Content_Types;
+
 defined( 'ABSPATH' ) || exit;
 
 /**
@@ -37,6 +39,10 @@ final class Status_Notice {
 	 *                'types' when the content types are missing.
 	 */
 	public static function problem() {
+		if ( Content_Types::active() ) {
+			return '';
+		}
+
 		if ( ! function_exists( 'pods' ) ) {
 			return 'pods';
 		}
