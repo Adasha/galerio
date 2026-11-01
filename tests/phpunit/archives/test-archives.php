@@ -118,6 +118,32 @@ class Test_Archives extends Galerio_TestCase {
 	}
 
 	/**
+	 * Works that sort equally keep a fixed order, so pages of an archive don't
+	 * repeat or skip any.
+	 */
+	public function test_sort_ties() {
+		foreach ( array( 'Dust', 'Echo' ) as $title ) {
+			self::factory()->post->create(
+				array(
+					'post_type'   => 'galerio_work',
+					'post_status' => 'publish',
+					'post_title'  => $title,
+					'post_date'   => '2026-03-01 10:00:00',
+				)
+			);
+		}
+
+		$this->visit();
+		$this->assertMatchesRegularExpression( '/ORDER BY .*post_date DESC, \S+\.ID DESC/', $GLOBALS['wp_query']->request );
+
+		$this->visit( array( 'sort' => 'oldest' ) );
+		$this->assertMatchesRegularExpression( '/post_date ASC, \S+\.ID ASC/', $GLOBALS['wp_query']->request );
+
+		$this->visit( array( 'sort' => 'title' ) );
+		$this->assertMatchesRegularExpression( '/post_title ASC, \S+\.ID ASC/', $GLOBALS['wp_query']->request );
+	}
+
+	/**
 	 * Each archive can have its own page size.
 	 */
 	public function test_per_page() {
