@@ -380,6 +380,31 @@ final class Check {
 	}
 
 	/**
+	 * Check that a field's roles are what the site's Pods setup limits it to,
+	 * so moving off Pods doesn't change who can edit it.
+	 *
+	 * @param Field $field Field.
+	 * @param int   $id    ID of the field's Pods definition.
+	 */
+	private function check_roles( Field $field, $id ) {
+		$site = array();
+
+		if ( '1' === (string) get_post_meta( $id, 'restrict_role', true ) ) {
+			// Pods offers a moderator role that WordPress doesn't have.
+			$site = array_diff( (array) maybe_unserialize( get_post_meta( $id, 'roles_allowed', true ) ), array( 'moderator' ) );
+		}
+
+		if ( array_diff( $site, $field->roles ) || array_diff( $field->roles, $site ) ) {
+			$this->add(
+				self::PROBLEM,
+				'roles differ',
+				$field->key,
+				sprintf( 'limited to %s on this site, would be %s', wp_json_encode( array_values( $site ) ), wp_json_encode( $field->roles ) )
+			);
+		}
+	}
+
+	/**
 	 * Look for values in a pod's fields that Galerio doesn't define.
 	 *
 	 * @param object $pod Pod's ID, post_name and type.
@@ -394,9 +419,11 @@ final class Check {
 		}
 
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Reads Pods' definitions whether or not Pods is active.
-		$names = $wpdb->get_col( $wpdb->prepare( "SELECT post_name FROM {$wpdb->posts} WHERE post_type = '_pods_field' AND post_parent = %d", $pod->ID ) );
+		$definitions = $wpdb->get_results( $wpdb->prepare( "SELECT ID, post_name FROM {$wpdb->posts} WHERE post_type = '_pods_field' AND post_parent = %d", $pod->ID ) );
 
-		foreach ( $names as $name ) {
+		foreach ( $definitions as $definition ) {
+			$name = $definition->post_name;
+
 			if ( 'user' === $pod->post_name ) {
 				// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.SlowDBQuery.slow_db_query_meta_key -- A one-off check of what's stored.
 				$count = (int) $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(*) FROM {$wpdb->usermeta} WHERE meta_key = %s AND meta_value NOT IN ( '', '0' )", $name ) );
@@ -406,6 +433,7 @@ final class Check {
 				$key         = $object_name . '.' . $name;
 
 				if ( $this->registry->get( $key ) ) {
+					$this->check_roles( $this->registry->get( $key ), (int) $definition->ID );
 					continue;
 				}
 

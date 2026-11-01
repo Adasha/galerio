@@ -138,13 +138,16 @@ Every field templates, blocks and code can use, by content type. Keys work in `g
 | `work.year` | Year | Year |  |
 | `work.year_to` | Year to | Year |  |
 | `work.date_text` | Date in words | Text |  |
-| `work.date_label` | Date as shown | Text | Read-only: worked out from other fields. |
 | `work.definitive_image` | Definitive image | Image |  |
-| `work.images` | Images | Image (list) |  |
 | `work.description` | Description | Formatted text |  |
+| `work.website` | Website | Link |  |
+| `work.images` | Images | Image (list) |  |
 | `work.medium` | Medium | Text |  |
 | `work.dimensions` | Dimensions | Text |  |
 | `work.duration` | Duration | Text |  |
+| `work.collections` | Collections | Relationship to collections (list) |  |
+| `work.articles` | Articles | Relationship to articles (list) |  |
+| `work.related_works` | Related works | Relationship to works (list) |  |
 | `work.location` | Location | Text |  |
 | `work.owner` | Current owner | Text | Private: not shown on the site, in REST or in block bindings. |
 | `work.valuation` | Valuation | Number | Private: not shown on the site, in REST or in block bindings. |
@@ -153,7 +156,6 @@ Every field templates, blocks and code can use, by content type. Keys work in `g
 | `work.valuation_notes` | Valuation notes | Plain text, several lines | Private: not shown on the site, in REST or in block bindings. |
 | `work.availability` | Availability | Choice | One of: available, reserved, sold, on_loan, not_for_sale. Catalogue: empty while the catalogue is off. |
 | `work.price` | Price | Number | Catalogue: empty while the catalogue is off. |
-| `work.price_label` | Price as shown | Text | Read-only: worked out from other fields. Catalogue: empty while the catalogue is off. |
 | `work.price_on_application` | Price on application | On/off | Catalogue: empty while the catalogue is off. |
 | `work.currency` | Currency | Choice | One of: GBP, EUR, USD, CAD, AUD, NZD, CHF, SEK, NOK, DKK, PLN, JPY, CNY, HKD, INR, ZAR. Catalogue: empty while the catalogue is off. |
 | `work.edition_size` | Edition size | Number | Catalogue: empty while the catalogue is off. |
@@ -161,10 +163,8 @@ Every field templates, blocks and code can use, by content type. Keys work in `g
 | `work.framed` | Framed | On/off | Catalogue: empty while the catalogue is off. |
 | `work.inventory_number` | Inventory number | Text | Catalogue: empty while the catalogue is off. |
 | `work.available_from` | Available from | Link | Catalogue: empty while the catalogue is off. |
-| `work.website` | Website | Link |  |
-| `work.collections` | Collections | Relationship to collections (list) |  |
-| `work.articles` | Articles | Relationship to articles (list) |  |
-| `work.related_works` | Related works | Relationship to works (list) |  |
+| `work.date_label` | Date as shown | Text | Read-only: worked out from other fields. |
+| `work.price_label` | Price as shown | Text | Read-only: worked out from other fields. Catalogue: empty while the catalogue is off. |
 
 #### Profiles
 
@@ -186,8 +186,8 @@ Every field templates, blocks and code can use, by content type. Keys work in `g
 | `profile.works` | Works | Relationship to works (list) |  |
 | `profile.collections` | Collections | Relationship to collections (list) |  |
 | `profile.article_mentions` | Mentioned in articles | Relationship to articles (list) |  |
-| `profile.authored_articles` | Authored articles | Relationship to articles (list) |  |
 | `profile.related_profiles` | Related profiles | Relationship to profiles (list) |  |
+| `profile.authored_articles` | Authored articles | Relationship to articles (list) |  |
 | `profile.show_links` | Show links | On/off |  |
 | `profile.links` | Links | Link (list) |  |
 | `profile.represented_by` | Represented by | Link | Catalogue: empty while the catalogue is off. |
@@ -197,11 +197,11 @@ Every field templates, blocks and code can use, by content type. Keys work in `g
 | Key | Label | Type | Notes |
 | --- | --- | --- | --- |
 | `collection.standfirst` | Standfirst | Text |  |
-| `collection.description` | Description | Formatted text |  |
 | `collection.location` | Location | Text |  |
 | `collection.start_date` | Start date | Date |  |
 | `collection.end_date` | End date | Date |  |
 | `collection.website` | Website | Link |  |
+| `collection.description` | Description | Formatted text |  |
 | `collection.images` | Images | Image (list) |  |
 | `collection.shuffle_images` | Shuffle images | On/off |  |
 | `collection.embeds` | Embeds | Embed URL (list) |  |

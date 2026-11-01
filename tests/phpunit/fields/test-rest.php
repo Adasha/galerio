@@ -82,4 +82,61 @@ class Test_Rest extends Galerio_TestCase {
 		wp_set_current_user( self::factory()->user->create( array( 'role' => 'administrator' ) ) );
 		$this->assertSame( array( $draft, $published ), Rest::visible_value( $many, array( $draft, $published ), $profile ) );
 	}
+
+	/**
+	 * Read a work's fields through the REST API.
+	 *
+	 * @param int    $id      Work.
+	 * @param string $context Request context.
+	 * @return array
+	 */
+	private function read_work( $id, $context ) {
+		$request = new WP_REST_Request( 'GET', '/wp/v2/galerio_work/' . $id );
+		$request->set_param( 'context', $context );
+
+		return (array) rest_get_server()->dispatch( $request )->get_data()['galerio_fields'];
+	}
+
+	/**
+	 * Private fields are read and saved by people editing the item, and nobody else.
+	 */
+	public function test_private_fields_are_for_the_editor() {
+		$response = $this->create_work( array( 'owner' => 'A collector' ) );
+		$this->assertSame( 201, $response->get_status() );
+		$id = $response->get_data()['id'];
+
+		$this->assertSame( 'A collector', $this->read_work( $id, 'edit' )['owner'] );
+		$this->assertArrayNotHasKey( 'owner', $this->read_work( $id, 'view' ) );
+
+		wp_set_current_user( 0 );
+		$this->assertArrayNotHasKey( 'owner', $this->read_work( $id, 'view' ) );
+	}
+
+	/**
+	 * A field limited to other roles can't be read or saved by this user.
+	 */
+	public function test_roles_limit_fields() {
+		wp_set_current_user( self::factory()->user->create( array( 'role' => 'editor' ) ) );
+
+		$author = self::factory()->user->create( array( 'role' => 'contributor' ) );
+		$field  = galerio_fields()->get( 'profile.year_of_birth' );
+
+		$this->assertTrue( $field->can_edit() );
+		$this->assertFalse( $field->can_edit( $author ) );
+		$this->assertTrue( $field->can_edit( self::factory()->user->create( array( 'role' => 'administrator' ) ) ) );
+		$this->assertTrue( galerio_fields()->get( 'profile.nationality' )->can_edit( $author ) );
+
+		wp_set_current_user( $author );
+
+		$request = new WP_REST_Request( 'POST', '/wp/v2/galerio_profile' );
+		$request->set_body_params(
+			array(
+				'title'          => 'A student',
+				'status'         => 'draft',
+				'galerio_fields' => array( 'year_of_birth' => 1990 ),
+			)
+		);
+
+		$this->assertSame( 403, rest_get_server()->dispatch( $request )->get_status() );
+	}
 }

@@ -81,6 +81,7 @@ final class Catalogue {
 		add_filter( 'galerio_field_value', array( __CLASS__, 'field_value' ), 10, 3 );
 		add_filter( 'galerio_field_display', array( __CLASS__, 'field_display' ), 10, 4 );
 		add_filter( 'pods_meta_groups_get', array( __CLASS__, 'editor_groups' ), 10, 3 );
+		add_filter( 'galerio_field_groups', array( __CLASS__, 'field_groups' ) );
 		add_filter( 'post_class', array( __CLASS__, 'post_class' ), 10, 3 );
 		add_filter( 'render_block_core/post-template', array( __CLASS__, 'markers' ) );
 		add_filter( 'galerio_schema_data', array( __CLASS__, 'schema' ), 10, 2 );
@@ -349,6 +350,20 @@ final class Catalogue {
 				}
 			)
 		);
+	}
+
+	/**
+	 * While the catalogue is off, the native editor leaves out the Sales group.
+	 *
+	 * @param array<string, string> $groups Headings by group name.
+	 * @return array<string, string>
+	 */
+	public static function field_groups( $groups ) {
+		if ( ! self::enabled() ) {
+			unset( $groups['sales'] );
+		}
+
+		return $groups;
 	}
 
 	/**

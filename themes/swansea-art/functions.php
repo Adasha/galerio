@@ -26,15 +26,19 @@ add_action( 'after_setup_theme', 'swansea_art_editor_styles' );
 /**
  * The review checklist for profiles, which only swansea.art has.
  *
- * These stay out of public pages and the REST API. To review: they may no
+ * These stay out of public pages and are for editors. To review: they may no
  * longer be needed. Galerio's own review workflow would replace them.
  *
  * @param Galerio\Core\Fields\Registry $registry Field registry.
  */
 function swansea_art_review_fields( $registry ) {
+	$registry->register_group( 'profile', 'review', __( 'Review', 'swansea-art' ) );
+
 	$registry->register(
 		'profile.edited_bio',
 		array(
+			'group'  => 'review',
+			'roles'  => array( 'administrator', 'editor' ),
 			'type'   => 'boolean',
 			'label'  => __( 'Edited bio', 'swansea-art' ),
 			'public' => false,
@@ -43,6 +47,8 @@ function swansea_art_review_fields( $registry ) {
 	$registry->register(
 		'profile.edited_gallery',
 		array(
+			'group'  => 'review',
+			'roles'  => array( 'administrator', 'editor' ),
 			'type'   => 'boolean',
 			'label'  => __( 'Edited gallery', 'swansea-art' ),
 			'public' => false,
@@ -51,6 +57,8 @@ function swansea_art_review_fields( $registry ) {
 	$registry->register(
 		'profile.editing_comments',
 		array(
+			'group'  => 'review',
+			'roles'  => array( 'administrator', 'editor' ),
 			'type'   => 'textarea',
 			'label'  => __( 'Editing comments', 'swansea-art' ),
 			'public' => false,

@@ -71,6 +71,21 @@ final class Field {
 	public $type;
 
 	/**
+	 * The field's group in the editor, or empty when it isn't edited there.
+	 *
+	 * @var string
+	 */
+	public $group;
+
+	/**
+	 * Roles that may see and edit the field in the editor. Empty means anyone
+	 * who can edit the item.
+	 *
+	 * @var string[]
+	 */
+	public $roles;
+
+	/**
 	 * Human-readable label, with the site's type names in place of name
 	 * tokens such as "{Collections}".
 	 *
@@ -168,6 +183,8 @@ final class Field {
 			array(
 				'type'              => 'text',
 				'label'             => $parts[2],
+				'group'             => '',
+				'roles'             => array(),
 				'source'            => $parts[2],
 				'multiple'          => false,
 				'target'            => '',
@@ -197,6 +214,8 @@ final class Field {
 		$this->object            = $parts[1];
 		$this->name              = $parts[2];
 		$this->type              = $args['type'];
+		$this->group             = $args['group'];
+		$this->roles             = (array) $args['roles'];
 		$this->label             = Names::expand( $args['label'] );
 		$this->source            = $args['source'];
 		$this->multiple          = (bool) $args['multiple'];
@@ -208,6 +227,23 @@ final class Field {
 		$this->display_callback  = $args['display_callback'];
 		$this->value_callback    = $args['value_callback'];
 		$this->sanitize_callback = $args['sanitize_callback'];
+	}
+
+	/**
+	 * Whether a user may edit the field, as far as its roles go. Whether they
+	 * can edit the item it's on is a separate question.
+	 *
+	 * @param int|null $user_id User, defaulting to the current one.
+	 * @return bool
+	 */
+	public function can_edit( $user_id = null ) {
+		if ( ! $this->roles ) {
+			return true;
+		}
+
+		$user = null === $user_id ? wp_get_current_user() : get_userdata( $user_id );
+
+		return $user && ( user_can( $user, 'manage_options' ) || array_intersect( $this->roles, (array) $user->roles ) );
 	}
 
 	/**
